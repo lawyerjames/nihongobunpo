@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>日常複合動詞：全方位活用練習</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .cell-default { color: #334155; font-size: 0.85rem; font-weight: 600; }
+        .row-label { background-color: #e2e8f0; color: #0f172a; font-weight: bold; font-size: 0.75rem; }
+        .active-cell { border-radius: 12px; transform: scale(1.02); transition: all 0.3s; box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); }
+        
+        .color-a { background-color: #fee2e2; color: #b91c1c; border: 2px solid #ef4444; }
+        .color-i { background-color: #dbeafe; color: #1d4ed8; border: 2px solid #3b82f6; }
+        .color-u { background-color: #dcfce7; color: #15803d; border: 2px solid #22c55e; }
+        .color-e { background-color: #f3e8ff; color: #7e22ce; border: 2px solid #a855f7; }
+        .color-o { background-color: #fef9c3; color: #a16207; border: 2px solid #eab308; }
+        
+        ruby { ruby-align: center; }
+        rt { font-size: 0.6em; color: #4f46e5; font-weight: bold; }
+        .explanation-box { border-left: 8px solid #6366f1; background-color: #f8fafc; }
+        .example-tag { font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-right: 8px; }
+    </style>
+</head>
+<body class="bg-slate-200 p-4 md:p-8 min-h-screen font-sans">
+    <div class="max-w-6xl mx-auto bg-white p-6 md:p-10 rounded-[2.5rem] shadow-2xl">
+        
+        <header class="text-center mb-8">
+            <h1 class="text-3xl font-black text-slate-800">日常複合動詞：五大活用練習</h1>
+            <p class="text-slate-500 mt-2 text-sm">修正「わ行」現代假名，新增全活用型例句</p>
+        </header>
+
+        <div class="bg-slate-900 rounded-[2.5rem] p-6 md:p-10 text-white mb-10 shadow-inner">
+            <div class="flex flex-col lg:flex-row gap-10 items-center">
+                <div class="flex-1 text-center lg:text-left">
+                    <div id="quizKanji" class="text-5xl md:text-6xl font-black tracking-widest mb-4">---</div>
+                    <p id="quizMeaning" class="text-slate-400 italic">點擊「下一題」開始練習日常動詞</p>
+                </div>
+                
+                <div class="w-full max-w-sm space-y-4">
+                    <input id="ansInput" type="text" placeholder="請輸入 [て形]" 
+                        class="w-full p-4 rounded-2xl text-slate-900 text-2xl text-center outline-none focus:ring-4 focus:ring-indigo-500">
+                    <div class="flex gap-2">
+                        <button onclick="checkAnswer()" class="flex-2 bg-indigo-500 hover:bg-indigo-400 px-8 py-4 rounded-2xl font-black text-white transition-all">檢查並查看例句</button>
+                        <button onclick="nextQuiz()" class="flex-1 bg-slate-700 hover:bg-slate-600 px-4 py-4 rounded-2xl font-bold">下一題</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="explanation" class="hidden mt-8 p-6 rounded-2xl explanation-box text-slate-800">
+                <div id="feedbackTitle" class="text-xl font-black mb-4"></div>
+                <div id="analysisBody"></div>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full border-separate border-spacing-2 text-center min-w-[800px] bg-slate-50 rounded-2xl p-4">
+                <tbody id="grid"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // 修正後的現代假名座標 (わ行改為 わいうえお)
+        const columns = [['わ','い','う','え','お'],['ら','り','る','れ','ろ'],['や','い','ゆ','え','よ'],['ま','み','む','め','も'],['は','ひ','ふ','へ','ほ'],['な','に','ぬ','ね','の'],['た','ち','つ','て','と'],['さ','し','す','せ','そ'],['か','き','く','け','こ'],['あ','い','う','え','お']];
+        
+        const quizPool = [
+            {"k":"付き合う","r":"つきあう","m":"交往、陪伴","t":"五段","v2":"合う","ex":{"u":"彼と3年間付き合う。","a":"誰とも付き合わない。","i":"一緒に付き合います。","te":"付き合ってください！","o":"彼と付き合おう！"}},
+            {"k":"受け取る","r":"うけとる","m":"領取、領受","t":"五段","v2":"取る","ex":{"u":"荷物を受け取る。","a":"まだ受け取らない。","i":"事務所で受け取ります。","te":"荷物を受け取って帰る。","o":"自分で受け取ろう。"}},
+            {"k":"見上げる","r":"みあげる","m":"仰望、敬佩","t":"一段","v2":"上げる","ex":{"u":"夜空を見上げる。","a":"上を見上げない。","i":"空を見上げます。","te":"月を見上げている。","o":"空を見上げよう。"}},
+            {"k":"取り込む","r":"とりこむ","m":"拿進來、忙碌","t":"五段","v2":"込む","ex":{"u":"洗濯物を取り込む。","a":"まだ取り込まない。","i":"急いで取り込みます。","te":"洗濯物を取り込んで。","o":"早く取り込もう。"}},
+            {"k":"話し合う","r":"はなしあう","m":"交談、商量","t":"五段","v2":"合う","ex":{"u":"二人で話し合う。","a":"今は話し合わない。","i":"明日話し合います。","te":"よく話し合って決める。","o":"一度話し合おう。"}},
+            {"k":"書き上げる","r":"かきあげる","m":"寫完、完成","t":"一段","v2":"上げる","ex":{"u":"論文を書き上げる。","a":"今日は書き上げない。","i":"今日中に書き上げます。","te":"書き上げて提出する。","o":"最後まで書き上げよう。"}},
+            {"k":"引っ掛ける","r":"ひっかける","m":"掛上、勾住","t":"一段","v2":"掛ける","ex":{"u":"上着を釘に引っ掛ける。","a":"何も引っ掛けない。","i":"フックに引っ掛けます。","te":"コードを引っ掛けて転ぶ。","o":"ここに引っ掛けよう。"}}
+        ];
+
+        let current = null;
+
+        function initGrid() {
+            const g = document.getElementById('grid'); g.innerHTML = '';
+            for(let d=0; d<5; d++) {
+                let r = `<tr><td class="row-label p-3 rounded-xl">${['あ','い','う','え','お'][d]}段</td>`;
+                for(let c=0; c<10; c++) r += `<td id="c-${c}-${d}" class="p-3 border border-slate-200 rounded-xl cell-default">${columns[c][d]}</td>`;
+                g.innerHTML += r + `</tr>`;
+            }
+        }
+
+        function nextQuiz() {
+            current = quizPool[Math.floor(Math.random()*quizPool.length)];
+            document.getElementById('quizKanji').innerHTML = `<ruby>${current.k}<rt>${current.r}</rt></ruby>`;
+            document.getElementById('quizMeaning').innerText = `意義：${current.m}`;
+            document.getElementById('ansInput').value = '';
+            document.getElementById('explanation').classList.add('hidden');
+            renderMap(current.k);
+        }
+
+        function renderMap(verb) {
+            initGrid();
+            const stem = verb.slice(0, -1); const last = verb.slice(-1);
+            let cIdx = -1;
+            for(let i=0; i<10; i++) if(columns[i].includes(last)) { cIdx = i; break; }
+            if(cIdx !== -1) {
+                const colors = ['color-a', 'color-i', 'color-u', 'color-e', 'color-o'];
+                for(let d=0; d<5; d++) {
+                    const cell = document.getElementById(`c-${cIdx}-${d}`);
+                    let char = columns[cIdx][d]; 
+                    // 特殊處理：わ行五段的 A 段在活用時會變為「わ」
+                    if(cIdx === 0 && d === 0) char = 'わ';
+                    cell.className = `p-3 active-cell ${colors[d]}`;
+                    cell.innerHTML = `<span class="text-slate-400 text-[0.6rem] block mb-1">${columns[cIdx][d]}</span><span class="v1-prefix">${stem.slice(0,-1)}</span><span class="font-black text-xl underline">${stem.slice(-1)}${char}${d===4?'う':''}</span>`;
+                }
+            }
+        }
+
+        function checkAnswer() {
+            const ans = document.getElementById('ansInput').value.trim();
+            const rules = {'う':'って','つ':'って','る':'って','む':'んで','ぶ':'んで','ぬ':'んで','く':'いて','ぐ':'いで','す':'して'};
+            const lastChar = current.k.slice(-1);
+            const preLastChar = current.r.slice(-2, -1);
+            let correct = (current.t === "一段") ? current.k.slice(0,-1) + "て" : current.k.slice(0,-1) + (rules[lastChar] || "て");
+            
+            const exp = document.getElementById('explanation');
+            const analysis = document.getElementById('analysisBody');
+            const title = document.getElementById('feedbackTitle');
+            exp.classList.remove('hidden');
+
+            title.innerText = (ans === correct) ? "✨ 答對了！" : `❌ 錯誤。答案是：${correct}`;
+            title.className = (ans === correct) ? "text-2xl font-black text-emerald-600" : "text-2xl font-black text-rose-600";
+
+            let judgeReason = "";
+            if (current.t === "一段") {
+                judgeReason = `「${current.v2}」結尾為「る」，倒數第二個音「${preLastChar}」為 <strong>${getDanName(preLastChar)}</strong>。符合「い/え段 + る」，故為 <strong>一段動詞</strong>。`;
+            } else {
+                judgeReason = (lastChar !== 'る') ? `「${current.v2}」結尾是「${lastChar}」而非「る」。非「る」結尾皆為 <strong>五段動詞</strong>。` : `「${current.v2}」倒數第二音「${preLastChar}」為 <strong>${getDanName(preLastChar)}</strong>。非い/え段，故為 <strong>五段動詞</strong>。`;
+            }
+
+            analysis.innerHTML = `
+                <div class="p-4 bg-indigo-50 rounded-xl mb-4 border border-indigo-100">
+                    <p class="font-bold text-indigo-800 text-sm mb-1">判定理由</p>
+                    <p class="text-slate-700 text-sm">${judgeReason}</p>
+                </div>
+                
+                <div class="space-y-2">
+                    <p class="font-bold text-slate-800 text-sm">活用例句示範：</p>
+                    <div class="bg-white p-3 rounded-lg border border-slate-200">
+                        <div class="mb-2"><span class="example-tag bg-slate-200 text-slate-700">辭書形 (原形)</span> <span class="text-indigo-600 font-bold">${current.ex.u}</span></div>
+                        <div class="mb-2"><span class="example-tag bg-rose-100 text-rose-700">否定形 (ない)</span> ${current.ex.a}</div>
+                        <div class="mb-2"><span class="example-tag bg-blue-100 text-blue-700">ます形 (敬體)</span> ${current.ex.i}</div>
+                        <div class="mb-2"><span class="example-tag bg-emerald-100 text-emerald-700">て形 / た形</span> <span class="underline font-bold">${current.ex.te}</span></div>
+                        <div><span class="example-tag bg-amber-100 text-amber-700">意向形 (お+う)</span> ${current.ex.o}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getDanName(char) {
+            if ("いきしちにひみりぎじびぴ".includes(char)) return "い段 (i)";
+            if ("えけせてねへめれげぜべぺ".includes(char)) return "え段 (e)";
+            if ("あかさたなはまやらわ".includes(char)) return "あ段 (a)";
+            if ("うくすつぬふむゆる".includes(char)) return "う段 (u)";
+            if ("おこそとのほもよろを".includes(char)) return "お段 (o)";
+            return "其他";
+        }
+
+        function getOnbinName(c) {
+            if(['う','つ','る'].includes(c)) return "促音便";
+            if(['む','ぶ','ぬ'].includes(c)) return "撥音便";
+            if(['く','ぐ'].includes(c)) return "い音便";
+            return "無音便";
+        }
+
+        initGrid();
+    </script>
+</body>
+</html>
