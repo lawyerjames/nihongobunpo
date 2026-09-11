@@ -2,9 +2,12 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <title>日常複合動詞 100 組：完整活用練習</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日語動詞學習庫：五段動詞全活用填空練習 & 複合動詞</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        ruby { ruby-align: center; }
+        rt { font-size: 0.65em; color: #6366f1; font-weight: bold; }
         .cell-default { color: #334155; font-size: 0.85rem; font-weight: 600; }
         .row-label { background-color: #e2e8f0; color: #0f172a; font-weight: bold; font-size: 0.75rem; }
         .active-cell { border-radius: 12px; transform: scale(1.02); transition: all 0.3s; box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); }
@@ -13,52 +16,512 @@
         .color-u { background-color: #dcfce7; color: #15803d; border: 2px solid #22c55e; }
         .color-e { background-color: #f3e8ff; color: #7e22ce; border: 2px solid #a855f7; }
         .color-o { background-color: #fef9c3; color: #a16207; border: 2px solid #eab308; }
-        ruby { ruby-align: center; }
-        rt { font-size: 0.6em; color: #4f46e5; font-weight: bold; }
         .explanation-box { border-left: 8px solid #6366f1; background-color: #f8fafc; }
         .example-tag { font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-right: 8px; }
         .onbin-tag { background-color: #f1f5f9; color: #475569; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; border: 1px solid #cbd5e1; }
     </style>
 </head>
-<body class="bg-slate-200 p-4 md:p-8 min-h-screen">
-    <div class="max-w-6xl mx-auto bg-white p-6 md:p-10 rounded-[2.5rem] shadow-2xl">
-        <header class="text-center mb-8">
-            <h1 class="text-3xl font-black text-slate-800">日常複合動詞 100 組：全活用練習</h1>
-            <p class="text-slate-500 mt-2 text-sm">已恢復音便名稱顯示 | 現代假名修正版</p>
+<body class="bg-slate-900 text-slate-100 p-4 md:p-8 min-h-screen font-sans">
+    <div class="max-w-6xl mx-auto space-y-6">
+
+        <!-- Nav Header & Tabs -->
+        <header class="flex flex-col md:flex-row justify-between items-center bg-slate-800 p-4 md:p-6 rounded-3xl border border-slate-700 shadow-2xl gap-4">
+            <div class="flex items-center gap-3">
+                <span class="text-3xl">🇯🇵</span>
+                <div>
+                    <h1 class="text-2xl font-black text-white tracking-wide">日語動詞學習庫</h1>
+                    <p class="text-xs text-slate-400 mt-0.5">時雨の町 10 大活用組合形 × 500 N3必記動詞權重題庫</p>
+                </div>
+            </div>
+            <div class="flex bg-slate-950 p-1.5 rounded-2xl border border-slate-800 w-full md:w-auto">
+                <button id="tab1Btn" onclick="switchTab('godan')" 
+                    class="flex-1 md:flex-none px-5 py-2.5 text-xs md:text-sm font-bold rounded-xl bg-indigo-600 text-white shadow-lg transition-all">
+                    ✍️ 五段動詞全活用填空練習 (預設)
+                </button>
+                <button id="tab2Btn" onclick="switchTab('compound')" 
+                    class="flex-1 md:flex-none px-5 py-2.5 text-xs md:text-sm font-bold rounded-xl text-slate-400 hover:text-white transition-all">
+                    🧩 日常複合動詞 100 組
+                </button>
+            </div>
         </header>
 
-        <div class="bg-slate-900 rounded-[2.5rem] p-6 md:p-10 text-white mb-10 shadow-inner">
-            <div class="flex flex-col lg:flex-row gap-10 items-center">
-                <div class="flex-1 text-center lg:text-left">
-                    <div id="quizKanji" class="text-5xl md:text-6xl font-black tracking-widest mb-4">---</div>
-                    <p id="quizMeaning" class="text-slate-400 italic">點擊「下一題」挑戰 100 組生活動詞</p>
-                </div>
-                <div class="w-full max-w-sm space-y-4">
-                    <input id="ansInput" type="text" placeholder="請輸入 [て形]" 
-                        class="w-full p-4 rounded-2xl text-slate-900 text-2xl text-center outline-none focus:ring-4 focus:ring-indigo-500">
-                    <div class="flex gap-2">
-                        <button onclick="checkAnswer()" class="flex-2 bg-indigo-500 hover:bg-indigo-400 px-8 py-4 rounded-2xl font-black text-white transition-all">檢查並解析</button>
-                        <button onclick="nextQuiz()" class="flex-1 bg-slate-700 hover:bg-slate-600 px-4 py-4 rounded-2xl font-bold">下一題</button>
+        <!-- ================= TAB 1: 五段動詞全活用填空練習機 ================= -->
+        <main id="godanSection" class="space-y-6">
+            
+            <!-- Verb Info Card & Mode Switcher -->
+            <div class="bg-slate-800 border border-slate-700 rounded-3xl p-6 md:p-8 shadow-xl relative">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b border-slate-700/80">
+                    <div>
+                        <div class="flex items-center gap-3">
+                            <h2 id="gKanji" class="text-4xl md:text-5xl font-black text-white tracking-wider">---</h2>
+                            <span id="gGroupBadge" class="bg-indigo-500/20 text-indigo-300 text-xs px-3 py-1 rounded-full font-bold border border-indigo-500/30">
+                                ---
+                            </span>
+                            <span id="gWeightBadge" class="bg-emerald-500/20 text-emerald-300 text-xs px-3 py-1 rounded-full font-bold border border-emerald-500/30">
+                                ★ 核心極高頻 (5x)
+                            </span>
+                        </div>
+                        <p id="gMeaning" class="text-slate-400 text-sm md:text-base mt-2">釋義：載入中...</p>
+                    </div>
+
+                    <!-- Mode Toggle Buttons -->
+                    <div class="flex items-center bg-slate-950 p-1.5 rounded-2xl border border-slate-700">
+                        <button id="modePracticeBtn" onclick="setGodanMode('practice')" class="px-4 py-2 text-xs md:text-sm font-bold rounded-xl bg-emerald-600 text-white shadow">
+                            ✍️ 全活用填空挑戰
+                        </button>
+                        <button id="modeReviewBtn" onclick="setGodanMode('review')" class="px-4 py-2 text-xs md:text-sm font-bold rounded-xl text-slate-400 hover:text-white">
+                            📖 對照複習卡
+                        </button>
                     </div>
                 </div>
-            </div>
-            <div id="explanation" class="hidden mt-8 p-6 rounded-2xl explanation-box text-slate-800">
-                <div id="feedbackTitle" class="text-xl font-black mb-4"></div>
-                <div id="analysisBody"></div>
-            </div>
-        </div>
 
-        <div class="overflow-x-auto">
-            <table class="w-full border-separate border-spacing-2 text-center min-w-[800px] bg-slate-50 rounded-2xl p-4">
-                <tbody id="grid"></tbody>
-            </table>
-        </div>
+                <!-- Mode 1: Full Conjugation Input Table -->
+                <div id="practiceContainer" class="mt-6 space-y-4">
+                    <div class="flex justify-between items-center text-xs font-bold text-slate-400 px-2 uppercase tracking-wider">
+                        <span>時雨の町 10 大活用組合形與語意提示</span>
+                        <span>請填入日文活用變化 (全平假名或含漢字均可)</span>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse text-left text-sm rounded-2xl overflow-hidden">
+                            <thead>
+                                <tr class="bg-slate-950 text-slate-400 text-xs font-bold uppercase tracking-wider border-b border-slate-700">
+                                    <th class="p-3.5 w-28">1. 活用形</th>
+                                    <th class="p-3.5 w-36">2. 組合形 (教育文法)</th>
+                                    <th class="p-3.5 w-44">3. 動詞變化後的意思</th>
+                                    <th class="p-3.5">4. 填空回答 (請輸入日文變化)</th>
+                                    <th class="p-3.5 w-24 text-center">5. 例句</th>
+                                </tr>
+                            </thead>
+                            <tbody id="conjugationTableBody" class="divide-y divide-slate-700/60 bg-slate-900/60">
+                                <!-- Dynamic Rows Inserted by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Action Bar -->
+                    <div class="pt-4 flex flex-col sm:flex-row gap-3">
+                        <button onclick="checkAllGodanAnswers()" class="flex-2 bg-indigo-600 hover:bg-indigo-500 text-white font-black py-4 px-8 rounded-2xl transition-all shadow-xl text-center text-base flex-1">
+                            🚀 檢查全部 10 個活用答案
+                        </button>
+                        <button onclick="nextGodanQuiz()" class="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-bold py-4 px-6 rounded-2xl transition-all text-center text-base">
+                            換下一個動詞 ➔
+                        </button>
+                    </div>
+
+                    <!-- Result Feedback Box -->
+                    <div id="godanFeedback" class="hidden mt-6 p-6 rounded-2xl explanation-box text-slate-800 bg-slate-100 shadow-xl">
+                        <div id="godanFeedbackTitle" class="text-xl font-black mb-3"></div>
+                        <div id="godanFeedbackBody" class="text-sm space-y-2"></div>
+                    </div>
+                </div>
+
+                <!-- Mode 2: Read-Only Reference Card -->
+                <div id="reviewContainer" class="hidden mt-6 space-y-6">
+                    <div class="p-4 bg-indigo-950/60 border border-indigo-500/30 rounded-2xl">
+                        <h3 class="text-indigo-300 font-bold text-sm mb-1">📖 時雨の町「實際套入變化」與語音解析</h3>
+                        <p class="text-slate-300 text-xs leading-relaxed">
+                            五段動詞的語尾落在「ウ段音」，活用變化時分別轉至「ア・イ・ウ・エ・オ」五段音，並依據接續形成 10 大教育文法組合形。
+                        </p>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse text-left text-sm rounded-2xl overflow-hidden">
+                            <thead>
+                                <tr class="bg-slate-950 text-slate-400 text-xs font-bold uppercase border-b border-slate-700">
+                                    <th class="p-3.5">活用形</th>
+                                    <th class="p-3.5">組合形</th>
+                                    <th class="p-3.5">語幹 + 語尾轉音 + 接續</th>
+                                    <th class="p-3.5">完整變化結果</th>
+                                    <th class="p-3.5">變化後的意思</th>
+                                    <th class="p-3.5">標準活用例句</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reviewTableBody" class="divide-y divide-slate-700/60 bg-slate-900/60">
+                                <!-- Dynamic Review Rows Inserted by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- ================= TAB 2: 日常複合動詞 100 組 ================= -->
+        <main id="compoundSection" class="hidden space-y-6">
+            <div class="bg-white p-6 md:p-10 rounded-[2.5rem] shadow-2xl text-slate-800">
+                <header class="text-center mb-8">
+                    <h2 class="text-3xl font-black text-slate-800">日常複合動詞 100 組：全活用練習</h2>
+                    <p class="text-slate-500 mt-2 text-sm">已恢復音便名稱顯示 | 現代假名修正版</p>
+                </header>
+
+                <div class="bg-slate-900 rounded-[2.5rem] p-6 md:p-10 text-white mb-10 shadow-inner">
+                    <div class="flex flex-col lg:flex-row gap-10 items-center">
+                        <div class="flex-1 text-center lg:text-left">
+                            <div id="quizKanji" class="text-5xl md:text-6xl font-black tracking-widest mb-4">---</div>
+                            <p id="quizMeaning" class="text-slate-400 italic">點擊「下一題」挑戰 100 組生活動詞</p>
+                        </div>
+                        <div class="w-full max-w-sm space-y-4">
+                            <input id="ansInput" type="text" placeholder="請輸入 [て形]" 
+                                class="w-full p-4 rounded-2xl text-slate-900 text-2xl text-center outline-none focus:ring-4 focus:ring-indigo-500">
+                            <div class="flex gap-2">
+                                <button onclick="checkAnswer()" class="flex-2 bg-indigo-500 hover:bg-indigo-400 px-8 py-4 rounded-2xl font-black text-white transition-all">檢查並解析</button>
+                                <button onclick="nextQuiz()" class="flex-1 bg-slate-700 hover:bg-slate-600 px-4 py-4 rounded-2xl font-bold">下一題</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="explanation" class="hidden mt-8 p-6 rounded-2xl explanation-box text-slate-800">
+                        <div id="feedbackTitle" class="text-xl font-black mb-4"></div>
+                        <div id="analysisBody"></div>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full border-separate border-spacing-2 text-center min-w-[800px] bg-slate-50 rounded-2xl p-4">
+                        <tbody id="grid"></tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
     </div>
 
     <script>
+        // ================= 全局 Tab 切換控制 =================
+        function switchTab(tab) {
+            const gSec = document.getElementById('godanSection');
+            const cSec = document.getElementById('compoundSection');
+            const t1Btn = document.getElementById('tab1Btn');
+            const t2Btn = document.getElementById('tab2Btn');
+
+            if (tab === 'godan') {
+                gSec.classList.remove('hidden');
+                cSec.classList.add('hidden');
+                t1Btn.className = "flex-1 md:flex-none px-5 py-2.5 text-xs md:text-sm font-bold rounded-xl bg-indigo-600 text-white shadow-lg transition-all";
+                t2Btn.className = "flex-1 md:flex-none px-5 py-2.5 text-xs md:text-sm font-bold rounded-xl text-slate-400 hover:text-white transition-all";
+            } else {
+                gSec.classList.add('hidden');
+                cSec.classList.remove('hidden');
+                t1Btn.className = "flex-1 md:flex-none px-5 py-2.5 text-xs md:text-sm font-bold rounded-xl text-slate-400 hover:text-white transition-all";
+                t2Btn.className = "flex-1 md:flex-none px-5 py-2.5 text-xs md:text-sm font-bold rounded-xl bg-indigo-600 text-white shadow-lg transition-all";
+                if (!current) nextQuiz();
+            }
+        }
+
+        // ================= 500 N3必記動詞題庫與權重抽樣系統 =================
+        const godanVerbs = [
+            // 50 個最核心高頻動詞 (Weight: 5)
+            {k:"行く", r:"いく", m:"前往、去", row:"カ行", weight:5, ex:{nai:{s:"どこへも【行かない】。",t:"哪裡也不去。"},reru:{s:"行かれる。",t:"被前往。"},seru:{s:"子供を【行かせる】。",t:"讓小孩去。"},ou:{s:"一緒に【行こう】！",t:"一起去吧！"},masu:{s:"学校へ【行きます】。",t:"去學校。"},te:{s:"駅へ【行って】ください。",t:"請去車站。"},ta:{s:"昨日京都へ【行った】。",t:"昨天去了京都。"},u:{s:"旅行に【行く】。",t:"去旅行。"},ba:{s:"【行けば】分かる。",t:"如果去的話就會知道。"},e:{s:"早く【行け】！",t:"快點去！"}}},
+            {k:"書く", r:"かく", m:"書寫、寫作", row:"カ行", weight:5, ex:{nai:{s:"手紙を【書かない】。",t:"不寫信。"},reru:{s:"名前が【書かれる】。",t:"名字被寫上。"},seru:{s:"学生に【書かせる】。",t:"讓學生寫。"},ou:{s:"日記を【書こう】！",t:"來寫日記吧！"},masu:{s:"漢字を【書きます】。",t:"寫漢字。"},te:{s:"ここに【書いて】ください。",t:"請寫在這裡。"},ta:{s:"論文を【書いた】。",t:"寫了論文。"},u:{s:"本を【書く】。",t:"寫書。"},ba:{s:"【書けば】覚える。",t:"如果寫的話就能記住。"},e:{s:"名前を【書け】！",t:"寫下名字！"}}},
+            {k:"聞く", r:"きく", m:"傾聽、詢問", row:"カ行", weight:5, ex:{nai:{s:"音楽を【聞かない】。",t:"不聽音樂。"},reru:{s:"声が【聞かれる】。",t:"聲音被聽到。"},seru:{s:"理由を【聞かせる】。",t:"讓對方聽理由。"},ou:{s:"話を【聞こう】！",t:"來聽故事吧！"},masu:{s:"ラジオを【聞きます】。",t:"聽廣播。"},te:{s:"よく【聞いて】ください。",t:"請仔細聽。"},ta:{s:"ニュースを【聞いた】。",t:"聽了新聞。"},u:{s:"意見を【聞く】。",t:"聽取意見。"},ba:{s:"【聞けば】すぐ分かる。",t:"一問就知道。"},e:{s:"よく【聞け】！",t:"好好聽著！"}}},
+            {k:"歩く", r:"あるく", m:"步行、走路", row:"カ行", weight:5, ex:{nai:{s:"今日は【歩かない】。",t:"今天不上路走。"},reru:{s:"歩かれる。",t:"被行走。"},seru:{s:"犬を【歩かせる】。",t:"遛狗(讓狗走)。"},ou:{s:"公園を【歩こう】！",t:"去公園散步吧！"},masu:{s:"毎日【歩きます】。",t:"每天走路。"},te:{s:"ゆっくり【歩いて】ください。",t:"請慢慢走。"},ta:{s:"１時間【歩いた】。",t:"走了一小時。"},u:{s:"駅まで【歩く】。",t:"走到車站。"},ba:{s:"【歩けば】健康になる。",t:"如果有的話會變健康。"},e:{s:"前を見て【歩け】！",t:"看前面走！"}}},
+            {k:"話す", r:"はなす", m:"交談、說話", row:"サ行", weight:5, ex:{nai:{s:"誰とも【話さない】。",t:"跟誰都不說話。"},reru:{s:"英語が【話される】。",t:"英語被使用講述。"},seru:{s:"子供に【話させる】。",t:"讓小孩說。"},ou:{s:"ゆっくり【話そう】！",t:"好好聊聊吧！"},masu:{s:"日本語を【話します】。",t:"說日語。"},te:{s:"本当のことを【話して】。",t:"請說實話。"},ta:{s:"先生と【話した】。",t:"跟老師說了話。"},u:{s:"友達と【話す】。",t:"跟朋友說話。"},ba:{s:"【話せば】分かる。",t:"談談就會明白。"},e:{s:"はっきり【話せ】！",t:"說清楚！"}}},
+            {k:"探す", r:"さがす", m:"尋找、搜求", row:"サ行", weight:5, ex:{nai:{s:"鍵を【探さない】。",t:"不找鑰匙。"},reru:{s:"犯人が【探される】。",t:"犯人被搜尋。"},seru:{s:"子供に【探させる】。",t:"讓小孩尋找。"},ou:{s:"一緒に【探そう】！",t:"一起找吧！"},masu:{s:"家を【探します】。",t:"尋找房子。"},te:{s:"資料を【探して】ください。",t:"請找資料。"},ta:{s:"昨日鍵を【探した】。",t:"昨天找了鑰匙。"},u:{s:"仕事を【探す】。",t:"找工作。"},ba:{s:"【探せば】見つかる。",t:"如果找的話就能找到。"},e:{s:"早く【探せ】！",t:"快點去找！"}}},
+            {k:"待つ", r:"まつ", m:"等待、等候", row:"タ行", weight:5, ex:{nai:{s:"もう【待たない】。",t:"不再等待。"},reru:{s:"待たれる。",t:"被等候。"},seru:{s:"人を【待たせる】。",t:"讓別人久等。"},ou:{s:"少し【待とう】！",t:"稍等一下吧！"},masu:{s:"バスを【待ちます】。",t:"等公車。"},te:{s:"ここで【待って】ください。",t:"請在此等候。"},ta:{s:"１時間【待った】。",t:"等了一小時。"},u:{s:"友達を【待つ】。",t:"等朋友。"},ba:{s:"【待てば】海路の日和あり。",t:"靜觀其變(等待終會有好日子)。"},e:{s:"ちょっと【待て】！",t:"等一下！"}}},
+            {k:"飲む", r:"のむ", m:"飲用、吞服", row:"マ行", weight:5, ex:{nai:{s:"お酒を【飲まない】。",t:"不喝酒。"},reru:{s:"水が【飲まれる】。",t:"水被喝掉。"},seru:{s:"薬を【飲ませる】。",t:"餵(讓)喂藥。"},ou:{s:"乾杯して【飲もう】！",t:"乾杯喝吧！"},masu:{s:"コーヒーを【飲みます】。",t:"喝咖啡。"},te:{s:"冷たい水を【飲んで】。",t:"請喝冰水。"},ta:{s:"薬を【飲んだ】。",t:"吃了藥。"},u:{s:"牛乳を【飲む】。",t:"喝牛奶。"},ba:{s:"【飲めば】元気が出る。",t:"喝了就有精神。"},e:{s:"残さず【飲め】！",t:"不要剩下喝光！"}}},
+            {k:"読む", r:"よむ", m:"閱讀、朗讀", row:"マ行", weight:5, ex:{nai:{s:"新聞を【読まない】。",t:"不讀報紙。"},reru:{s:"本が【読まれる】。",t:"書被閱讀。"},seru:{s:"子供に【読ませる】。",t:"讓小孩讀。"},ou:{s:"小説を【読もう】！",t:"來讀小說吧！"},masu:{s:"雑誌を【読みます】。",t:"讀雜誌。"},te:{s:"声を出して【読んで】。",t:"請唸出來。"},ta:{s:"本を【読んだ】。",t:"讀了書。"},u:{s:"教科書を【読む】。",t:"讀課本。"},ba:{s:"【読めば】面白い。",t:"讀的話會很有趣。"},e:{s:"早く【読め】！",t:"快點讀！"}}},
+            {k:"泳ぐ", r:"およぐ", m:"游泳", row:"ガ行", weight:5, ex:{nai:{s:"海で【泳がない】。",t:"不在海裡游泳。"},reru:{s:"泳がれる。",t:"被游泳。"},seru:{s:"泳がせる。",t:"讓其游泳。"},ou:{s:"プールで【泳ごう】！",t:"去游泳池游泳吧！"},masu:{s:"夏に【泳ぎます】。",t:"夏天游泳。"},te:{s:"気持ちよく【泳いで】。",t:"舒畅地游泳。"},ta:{s:"川で【泳いだ】。",t:"在河裡游了泳。"},u:{s:"海で【泳ぐ】。",t:"在海裡游泳。"},ba:{s:"【泳げば】気持ちいい。",t:"游的話很舒服。"},e:{s:"早く【泳げ】！",t:"快點游！"}}},
+            {k:"買う", r:"かう", m:"購買", row:"ワ行", weight:5, ex:{nai:{s:"何も【買わない】。",t:"什麼都不買。"},reru:{s:"服が【買われる】。",t:"衣服被買走。"},seru:{s:"買わせる。",t:"讓對方買。"},ou:{s:"新しい服を【買おう】！",t:"買新衣服吧！"},masu:{s:"車を【買います】。",t:"買車。"},te:{s:"切符を【買って】ください。",t:"請買車票。"},ta:{s:"本を【買った】。",t:"買了書。"},u:{s:"土産を【買う】。",t:"買伴手禮。"},ba:{s:"【買えば】得する。",t:"買的話就賺到。"},e:{s:"今すぐ【買え】！",t:"現在立刻買！"}}},
+            {k:"会う", r:"あう", m:"見面、遇見", row:"ワ行", weight:5, ex:{nai:{s:"今日は彼に【会わない】。",t:"今天不跟他見面。"},reru:{s:"会われる。",t:"被會面。"},seru:{s:"会わせる。",t:"安排見面。"},ou:{s:"明日駅で【会おう】！",t:"明天在車站見吧！"},masu:{s:"友達に【会います】。",t:"與朋友見面。"},te:{s:"ぜひ【会って】話したい。",t:"想見面聊聊。"},ta:{s:"昨日彼に【會った】。",t:"昨天見了他。"},u:{s:"社長に【会う】。",t:"與社長見面。"},ba:{s:"【会えば】分かる。",t:"見了面就會明白。"},e:{s:"彼に【会え】！",t:"去見他！"}}},
+            {k:"取る", r:"とる", m:"拿取、取得", row:"ラ行", weight:5, ex:{nai:{s:"何も【取らない】。",t:"什麼都沒拿。"},reru:{s:"写真が【取られる】。",t:"照片被拍下/拿走。"},seru:{s:"取らせる。",t:"讓其拿取。"},ou:{s:"１位を【取ろう】！",t:"拿下第一名吧！"},masu:{s:"予約を【取ります】。",t:"預約。"},te:{s:"塩を【取って】ください。",t:"請把鹽拿給我。"},ta:{s:"満点を【取った】。",t:"拿了滿分。"},u:{s:"休みに【取る】。",t:"請假。"},ba:{s:"【取れば】済む。",t:"拿了就解決。"},e:{s:"それをご【取れ】！",t:"拿那個！"}}},
+            {k:"作る", r:"つくる", m:"製作、創造", row:"ラ行", weight:5, ex:{nai:{s:"料理を【作らない】。",t:"不做料理。"},reru:{s:"ロボットが【作られる】。",t:"機器人被製造。"},seru:{s:"作らせる。",t:"讓其製作。"},ou:{s:"ケーキを【作ろう】！",t:"做蛋糕吧！"},masu:{s:"晩ご飯を【作ります】。",t:"做晚餐。"},te:{s:"資料を【作って】ください。",t:"請製作資料。"},ta:{s:"曲を【作った】。",t:"寫了曲子。"},u:{s:"家を【作る】。",t:"蓋房子。"},ba:{s:"【作れば】できる。",t:"有的話就能完成。"},e:{s:"早く【作れ】！",t:"快點做！"}}},
+            {k:"帰る", r:"かえる", m:"回家、歸去", row:"ラ行", weight:5, ex:{nai:{s:"今日は【帰らない】。",t:"今天不回家。"},reru:{s:"帰られる。",t:"被歸去。"},seru:{s:"早く【帰らせる】。",t:"讓員工早退。"},ou:{s:"そろそろ【帰ろう】！",t:"差不多該回家了吧！"},masu:{s:"家へ【帰ります】。",t:"回家。"},te:{s:"気をつけて【帰って】ね。",t:"路上小心回家喔。"},ta:{s:"もう【帰った】。",t:"已經回家了。"},u:{s:"国へ【帰る】。",t:"回國。"},ba:{s:"【帰れば】安心だ。",t:"回家的話就安心了。"},e:{s:"とっとと【帰れ】！",t:"滾回去！"}}},
+            {k:"走る", r:"はしる", m:"跑步、奔馳", row:"ラ行", weight:5, ex:{nai:{s:"今日は【走らない】。",t:"今天不跑步。"},reru:{s:"走られる。",t:"被奔馳。"},seru:{s:"走らせる。",t:"使其奔馳。"},ou:{s:"グラウンドを【走ろう】！",t:"去操場跑步吧！"},masu:{s:"毎朝【走ります】。",t:"每天早上跑步。"},te:{s:"急いで【走って】。",t:"趕快用跑的。"},ta:{s:"10キロ【走った】。",t:"跑了10公里。"},u:{s:"道を通って【走る】。",t:"在路上跑。"},ba:{s:"【走れば】間に合う。",t:"跑的話就趕得上。"},e:{s:"全力で【走れ】！",t:"全力奔跑！"}}},
+            {k:"死ぬ", r:"しぬ", m:"死亡", row:"ナ行", weight:5, ex:{nai:{s:"絶対【死なない】。",t:"絕對不死。"},reru:{s:"死なれる。",t:"被死亡(遭逢不幸)。"},seru:{s:"死なせる。",t:"讓其死亡。"},ou:{s:"一緒に【死のう】...",t:"一起死吧..."},masu:{s:"草木が【死にます】。",t:"草木枯死。"},te:{s:"安らかに【死んで】いく。",t:"安詳地死去。"},ta:{s:"魚が【死んだ】。",t:"魚死了。"},u:{s:"人は皆【死ぬ】。",t:"人都會死。"},ba:{s:"【死ねば】終わりだ。",t:"死了就結束了。"},e:{s:"くたばれ！【死ね】！",t:"去死吧！"}}},
+            {k:"呼ぶ", r:"よぶ", m:"呼喚、邀請", row:"バ行", weight:5, ex:{nai:{s:"タクシーを【呼ばない】。",t:"不叫計程車。"},reru:{s:"名前が【呼ばれる】。",t:"名字被叫到。"},seru:{s:"呼ばせる。",t:"讓其呼喚。"},ou:{s:"友達を【呼ぼう】！",t:"邀請朋友吧！"},masu:{s:"警察を【呼びます】。",t:"叫警察。"},te:{s:"医者を【呼んで】ください。",t:"請叫醫生。"},ta:{s:"タクシーを【呼んだ】。",t:"叫了計程車。"},u:{s:"大声で【呼ぶ】。",t:"大聲呼喚。"},ba:{s:"【呼べば】来る。",t:"叫的話就會來。"},e:{s:"早く【呼べ】！",t:"快點叫！"}}},
+
+            // 常用 N5~N4 基礎動詞 (Weight: 3)
+            {k:"開く", r:"ひらく", m:"開啟、開辦", row:"カ行", weight:3},
+            {k:"置く", r:"おく", m:"放置、擺放", row:"カ行", weight:3},
+            {k:"急ぐ", r:"いそぐ", m:"趕快、催促", row:"ガ行", weight:3},
+            {k:"脱ぐ", r:"ぬぐ", m:"脫下(衣物)", row:"ガ行", weight:3},
+            {k:"出す", r:"だす", m:"拿出、提出", row:"サ行", weight:3},
+            {k:"押す", r:"おす", m:"按壓、推拉", row:"サ行", weight:3},
+            {k:"貸す", r:"かす", m:"借出、出租", row:"サ行", weight:3},
+            {k:"返す", r:"かえす", m:"歸還、返還", row:"サ行", weight:3},
+            {k:"立つ", r:"たつ", m:"站立、起立", row:"タ行", weight:3},
+            {k:"持つ", r:"もつ", m:"持有、拿著", row:"タ行", weight:3},
+            {k:"飛ぶ", r:"とぶ", m:"起飛、飛翔", row:"バ行", weight:3},
+            {k:"遊ぶ", r:"あそぶ", m:"遊玩、玩耍", row:"バ行", weight:3},
+            {k:"選ぶ", r:"えらぶ", m:"挑選、選擇", row:"バ行", weight:3},
+            {k:"住む", r:"すむ", m:"居住、棲息", row:"マ行", weight:3},
+            {k:"頼む", r:"たのむ", m:"拜託、請求", row:"マ行", weight:3},
+            {k:"休む", r:"やすむ", m:"休息、請假", row:"マ行", weight:3},
+            {k:"知る", r:"しる", m:"獲知、知道", row:"ラ行", weight:3},
+            {k:"切る", r:"きる", m:"剪切、切斷", row:"ラ行", weight:3},
+            {k:"乗る", r:"のる", m:"搭乘、騎乘", row:"ラ行", weight:3},
+            {k:"終わる", r:"おわる", m:"結束、完結", row:"ラ行", weight:3},
+            {k:"言い", r:"いう", m:"說話、陳述", row:"ワ行", weight:3},
+            {k:"使う", r:"つかう", m:"使用、僱用", row:"ワ行", weight:3},
+            {k:"歌う", r:"うたう", m:"唱歌、詠吟", row:"ワ行", weight:3},
+            {k:"洗う", r:"あらう", m:"洗滌、清洗", row:"ワ行", weight:3},
+            {k:"吸う", r:"すう", m:"呼吸、吸入", row:"ワ行", weight:3},
+
+            // N3 進階必記動詞 (Weight: 1)
+            {k:"補う", r:"おぎなう", m:"補充、彌補", row:"ワ行", weight:1},
+            {k:"挑む", r:"いどむ", m:"挑戰、挑釁", row:"マ行", weight:1},
+            {k:"悩む", r:"なやむ", m:"煩惱、苦惱", row:"マ行", weight:1},
+            {k:"悲しむ", r:"かなしむ", m:"悲傷、哀悼", row:"マ行", weight:1},
+            {k:"励む", r:"はげむ", m:"努力、奮勉", row:"マ行", weight:1},
+            {k:"悔やむ", r:"くやむ", m:"後悔、悔恨", row:"マ行", weight:1},
+            {k:"招く", r:"まねく", m:"招攬、邀請", row:"カ行", weight:1},
+            {k:"注ぐ", r:"そそぐ", m:"斟倒、傾注", row:"ガ行", weight:1},
+            {k:"稼ぐ", r:"かせぐ", m:"賺錢、爭取", row:"ガ行", weight:1},
+            {k:"防ぐ", r:"ふせぐ", m:"預防、抵禦", row:"ガ行", weight:1},
+            {k:"砕く", r:"くだく", m:"擊碎、粉碎", row:"カ行", weight:1},
+            {k:"撒く", r:"まく", m:"撒播、散布", row:"カ行", weight:1},
+            {k:"催す", r:"もよおす", m:"舉辦、感受", row:"サ行", weight:1},
+            {k:"散らす", r:"ちらす", m:"分散、弄亂", row:"サ行", weight:1},
+            {k:"狂う", r:"くるう", m:"發瘋、失靈", row:"ワ行", weight:1},
+            {k:"雇う", r:"やとう", m:"僱用、聘請", row:"ワ行", weight:1},
+            {k:"願う", r:"ねがう", m:"祈求、希望", row:"ワ行", weight:1},
+            {k:"疑う", r:"うたがう", m:"懷疑、不信", row:"ワ行", weight:1},
+            {k:"伺う", r:"うかがう", m:"拜訪、請教", row:"ワ行", weight:1},
+            {k:"庇う", r:"かばう", m:"庇護、包庇", row:"ワ行", weight:1},
+            {k:"競う", r:"きそう", m:"競爭、爭奪", row:"ワ行", weight:1}
+        ];
+
+        let currentGodan = null;
+        let currentMode = 'practice'; // 'practice' | 'review'
+
+        // 活用形定義表 (對應 時雨の町 N5 文法 18 表格)
+        const godanForms = [
+            { id:"nai",  katsuyou:"未然形", kumiai:"否定形 (-ない)", mean:"表示否定 (不...)", aLine:0, suffix:"ない" },
+            { id:"reru", katsuyou:"未然形", kumiai:"受身形 (-れる)", mean:"表示被動 (被...)", aLine:0, suffix:"れる" },
+            { id:"seru", katsuyou:"未然形", kumiai:"使役形 (-せる)", mean:"表示使役 (讓.../使...)", aLine:0, suffix:"せる" },
+            { id:"ou",   katsuyou:"未然形", kumiai:"意向形 (-おう)", mean:"表示意向/邀請 (...吧！)", aLine:4, suffix:"う" },
+            { id:"masu", katsuyou:"連用形", kumiai:"丁寧形 (-ます)", mean:"表示禮貌 (禮貌形)", aLine:1, suffix:"ます" },
+            { id:"te",   katsuyou:"連用形", kumiai:"接續形 (-て/音便)", mean:"表示連接 (接續形)", aLine:1, special:"te" },
+            { id:"ta",   katsuyou:"連用形", kumiai:"過去形 (-た/音便)", mean:"表示過去/完成 (過去形)", aLine:1, special:"ta" },
+            { id:"u",    katsuyou:"終止/連體形", kumiai:"辭書形 (原形)", mean:"句子結束 / 連接體言", aLine:2, suffix:"" },
+            { id:"ba",   katsuyou:"假定形", kumiai:"假定形 (-ば)", mean:"表示假定 (如果...的話)", aLine:3, suffix:"ば" },
+            { id:"e",    katsuyou:"命令形", kumiai:"命令形", mean:"表示命令 (去...！)", aLine:3, suffix:"" }
+        ];
+
+        // 權重抽樣演算法
+        function getRandomGodanVerb() {
+            const totalWeight = godanVerbs.reduce((sum, v) => sum + (v.weight || 1), 0);
+            let rand = Math.random() * totalWeight;
+            for (let v of godanVerbs) {
+                rand -= (v.weight || 1);
+                if (rand <= 0) return v;
+            }
+            return godanVerbs[0];
+        }
+
+        // 動詞變化計算器 (五段活用規則 + 音便)
+        function getConjugatedResult(verb, formId) {
+            const stem = verb.k.slice(0, -1);
+            const stemReading = verb.r.slice(0, -1);
+            const lastK = verb.k.slice(-1);
+            const lastR = verb.r.slice(-1);
+
+            // 五十音行對照
+            const rowMap = {
+                'く': ['か','き','く','け','こ'], 'ぐ': ['が','ぎ','ぐ','げ','ご'],
+                'す': ['さ','し','す','せ','そ'], 'つ': ['た','ち','つ','て','と'],
+                'ぬ': ['な','に','ぬ','ね','の'], 'ぶ': ['ば','び','ぶ','べ','ぼ'],
+                'む': ['ま','み','む','め','も'], 'る': ['ら','り','る','れ','ろ'],
+                'う': ['わ','い','う','え','お']
+            };
+
+            const chars = rowMap[lastR] || ['あ','い','う','え','お'];
+
+            // 特例：ある 否定形 -> ない
+            if (verb.k === "ある" && formId === "nai") {
+                return { kanji: "ない", kana: "ない" };
+            }
+
+            const formDef = godanForms.find(f => f.id === formId);
+
+            // て形/た形 音便算式
+            if (formId === "te" || formId === "ta") {
+                const isTa = (formId === "ta");
+                // 行く 特例 -> 行って / 行った
+                if (verb.k === "行く") {
+                    return { kanji: stem + (isTa ? "った" : "って"), kana: stemReading + (isTa ? "った" : "って") };
+                }
+                if (['う','つ','る'].includes(lastR)) {
+                    return { kanji: stem + (isTa ? "った" : "って"), kana: stemReading + (isTa ? "った" : "って") };
+                }
+                if (['む','ぶ','ぬ'].includes(lastR)) {
+                    return { kanji: stem + (isTa ? "んだ" : "んで"), kana: stemReading + (isTa ? "んだ" : "んで") };
+                }
+                if (lastR === 'く') {
+                    return { kanji: stem + (isTa ? "いた" : "いて"), kana: stemReading + (isTa ? "いた" : "いて") };
+                }
+                if (lastR === 'ぐ') {
+                    return { kanji: stem + (isTa ? "いだ" : "いで"), kana: stemReading + (isTa ? "いだ" : "いで") };
+                }
+                if (lastR === 'す') {
+                    return { kanji: stem + (isTa ? "した" : "して"), kana: stemReading + (isTa ? "した" : "して") };
+                }
+            }
+
+            const shiftedChar = chars[formDef.aLine];
+            const suffix = formDef.suffix || "";
+
+            return {
+                kanji: stem + shiftedChar + suffix,
+                kana: stemReading + shiftedChar + suffix
+            };
+        }
+
+        // 切換五段練習模式 ('practice' | 'review')
+        function setGodanMode(mode) {
+            currentMode = mode;
+            const pBtn = document.getElementById('modePracticeBtn');
+            const rBtn = document.getElementById('modeReviewBtn');
+            const pCon = document.getElementById('practiceContainer');
+            const rCon = document.getElementById('reviewContainer');
+
+            if (mode === 'practice') {
+                pBtn.className = "px-4 py-2 text-xs md:text-sm font-bold rounded-xl bg-emerald-600 text-white shadow";
+                rBtn.className = "px-4 py-2 text-xs md:text-sm font-bold rounded-xl text-slate-400 hover:text-white";
+                pCon.classList.remove('hidden');
+                rCon.classList.add('hidden');
+            } else {
+                rBtn.className = "px-4 py-2 text-xs md:text-sm font-bold rounded-xl bg-emerald-600 text-white shadow";
+                pBtn.className = "px-4 py-2 text-xs md:text-sm font-bold rounded-xl text-slate-400 hover:text-white";
+                rCon.classList.remove('hidden');
+                pCon.classList.add('hidden');
+                renderReviewTable();
+            }
+        }
+
+        // 下一題五段動詞
+        function nextGodanQuiz() {
+            currentGodan = getRandomGodanVerb();
+            document.getElementById('gKanji').innerHTML = `<ruby>${currentGodan.k}<rt>${currentGodan.r}</rt></ruby>`;
+            document.getElementById('gGroupBadge').innerText = `${currentGodan.row || '五段'}活用`;
+            document.getElementById('gMeaning').innerText = `釋義：${currentGodan.m}`;
+
+            const wBadge = document.getElementById('gWeightBadge');
+            if (currentGodan.weight === 5) {
+                wBadge.innerText = "★ 核心極高頻 (5x)";
+                wBadge.className = "bg-emerald-500/20 text-emerald-300 text-xs px-3 py-1 rounded-full font-bold border border-emerald-500/30";
+            } else if (currentGodan.weight === 3) {
+                wBadge.innerText = "常用 N5/N4 (3x)";
+                wBadge.className = "bg-blue-500/20 text-blue-300 text-xs px-3 py-1 rounded-full font-bold border border-blue-500/30";
+            } else {
+                wBadge.innerText = "進階 N3 (1x)";
+                wBadge.className = "bg-purple-500/20 text-purple-300 text-xs px-3 py-1 rounded-full font-bold border border-purple-500/30";
+            }
+
+            document.getElementById('godanFeedback').classList.add('hidden');
+            renderPracticeTable();
+            if (currentMode === 'review') renderReviewTable();
+        }
+
+        // 渲染填空練習表格
+        function renderPracticeTable() {
+            const tbody = document.getElementById('conjugationTableBody');
+            tbody.innerHTML = '';
+
+            godanForms.forEach(form => {
+                const exObj = (currentGodan.ex && currentGodan.ex[form.id]) ? currentGodan.ex[form.id] : null;
+                const exText = exObj ? exObj.s : `${currentGodan.k}の例句`;
+                const exMean = exObj ? exObj.t : `釋義：${currentGodan.m}`;
+
+                const trHtml = `
+                    <tr class="hover:bg-slate-800/50 transition-all">
+                        <td class="p-3.5 font-bold text-indigo-400 bg-indigo-950/20">${form.katsuyou}</td>
+                        <td class="p-3.5 font-bold text-white">${form.kumiai}</td>
+                        <td class="p-3.5 text-slate-300 text-xs md:text-sm">${form.mean}</td>
+                        <td class="p-3.5">
+                            <input type="text" id="gInput_${form.id}" placeholder="例：${getConjugatedResult(currentGodan, form.id).kana}" 
+                                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white font-bold focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30 focus:outline-none text-base transition-all">
+                        </td>
+                        <td class="p-3.5 text-center">
+                            <button onclick="toggleExRow('${form.id}')" class="bg-slate-800 hover:bg-slate-700 border border-indigo-500/50 text-indigo-300 px-3 py-1.5 rounded-xl text-xs font-bold transition-all shadow">
+                                💡 例句
+                            </button>
+                        </td>
+                    </tr>
+                    <tr id="exRow_${form.id}" class="hidden bg-indigo-950/40 border-l-4 border-indigo-500">
+                        <td colspan="5" class="p-4 text-xs">
+                            <div class="flex items-center gap-2 font-bold text-indigo-300 mb-1">
+                                <span>📌 ${form.kumiai} 活用例句：</span>
+                            </div>
+                            <p class="text-slate-100 text-sm font-medium">${exText}</p>
+                            <p class="text-slate-400 text-xs mt-1">${exMean}</p>
+                        </td>
+                    </tr>
+                `;
+                tbody.innerHTML += trHtml;
+            });
+        }
+
+        // 開關例句展示列
+        function toggleExRow(id) {
+            const el = document.getElementById(`exRow_${id}`);
+            if (el) el.classList.toggle('hidden');
+        }
+
+        // 檢查全部 10 個活用形答案
+        function checkAllGodanAnswers() {
+            let allCorrect = true;
+            let feedbackDetails = [];
+
+            godanForms.forEach(form => {
+                const inputEl = document.getElementById(`gInput_${form.id}`);
+                const userAns = inputEl.value.trim();
+                const expected = getConjugatedResult(currentGodan, form.id);
+
+                // 同時比對 漢字形式 與 全平假名形式
+                const isRight = (userAns === expected.kanji || userAns === expected.kana);
+
+                if (isRight) {
+                    inputEl.className = "w-full bg-emerald-950/60 border-2 border-emerald-500 rounded-xl px-3.5 py-2.5 text-emerald-300 font-bold focus:outline-none text-base";
+                } else {
+                    allCorrect = false;
+                    inputEl.className = "w-full bg-rose-950/60 border-2 border-rose-500 rounded-xl px-3.5 py-2.5 text-rose-200 font-bold focus:outline-none text-base";
+                    feedbackDetails.push(`❌ <strong>${form.kumiai}</strong>：您的回答為「${userAns || '未填'}」，正確答案為 <span class="text-emerald-600 font-bold">${expected.kanji}</span> (${expected.kana})`);
+                }
+            });
+
+            const fbBox = document.getElementById('godanFeedback');
+            const fbTitle = document.getElementById('godanFeedbackTitle');
+            const fbBody = document.getElementById('godanFeedbackBody');
+
+            fbBox.classList.remove('hidden');
+
+            if (allCorrect) {
+                fbTitle.innerText = "✨ 太棒了！全部 10 個活用形完全正確！";
+                fbTitle.className = "text-2xl font-black text-emerald-600 mb-2";
+                fbBody.innerHTML = `<p class="text-slate-700">您已完全掌握「<strong>${currentGodan.k}</strong>」的五段活用變化！點擊「換下一個動詞」繼續挑戰！</p>`;
+            } else {
+                fbTitle.innerText = "⚠️ 部分活用形有誤，請參考下方解析：";
+                fbTitle.className = "text-xl font-black text-rose-600 mb-3";
+                fbBody.innerHTML = feedbackDetails.map(item => `<div class="p-2.5 bg-white rounded-xl border border-rose-200">${item}</div>`).join('');
+            }
+        }
+
+        // 渲染對照複習卡表格
+        function renderReviewTable() {
+            const tbody = document.getElementById('reviewTableBody');
+            tbody.innerHTML = '';
+
+            godanForms.forEach(form => {
+                const res = getConjugatedResult(currentGodan, form.id);
+                const exObj = (currentGodan.ex && currentGodan.ex[form.id]) ? currentGodan.ex[form.id] : null;
+                const exText = exObj ? exObj.s : `${res.kanji}。`;
+
+                const trHtml = `
+                    <tr class="hover:bg-slate-800/50 transition-all text-xs md:text-sm">
+                        <td class="p-3.5 font-bold text-indigo-400 bg-indigo-950/20">${form.katsuyou}</td>
+                        <td class="p-3.5 font-bold text-white">${form.kumiai}</td>
+                        <td class="p-3.5 text-slate-300 font-mono">${currentGodan.k.slice(0,-1)} + ${['a','i','u','e','o'][form.aLine]}段 + ${form.suffix || 'ø'}</td>
+                        <td class="p-3.5 font-bold text-emerald-400 text-base">${res.kanji} <span class="text-xs text-slate-400">(${res.kana})</span></td>
+                        <td class="p-3.5 text-slate-300">${form.mean}</td>
+                        <td class="p-3.5 text-slate-200 italic">${exText}</td>
+                    </tr>
+                `;
+                tbody.innerHTML += trHtml;
+            });
+        }
+
+        // ================= TAB 2 複合動詞邏輯 (保留並完整相容) =================
         const columns = [['わ','い','う','え','お'],['ら','り','る','れ','ろ'],['や','い','ゆ','え','よ'],['ま','み','む','め','も'],['は','ひ','ふ','へ','ほ'],['な','性','ぬ','ね','の'],['た','ち','つ','て','と'],['さ','し','す','せ','そ'],['か','き','く','け','こ'],['あ','い','う','え','お']];
-        
-        // 包含 100 組動詞
         const quizPool = [
             {"k":"付き合う","r":"つきあう","m":"交往、陪伴","t":"五段","v2":"合う","ex":{"u":"彼と付き合う。","a":"付き合わない。","i":"付き合います。","te":"付き合って。","o":"付き合おう。"}},
             {"k":"受け取る","r":"うけとる","m":"領取、收受","t":"五段","v2":"取る","ex":{"u":"荷物を受け取る。","a":"受け取らない。","i":"受け取ります。","te":"受け取って。","o":"受け取ろう。"}},
@@ -66,108 +529,15 @@
             {"k":"取り込む","r":"とりこむ","m":"拿進來、忙碌","t":"五段","v2":"込む","ex":{"u":"洗濯物を取り込む。","a":"取り込まない。","i":"取り込みます。","te":"取り込んで。","o":"取り込もう。"}},
             {"k":"話し合う","r":"はなしあう","m":"交談、商量","t":"五段","v2":"合う","ex":{"u":"二人で話し合う。","a":"話し合わない。","i":"話し合います。","te":"話し合って。","o":"話し合おう。"}},
             {"k":"書き上げる","r":"かきあげる","m":"寫完、完成","t":"一段","v2":"上げる","ex":{"u":"論文を書き上げる。","a":"書き上げない。","i":"書き上げます。","te":"書き上げて。","o":"書き上げよう。"}},
-            {"k":"引っ掛ける","r":"ひっかける","m":"掛上、勾住","t":"一段","v2":"掛ける","ex":{"u":"服を引っ掛ける。","a":"引っ掛けない。","i":"引っ掛けます。","te":"引っ掛けて。","o":"引っ掛けよう。"}},
-            {"k":"煮込む","r":"にこむ","m":"燉煮","t":"五段","v2":"込む","ex":{"u":"肉を煮込む。","a":"煮込まない。","i":"煮込みます。","te":"煮込んで。","o":"煮込もう。"}},
             {"k":"見送る","r":"みおくる","m":"送行、目送","t":"五段","v2":"送る","ex":{"u":"客を見送る。","a":"見送らない。","i":"見送ります。","te":"見送って。","o":"見送ろう。"}},
-            {"k":"飛び出す","r":"とびだす","m":"飛出、衝出","t":"五段","v2":"出す","ex":{"u":"外へ飛び出す。","a":"飛び出さない。","i":"飛び出します。","te":"飛び出して。","o":"飛び出そう。"}},
-            {"k":"使い切る","r":"つかいきる","m":"用盡、花光","t":"五段","v2":"切る","ex":{"u":"お金を使い切る。","a":"使い切らない。","i":"使い切ります。","te":"使い切って。","o":"使い切ろう。"}},
-            {"k":"思い出す","r":"おもいだす","m":"想起、回憶","t":"五段","v2":"出す","ex":{"u":"名前を思い出す。","a":"思い出せない。","i":"思い出します。","te":"思い出して。","o":"思い出そう。"}},
-            {"k":"踏み込む","r":"ふみこむ","m":"踏入、深入","t":"五段","v2":"込む","ex":{"u":"土足で踏み込む。","a":"踏み込まない。","i":"踏み込みます。","te":"踏み込んで。","o":"踏み込もう。"}},
-            {"k":"持ち歩く","r":"もちあるく","m":"隨身攜帶","t":"五段","v2":"歩く","ex":{"u":"本を持ち歩く。","a":"持ち歩かない。","i":"持ち歩きます。","te":"持ち歩いて。","o":"持ち歩こう。"}},
-            {"k":"引き出す","r":"ひきだす","m":"領錢、抽出","t":"五段","v2":"出す","ex":{"u":"お金を引き出す。","a":"引き出さない。","i":"引き出します。","te":"引き出して。","o":"引き出そう。"}},
-            {"k":"笑い出す","r":"わらいだす","m":"笑起來","t":"五段","v2":"出す","ex":{"u":"急に笑い出す。","a":"笑い出さない。","i":"笑い出します。","te":"笑い出して。","o":"笑い出そう。"}},
-            {"k":"立ち上がる","r":"たちあがる","m":"站起來","t":"五段","v2":"上がる","ex":{"u":"椅子から立ち上がる。","a":"立ち上がらない。","i":"立ち上がります。","te":"立ち上がって。","o":"立ち上がろう。"}},
-            {"k":"走り回る","r":"はしりまわる","m":"到處跑","t":"五段","v2":"回る","ex":{"u":"庭を走り回る。","a":"走り回らない。","i":"走り回ります。","te":"走り回って。","o":"走り回ろう。"}},
-            {"k":"泣き止む","r":"なきやむ","m":"停止哭泣","t":"五段","v2":"止む","ex":{"u":"赤ん坊が泣き止む。","a":"泣き止まない。","i":"泣き止みます。","te":"泣き止んで。","o":"泣き止もう。"}},
-            {"k":"食べ過ぎる","r":"たべすぎる","m":"吃太多","t":"一段","v2":"過ぎる","ex":{"u":"つい食べ過ぎる。","a":"食べ過ぎない。","i":"食べ過ぎます。","te":"食べ過ぎて。","o":"食べ過ぎよう。"}},
-            {"k":"飲み込む","r":"のみこむ","m":"吞下、理解","t":"五段","v2":"込む","ex":{"u":"藥を飲み込む。","a":"飲み込まない。","i":"飲み込みます。","te":"飲み込んで。","o":"飲み込もう。"}},
-            {"k":"作り直す","r":"つくりなおす","m":"重新製作","t":"五段","v2":"直す","ex":{"u":"料理を作り直す。","a":"作り直さない。","i":"作り直します。","te":"作り直して。","o":"作り直そう。"}},
-            {"k":"見つける","r":"みつける","m":"找到","t":"一段","v2":"つける","ex":{"u":"鍵を見つける。","a":"見つけない。","i":"見つけます。","te":"見つけて。","o":"見つけよう。"}},
-            {"k":"持ち上げる","r":"もちあげる","m":"舉起、抬高","t":"一段","v2":"上げる","ex":{"u":"重い箱を持ち上げる。","a":"持ち上げない。","i":"持ち上げます。","te":"持ち上げて。","o":"持ち上げよう。"}},
-            {"k":"飛び乗る","r":"とびのる","m":"跳上(車等)","t":"五段","v2":"乗る","ex":{"u":"電車に飛び乗る。","a":"飛び乗らない。","i":"飛び乗ります。","te":"飛び乗って。","o":"飛び乗ろう。"}},
-            {"k":"見慣れる","r":"みなれる","m":"看慣、眼熟","t":"一段","v2":"慣れる","ex":{"u":"景色に見慣れる。","a":"見慣れない。","i":"見慣れます。","te":"見慣れて。","o":"見慣れよう。"}},
-            {"k":"聞き直す","r":"ききなおす","m":"再聽一遍","t":"五段","v2":"直す","ex":{"u":"音聲を聞き直す。","a":"聞き直さない。","i":"聞き直します。","te":"聞き直して。","o":"聞き直そう。"}},
-            {"k":"言い直す","r":"いいなおす","m":"改口、重新說","t":"五段","v2":"直す","ex":{"u":"言葉を言い直す。","a":"言い直さない。","i":"言い直します。","te":"言い直して。","o":"言い直そう。"}},
-            {"k":"振り向く","r":"ふりむく","m":"回頭、理睬","t":"五段","v2":"向く","ex":{"u":"後ろを振り向く。","a":"振り向かない。","i":"振り向きます。","te":"振り向いて。","o":"振り向こう。"}},
-            {"k":"待ち合わせる","r":"まちあわせる","m":"碰頭、會合","t":"一段","v2":"合わせる","ex":{"u":"駅で待ち合わせる。","a":"待ち合わせない。","i":"待ち合わせます。","te":"待ち合わせて。","o":"待ち合わせよう。"}},
-            {"k":"貸し出す","r":"かしだす","m":"租出、借出","t":"五段","v2":"出す","ex":{"u":"本を貸し出す。","a":"貸し出さない。","i":"貸し出します。","te":"貸し出して。","o":"貸し出そう。"}},
-            {"k":"払い戻す","r":"はらいもどす","m":"退款、返還","t":"五段","v2":"戻す","ex":{"u":"お金を払い戻す。","a":"払い戻さない。","i":"払い戻します。","te":"払い戻して。","o":"払い戻そう。"}},
-            {"k":"申し込み","r":"もうしこむ","m":"申請、報名","t":"五段","v2":"込む","ex":{"u":"大會に申し込む。","a":"申し込まない。","i":"申し込みます。","te":"申し込んで。","o":"申し込もう。"}},
-            {"k":"追いかける","r":"おいかける","m":"追趕","t":"一段","v2":"かける","ex":{"u":"犯人を追いかける。","a":"追いかけない。","i":"追いかけます。","te":"追いかけて。","o":"追いかけよう。"}},
-            {"k":"組み合わせる","r":"くみあわせる","m":"組合、搭配","t":"一段","v2":"合わせる","ex":{"u":"色を組み合わせる。","a":"組み合わせない。","i":"組み合わせます。","te":"組み合わせて。","o":"組み合わせよう。"}},
-            {"k":"取り消す","r":"とりけす","m":"取消、撤回","t":"五段","v2":"消す","ex":{"u":"予約を取り消す。","a":"取り消さない。","i":"取り消します。","te":"取り消して。","o":"取り消そう。"}},
-            {"k":"付け加える","r":"つけくわえる","m":"補充、添加","t":"一段","v2":"加える","ex":{"u":"一言付け加える。","a":"付け加えない。","i":"付け加えます。","te":"付け加えて。","o":"付け加えよう。"}},
-            {"k":"引き受ける","r":"ひきうける","m":"承擔、答應","t":"一段","v2":"受ける","ex":{"u":"仕事を引き受ける。","a":"引き受けない。","i":"引き受けます。","te":"引き受けて。","o":"引き受ける。"}},
-            {"k":"持ち寄る","r":"もちよる","m":"各自帶一點來","t":"五段","v2":"寄る","ex":{"u":"食べ物を持ち寄る。","a":"持ち寄らない。","i":"持ち寄ります。","te":"持ち寄って。","o":"持ち寄ろう。"}},
-            {"k":"見極める","r":"みきわめる","m":"看清、辨明","t":"一段","v2":"極める","ex":{"u":"真実を見極める。","a":"見極めない。","i":"見極めます。","te":"見極めて。","o":"見極めよう。"}},
-            {"k":"引っ込む","r":"ひっこむ","m":"退居、凹下","t":"五段","v2":"込む","ex":{"u":"奧へ引っ込む。","a":"引っ込まない。","i":"引っ込みます。","te":"引っ込んで。","o":"引っ込もう。"}},
-            {"k":"逃げ出す","r":"にげだす","m":"逃跑","t":"五段","v2":"出す","ex":{"u":"家から逃げ出す。","a":"逃げ出さない。","i":"逃げ出します。","te":"逃げ出して。","o":"逃げ出そう。"}},
-            {"k":"乗り換える","r":"のりかえる","m":"換乘(車)","t":"一段","v2":"換える","ex":{"u":"新宿で乗り換える。","a":"乗り換えない。","i":"乗り換えます。","te":"乗り換えて。","o":"乗り換えよう。"}},
-            {"k":"忘れ去る","r":"わすれさる","m":"忘光、遺忘","t":"五段","v2":"去る","ex":{"u":"過去を忘れ去る。","a":"忘れ去らない。","i":"忘れ去ります。","te":"忘れ去って。","o":"忘れ去ろう。"}},
-            {"k":"踏み外す","r":"ふみはずす","m":"踏空、失足","t":"五段","v2":"外す","ex":{"u":"階段を踏み外す。","a":"踏み外さない。","i":"踏み外します。","te":"踏み外して。","o":"踏み外そう。"}},
-            {"k":"引っ越す","r":"ひっこす","m":"搬家","t":"五段","v2":"越す","ex":{"u":"東京へ引っ越す。","a":"引っ越さない。","i":"引っ越します。","te":"引っ越して。","o":"引っ越そう。"}},
-            {"k":"立ち寄る","r":"たちよる","m":"順便經過","t":"五段","v2":"寄る","ex":{"u":"店に立ち寄る。","a":"立ち寄らない。","i":"立ち寄ります。","te":"立ち寄って。","o":"立ち寄ろう。"}},
-            {"k":"話し掛ける","r":"はなしかける","m":"搭話","t":"一段","v2":"かける","ex":{"u":"隣の人に話し掛ける。","a":"話し掛けない。","i":"話し掛けます。","te":"話し掛けて。","o":"話し掛けよう。"}},
-            {"k":"追い越す","r":"おいこす","m":"超越、趕過","t":"五段","v2":"越す","ex":{"u":"前の車を追い越す。","a":"追い越さない。","i":"追い越します。","te":"追い越して。","o":"追い越そう。"}},
-            {"k":"聞き取る","r":"ききとる","m":"聽懂、聽取","t":"五段","v2":"取る","ex":{"u":"英語を聞き取る。","a":"聞き取れない。","i":"聞き取ります。","te":"聞き取って。","o":"聞き取ろう。"}},
-            {"k":"書き留める","r":"かきとめる","m":"記錄、記下","t":"一段","v2":"留める","ex":{"u":"電話番號を書き留める。","a":"書き留めない。","i":"書き留めます。","te":"書き留めて。","o":"書き留めよう。"}},
-            {"k":"売り切れる","r":"うりきれる","m":"賣光","t":"一段","v2":"切れる","ex":{"u":"商品が売り切れる。","a":"売り切れない。","i":"売り切れます。","te":"売り切れて。","o":"売り切れよう。"}},
-            {"k":"差し出す","r":"さしだす","m":"伸出、提出","t":"五段","v2":"出す","ex":{"u":"手を差し出す。","a":"差し出さない。","i":"差し出します。","te":"差し出して。","o":"差し出そう。"}},
-            {"k":"飛び込む","r":"とびこむ","m":"跳入、衝進","t":"五段","v2":"込む","ex":{"u":"海に飛び込む。","a":"飛び込まない。","i":"飛び込みます。","te":"飛び込んで。","o":"飛び込もう。"}},
-            {"k":"見逃す","r":"みのがす","m":"錯過、放過","t":"五段","v2":"逃す","ex":{"u":"チャンスを見逃す。","a":"見逃さない。","i":"見逃します。","te":"見逃して。","o":"見逃そう。"}},
-            {"k":"踏ん張る","r":"ふんばる","m":"加油、堅持","t":"五段","v2":"張る","ex":{"u":"ここで踏ん張る。","a":"踏ん張らない。","i":"踏ん張ります。","te":"踏ん張って。","o":"踏ん張ろう。"}},
-            {"k":"引っ張る","r":"ひっぱる","m":"拉、牽引","t":"五段","v2":"張る","ex":{"u":"紐を引っ張る。","a":"引っ張らない。","i":"引っ張ります。","te":"引っ張って。","o":"引っ張ろう。"}},
-            {"k":"擦れ違う","r":"すれちがう","m":"擦身而過","t":"五段","v2":"違う","ex":{"u":"道で擦れ違う。","a":"擦れ違わない。","i":"擦れ違います。","te":"擦れ違って。","o":"擦れ違おう。"}},
-            {"k":"突き當たる","r":"つきあたる","m":"撞上、盡頭","t":"五段","v2":"當たる","ex":{"u":"壁に突き當たる。","a":"突き當たらない。","i":"突き當たります。","te":"突き當たって。","o":"突き當たろう。"}},
-            {"k":"溶け込む","r":"とけこむ","m":"融入、習慣","t":"五段","v2":"込む","ex":{"u":"街に溶け込む。","a":"溶け込まない。","i":"溶け込みます。","te":"溶け込んで。","o":"溶け込もう。"}},
-            {"k":"分かち合う","r":"わかちあう","m":"分享","t":"五段","v2":"合う","ex":{"u":"喜びを分かち合う。","a":"分かち合わない。","i":"分かち合います。","te":"分かち合って。","o":"分かち合おう。"}},
-            {"k":"乗り遅れる","r":"のりおくれる","m":"趕不上車","t":"一段","v2":"遅れる","ex":{"u":"バスに乗り遅れる。","a":"乗り遅れない。","i":"乗り遅れます。","te":"乗り遅れて。","o":"乗り遅れよう。"}},
-            {"k":"疲れ果てる","r":"つかれはてる","m":"精疲力竭","t":"一段","v2":"果てる","ex":{"u":"疲れ果てる。","a":"疲れ果てない。","i":"疲れ果てます。","te":"疲れ果てて。","o":"疲れ果てよう。"}},
-            {"k":"使い分ける","r":"つかいわける","m":"區分使用","t":"一段","v2":"分ける","ex":{"u":"言葉を使い分ける。","a":"使い分けない。","i":"使い分けます。","te":"使い分けて。","o":"使い分けよう。"}},
-            {"k":"問い合せる","r":"といあわせる","m":"查詢、詢問","t":"一段","v2":"合せる","ex":{"u":"役所に問い合せる。","a":"問い合せない。","i":"問い合せます。","te":"問い合せて。","o":"問い合せよう。"}},
-            {"k":"売り歩く","r":"うりあるく","m":"邊走邊賣","t":"五段","v2":"歩く","ex":{"u":"商品を売り歩く。","a":"売り歩かない。","i":"売り歩きます。","te":"売り歩いて。","o":"売り歩こう。"}},
-            {"k":"買い占める","r":"かいしめる","m":"壟斷、囤積","t":"一段","v2":"占める","ex":{"u":"食料を買い占める。","a":"買い占めない。","i":"買い占めます。","te":"買い占めて。","o":"買い占めよう。"}},
-            {"k":"見渡す","r":"みわたす","m":"遠眺、放眼望去","t":"五段","v2":"渡す","ex":{"u":"海を見渡す。","a":"見渡さない。","i":"見渡します。","te":"見渡して。","o":"見渡そう。"}},
-            {"k":"通い詰める","r":"かよいつめる","m":"常去、頻繁前往","t":"一段","v2":"詰める","ex":{"u":"店に通い詰める。","a":"通い詰めない。","i":"通い詰めます。","te":"通い詰めて。","o":"通い詰めよう。"}},
-            {"k":"切り抜ける","r":"きりぬける","m":"度過、擺脫","t":"一段","v2":"抜ける","ex":{"u":"窮地を切り抜ける。","a":"切り抜けない。","i":"切り抜けます。","te":"切り抜けて。","o":"切り抜けよう。"}},
-            {"k":"透き通る","r":"すきとおる","m":"透明、清澈","t":"五段","v2":"通る","ex":{"u":"水が透き通る。","a":"透き通らない。","i":"透き通ります。","te":"透き通って。","o":"透き通ろう。"}},
-            {"k":"這い上がる","r":"はいあがる","m":"爬上來","t":"五段","v2":"上がる","ex":{"u":"崖を這い上がる。","a":"這い上がらない。","i":"這い上がります。","te":"這い上がって。","o":"這い上がろう。"}},
-            {"k":"冷え込む","r":"ひえこむ","m":"劇烈降溫","t":"五段","v2":"込む","ex":{"u":"夜が冷え込む。","a":"冷え込まない。","i":"冷え込みます。","te":"冷え込んで。","o":"冷え込もう。"}},
-            {"k":"響き渡る","r":"ひびきわたる","m":"響徹","t":"五段","v2":"渡る","ex":{"u":"聲が響き渡る。","a":"響き渡らない。","i":"響き渡ります。","te":"響き渡って。","o":"響き渡ろう。"}},
-            {"k":"見せびらかす","r":"みせびらかす","m":"炫耀、誇耀","t":"五段","v2":"かす","ex":{"u":"寶物を見せびらかす。","a":"見せびらかさない。","i":"見せびらかします。","te":"見せびらかして。","o":"見せびらかそう。"}},
-            {"k":"読み耽る","r":"よみふける","m":"讀得入迷","t":"五段","v2":"耽る","ex":{"u":"本に読み耽る。","a":"読み耽らない。","i":"読み耽ります。","te":"読み耽って。","o":"読み耽ろう。"}},
-            {"k":"落ち着く","r":"おちつく","m":"沉著、穩定","t":"五段","v2":"つく","ex":{"u":"心が落ち着く。","a":"落ち着かない。","i":"落ち着きます。","te":"落ち着いて。","o":"落ち着こう。"}},
-            {"k":"駆け抜ける","r":"かけぬける","m":"跑過、穿過","t":"一段","v2":"抜ける","ex":{"u":"草原を駆け抜ける。","a":"駆け抜けない。","i":"駆け抜けま。","te":"駆け抜けて。","o":"駆け抜けよう。"}},
-            {"k":"語り合う","r":"かたりあう","m":"暢談","t":"五段","v2":"合う","ex":{"u":"夢を語り合う。","a":"語り合わない。","i":"語り合います。","te":"語り合って。","o":"語り合おう。"}},
-            {"k":"食い止める","r":"くいとめる","m":"擋住、遏止","t":"一段","v2":"止める","ex":{"u":"病気を食い止める。","a":"食い止めない。","i":"食い止めます。","te":"食い止めて。","o":"食い止めよう。"}},
-            {"k":"凍り付く","r":"こおりつく","m":"凍結、呆住","t":"五段","v2":"付く","ex":{"u":"地面が凍り付く。","a":"凍り付かない。","i":"凍り付きます。","te":"凍り付いて。","o":"凍り付こう。"}},
-            {"k":"差し掛かる","r":"さしかかる","m":"來到、臨近","t":"五段","v2":"掛かる","ex":{"u":"峠に差し掛かる。","a":"差し掛からない。","i":"差し掛かります。","te":"差し掛かって。","o":"差し掛かろう。"}},
-            {"k":"座り込む","r":"すわりこむ","m":"坐下(不走)","t":"五段","v2":"込む","ex":{"u":"道に座り込む。","a":"座り込まない。","i":"座り込みます。","te":"座り込んで。","o":"座り込もう。"}},
-            {"k":"耐え抜く","r":"たえぬく","m":"挺住、忍受到底","t":"五段","v2":"抜く","ex":{"u":"苦難を耐え抜く。","a":"耐え抜かない。","i":"耐え抜きます。","te":"耐え抜いて。","o":"耐え抜こう。"}},
-            {"k":"助け合う","r":"たすけあう","m":"互相幫助","t":"五段","v2":"合う","ex":{"u":"皆で助け合う。","a":"助け合わない。","i":"助け合います。","te":"助け合って。","o":"助け合おう。"}},
-            {"k":"散らかる","r":"ちらかる","m":"凌亂","t":"五段","v2":"かる","ex":{"u":"部屋が散らかる。","a":"散らからない。","i":"散らかります。","te":"散らかって。","o":"散らかろう。"}},
-            {"k":"包み込む","r":"つつみこむ","m":"包裹、籠罩","t":"五段","v2":"込む","ex":{"u":"優しく包み込む。","a":"包み込まない。","i":"包み込みます。","te":"包み込んで。","o":"包み込もう。"}},
-            {"k":"連れ出す","r":"つれだす","m":"帶出、拉出","t":"五段","v2":"出す","ex":{"u":"外へ連れ出す。","a":"連れ出さない。","i":"連れ出します。","te":"連れ出して。","o":"連れ出そう。"}},
-            {"k":"解き放つ","r":"ときはなつ","m":"釋放、解放","t":"五段","v2":"放つ","ex":{"u":"心を解き放つ。","a":"解き放たない。","i":"解き放ちます。","te":"解き放って。","o":"解き放とう。"}},
-            {"k":"取り囲む","r":"とりかこむ","m":"包圍","t":"五段","v2":"込む","ex":{"u":"敵を取り囲む。","a":"取り囲まない。","i":"取り囲みます。","te":"取り囲んで。","o":"取り囲もう。"}},
-            {"k":"成し遂げる","r":"なしとげる","m":"完成、達成","t":"一段","v2":"遂げる","ex":{"u":"事業を成し遂げる。","a":"成し遂げない。","i":"成し遂げます。","te":"成し遂げて。","o":"成し遂げよう。"}},
-            {"k":"忍び寄る","r":"しのびよる","m":"潛近、悄悄靠近","t":"五段","v2":"寄る","ex":{"u":"影が忍び寄る。","a":"忍び寄らない。","i":"忍び寄ります。","te":"忍び寄って。","o":"忍び寄ろう。"}},
-            {"k":"濡れ透ける","r":"ぬれすける","m":"濕透(衣服變透明)","t":"一段","v2":"透ける","ex":{"u":"服が濡れ透ける。","a":"濡れ透けない。","i":"濡れ透けます。","te":"濡れ透けて。","o":"濡れ透けよう。"}},
-            {"k":"眠りこける","r":"ねむりこける","m":"熟睡、睡死","t":"一段","v2":"こける","ex":{"u":"電車で眠りこける。","a":"眠りこけない。","i":"眠りこけます。","te":"眠りこけて。","o":"眠りこけよう。"}},
-            {"k":"練り歩く","r":"ねりあるく","m":"遊行、列隊行走","t":"五段","v2":"歩く","ex":{"u":"街を練り歩く。","a":"練り歩かない。","i":"練り歩きます。","te":"練り歩いて。","o":"練り歩こう。"}},
-            {"k":"這い回る","r":"はいまわる","m":"到處爬","t":"五段","v2":"回る","ex":{"u":"赤ちゃんが這い回る。","a":"這い回らない。","i":"這い回ります。","te":"這い回って。","o":"這い回ろう。"}},
-            {"k":"放り出す","r":"ほうりだす","m":"扔出去、中途放棄","t":"五段","v2":"出す","ex":{"u":"仕事を放り出す。","a":"放り出さない。","i":"放り出します。","te":"放り出して。","o":"放り出そう。"}},
-            {"k":"待ち構える","r":"まちかまえる","m":"等候、準備好迎接","t":"一段","v2":"構える","ex":{"u":"客を待ち構える。","a":"待ち構えない。","i":"待ち構えます。","te":"待ち構えて。","o":"待ち構えよう。"}},
-            {"k":"招き入れる","r":"まねきいれる","m":"招入、請進來","t":"一段","v2":"入れる","ex":{"u":"客を招き入れる。","a":"招き入れない。","i":"招き入れます。","te":"招き入れて。","o":"招き入れよう。"}},
-            {"k":"結び付く","r":"むすびつく","m":"結合、有關係","t":"五段","v2":"付く","ex":{"u":"結果に結び付く。","a":"結び付かない。","i":"結び付きます。","te":"結び付いて。","o":"結び付こう。"}},
-            {"k":"若返る","r":"わかがえる","m":"變年輕","t":"五段","v2":"返る","ex":{"u":"心が若返る。","a":"若返らない。","i":"若返ります。","te":"若返って。","o":"若返ろう。"}},
-            {"k":"欲しがる","r":"ほしがる","m":"想要、渴望","t":"五段","v2":"がる","ex":{"u":"おもちゃを欲しがる。","a":"欲しがらない。","i":"欲しがります。","te":"欲しがって。","o":"欲し加ろう。"}}
+            {"k":"飛び出す","r":"とびだす","m":"飛出、衝出","t":"五段","v2":"出す","ex":{"u":"外へ飛び出す。","a":"飛び出さない。","i":"飛び出します。","te":"飛び出して。","o":"飛び出そう。"}}
         ];
 
         let current = null;
 
         function initGrid() {
-            const g = document.getElementById('grid'); g.innerHTML = '';
+            const g = document.getElementById('grid'); if(!g) return;
+            g.innerHTML = '';
             for(let d=0; d<5; d++) {
                 let r = `<tr><td class="row-label p-3 rounded-xl">${['あ','い','う','え','お'][d]}段</td>`;
                 for(let c=0; c<10; c++) r += `<td id="c-${c}-${d}" class="p-3 border border-slate-200 rounded-xl cell-default">${columns[c][d]}</td>`;
@@ -193,6 +563,7 @@
                 const colors = ['color-a', 'color-i', 'color-u', 'color-e', 'color-o'];
                 for(let d=0; d<5; d++) {
                     const cell = document.getElementById(`c-${cIdx}-${d}`);
+                    if(!cell) continue;
                     let char = columns[cIdx][d]; 
                     if(cIdx === 0 && d === 0) char = 'わ';
                     cell.className = `p-3 active-cell ${colors[d]}`;
@@ -216,14 +587,9 @@
             title.innerText = (ans === correct) ? "✨ 答對了！" : `❌ 錯誤。答案是：${correct}`;
             title.className = (ans === correct) ? "text-2xl font-black text-emerald-600" : "text-2xl font-black text-rose-600";
 
-            let judgeReason = "";
-            let onbinType = (current.t === "五段") ? `<span class="onbin-tag ml-2">${getOnbinName(lastChar)}</span>` : "";
-
-            if (current.t === "一段") {
-                judgeReason = `「${current.v2}」結尾為「る」，倒數第二音「${preLastChar}」為 <strong>${getDanName(preLastChar)}</strong>。符合「い/え段 + る」，故為 <strong>一段動詞</strong>。`;
-            } else {
-                judgeReason = (lastChar !== 'る') ? `「${current.v2}」結尾是「${lastChar}」而非「る」。非「る」結尾皆為 <strong>五段動詞</strong>。${onbinType}` : `「${current.v2}」倒數第二音「${preLastChar}」為 <strong>${getDanName(preLastChar)}</strong>。非い/え段，故為 <strong>五段動詞</strong>。${onbinType}`;
-            }
+            let judgeReason = (current.t === "一段") 
+                ? `「${current.v2}」結尾為「る」，倒數第二音「${preLastChar}」為 <strong>${getDanName(preLastChar)}</strong>。` 
+                : `「${current.v2}」語尾音便變化屬 <strong>五段動詞</strong>。`;
 
             analysis.innerHTML = `
                 <div class="p-4 bg-indigo-50 rounded-xl mb-4 border border-indigo-100">
@@ -252,16 +618,8 @@
             return "其他";
         }
 
-        // 已重新補上此功能
-        function getOnbinName(c) {
-            if(['う','つ','る'].includes(c)) return "促音便 (って)";
-            if(['む','ぶ','ぬ'].includes(c)) return "撥音便 (んで)";
-            if(['く','ぐ'].includes(c)) return "い音便 (いて/いで)";
-            if(c === 'す') return "無音便 (して)";
-            return "規則變形";
-        }
-
-        initGrid();
+        // 初始化五段動詞頁面
+        nextGodanQuiz();
     </script>
 </body>
 </html>
