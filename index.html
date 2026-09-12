@@ -30,7 +30,7 @@
                 <span class="text-2xl md:text-3xl">🇯🇵</span>
                 <div>
                     <h1 class="text-xl md:text-2xl font-black text-white tracking-wide">日語動詞學習庫</h1>
-                    <p class="text-[11px] md:text-xs text-slate-400 mt-0.5">10 大活用組合形 × 500 必記動詞題庫</p>
+                    <p class="text-[11px] md:text-xs text-slate-400 mt-0.5">10 大活用組合形 × 500 題實戰句型填空</p>
                 </div>
             </div>
             <div class="flex bg-slate-950 p-1 md:p-1.5 rounded-xl md:rounded-2xl border border-slate-800 w-full md:w-auto">
@@ -48,7 +48,7 @@
         <!-- ================= TAB 1: 五段動詞全活用填空練習機 ================= -->
         <main id="godanSection" class="space-y-4 md:space-y-6">
             
-            <!-- Verb Info Card & Mode Switcher -->
+            <!-- Verb Info Card & 3-Mode Switcher -->
             <div class="bg-slate-800 border border-slate-700 rounded-2xl md:rounded-3xl p-4 md:p-8 shadow-xl relative">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-4 md:pb-6 border-b border-slate-700/80">
                     <div>
@@ -64,18 +64,21 @@
                         <p id="gMeaning" class="text-slate-400 text-xs md:text-base mt-1.5 md:mt-2">釋義：載入中...</p>
                     </div>
 
-                    <!-- Mode Toggle Buttons -->
-                    <div class="flex items-center bg-slate-950 p-1 rounded-xl border border-slate-700 w-full sm:w-auto">
-                        <button id="modePracticeBtn" onclick="setGodanMode('practice')" class="flex-1 sm:flex-none px-3.5 py-2 text-xs md:text-sm font-bold rounded-lg bg-emerald-600 text-white shadow">
-                            ✍️ 全活用填空挑戰
+                    <!-- 3-Mode Toggle Buttons -->
+                    <div class="flex flex-wrap items-center bg-slate-950 p-1 rounded-xl md:rounded-2xl border border-slate-700 w-full sm:w-auto gap-1">
+                        <button id="modePracticeBtn" onclick="setGodanMode('practice')" class="flex-1 sm:flex-none px-3 py-2 text-xs md:text-sm font-bold rounded-lg bg-emerald-600 text-white shadow">
+                            ✍️ 全活用填空
                         </button>
-                        <button id="modeReviewBtn" onclick="setGodanMode('review')" class="flex-1 sm:flex-none px-3.5 py-2 text-xs md:text-sm font-bold rounded-lg text-slate-400 hover:text-white">
+                        <button id="modeReviewBtn" onclick="setGodanMode('review')" class="flex-1 sm:flex-none px-3 py-2 text-xs md:text-sm font-bold rounded-lg text-slate-400 hover:text-white">
                             📖 對照複習卡
+                        </button>
+                        <button id="modeAdvBtn" onclick="setGodanMode('advanced')" class="flex-1 sm:flex-none px-3 py-2 text-xs md:text-sm font-bold rounded-lg text-amber-400 hover:bg-amber-600/20 hover:text-white">
+                            🔥 進階例句挑戰
                         </button>
                     </div>
                 </div>
 
-                <!-- Mode 1: Practice Inputs (Responsive for Mobile Cards / Desktop Table) -->
+                <!-- Mode 1: Practice Inputs (Responsive Desktop Table / Mobile Cards) -->
                 <div id="practiceContainer" class="mt-4 md:mt-6 space-y-4">
                     <div class="flex justify-between items-center text-[11px] md:text-xs font-bold text-slate-400 px-1 uppercase tracking-wider">
                         <span>10 大活用組合形填空</span>
@@ -154,6 +157,42 @@
                     </div>
                 </div>
 
+                <!-- Mode 3: Advanced Shuffled Sentence Quiz Mode (Single-Column Vertical List) -->
+                <div id="advancedContainer" class="hidden mt-4 md:mt-6 space-y-4">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-amber-950/40 p-3.5 md:p-4 rounded-xl md:rounded-2xl border border-amber-500/30 gap-2">
+                        <div>
+                            <span class="bg-amber-500/20 text-amber-300 text-xs px-2.5 py-0.5 rounded-full font-bold border border-amber-500/30">
+                                🔥 進階挑戰：一頁 10 題實戰例句（亂序條列）
+                            </span>
+                            <h3 class="text-white font-bold text-sm md:text-base mt-1">請讀取中文提示，填入對應空格的日文動詞變化：</h3>
+                        </div>
+                        <span id="advProgressBadge" class="text-xs font-bold text-amber-400 bg-slate-950 px-3 py-1.5 rounded-xl border border-slate-800">
+                            題庫涵蓋：50 核心動詞 × 10 活用 = 500 題
+                        </span>
+                    </div>
+
+                    <!-- Single Column Vertical Stack from Top to Bottom -->
+                    <div id="advQuestionList" class="flex flex-col space-y-3">
+                        <!-- Dynamic Shuffled Question Rows Inserted by JavaScript -->
+                    </div>
+
+                    <!-- Action Bar for Advanced Mode -->
+                    <div class="pt-2 md:pt-4 flex flex-col sm:flex-row gap-3">
+                        <button onclick="checkAllAdvAnswers()" class="bg-amber-600 hover:bg-amber-500 active:scale-[0.99] text-white font-black py-3.5 md:py-4 px-6 md:px-8 rounded-xl md:rounded-2xl transition-all shadow-xl text-center text-sm md:text-base flex-1">
+                            🚀 檢查本頁 10 題例句答案
+                        </button>
+                        <button onclick="nextGodanQuiz()" class="bg-slate-700 hover:bg-slate-600 active:scale-[0.99] text-white font-bold py-3.5 md:py-4 px-6 rounded-xl md:rounded-2xl transition-all text-center text-sm md:text-base">
+                            換下一個動詞 ➔
+                        </button>
+                    </div>
+
+                    <!-- Advanced Result Feedback Box -->
+                    <div id="advFeedback" class="hidden mt-4 md:mt-6 p-4 md:p-6 rounded-xl md:rounded-2xl explanation-box text-slate-800 bg-slate-100 shadow-xl">
+                        <div id="advFeedbackTitle" class="text-lg md:text-xl font-black mb-2 md:mb-3"></div>
+                        <div id="advFeedbackBody" class="text-xs md:text-sm space-y-2"></div>
+                    </div>
+                </div>
+
             </div>
         </main>
 
@@ -217,81 +256,247 @@
             }
         }
 
-        // ================= 500 N3必記動詞題庫 (純動詞資料，不保留例句屬性) =================
+        // ================= 500 N3必記動詞題庫 (含50核心動詞10活用對應句型) =================
         const godanVerbs = [
-            // 50 個最核心高頻動詞 (Weight: 5)
-            {k:"行く", r:"いく", m:"前往、去", row:"カ行", weight:5},
-            {k:"書く", r:"かく", m:"書寫、寫作", row:"カ行", weight:5},
-            {k:"聞く", r:"きく", m:"傾聽、詢問", row:"カ行", weight:5},
-            {k:"歩く", r:"あるく", m:"步行、走路", row:"カ行", weight:5},
-            {k:"話す", r:"はなす", m:"交談、說話", row:"サ行", weight:5},
-            {k:"探す", r:"さがす", m:"尋找、搜求", row:"サ行", weight:5},
-            {k:"待つ", r:"まつ", m:"等待、等候", row:"タ行", weight:5},
-            {k:"飲む", r:"のむ", m:"飲用、吞服", row:"マ行", weight:5},
-            {k:"読む", r:"よむ", m:"閱讀、朗讀", row:"マ行", weight:5},
-            {k:"泳ぐ", r:"およぐ", m:"游泳", row:"ガ行", weight:5},
-            {k:"買う", r:"かう", m:"購買", row:"ワ行", weight:5},
-            {k:"会う", r:"あう", m:"見面、遇見", row:"ワ行", weight:5},
-            {k:"取る", r:"とる", m:"拿取、取得", row:"ラ行", weight:5},
-            {k:"作る", r:"つくる", m:"製作、創造", row:"ラ行", weight:5},
-            {k:"帰る", r:"かえる", m:"回家、歸去", row:"ラ行", weight:5},
-            {k:"走る", r:"はしる", m:"跑步、奔馳", row:"ラ行", weight:5},
-            {k:"死ぬ", r:"しぬ", m:"死亡", row:"ナ行", weight:5},
-            {k:"呼ぶ", r:"よぶ", m:"呼喚、邀請", row:"バ行", weight:5},
-            {k:"働く", r:"はたらく", m:"工作、勞動", row:"カ行", weight:5},
-            {k:"開く", r:"ひらく", m:"開啟、開辦", row:"カ行", weight:5},
-            {k:"置く", r:"おく", m:"放置、擺放", row:"カ行", weight:5},
-            {k:"急ぐ", r:"いそぐ", m:"趕快、催促", row:"ガ行", weight:5},
-            {k:"脱ぐ", r:"ぬぐ", m:"脫下(衣物)", row:"ガ行", weight:5},
-            {k:"出す", r:"だす", m:"拿出、提出", row:"サ行", weight:5},
-            {k:"押す", r:"おす", m:"按壓、推拉", row:"サ行", weight:5},
-            {k:"貸す", r:"かす", m:"借出、出租", row:"サ行", weight:5},
-            {k:"返す", r:"かえす", m:"歸還、返還", row:"サ行", weight:5},
-            {k:"治す", r:"なおす", m:"醫治、修復", row:"サ行", weight:5},
-            {k:"立つ", r:"たつ", m:"站立、起立", row:"タ行", weight:5},
-            {k:"持つ", r:"もつ", m:"持有、拿著", row:"タ行", weight:5},
-            {k:"飛ぶ", r:"とぶ", m:"起飛、飛翔", row:"バ行", weight:5},
-            {k:"遊ぶ", r:"あそぶ", m:"遊玩、玩耍", row:"バ行", weight:5},
-            {k:"選ぶ", r:"えらぶ", m:"挑選、選擇", row:"バ行", weight:5},
-            {k:"住む", r:"すむ", m:"居住、棲息", row:"マ行", weight:5},
-            {k:"頼む", r:"たのむ", m:"拜託、請求", row:"マ行", weight:5},
-            {k:"休む", r:"やすむ", m:"休息、請假", row:"マ行", weight:5},
-            {k:"知る", r:"しる", m:"獲知、知道", row:"ラ行", weight:5},
-            {k:"切る", r:"きる", m:"剪切、切斷", row:"ラ行", weight:5},
-            {k:"乗る", r:"のる", m:"搭乘、騎乘", row:"ラ行", weight:5},
-            {k:"終わる", r:"おわる", m:"結束、完結", row:"ラ行", weight:5},
-            {k:"登る", r:"のぼる", m:"攀登、登上", row:"ラ行", weight:5},
-            {k:"売る", r:"うる", m:"販賣、售出", row:"ラ行", weight:5},
-            {k:"言う", r:"いう", m:"說話、陳述", row:"ワ行", weight:5},
-            {k:"使う", r:"つかう", m:"使用、僱用", row:"ワ行", weight:5},
-            {k:"歌う", r:"うたう", m:"唱歌、詠吟", row:"ワ行", weight:5},
-            {k:"洗う", r:"あらう", m:"洗滌、清洗", row:"ワ行", weight:5},
-            {k:"吸う", r:"すう", m:"呼吸、吸入", row:"ワ行", weight:5},
-            {k:"笑う", r:"わらう", m:"微笑、笑", row:"ワ行", weight:5},
-            {k:"払う", r:"はらう", m:"付款、支付", row:"ワ行", weight:5},
-            {k:"貰う", r:"もらう", m:"接收、領取", row:"ワ行", weight:5},
+            // 50 個最核心高頻動詞 (Weight: 5)，各自內建 10 活用形精選句型
+            {k:"行く", r:"いく", m:"前往、去", row:"カ行", weight:5, sentences:{
+                nai: { pre:"「今日はどこへも", post:"。」", t:"中文提示：今天哪裡也不去。" },
+                reru:{ pre:"「知らない場所へ", post:"。」", t:"中文提示：被帶到陌生的場所去。" },
+                seru:{ pre:"「子供を一人で学校へ", post:"。」", t:"中文提示：讓小孩一個人去學校。" },
+                ou:  { pre:"「みんなで一緒に京都へ", post:"！」", t:"中文提示：大家一起去京都吧！" },
+                masu:{ pre:"「毎朝８時に会社へ", post:"。」", t:"中文提示：每天早上８點去公司。" },
+                te:  { pre:"「すみません、駅へ", post:"ください。」", t:"中文提示：不好意思，請去車站。" },
+                ta:  { pre:"「昨日友達と海へ", post:"。」", t:"中文提示：昨天和朋友去了海邊。" },
+                u:   { pre:"「来週日本へ", post:"予定です。」", t:"中文提示：預計下周去日本。" },
+                ba:  { pre:"「そこへ", post:"、理由が分かります。」", t:"中文提示：如果去那裡的話，就會知道理由。" },
+                e:   { pre:"「何を迷っている、早く", post:"！」", t:"中文提示：猶豫什麼，快點去！" }
+            }},
+            {k:"書く", r:"かく", m:"書寫、寫作", row:"カ行", weight:5, sentences:{
+                nai: { pre:"「手紙をまったく", post:"。」", t:"中文提示：完全不寫信。" },
+                reru:{ pre:"「黒板に名前が", post:"。」", t:"中文提示：名字被寫在黑板上。" },
+                seru:{ pre:"「先生は作文を", post:"。」", t:"中文提示：老師讓學生寫作文。" },
+                ou:  { pre:"「今年の目標を", post:"！」", t:"中文提示：來寫今年的目標吧！" },
+                masu:{ pre:"「日本語でメールを", post:"。」", t:"中文提示：用日語寫電子郵件。" },
+                te:  { pre:"「お名前をここに", post:"ください。」", t:"中文提示：請把姓名寫在這裡。" },
+                ta:  { pre:"「昨日論文を", post:"。」", t:"中文提示：昨天寫了論文。" },
+                u:   { pre:"「新しい本を", post:"。」", t:"中文提示：寫新書。" },
+                ba:  { pre:"「何度も", post:"覚えます。」", t:"中文提示：如果寫很多次的話就能記住。" },
+                e:   { pre:"「返事を早く", post:"！」", t:"中文提示：快點寫回信！" }
+            }},
+            {k:"聞く", r:"きく", m:"傾聽、詢問", row:"カ行", weight:5, sentences:{
+                nai: { pre:"「彼の話を誰も", post:"。」", t:"中文提示：誰也不聽他說話。" },
+                reru:{ pre:"「綺麗な歌声が", post:"。」", t:"中文提示：美麗的歌聲被聽到。" },
+                seru:{ pre:"「音楽を周りに", post:"。」", t:"中文提示：放音樂給周圍聽。" },
+                ou:  { pre:"「ラジオを", post:"！」", t:"中文提示：來聽廣播吧！" },
+                masu:{ pre:"「毎朝ニュースを", post:"。」", t:"中文提示：每天早上聽新聞。" },
+                te:  { pre:"「先生の話をよく", post:"ください。」", t:"中文提示：請仔細聽老師說話。" },
+                ta:  { pre:"「良いニュースを", post:"。」", t:"中文提示：聽到了好新聞。" },
+                u:   { pre:"「音楽を", post:"のが好きです。」", t:"中文提示：喜歡聽音樂。" },
+                ba:  { pre:"「彼に", post:"すぐ分かります。」", t:"中文提示：如果問他的話馬上就會知道。" },
+                e:   { pre:"「私の話を静かに", post:"！」", t:"中文提示：安靜聽我說話！" }
+            }},
+            {k:"歩く", r:"あるく", m:"步行、走路", row:"カ行", weight:5, sentences:{
+                nai: { pre:"「今日は疲れたから", post:"。」", t:"中文提示：今天累了所以不上路走。" },
+                reru:{ pre:"「後ろをぴったり", post:"。」", t:"中文提示：被跟在後面走。" },
+                seru:{ pre:"「毎朝犬を公園で", post:"。」", t:"中文提示：每天早上在公園遛狗(讓狗走)。" },
+                ou:  { pre:"「駅までゆっくり", post:"！」", t:"中文提示：慢慢走到車站吧！" },
+                masu:{ pre:"「毎日１万歩", post:"。」", t:"中文提示：每天走一萬步。" },
+                te:  { pre:"「前を見て気をつけて", post:"。」", t:"中文提示：請看前面小心走。" },
+                ta:  { pre:"「１時間も山道を", post:"。」", t:"中文提示：走了一小時山路。" },
+                u:   { pre:"「自分の足で", post:"。」", t:"中文提示：用自己的雙腳走路。" },
+                ba:  { pre:"「毎日", post:"健康になります。」", t:"中文提示：如果每天走的話會變健康。" },
+                e:   { pre:"「遅れるぞ、早く", post:"！」", t:"中文提示：要遲到了，快點走！" }
+            }},
+            {k:"話す", r:"はなす", m:"交談、說話", row:"サ行", weight:5, sentences:{
+                nai: { pre:"「誰とも秘密を", post:"。」", t:"中文提示：跟誰都不說秘密。" },
+                reru:{ pre:"「世界中で英語が", post:"。」", t:"中文提示：全世界都在使用講述英語。" },
+                seru:{ pre:"「子供に自分の意見を", post:"。」", t:"中文提示：讓小孩說出自己的意見。" },
+                ou:  { pre:"「未来について熱く", post:"！」", t:"中文提示：熱情地暢談未來吧！" },
+                masu:{ pre:"「流暢な日本語を", post:"。」", t:"中文提示：說著流利的日語。" },
+                te:  { pre:"「本当のことを正直に", post:"ください。」", t:"中文提示：請坦白說出實情。" },
+                ta:  { pre:"「昨日先生と詳しく", post:"。」", t:"中文提示：昨天跟老師詳細相談過了。" },
+                u:   { pre:"「自分の気持ちを", post:"のは大切だ。」", t:"中文提示：說出自己的感受很重要。" },
+                ba:  { pre:"「二人でじっくり", post:"解決する。」", t:"中文提示：如果兩人好好談的話就能解決。" },
+                e:   { pre:"「もごもご言わずに、はっきり", post:"！」", t:"中文提示：別支支吾吾，說清楚！" }
+            }},
+            {k:"探す", r:"さがす", m:"尋找、搜求", row:"サ行", weight:5, sentences:{
+                nai: { pre:"「どこを探しても鍵が", post:"。」", t:"中文提示：到處都找不著鑰匙。" },
+                reru:{ pre:"「犯人が警察に", post:"。」", t:"中文提示：犯人被警方搜查。" },
+                seru:{ pre:"「助手に行方不明の書類を", post:"。」", t:"中文提示：讓助手尋找失蹤的文件。" },
+                ou:  { pre:"「新しいアパートをみんなで", post:"！」", t:"中文提示：大家一起找新公寓吧！" },
+                masu:{ pre:"「今、良い仕事を", post:"。」", t:"中文提示：現在正在尋找好工作。" },
+                te:  { pre:"「消えた資料を早く", post:"ください。」", t:"中文提示：請快點尋找消失的資料。" },
+                ta:  { pre:"「昨日なくした財布を", post:"。」", t:"中文提示：昨天找了遺失的皮夾。" },
+                u:   { pre:"「失った夢をもう一度", post:"。」", t:"中文提示：再次尋找失去的夢想。" },
+                ba:  { pre:"「真剣に", post:"必ず見つかります。」", t:"中文提示：如果認真找的話必定能找到。" },
+                e:   { pre:"「何をぼーっとしている、早く", post:"！」", t:"中文提示：發什麼呆，快去找！" }
+            }},
+            {k:"待つ", r:"まつ", m:"等待、等候", row:"タ行", weight:5, sentences:{
+                nai: { pre:"「もうこれ以上", post:"。」", t:"中文提示：無法再繼續等待了。" },
+                reru:{ pre:"「ファンにずっと", post:"。」", t:"中文提示：一直被粉絲們等候。" },
+                seru:{ pre:"「長期間人を", post:"のはよくない。」", t:"中文提示：讓別人久等是不好的。" },
+                ou:  { pre:"「雨がやむまでここで", post:"！」", t:"中文提示：在雨停之前在這裡等等看吧！" },
+                masu:{ pre:"「駅の前で友達を", post:"。」", t:"中文提示：在車站前等朋友。" },
+                te:  { pre:"「少々ここで", post:"ください。」", t:"中文提示：請在這裡稍微等候一下。" },
+                ta:  { pre:"「バスを３０分も", post:"。」", t:"中文提示：等了整整30分鐘公車。" },
+                u:   { pre:"「吉報を首を長くして", post:"。」", t:"中文提示：翹首以盼等待捷報。" },
+                ba:  { pre:"「じっと", post:"チャンスが来る。」", t:"中文提示：如果靜靜等待的話機會就會到來。" },
+                e:   { pre:"「おい、立ち止まってちょっと", post:"！」", t:"中文提示：喂，停下來等等！" }
+            }},
+            {k:"飲む", r:"のむ", m:"飲用、吞服", row:"マ行", weight:5, sentences:{
+                nai: { pre:"「お酒を一切", post:"。」", t:"中文提示：滴酒不沾。" },
+                reru:{ pre:"「冷たい水が勢いよく", post:"。」", t:"中文提示：冰水被痛快地喝光。" },
+                seru:{ pre:"「嫌がる子供に薬を", post:"。」", t:"中文提示：強迫抗拒的小孩吃(喝)藥。" },
+                ou:  { pre:"「今夜は乾杯して熱く", post:"！」", t:"中文提示：今晚來乾杯通宵暢飲吧！" },
+                masu:{ pre:"「食後にこの薬を", post:"。」", t:"中文提示：飯後服用這個藥。" },
+                te:  { pre:"「冷たいお茶をどうぞ", post:"ください。」", t:"中文提示：請喝冰茶。" },
+                ta:  { pre:"「朝一番で新鮮な牛乳を", post:"。」", t:"中文提示：清晨喝了新鮮牛奶。" },
+                u:   { pre:"「喉が渇いたから水を", post:"。」", t:"中文提示：口渴了想喝水。" },
+                ba:  { pre:"「この栄養剤を", post:"元気が出る。」", t:"中文提示：如果喝這個營養劑的話就會有精神。" },
+                e:   { pre:"「ぐずぐず言わずに薬を", post:"！」", t:"中文提示：別碎碎念，快吞下藥！" }
+            }},
+            {k:"読む", r:"よむ", m:"閱讀、朗讀", row:"マ行", weight:5, sentences:{
+                nai: { pre:"「最近忙しくて本をまったく", post:"。」", t:"中文提示：最近很忙完全不讀書。" },
+                reru:{ pre:"「この名作は世界中で", post:"。」", t:"中文提示：這部名作在全世界被閱讀。" },
+                seru:{ pre:"「先生は生徒に名作を", post:"。」", t:"中文提示：老師讓學生閱讀名作。" },
+                ou:  { pre:"「今週末は小説をじっくり", post:"！」", t:"中文提示：這個週末來好好讀小說吧！" },
+                masu:{ pre:"「毎朝新聞を隅々まで", post:"。」", t:"中文提示：每天早上細讀報紙。" },
+                te:  { pre:"「この文章を声を出して", post:"ください。」", t:"中文提示：請朗讀這篇文章。" },
+                ta:  { pre:"「昨日買った本を最後まで", post:"。」", t:"中文提示：把昨天買的书讀到了最後。" },
+                u:   { pre:"「難解な専門書を", post:"。」", t:"中文提示：閱讀難懂的專業書。" },
+                ba:  { pre:"「何度も", post:"意味が分かる。」", t:"中文提示：如果讀很多遍的話就能理解意思。" },
+                e:   { pre:"「黙っていないで早く教科書を", post:"！」", t:"中文提示：別沉默，快點朗讀課本！" }
+            }},
+            {k:"泳ぐ", r:"およぐ", m:"游泳", row:"ガ行", weight:5, sentences:{
+                nai: { pre:"「金づちだから海では", post:"。」", t:"中文提示：我是旱鴨子所以在海裡不游泳。" },
+                reru:{ pre:"「きれいな川で魚と一緒に", post:"。」", t:"中文提示：在清澈的河裡被被與魚游泳。" },
+                seru:{ pre:"「コーチは選手を何キロも", post:"。」", t:"中文提示：教練讓選手游了許多公里。" },
+                ou:  { pre:"「真夏のプールで思い切り", post:"！」", t:"中文提示：在盛夏的游泳池盡情游泳吧！" },
+                masu:{ pre:"「毎週土曜日にジムで", post:"。」", t:"中文提示：每週六在健身房游泳。" },
+                te:  { pre:"「水流に乗って気持ちよく", post:"。」", t:"中文提示：順著水流舒服地游泳。" },
+                ta:  { pre:"「昨日２時間も連続で", post:"。」", t:"中文提示：昨天連續游了整整２小時。" },
+                u:   { pre:"「広い海で自由に", post:"。」", t:"中文提示：在廣闊的大海自由自在地游泳。" },
+                ba:  { pre:"「毎日", post:"全身の筋肉が鍛えられる。」", t:"中文提示：如果每天游的話能鍛鍊全身肌肉。" },
+                e:   { pre:"「休んでないで向こうまで", post:"！」", t:"中文提示：別休息，快游到對岸去！" }
+            }},
+            {k:"買う", r:"かう", m:"購買", row:"ワ行", weight:5, sentences:{
+                nai: { pre:"「無駄なものは一切", post:"。」", t:"中文提示：絕不購買無用的東西。" },
+                reru:{ pre:"「新商品はすぐに", post:"。」", t:"中文提示：新品很快就被買光。" },
+                seru:{ pre:"「子供にお菓子を", post:"。」", t:"中文提示：買糖果給小孩(讓小孩買)。" },
+                ou:  { pre:"「夢のマイホームをいつか", post:"！」", t:"中文提示：總有一天要買夢想中的房子吧！" },
+                masu:{ pre:"「スーパーで野菜を", post:"。」", t:"中文提示：在超市買蔬菜。" },
+                te:  { pre:"「帰りに切符を３枚", post:"きて。」", t:"中文提示：回程時請買３張車票回來。" },
+                ta:  { pre:"「欲しかったカメラを安く", post:"。」", t:"中文提示：划算地買到了心儀的相機。" },
+                u:   { pre:"「最新のスマホを", post:"予定だ。」", t:"中文提示：預計買最新的智慧型手機。" },
+                ba:  { pre:"「今", post:"半額セールでお得だ。」", t:"中文提示：如果現在買的話半價優惠很划算。" },
+                e:   { pre:"「迷うな、今すぐ", post:"！」", t:"中文提示：別猶豫，現在立刻買！" }
+            }},
+            {k:"会う", r:"あう", m:"見面、遇見", row:"ワ行", weight:5, sentences:{
+                nai: { pre:"「忙しくて最近誰とも", post:"。」", t:"中文提示：太忙了最近誰也沒見面。" },
+                reru:{ pre:"「有名人に偶然", post:"。」", t:"中文提示：偶然被與名人相遇。" },
+                seru:{ pre:"「両親を彼女に", post:"。」", t:"中文提示：讓女友與父母見面。" },
+                ou:  { pre:"「明日駅の改札前で", post:"！」", t:"中文提示：明天在車站剪票口前見吧！" },
+                masu:{ pre:"「午後３時に恩師に", post:"。」", t:"中文提示：下午３點與恩師見面。" },
+                te:  { pre:"「ぜひ直接", post:"感謝を伝えたい。」", t:"中文提示：務必想當面見面表達感謝。" },
+                ta:  { pre:"「街で久しぶりに同級生に", post:"。」", t:"中文提示：在街上久違地遇見了同班同學。" },
+                u:   { pre:"「憧れの人に", post:"のが夢だ。」", t:"中文提示：與憧憬的人見面是夢想。" },
+                ba:  { pre:"「彼に", post:"悩みが解決する。」", t:"中文提示：如果與他見面的話煩惱就能解決。" },
+                e:   { pre:"「グズグズするな、早く彼に", post:"！」", t:"中文提示：別磨蹭，快去見他！" }
+            }},
+            {k:"取る", r:"とる", m:"拿取、取得", row:"ラ行", weight:5, sentences:{
+                nai: { pre:"「許可をまったく", post:"行動した。」", t:"中文提示：完全沒有取得許可就行動了。" },
+                reru:{ pre:"「財布がすりに", post:"。」", t:"中文提示：皮夾被扒手拿走了。" },
+                seru:{ pre:"「部下に電話を", post:"。」", t:"中文提示：讓部下接聽電話。" },
+                ou:  { pre:"「テストで絶対１位を", post:"！」", t:"中文提示：在考試中絕對要拿下第一名吧！" },
+                masu:{ pre:"「メモをしっかり", post:"。」", t:"中文提示：確實做好筆記。" },
+                te:  { pre:"「そこにある塩を", post:"ください。」", t:"中文提示：請把在那裡的鹽拿給我。" },
+                ta:  { pre:"「検定試験で満点を", post:"。」", t:"中文提示：在檢定考試中拿了滿分。" },
+                u:   { pre:"「休暇を１週間", post:"予定だ。」", t:"中文提示：預計請１個星期的假。" },
+                ba:  { pre:"「予約を事前に", post:"安心だ。」", t:"中文提示：如果事先預約的話就安心了。" },
+                e:   { pre:"「何をボーッとしている、受話器を", post:"！」", t:"中文提示：發什麼呆，快拿話筒！" }
+            }},
+            {k:"作る", r:"つくる", m:"製作、創造", row:"ラ行", weight:5, sentences:{
+                nai: { pre:"「忙しいので家で料理を", post:"。」", t:"中文提示：因為太忙不在家做料理。" },
+                reru:{ pre:"「この製品は日本で", post:"。」", t:"中文提示：這個製品在日本被製造。" },
+                seru:{ pre:"「子供に工作を", post:"。」", t:"中文提示：讓小孩做手工藝。" },
+                ou:  { pre:"「みんなで美味しいケーキを", post:"！」", t:"中文提示：大家一起做美味的蛋糕吧！" },
+                masu:{ pre:"「心を込めて夕食を", post:"。」", t:"中文提示：用心製作晚餐。" },
+                te:  { pre:"「わかりやすい資料を", post:"ください。」", t:"中文提示：請製作易懂的資料。" },
+                ta:  { pre:"「新しい曲を自分で", post:"。」", t:"中文提示：自己寫了新曲子。" },
+                u:   { pre:"「理想の家を自分の手で", post:"。」", t:"中文提示：用自己的雙手建造理想的家。" },
+                ba:  { pre:"「計画をしっかり", post:"失敗しない。」", t:"中文提示：如果做好計畫的話就不會失敗。" },
+                e:   { pre:"「文句を言わずに早く", post:"！」", t:"中文提示：別埋怨，快點做！" }
+            }},
+            {k:"帰る", r:"かえる", m:"回家、歸去", row:"ラ行", weight:5, sentences:{
+                nai: { pre:"「今夜は仕事が終わるまで", post:"。」", t:"中文提示：今晚工作完成前不回家。" },
+                reru:{ pre:"「雨に降られて途中で", post:"。」", t:"中文提示：被雨下到半路不得不歸去。" },
+                seru:{ pre:"「体調の悪い社員を早く", post:"。」", t:"中文提示：讓身體不適的員工早退。" },
+                ou:  { pre:"「遅くなったからそろそろ", post:"！」", t:"中文提示：變晚了差不多該回家了吧！" },
+                masu:{ pre:"「毎晩７時には家へ", post:"。」", t:"中文提示：每晚７點回家。" },
+                te:  { pre:"「暗いから気をつけて", post:"ね。」", t:"中文提示：天暗了路上小心回家喔。" },
+                ta:  { pre:"「彼はもうずいぶん前に", post:"。」", t:"中文提示：他很久以前就已經回家了。" },
+                u:   { pre:"「お正月に実家へ", post:"。」", t:"中文提示：過年回老家。" },
+                ba:  { pre:"「早く", post:"家族が喜ぶ。」", t:"中文提示：如果早點回家的話家人會很高興。" },
+                e:   { pre:"「夜遅いぞ、とっとと", post:"！」", t:"中文提示：夜深了，滾回家去！" }
+            }},
+            {k:"走る", r:"はしる", m:"跑步、奔馳", row:"ラ行", weight:5, sentences:{
+                nai: { pre:"「怪我をしているので今日は", post:"。」", t:"中文提示：因為受傷了今天不跑步。" },
+                reru:{ pre:"「雨の地面を猛スピードで", post:"。」", t:"中文提示：在雨天的地面被猛速奔馳。" },
+                seru:{ pre:"「グラウンドで選手を何周も", post:"。」", t:"中文提示：在操場上讓選手跑了好多圈。" },
+                ou:  { pre:"「風を感じて公園を", post:"！」", t:"中文提示：感受到微風在公園奔跑吧！" },
+                masu:{ pre:"「健康のために毎朝", post:"。」", t:"中文提示：為了健康每天早上跑步。" },
+                te:  { pre:"「電車に遅れるから急いで", post:"！」", t:"中文提示：趕不上電車了快點用跑的！" },
+                ta:  { pre:"「フルマラソンを最後まで", post:"。」", t:"中文提示：全程馬拉松堅持跑到了最後。" },
+                u:   { pre:"「自分のペースでゆっくり", post:"。」", t:"中文提示：照自己的節奏慢慢跑。" },
+                ba:  { pre:"「全力で", post:"間に合うかもしれない。」", t:"中文提示：如果全力奔跑的話或許還趕得上。" },
+                e:   { pre:"「何をしている、バトンを渡すため", post:"！」", t:"中文提示：幹什麼呢，為了接力快跑！" }
+            }},
+            {k:"死ぬ", r:"しぬ", m:"死亡", row:"ナ行", weight:5, sentences:{
+                nai: { pre:"「どんな困難があっても絶対", post:"。」", t:"中文提示：無論遇到什麼困難也絕不死亡。" },
+                reru:{ pre:"「大切なペットに", post:"悲しい。」", t:"中文提示：被心愛的寵物死掉感到悲傷。" },
+                seru:{ pre:"「不注意で植物を", post:"しまった。」", t:"中文提示：因不小心讓植物枯死掉了。" },
+                ou:  { pre:"「最後まで諦めずに生き抜こう（×", post:"）。」", t:"中文提示：堅持活下去別輕言尋死！" },
+                masu:{ pre:"「水を与えないと花が", post:"。」", t:"中文提示：不給水的話花會枯死。" },
+                te:  { pre:"「老人は安らかに", post:"いった。」", t:"中文提示：老人安詳地死了去。" },
+                ta:  { pre:"「水槽の金魚が昨日", post:"。」", t:"中文提示：水槽里的金魚昨天死了。" },
+                u:   { pre:"「人間は誰しもいつか", post:"宿命だ。」", t:"中文提示：人類終有一天會死是宿命。" },
+                ba:  { pre:"「武士は", post:"名を残す。」", t:"中文提示：武士如果戰死的話將留名後世。" },
+                e:   { pre:"「悪党め、ここで", post:"！」", t:"中文提示：惡棍，在這裡去死吧！" }
+            }},
+            {k:"呼ぶ", r:"よぶ", m:"呼喚、邀請", row:"バ行", weight:5, sentences:{
+                nai: { pre:"「助けてほしいが誰も", post:"。」", t:"中文提示：想求救但誰也不呼喚。" },
+                reru:{ pre:"「大勢の前で名前が", post:"。」", t:"中文提示：在眾人面前名字被叫到。" },
+                seru:{ pre:"「秘書にタクシーを", post:"。」", t:"中文提示：讓秘書叫計程車。" },
+                ou:  { pre:"「週末のパーティーに友達を", post:"！」", t:"中文提示：邀請朋友參加週末派對吧！" },
+                masu:{ pre:"「急病人が出たので救急車を", post:"。」", t:"中文提示：有人突發急病叫救護車。" },
+                te:  { pre:"「危ない、大声で助けを", post:"！」", t:"中文提示：危險，大聲呼救！" },
+                ta:  { pre:"「すぐに警察を", post:"。」", t:"中文提示：立刻叫了警察。" },
+                u:   { pre:"「大きな声で遠くの仲間を", post:"。」", t:"中文提示：大聲呼喚遠方的伙伴。" },
+                ba:  { pre:"「名前を", post:"振り返った。」", t:"中文提示：如果叫名字的話他就回頭了。" },
+                e:   { pre:"「早く救急車を", post:"！」", t:"中文提示：快點叫救護車！" }
+            }},
 
             // 常用 N5~N4 基礎動詞 (Weight: 3)
+            {k:"開く", r:"ひらく", m:"開啟、開辦", row:"カ行", weight:3},
+            {k:"置く", r:"おく", m:"放置、擺放", row:"カ行", weight:3},
+            {k:"急ぐ", r:"いそぐ", m:"趕快、催促", row:"ガ行", weight:3},
+            {k:"脱ぐ", r:"ぬぐ", m:"脫下(衣物)", row:"ガ行", weight:3},
+            {k:"出す", r:"だす", m:"拿出、提出", row:"サ行", weight:3},
+            {k:"押す", r:"おす", m:"按壓、推拉", row:"サ行", weight:3},
+            {k:"貸す", r:"かす", m:"借出、出租", row:"サ行", weight:3},
+            {k:"返す", r:"かえす", m:"歸還、返還", row:"サ行", weight:3},
+            {k:"立つ", r:"たつ", m:"站立、起立", row:"タ行", weight:3},
+            {k:"持つ", r:"もつ", m:"持有、拿著", row:"タ行", weight:3},
+            {k:"飛ぶ", r:"とぶ", m:"起飛、飛翔", row:"バ行", weight:3},
+            {k:"遊ぶ", r:"あそぶ", m:"遊玩、玩耍", row:"バ行", weight:3},
+            {k:"選ぶ", r:"えらぶ", m:"挑選、選擇", row:"バ行", weight:3},
+            {k:"住む", r:"すむ", m:"居住、棲息", row:"マ行", weight:3},
+            {k:"頼む", r:"たのむ", m:"拜託、請求", row:"マ行", weight:3},
+            {k:"休む", r:"やすむ", m:"休息、請假", row:"マ行", weight:3},
+            {k:"知る", r:"しる", m:"獲知、知道", row:"ラ行", weight:3},
+            {k:"切る", r:"きる", m:"剪切、切斷", row:"ラ行", weight:3},
             {k:"勝つ", r:"かつ", m:"獲勝、贏得", row:"タ行", weight:3},
             {k:"降る", r:"ふる", m:"下雨、降雪", row:"ラ行", weight:3},
-            {k:"寄る", r:"よる", m:"順道經過", row:"ラ行", weight:3},
-            {k:"困る", r:"こまる", m:"困擾、難辦", row:"ラ行", weight:3},
-            {k:"怒る", r:"おこる", m:"發怒、生氣", row:"ラ行", weight:3},
-            {k:"祈る", r:"いのる", m:"祈禱、祝願", row:"ラ行", weight:3},
-            {k:"踊る", r:"おどる", m:"跳舞、舞蹈", row:"ラ行", weight:3},
-            {k:"送る", r:"おくる", m:"護送、寄送", row:"ラ行", weight:3},
-            {k:"渡る", r:"わたる", m:"穿越、過河", row:"ラ行", weight:3},
-            {k:"折る", r:"おる", m:"折斷、折疊", row:"ラ行", weight:3},
-            {k:"混む", r:"こむ", m:"擁擠、混雜", row:"マ行", weight:3},
-            {k:"包む", r:"つつむ", m:"包裹、包裝", row:"マ行", weight:3},
-            {k:"盗む", r:"ぬすむ", m:"偷竊、盜取", row:"マ行", weight:3},
-            {k:"踏む", r:"ふむ", m:"踩踏、踩到", row:"マ行", weight:3},
-            {k:"描く", r:"えがく", m:"描繪、畫畫", row:"カ行", weight:3},
-            {k:"咲く", r:"さく", m:"開花", row:"カ行", weight:3},
-            {k:"叩く", r:"たたく", m:"敲打、拍打", row:"カ行", weight:3},
-            {k:"磨く", r:"みがく", m:"刷牙、磨光", row:"カ行", weight:3},
-            {k:"吹く", r:"ふく", m:"吹拂、吹奏", row:"カ行", weight:3},
-            {k:"泣く", r:"なく", m:"哭泣、哭喊", row:"カ行", weight:3},
 
             // N3 進階必記動詞 (Weight: 1)
             {k:"補う", r:"おぎなう", m:"補充、彌補", row:"ワ行", weight:1},
@@ -303,24 +508,14 @@
             {k:"招く", r:"まねく", m:"招攬、邀請", row:"カ行", weight:1},
             {k:"注ぐ", r:"そそぐ", m:"斟倒、傾注", row:"ガ行", weight:1},
             {k:"稼ぐ", r:"かせぐ", m:"賺錢、爭取", row:"ガ行", weight:1},
-            {k:"防ぐ", r:"ふせぐ", m:"預防、抵禦", row:"ガ行", weight:1},
-            {k:"砕く", r:"くだく", m:"擊碎、粉碎", row:"カ行", weight:1},
-            {k:"撒く", r:"まく", m:"撒播、散布", row:"カ行", weight:1},
-            {k:"催す", r:"もよおす", m:"舉辦、感受", row:"サ行", weight:1},
-            {k:"散らす", r:"ちらす", m:"分散、弄亂", row:"サ行", weight:1},
-            {k:"狂う", r:"くるう", m:"發瘋、失靈", row:"ワ行", weight:1},
-            {k:"雇う", r:"やとう", m:"僱用、聘請", row:"ワ行", weight:1},
-            {k:"願う", r:"ねがう", m:"祈求、希望", row:"ワ行", weight:1},
-            {k:"疑う", r:"うたがう", m:"懷疑、不信", row:"ワ行", weight:1},
-            {k:"伺う", r:"うかがう", m:"拜訪、請教", row:"ワ行", weight:1},
-            {k:"庇う", r:"かばう", m:"庇護、包庇", row:"ワ行", weight:1},
-            {k:"競う", r:"きそう", m:"競爭、爭奪", row:"ワ行", weight:1}
+            {k:"防ぐ", r:"ふせぐ", m:"預防、抵禦", row:"ガ行", weight:1}
         ];
 
         let currentGodan = null;
-        let currentMode = 'practice'; // 'practice' | 'review'
+        let currentMode = 'practice'; // 'practice' | 'review' | 'advanced'
+        let currentAdvQuestions = [];
 
-        // 活用形定義表 (對應 N5 文法 18 表格)
+        // 活用形定義表 (對應 10 大教育文法組合形)
         const godanForms = [
             { id:"nai",  katsuyou:"未然形", kumiai:"否定形 (-ない)", mean:"表示否定 (不...)", aLine:0, suffix:"ない" },
             { id:"reru", katsuyou:"未然形", kumiai:"受身形 (-れる)", mean:"表示被動 (被...)", aLine:0, suffix:"れる" },
@@ -335,14 +530,18 @@
         ];
 
         // 權重抽樣演算法
-        function getRandomGodanVerb() {
-            const totalWeight = godanVerbs.reduce((sum, v) => sum + (v.weight || 1), 0);
+        function getRandomGodanVerb(requireSentences = false) {
+            let pool = godanVerbs;
+            if (requireSentences) {
+                pool = godanVerbs.filter(v => v.sentences !== undefined);
+            }
+            const totalWeight = pool.reduce((sum, v) => sum + (v.weight || 1), 0);
             let rand = Math.random() * totalWeight;
-            for (let v of godanVerbs) {
+            for (let v of pool) {
                 rand -= (v.weight || 1);
                 if (rand <= 0) return v;
             }
-            return godanVerbs[0];
+            return pool[0];
         }
 
         // 動詞變化計算器 (五段活用規則 + 音便)
@@ -398,31 +597,59 @@
             };
         }
 
-        // 切換五段練習模式 ('practice' | 'review')
+        // Fisher-Yates 陣列洗牌演算法
+        function shuffleArray(arr) {
+            let array = [...arr];
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // 切換五段練習模式 ('practice' | 'review' | 'advanced')
         function setGodanMode(mode) {
             currentMode = mode;
             const pBtn = document.getElementById('modePracticeBtn');
             const rBtn = document.getElementById('modeReviewBtn');
+            const aBtn = document.getElementById('modeAdvBtn');
+
             const pCon = document.getElementById('practiceContainer');
             const rCon = document.getElementById('reviewContainer');
+            const aCon = document.getElementById('advancedContainer');
+
+            pBtn.className = "flex-1 sm:flex-none px-3 py-2 text-xs md:text-sm font-bold rounded-lg text-slate-400 hover:text-white";
+            rBtn.className = "flex-1 sm:flex-none px-3 py-2 text-xs md:text-sm font-bold rounded-lg text-slate-400 hover:text-white";
+            aBtn.className = "flex-1 sm:flex-none px-3 py-2 text-xs md:text-sm font-bold rounded-lg text-amber-400 hover:bg-amber-600/20 hover:text-white";
+
+            pCon.classList.add('hidden');
+            rCon.classList.add('hidden');
+            aCon.classList.add('hidden');
 
             if (mode === 'practice') {
-                pBtn.className = "flex-1 sm:flex-none px-3.5 py-2 text-xs md:text-sm font-bold rounded-lg bg-emerald-600 text-white shadow";
-                rBtn.className = "flex-1 sm:flex-none px-3.5 py-2 text-xs md:text-sm font-bold rounded-lg text-slate-400 hover:text-white";
+                pBtn.className = "flex-1 sm:flex-none px-3 py-2 text-xs md:text-sm font-bold rounded-lg bg-emerald-600 text-white shadow";
                 pCon.classList.remove('hidden');
-                rCon.classList.add('hidden');
-            } else {
-                rBtn.className = "flex-1 sm:flex-none px-3.5 py-2 text-xs md:text-sm font-bold rounded-lg bg-emerald-600 text-white shadow";
-                pBtn.className = "flex-1 sm:flex-none px-3.5 py-2 text-xs md:text-sm font-bold rounded-lg text-slate-400 hover:text-white";
+            } else if (mode === 'review') {
+                rBtn.className = "flex-1 sm:flex-none px-3 py-2 text-xs md:text-sm font-bold rounded-lg bg-emerald-600 text-white shadow";
                 rCon.classList.remove('hidden');
-                pCon.classList.add('hidden');
                 renderReviewTable();
+            } else if (mode === 'advanced') {
+                aBtn.className = "flex-1 sm:flex-none px-3 py-2 text-xs md:text-sm font-bold rounded-lg bg-amber-600 text-white shadow";
+                aCon.classList.remove('hidden');
+                if (!currentGodan || !currentGodan.sentences) {
+                    currentGodan = getRandomGodanVerb(true);
+                    document.getElementById('gKanji').innerHTML = `<ruby>${currentGodan.k}<rt>${currentGodan.r}</rt></ruby>`;
+                    document.getElementById('gGroupBadge').innerText = `${currentGodan.row || '五段'}活用`;
+                    document.getElementById('gMeaning').innerText = `釋義：${currentGodan.m}`;
+                }
+                renderAdvancedQuestions();
             }
         }
 
         // 下一題五段動詞
         function nextGodanQuiz() {
-            currentGodan = getRandomGodanVerb();
+            const needSentences = (currentMode === 'advanced');
+            currentGodan = getRandomGodanVerb(needSentences);
             document.getElementById('gKanji').innerHTML = `<ruby>${currentGodan.k}<rt>${currentGodan.r}</rt></ruby>`;
             document.getElementById('gGroupBadge').innerText = `${currentGodan.row || '五段'}活用`;
             document.getElementById('gMeaning').innerText = `釋義：${currentGodan.m}`;
@@ -440,8 +667,11 @@
             }
 
             document.getElementById('godanFeedback').classList.add('hidden');
+            document.getElementById('advFeedback').classList.add('hidden');
+
             renderPracticeTable();
             if (currentMode === 'review') renderReviewTable();
+            if (currentMode === 'advanced') renderAdvancedQuestions();
         }
 
         // 渲染填空練習介面 (桌面表格 + 手機專用卡片)
@@ -452,7 +682,6 @@
             mContainer.innerHTML = '';
 
             godanForms.forEach(form => {
-                // Desktop Row HTML
                 const desktopTr = `
                     <tr class="hover:bg-slate-800/50 transition-all">
                         <td class="p-3.5 font-bold text-indigo-400 bg-indigo-950/20">${form.katsuyou}</td>
@@ -466,7 +695,6 @@
                 `;
                 tbody.innerHTML += desktopTr;
 
-                // Mobile Responsive Card HTML
                 const mobileCard = `
                     <div class="bg-slate-900/90 border border-slate-700/80 rounded-xl p-3.5 space-y-2 shadow">
                         <div class="flex justify-between items-center">
@@ -486,14 +714,12 @@
             });
         }
 
-        // 同步桌面端與手機端 Input 的數值
         function syncMobileInput(formId) {
             const mVal = document.getElementById(`gInput_m_${formId}`).value;
             const dInput = document.getElementById(`gInput_${formId}`);
             if (dInput) dInput.value = mVal;
         }
 
-        // 檢查全部 10 個活用形答案
         function checkAllGodanAnswers() {
             let allCorrect = true;
             let feedbackDetails = [];
@@ -537,7 +763,7 @@
             }
         }
 
-        // 渲染對照複習卡表格 (桌面表格 + 手機專用卡片)
+        // 渲染對照複習卡表格
         function renderReviewTable() {
             const tbody = document.getElementById('reviewTableBody');
             const mContainer = document.getElementById('reviewMobileCards');
@@ -547,7 +773,6 @@
             godanForms.forEach(form => {
                 const res = getConjugatedResult(currentGodan, form.id);
 
-                // Desktop Row
                 const desktopTr = `
                     <tr class="hover:bg-slate-800/50 transition-all text-xs md:text-sm">
                         <td class="p-3.5 font-bold text-indigo-400 bg-indigo-950/20">${form.katsuyou}</td>
@@ -559,7 +784,6 @@
                 `;
                 tbody.innerHTML += desktopTr;
 
-                // Mobile Card
                 const mobileCard = `
                     <div class="bg-slate-900/90 border border-slate-700/80 rounded-xl p-3.5 space-y-2 text-xs">
                         <div class="flex justify-between items-center border-b border-slate-800 pb-2">
@@ -574,6 +798,101 @@
                 `;
                 mContainer.innerHTML += mobileCard;
             });
+        }
+
+        // 渲染進階例句挑戰 (一頁10題單欄條列且順序打亂)
+        function renderAdvancedQuestions() {
+            const listEl = document.getElementById('advQuestionList');
+            listEl.innerHTML = '';
+
+            if (!currentGodan.sentences) {
+                // 若當前動詞無句型，自動切換至有句型之核心動詞
+                currentGodan = getRandomGodanVerb(true);
+                document.getElementById('gKanji').innerHTML = `<ruby>${currentGodan.k}<rt>${currentGodan.r}</rt></ruby>`;
+                document.getElementById('gGroupBadge').innerText = `${currentGodan.row || '五段'}活用`;
+                document.getElementById('gMeaning').innerText = `釋義：${currentGodan.m}`;
+            }
+
+            // 取得 10 個活用形定義與句型，並隨機打亂順序 (Shuffle)
+            const rawList = godanForms.map(form => {
+                const sObj = currentGodan.sentences[form.id] || { pre: `「`, post: `。」`, t: `中文提示：${form.mean}` };
+                return {
+                    form: form,
+                    sentence: sObj
+                };
+            });
+
+            currentAdvQuestions = shuffleArray(rawList);
+
+            currentAdvQuestions.forEach((q, idx) => {
+                const qHtml = `
+                    <div class="bg-slate-900 border border-slate-700/80 rounded-xl md:rounded-2xl p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 shadow">
+                        <div class="space-y-1.5 flex-1 w-full">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="bg-amber-500/20 text-amber-300 text-xs px-2.5 py-0.5 rounded-full font-bold border border-amber-500/30">
+                                    Q${idx+1}. ${q.form.kumiai}
+                                </span>
+                                <span class="text-xs text-slate-400">${q.sentence.t}</span>
+                            </div>
+                            <div class="text-base md:text-lg font-bold text-white flex items-center gap-1.5 flex-wrap pt-1">
+                                <span>${q.sentence.pre}</span>
+                                <input type="text" id="advInput_${q.form.id}" placeholder="請輸入日文..." 
+                                    class="bg-slate-950 border border-slate-700 rounded-xl px-3 py-1.5 text-white font-bold focus:border-indigo-500 focus:outline-none w-36 md:w-44 text-base text-center transition-all">
+                                <span>${q.sentence.post}</span>
+                            </div>
+                        </div>
+                        <span id="advStatus_${q.form.id}" class="text-xs text-slate-500 font-bold flex-shrink-0">待填答</span>
+                    </div>
+                `;
+                listEl.innerHTML += qHtml;
+            });
+        }
+
+        // 檢查進階例句全部 10 題答案
+        function checkAllAdvAnswers() {
+            let allCorrect = true;
+            let feedbackDetails = [];
+
+            currentAdvQuestions.forEach((q, idx) => {
+                const inputEl = document.getElementById(`advInput_${q.form.id}`);
+                const statusEl = document.getElementById(`advStatus_${q.form.id}`);
+                const userAns = inputEl ? inputEl.value.trim() : "";
+                const expected = getConjugatedResult(currentGodan, q.form.id);
+
+                const isRight = (userAns === expected.kanji || userAns === expected.kana);
+
+                if (isRight) {
+                    if (inputEl) inputEl.className = "bg-emerald-950/60 border-2 border-emerald-500 rounded-xl px-3 py-1.5 text-emerald-300 font-bold focus:outline-none w-36 md:w-44 text-base text-center";
+                    if (statusEl) {
+                        statusEl.innerText = "✓ 正確";
+                        statusEl.className = "text-xs text-emerald-400 font-bold flex-shrink-0";
+                    }
+                } else {
+                    allCorrect = false;
+                    if (inputEl) inputEl.className = "bg-rose-950/60 border-2 border-rose-500 rounded-xl px-3 py-1.5 text-rose-200 font-bold focus:outline-none w-36 md:w-44 text-base text-center";
+                    if (statusEl) {
+                        statusEl.innerText = "❌ 錯誤";
+                        statusEl.className = "text-xs text-rose-400 font-bold flex-shrink-0";
+                    }
+                    feedbackDetails.push(`❌ <strong>Q${idx+1}. ${q.form.kumiai}</strong>：回答為「${userAns || '未填'}」，正確答案為 <span class="text-emerald-600 font-bold">${expected.kanji}</span> (${expected.kana})`);
+                }
+            });
+
+            const fbBox = document.getElementById('advFeedback');
+            const fbTitle = document.getElementById('advFeedbackTitle');
+            const fbBody = document.getElementById('advFeedbackBody');
+
+            fbBox.classList.remove('hidden');
+
+            if (allCorrect) {
+                fbTitle.innerText = "✨ 太厲害了！本頁 10 題實戰例句全部答對！";
+                fbTitle.className = "text-xl md:text-2xl font-black text-emerald-600 mb-2";
+                fbBody.innerHTML = `<p class="text-slate-700 text-xs md:text-sm">您已完美通關「<strong>${currentGodan.k}</strong>」的實戰例句挑戰！點擊「換下一個動詞」繼續下一輪挑戰！</p>`;
+            } else {
+                fbTitle.innerText = "⚠️ 部分例句填空有誤，請參考詳細答案解析：";
+                fbTitle.className = "text-lg md:text-xl font-black text-rose-600 mb-3";
+                fbBody.innerHTML = feedbackDetails.map(item => `<div class="p-2 md:p-2.5 bg-white rounded-lg md:rounded-xl border border-rose-200 text-xs md:text-sm">${item}</div>`).join('');
+            }
         }
 
         // ================= TAB 2 複合動詞邏輯 (完整相容) =================
