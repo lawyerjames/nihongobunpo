@@ -42,10 +42,6 @@
                     class="flex-1 md:flex-none px-3 md:px-5 py-2.5 text-xs md:text-sm font-bold rounded-xl text-slate-400 hover:text-white transition-all">
                     🧩 日常複合動詞 100 組
                 </button>
-                <button id="tab3Btn" onclick="switchTab('legal')" 
-                    class="flex-1 md:flex-none px-3 md:px-5 py-2.5 text-xs md:text-sm font-bold rounded-xl text-amber-400 hover:text-white transition-all">
-                    ⚖️ 法學日文教材
-                </button>
             </div>
         </header>
 
@@ -269,27 +265,27 @@
             localStorage.setItem('activeNihongoTab', tab);
 
             if (tab === 'godan') {
-                gSec.classList.remove('hidden');
-                cSec.classList.add('hidden');
-                lSec.classList.add('hidden');
-                t1Btn.className = "flex-1 md:flex-none px-3 md:px-5 py-2.5 text-xs md:text-sm font-bold rounded-lg md:rounded-xl bg-indigo-600 text-white shadow-lg transition-all";
-                t2Btn.className = "flex-1 md:flex-none px-3 md:px-5 py-2.5 text-xs md:text-sm font-bold rounded-xl text-slate-400 hover:text-white transition-all";
-                t3Btn.className = "flex-1 md:flex-none px-3 md:px-5 py-2.5 text-xs md:text-sm font-bold rounded-xl text-amber-400 hover:text-white transition-all";
+                if (gSec) gSec.classList.remove('hidden');
+                if (cSec) cSec.classList.add('hidden');
+                if (lSec) lSec.classList.add('hidden');
+                if (t1Btn) t1Btn.className = "flex-1 md:flex-none px-3 md:px-5 py-2.5 text-xs md:text-sm font-bold rounded-lg md:rounded-xl bg-indigo-600 text-white shadow-lg transition-all";
+                if (t2Btn) t2Btn.className = "flex-1 md:flex-none px-3 md:px-5 py-2.5 text-xs md:text-sm font-bold rounded-xl text-slate-400 hover:text-white transition-all";
+                if (t3Btn) t3Btn.className = "flex-1 md:flex-none px-3 md:px-5 py-2.5 text-xs md:text-sm font-bold rounded-xl text-amber-400 hover:text-white transition-all";
             } else if (tab === 'compound') {
-                gSec.classList.add('hidden');
-                cSec.classList.remove('hidden');
-                lSec.classList.add('hidden');
-                t1Btn.className = "flex-1 md:flex-none px-3 md:px-5 py-2.5 text-xs md:text-sm font-bold rounded-xl text-slate-400 hover:text-white transition-all";
-                t2Btn.className = "flex-1 md:flex-none px-3 md:px-5 py-2.5 text-xs md:text-sm font-bold rounded-lg md:rounded-xl bg-indigo-600 text-white shadow-lg transition-all";
-                t3Btn.className = "flex-1 md:flex-none px-3 md:px-5 py-2.5 text-xs md:text-sm font-bold rounded-xl text-amber-400 hover:text-white transition-all";
+                if (gSec) gSec.classList.add('hidden');
+                if (cSec) cSec.classList.remove('hidden');
+                if (lSec) lSec.classList.add('hidden');
+                if (t1Btn) t1Btn.className = "flex-1 md:flex-none px-3 md:px-5 py-2.5 text-xs md:text-sm font-bold rounded-xl text-slate-400 hover:text-white transition-all";
+                if (t2Btn) t2Btn.className = "flex-1 md:flex-none px-3 md:px-5 py-2.5 text-xs md:text-sm font-bold rounded-lg md:rounded-xl bg-indigo-600 text-white shadow-lg transition-all";
+                if (t3Btn) t3Btn.className = "flex-1 md:flex-none px-3 md:px-5 py-2.5 text-xs md:text-sm font-bold rounded-xl text-amber-400 hover:text-white transition-all";
                 if (!current) nextQuiz();
-            } else if (tab === 'legal') {
-                gSec.classList.add('hidden');
-                cSec.classList.add('hidden');
-                lSec.classList.remove('hidden');
-                t1Btn.className = "flex-1 md:flex-none px-3 md:px-5 py-2.5 text-xs md:text-sm font-bold rounded-xl text-slate-400 hover:text-white transition-all";
-                t2Btn.className = "flex-1 md:flex-none px-3 md:px-5 py-2.5 text-xs md:text-sm font-bold rounded-xl text-slate-400 hover:text-white transition-all";
-                t3Btn.className = "flex-1 md:flex-none px-3 md:px-5 py-2.5 text-xs md:text-sm font-bold rounded-lg md:rounded-xl bg-amber-600 text-white shadow-lg transition-all border border-amber-400/50";
+            } else if (tab === 'legal' && lSec && t3Btn) {
+                if (gSec) gSec.classList.add('hidden');
+                if (cSec) cSec.classList.add('hidden');
+                if (lSec) lSec.classList.remove('hidden');
+                if (t1Btn) t1Btn.className = "flex-1 md:flex-none px-3 md:px-5 py-2.5 text-xs md:text-sm font-bold rounded-xl text-slate-400 hover:text-white transition-all";
+                if (t2Btn) t2Btn.className = "flex-1 md:flex-none px-3 md:px-5 py-2.5 text-xs md:text-sm font-bold rounded-xl text-slate-400 hover:text-white transition-all";
+                if (t3Btn) t3Btn.className = "flex-1 md:flex-none px-3 md:px-5 py-2.5 text-xs md:text-sm font-bold rounded-lg md:rounded-xl bg-amber-600 text-white shadow-lg transition-all border border-amber-400/50";
             }
         }
 
@@ -1030,13 +1026,11 @@
             return "其他";
         }
 
-        // 初始化五段動詞頁面與 Tab 鎖定狀態復原
+        // 初始化五段動詞頁面與 Tab 狀態復原
         nextGodanQuiz();
         const savedTab = localStorage.getItem('activeNihongoTab');
-        if (savedTab && ['legal', 'godan', 'compound'].includes(savedTab)) {
+        if (savedTab && ['godan', 'compound'].includes(savedTab)) {
             switchTab(savedTab);
-        } else if (location.hash === '#legal' || location.search.includes('tab=legal')) {
-            switchTab('legal');
         }
     </script>
 </body>
