@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>憲法2023 - 左右對照朗讀與翻譯版</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #0f172a;
+            color: #1e293b;
+        }
+
+        .font-serif {
+            font-family: 'Noto Serif JP', "MS Mincho", serif;
+        }
+
+        .font-sans {
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+
+        .jp-col {
+            font-size: 1.05rem;
+            line-height: 3.1;
+            letter-spacing: 0.02em;
+            word-break: break-word;
+            color: #0f172a;
+        }
+
+        ruby {
+            ruby-position: over;
+            display: inline-ruby;
+        }
+
+        rt {
+            font-size: 0.52em;
+            color: #475569;
+            letter-spacing: 0.01em;
+            font-weight: normal;
+            line-height: 1.0;
+            user-select: none;
+        }
+
+        u {
+            text-decoration: none;
+            border-bottom: 2px solid #ef4444;
+            padding-bottom: 2px;
+        }
+
+        .zh-col {
+            font-size: 1.0rem;
+            line-height: 1.75;
+        }
+
+        .playing-card {
+            box-shadow: 0 0 0 3px #6366f1, 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+            background-color: #f5f3ff !important;
+        }
+    </style>
+</head>
+
+<body class="h-screen overflow-hidden flex flex-col bg-slate-950">
+    <!-- Top Fixed Header -->
+    <header class="h-14 bg-slate-950 text-white px-4 sm:px-6 border-b border-slate-800 shrink-0 flex items-center justify-between shadow-md z-40">
+        <div class="flex items-center space-x-3 truncate">
+            <a href="index.html" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 hover:text-white px-3 py-1.5 rounded-lg text-xs font-semibold border border-slate-700 transition-colors flex items-center space-x-1 shrink-0 select-none">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                <span>總覽</span>
+            </a>
+            <h1 class="text-sm sm:text-base font-bold truncate font-serif text-slate-100">
+                憲法2023
+            </h1>
+        </div>
+        <div class="flex items-center space-x-2 shrink-0">
+            <button onclick="togglePdfPanel()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors flex items-center space-x-1 select-none">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                <span id="toggle-pdf-text">隱藏/顯示 原文PDF</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Split View Container (Height = 100vh - 3.5rem) -->
+    <div class="flex-1 flex flex-col lg:flex-row w-full overflow-hidden h-[calc(100vh-3.5rem)]">
+        <!-- Left Panel: Fixed Original PDF Viewer with Zoom Controls -->
+        <div id="pdf-panel" class="w-full lg:w-1/2 h-1/2 lg:h-full bg-slate-900 border-r border-slate-800 flex flex-col shrink-0">
+            <!-- PDF Zoom & Control Bar -->
+            <div class="bg-slate-950 px-3 py-2 border-b border-slate-800 flex items-center justify-between text-xs shrink-0 select-none">
+                <span class="text-slate-400 font-semibold flex items-center">
+                    <svg class="w-3.5 h-3.5 mr-1 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    PDF 縮放控制
+                </span>
+                <div class="flex items-center space-x-1.5">
+                    <button onclick="zoomPdf(0.9)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-2 py-0.5 rounded border border-slate-700 transition-colors" title="縮小">-</button>
+                    <span id="pdf-zoom-val" class="font-mono text-indigo-300 w-12 text-center">100%</span>
+                    <button onclick="zoomPdf(1.1)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-2 py-0.5 rounded border border-slate-700 transition-colors" title="放大">+</button>
+                    <button onclick="setPdfZoom(1.25)" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 px-2 py-0.5 rounded border border-slate-700 transition-colors">1.25x</button>
+                    <button onclick="setPdfZoom(1.5)" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 px-2 py-0.5 rounded border border-slate-700 transition-colors">1.5x</button>
+                    <button onclick="setPdfZoom(2.0)" class="bg-slate-800 hover:bg-slate-700 text-amber-300 px-2 py-0.5 rounded border border-slate-700 transition-colors">2.0x</button>
+                    <button onclick="resetPdfZoom()" class="bg-slate-800 hover:bg-slate-700 text-slate-400 px-2 py-0.5 rounded border border-slate-700 transition-colors">重置</button>
+                </div>
+            </div>
+            <!-- PDF Iframe Container -->
+            <div id="pdf-container" class="flex-1 w-full h-full overflow-auto bg-slate-900 p-2 relative">
+                <iframe id="pdf-frame" src="憲法2023.pdf" class="w-full h-full rounded-xl bg-white shadow-inner border border-slate-700 transition-transform origin-top-left"></iframe>
+            </div>
+        </div>
+
+        <!-- Right Panel: Independently Scrolling Translated Content & Audio Reader -->
+        <div id="content-panel" class="w-full lg:w-1/2 h-1/2 lg:h-full bg-slate-950 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 pb-32 transition-all duration-300">
+            <div class="max-w-3xl mx-auto space-y-4">
+                <!-- Banner Card -->
+                <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 rounded-2xl shadow-xl border border-indigo-900">
+                    <span class="inline-block bg-indigo-500/20 text-indigo-300 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider mb-2 border border-indigo-400/30">
+                        法學日文左右對照朗讀版
+                    </span>
+                    <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-white mb-2 font-serif">
+                        憲法2023
+                    </h2>
+                    <p class="text-indigo-200 text-sm sm:text-base font-medium mb-3">
+                        ——憲法2023 法學論文對照解析 <span class="text-indigo-300/80 text-xs font-normal">（憲法2023 法律專題解析）</span>
+                    </p>
+                    <div class="text-xs text-slate-300 pt-3 border-t border-indigo-900/80">
+                        <span class="font-semibold text-indigo-300">作者：</span>日本法學研究會 / Legal Research Group
+                    </div>
+                </div>
+
+                <!-- Main Paragraphs -->
+                <main class="space-y-4">
+
+        <section id="card-0" class="my-8 rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 shadow-md border border-indigo-900/80 transition-all duration-300">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="text-xl sm:text-2xl font-bold tracking-wide font-serif text-amber-300">SPECIAL FEATURE<ruby>憲法<rt>けんぽう</rt></ruby>「<ruby>憲法<rt>けんぽう</rt></ruby>」<ruby>九州大学<rt>きゅうしゅうだいがく</rt></ruby><ruby>教授<rt>きょうじゅ</rt></ruby><ruby>南野<rt>みなみの</rt></ruby> <ruby>森<rt>もり</rt></ruby>MINAMINO Shigeruはじめに<ruby>大学<rt>だいがく</rt></ruby>で<ruby>憲法<rt>けんぽう</rt></ruby><ruby>学<rt>がく</rt></ruby>を<ruby>研究<rt>けんきゅう</rt></ruby>し<ruby>教え<rt>おしえ</rt></ruby>る<ruby>立場<rt>たちば</rt></ruby>にある<ruby>者<rt>もの</rt></ruby>が、<ruby>憲法<rt>けんぽう</rt></ruby><ruby>学修<rt>がくしゅう</rt></ruby>を<ruby>進め<rt>すすめ</rt></ruby>る<ruby>学生<rt>がくせい</rt></ruby>たちに<ruby>多少<rt>たしょう</rt></ruby>なりとも<ruby>深く<rt>ふかく</rt></ruby><ruby>知って<rt>しって</rt></ruby>おいてもらいたい「<ruby>基本概念<rt>きほんがいねん</rt></ruby>」を<ruby>取り上げ<rt>とりあげ</rt></ruby><ruby>解説<rt>かいせつ</rt></ruby>するよう<ruby>依頼<rt>いらい</rt></ruby>されたとする。</h2>
+                <button onclick="playCardText(0)" class="shrink-0 flex items-center space-x-1 bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-amber-400/40 transition-colors select-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    <span>朗讀標題</span>
+                </button>
+            </div>
+            <div class="text-base sm:text-lg font-medium text-indigo-200 font-sans">SPECIAL FEATURE憲法「憲法」九州大学教授南野 森MINAMINO Shigeruはじめに大学で憲法学を研究し教える立場にある者が，憲法学修を進める学生たちに多少なりとも深く知っておいてもらいたい「基本概念」を取り上げ解説するよう依頼されたとする。</div>
+        </section>
+        <article id="card-1" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(1)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>取り上げ<rt>とりあげ</rt></ruby>る<ruby>基本概念<rt>きほんがいねん</rt></ruby>は、<ruby>学修<rt>がくしゅう</rt></ruby><ruby>過程<rt>かてい</rt></ruby>で<ruby>頻出<rt>ひんしゅつ</rt></ruby>するにも<ruby>関わ<rt>かかわ</rt></ruby>らず<ruby>講義<rt>こうぎ</rt></ruby>や<ruby>教科書<rt>きょうかしょ</rt></ruby>では<ruby>意外<rt>いがい</rt></ruby>に<ruby>詳しく<rt>くわしく</rt></ruby><ruby>説明さ<rt>せつめいさ</rt></ruby>れることが<ruby>少なく<rt>すくなく</rt></ruby>、したがって<ruby>改め<rt>あらため</rt></ruby>て<ruby>正確<rt>せいかく</rt></ruby>な<ruby>知識<rt>ちしき</rt></ruby>や<ruby>理解<rt>りかい</rt></ruby>を<ruby>問わ<rt>とわ</rt></ruby>れると<ruby>学生<rt>がくせい</rt></ruby>が<ruby>戸惑っ<rt>とまどっ</rt></ruby>てしまうようなものが<ruby>良い<rt>よい</rt></ruby>。そして、それをきちんと<ruby>学ん<rt>まなん</rt></ruby>でみると<ruby>今後<rt>こんご</rt></ruby>の<ruby>学修<rt>がくしゅう</rt></ruby>がより<ruby>面白く<rt>おもしろく</rt></ruby><ruby>感じ<rt>かんじ</rt></ruby>られるようなものであればなおさら<ruby>良い<rt>よい</rt></ruby>。と。<ruby>依頼<rt>いらい</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>た<ruby>論者<rt>ろんしゃ</rt></ruby>それぞれの<ruby>学問的<rt>がくもんてき</rt></ruby>な<ruby>関心<rt>かんしん</rt></ruby>や<ruby>教育上<rt>きょういくじょう</rt></ruby>の<ruby>主眼<rt>しゅがん</rt></ruby>のありかによってその<ruby>選択<rt>せんたく</rt></ruby>には<ruby>差異<rt>さい</rt></ruby>があるだろうが、おそらく<ruby>多く<rt>おおく</rt></ruby>の<ruby>者<rt>もの</rt></ruby>が、「<ruby>立憲<rt>りっけん</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>」や「<ruby>人権<rt>じんけん</rt></ruby>」（<ruby>基本<rt>きほん</rt></ruby><ruby>権<rt>けん</rt></ruby>），あるいは「<ruby>権力<rt>けんりょく</rt></ruby><ruby>分立<rt>ぶんりつ</rt></ruby>」や「<ruby>議院内閣制<rt>ぎいんないかくせい</rt></ruby>」，さらには「<ruby>公共<rt>こうきょう</rt></ruby>の<ruby>福祉<rt>ふくし</rt></ruby>」といった<ruby>概念<rt>がいねん</rt></ruby>をまず<ruby>候補<rt>こうほ</rt></ruby>として<ruby>思い浮か<rt>おもいうか</rt></ruby>べるのではないだろうか。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">取り上げる基本概念は，学修過程で頻出するにも関わらず講義や教科書では意外に詳しく説明されることが少なく，したがって改めて正確な知識や理解を問われると学生が戸惑ってしまうようなものが良い。そして，それをきちんと学んでみると今後の学修がより面白く感じられるようなものであればなおさら良い。と。依頼を受けた論者それぞれの学問的な関心や教育上の主眼のありかによってその選択には差異があるだろうが，おそらく多くの者が，「立憲主義」や「人権」（基本権），あるいは「権力分立」や「議院内閣制」，さらには「公共の福祉」といった概念をまず候補として思い浮かべるのではないだろうか。</div>
+            </div>
+        </article>
+        <article id="card-2" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(2)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>本稿<rt>ほんこう</rt></ruby>は、<ruby>筆者<rt>ひっしゃ</rt></ruby>がそのような<ruby>依頼<rt>いらい</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>たと<ruby>仮定<rt>かてい</rt></ruby>して、<ruby>以上<rt>いじょう</rt></ruby>のような<ruby>基本概念<rt>きほんがいねん</rt></ruby>をいったん<ruby>候補<rt>こうほ</rt></ruby>にして<ruby>逡巡<rt>しゅんじゅん</rt></ruby>した<ruby>挙げ句<rt>あげく</rt></ruby>、「<ruby>憲法<rt>けんぽう</rt></ruby>」という<ruby>概念<rt>がいねん</rt></ruby>を<ruby>選び<rt>えらび</rt></ruby><ruby>解説<rt>かいせつ</rt></ruby>を<ruby>試み<rt>こころみ</rt></ruby>るものである。<ruby>数<rt>かず</rt></ruby>ある<ruby>候補<rt>こうほ</rt></ruby>のなかから「<ruby>憲法<rt>けんぽう</rt></ruby>」を<ruby>選ん<rt>えらん</rt></ruby>だのは、「<ruby>立憲<rt>りっけん</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>」と「<ruby>人権<rt>じんけん</rt></ruby>」の<ruby>両<rt>りょう</rt></ruby><ruby>概念<rt>がいねん</rt></ruby>については<ruby>筆者<rt>ひっしゃ</rt></ruby><ruby>自身<rt>じしん</rt></ruby>がかって<ruby>別所<rt>べっしょ</rt></ruby>で<ruby>物<rt>もの</rt></ruby>したことがあるし、また、それらを<ruby>収録<rt>しゅうろく</rt></ruby>して<ruby>編んだ<rt>あんだ</rt></ruby><ruby>書<rt>かき</rt></ruby>には、「<ruby>権力<rt>けんりょく</rt></ruby><ruby>分立<rt>ぶんりつ</rt></ruby>」や「<ruby>議院内閣制<rt>ぎいんないかくせい</rt></ruby>」「<ruby>公共<rt>こうきょう</rt></ruby>の<ruby>福祉<rt>ふくし</rt></ruby>」といったその<ruby>他の<rt>ほかの</rt></ruby><ruby>基本概念<rt>きほんがいねん</rt></ruby>についての<ruby>気鋭<rt>きえい</rt></ruby>の<ruby>論者<rt>ろんしゃ</rt></ruby>による<ruby>論<rt>ろん</rt></ruby><ruby>致<rt>ち</rt></ruby>が<ruby>収め<rt>おさめ</rt></ruby>られているから、という<ruby>理由<rt>りゆう</rt></ruby>だけによるのではないい。<ruby>本稿<rt>ほんこう</rt></ruby>が<ruby>述べ<rt>のべ</rt></ruby>る「<ruby>憲法<rt>けんぽう</rt></ruby>」<ruby>概念<rt>がいねん</rt></ruby>についての<ruby>解説<rt>かいせつ</rt></ruby>は、<ruby>今後<rt>こんご</rt></ruby>、<ruby>読者<rt>どくしゃ</rt></ruby>が<ruby>学修<rt>がくしゅう</rt></ruby>を<ruby>進め<rt>すすめ</rt></ruby>るうえで、<ruby>折り<rt>おり</rt></ruby>に<ruby>触れ<rt>ふれ</rt></ruby>、<ruby>本稿<rt>ほんこう</rt></ruby>で<ruby>述べ<rt>のべ</rt></ruby>られていたのはこういうことであったのかと<ruby>合点<rt>がてん</rt></ruby>がいくような<ruby>機会<rt>きかい</rt></ruby>を<ruby>得ら<rt>えら</rt></ruby>れるはずの<ruby>内容<rt>ないよう</rt></ruby>であり、そのような、いわば<ruby>腹<rt>はら</rt></ruby><ruby>落ち<rt>おち</rt></ruby><ruby>体験<rt>たいけん</rt></ruby>を<ruby>通じ<rt>つうじ</rt></ruby>てこそ<ruby>憲法<rt>けんぽう</rt></ruby><ruby>学修<rt>がくしゅう</rt></ruby>にいっそうの<ruby>興味<rt>きょうみ</rt></ruby>をもち、それがさらに<ruby>深め<rt>ふかめ</rt></ruby>られるだろうと<ruby>期待<rt>きたい</rt></ruby>できるからである。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">本稿は，筆者がそのような依頼を受けたと仮定して，以上のような基本概念をいったん候補にして逡巡した挙げ句，「憲法」という概念を選び解説を試みるものである。数ある候補のなかから「憲法」を選んだのは，「立憲主義」と「人権」の両概念については筆者自身がかって別所で物したことがあるし，また，それらを収録して編んだ書には，「権力分立」や「議院内閣制」「公共の福祉」といったその他の基本概念についての気鋭の論者による論致が収められているから，という理由だけによるのではないい。本稿が述べる「憲法」概念についての解説は，今後，読者が学修を進めるうえで，折りに触れ，本稿で述べられていたのはこういうことであったのかと合点がいくような機会を得られるはずの内容であり，そのような，いわば腹落ち体験を通じてこそ憲法学修にいっそうの興味をもち，それがさらに深められるだろうと期待できるからである。</div>
+            </div>
+        </article>
+        <article id="card-3" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(3)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    そのためにも、とくに<ruby>憲法<rt>けんぽう</rt></ruby>と<ruby>他の<rt>ほかの</rt></ruby><ruby>実定法<rt>じっていほう</rt></ruby>とのあいだにはいかなる<ruby>共通点<rt>きょうつうてん</rt></ruby>があり、またいかなる<ruby>違い<rt>ちがい</rt></ruby>があるかを<ruby>意識<rt>いしき</rt></ruby>しながら<ruby>読み<rt>よみ</rt></ruby><ruby>進め<rt>すすめ</rt></ruby>てもらえると<ruby>良い<rt>よい</rt></ruby>と<ruby>思う<rt>おもう</rt></ruby>。constitutionと「<ruby>憲法<rt>けんぽう</rt></ruby>」の<ruby>距離<rt>きょり</rt></ruby>「“<ruby>憲法<rt>けんぽう</rt></ruby>とは<ruby>法律<rt>ほうりつ</rt></ruby>の<ruby>一種<rt>いっしゅ</rt></ruby>だ”とあなたがもし<ruby>考え<rt>かんがえ</rt></ruby>ているとすれば、それは<ruby>大い<rt>おおい</rt></ruby>に<ruby>不正確<rt>ふせいかく</rt></ruby>である。」<ruby>一<rt>いち</rt></ruby>これは、ある<ruby>著名<rt>ちょめい</rt></ruby>な<ruby>憲法学者<rt>けんぽうがくしゃ</rt></ruby>の<ruby>教科書<rt>きょうかしょ</rt></ruby>にある<ruby>言葉<rt>ことば</rt></ruby>である？。もちろん、<ruby>法学部<rt>ほうがくぶ</rt></ruby>の<ruby>新入生<rt>しんにゅうせい</rt></ruby>でなく<ruby>上級生<rt>じょうきゅうせい</rt></ruby>であれば、<ruby>憲法<rt>けんぽう</rt></ruby>と<ruby>法律<rt>ほうりつ</rt></ruby>の<ruby>違い<rt>ちがい</rt></ruby>の1つや2つくらいは<ruby>容易に<rt>よういに</rt></ruby><ruby>指摘<rt>してき</rt></ruby>できるはずである（たとえば<ruby>制定<rt>せいてい</rt></ruby><ruby>者<rt>もの</rt></ruby>が<ruby>違う<rt>ちがう</rt></ruby>、<ruby>形式的<rt>けいしきてき</rt></ruby><ruby>効力<rt>こうりょく</rt></ruby>や<ruby>改正<rt>かいせい</rt></ruby><ruby>方法<rt>ほうほう</rt></ruby>が<ruby>違う<rt>ちがう</rt></ruby>、あるいは<ruby>主た<rt>しゅた</rt></ruby>る<ruby>名宛<rt>なあて</rt></ruby><ruby>人<rt>にん</rt></ruby>や<ruby>目的<rt>もくてき</rt></ruby>が<ruby>違う<rt>ちがう</rt></ruby>、など）。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">そのためにも，とくに憲法と他の実定法とのあいだにはいかなる共通点があり，またいかなる違いがあるかを意識しながら読み進めてもらえると良いと思う。constitutionと「憲法」の距離「“憲法とは法律の一種だ”とあなたがもし考えているとすれば，それは大いに不正確である。」一これは，ある著名な憲法学者の教科書にある言葉である？。もちろん，法学部の新入生でなく上級生であれば，憲法と法律の違いの1つや2つくらいは容易に指摘できるはずである（たとえば制定者が違う，形式的効力や改正方法が違う，あるいは主たる名宛人や目的が違う，など）。</div>
+            </div>
+        </article>
+        <article id="card-4" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(4)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    これほど<ruby>違い<rt>ちがい</rt></ruby>があるのだから、「<ruby>法律<rt>ほうりつ</rt></ruby>の<ruby>一種<rt>いっしゅ</rt></ruby>だ」としてしまうのはやはり<ruby>不正確<rt>ふせいかく</rt></ruby>であると<ruby>言え<rt>いえ</rt></ruby>そうである。この<ruby>程度<rt>ていど</rt></ruby>はおそらく<ruby>難なく<rt>なんなく</rt></ruby><ruby>理解<rt>りかい</rt></ruby>できるだろう。しかし、この<ruby>言葉<rt>ことば</rt></ruby>の<ruby>直前<rt>ちょくぜん</rt></ruby>に<ruby>書か<rt>かか</rt></ruby>れているつぎの<ruby>一文<rt>いちぶん</rt></ruby>はどうだろうか。そこには、「われわれが『<ruby>憲法<rt>けんぽう</rt></ruby>」という<ruby>言葉<rt>ことば</rt></ruby>を<ruby>聞い<rt>きい</rt></ruby>たとき、<ruby>第一<rt>だいいち</rt></ruby>に、”それは<ruby>法<rt>ほう</rt></ruby>の<ruby>一種<rt>いっしゅ</rt></ruby>だろう”と<ruby>直<rt>ちょく</rt></ruby>“<ruby>日本国憲法<rt>にほんこくけんぽう</rt></ruby>のように、<ruby>成文化<rt>せいぶんか</rt></ruby><ruby>感<rt>かん</rt></ruby>し、<ruby>第二<rt>だいに</rt></ruby>に、された<ruby>法<rt>ほう</rt></ruby>のことだろう”とイメージするだろう」。とある。しかしそれは、この<ruby>憲法学者<rt>けんぽうがくしゃ</rt></ruby>によると、「<ruby>憲法<rt>けんぽう</rt></ruby>」という<ruby>日本語<rt>にほんご</rt></ruby>のせいで<ruby>我々<rt>われわれ</rt></ruby>が「もってしまう」<ruby>不正確<rt>ふせいかく</rt></ruby>な<ruby>直感<rt>ちょっかん</rt></ruby>であり、イメージなのである。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">これほど違いがあるのだから，「法律の一種だ」としてしまうのはやはり不正確であると言えそうである。この程度はおそらく難なく理解できるだろう。しかし，この言葉の直前に書かれているつぎの一文はどうだろうか。そこには，「われわれが『憲法」という言葉を聞いたとき，第一に，”それは法の一種だろう”と直“日本国憲法のように，成文化感し，第二に，された法のことだろう”とイメージするだろう」。とある。しかしそれは，この憲法学者によると，「憲法」という日本語のせいで我々が「もってしまう」不正確な直感であり，イメージなのである。</div>
+            </div>
+        </article>
+        <article id="card-5" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(5)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>現在<rt>げんざい</rt></ruby>の<ruby>我々<rt>われわれ</rt></ruby>が<ruby>用い<rt>もちい</rt></ruby>る「<ruby>憲法<rt>けんぽう</rt></ruby>」という<ruby>日本語<rt>にほんご</rt></ruby>は、<ruby>幕末<rt>ばくまつ</rt></ruby>から<ruby>明治初期<rt>めいじしょき</rt></ruby>にかけて、<ruby>西洋語<rt>せいようご</rt></ruby>のconstitution（<ruby>英語<rt>えいご</rt></ruby>，<ruby>仏語<rt>ふつご</rt></ruby>）やVerfassung（<ruby>独語<rt>どくご</rt></ruby>）といった<ruby>言葉<rt>ことば</rt></ruby>の<ruby>翻訳<rt>ほんやく</rt></ruby><ruby>語と<rt>かたと</rt></ruby>していくつもの<ruby>候補<rt>こうほ</rt></ruby>のなかから<ruby>選ば<rt>えらば</rt></ruby>れ、<ruby>大日本帝国<rt>だいにっぽんていこく</rt></ruby><ruby>憲法<rt>けんぽう</rt></ruby>の<ruby>制定<rt>せいてい</rt></ruby>（<ruby>明治<rt>めいじ</rt></ruby>22<ruby>年<rt>ねん</rt></ruby>〔1889<ruby>年<rt>ねん</rt></ruby>））に<ruby>先立つ<rt>さきだつ</rt></ruby>こと 10<ruby>年<rt>ねん</rt></ruby>にも<ruby>満た<rt>みた</rt></ruby>ない<ruby>頃に<rt>ごろに</rt></ruby>ようやく<ruby>定着<rt>ていちゃく</rt></ruby>していったものである。<ruby>先人<rt>せんじん</rt></ruby>たちは、<ruby>西洋<rt>せいよう</rt></ruby>の constitution という<ruby>概念<rt>がいねん</rt></ruby>に<ruby>出会っ<rt>であっ</rt></ruby>たとき、それを<ruby>日本語<rt>にほんご</rt></ruby>で<ruby>表現<rt>ひょうげん</rt></ruby>するために、あるいは<ruby>古く<rt>ふるく</rt></ruby>からある<ruby>漢語<rt>かんご</rt></ruby>を<ruby>転用<rt>てんよう</rt></ruby>したり、あるいは<ruby>新たに<rt>あらたに</rt></ruby><ruby>造語<rt>ぞうご</rt></ruby>を<ruby>試み<rt>こころみ</rt></ruby>たりした。「<ruby>国憲<rt>こっけん</rt></ruby>」（<ruby>加藤<rt>かとう</rt></ruby><ruby>弘之<rt>ひろゆき</rt></ruby>，<ruby>慶應<rt>けいおう</rt></ruby>4<ruby>年<rt>ねん</rt></ruby>）や「<ruby>憲法<rt>けんぽう</rt></ruby>」（<ruby>箕作<rt>みつくり</rt></ruby><ruby>麟祥<rt>りんしょう</rt></ruby>、<ruby>明治<rt>めいじ</rt></ruby>6<ruby>年<rt>ねん</rt></ruby>）などは<ruby>前者<rt>ぜんしゃ</rt></ruby>の<ruby>例<rt>れい</rt></ruby>である4し、「<ruby>律例<rt>りつれい</rt></ruby>」（<ruby>福澤<rt>ふくざわ</rt></ruby><ruby>諭吉<rt>ゆきち</rt></ruby>，<ruby>慶應<rt>けいおう</rt></ruby>2<ruby>年<rt>ねん</rt></ruby>）や「<ruby>朝綱<rt>あさつな</rt></ruby>」（<ruby>津田<rt>つだ</rt></ruby><ruby>真道<rt>しんどう</rt></ruby>、<ruby>慶<rt>よし</rt></ruby>4<ruby>年<rt>ねん</rt></ruby>）などは<ruby>後者<rt>こうしゃ</rt></ruby>の<ruby>例<rt>れい</rt></ruby>であったろう。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">現在の我々が用いる「憲法」という日本語は，幕末から明治初期にかけて，西洋語のconstitution（英語，仏語）やVerfassung（独語）といった言葉の翻訳語としていくつもの候補のなかから選ばれ，大日本帝国憲法の制定（明治22年〔1889年））に先立つこと 10年にも満たない頃にようやく定着していったものである。先人たちは，西洋の constitution という概念に出会ったとき，それを日本語で表現するために，あるいは古くからある漢語を転用したり，あるいは新たに造語を試みたりした。「国憲」（加藤弘之，慶應4年）や「憲法」（箕作麟祥，明治6年）などは前者の例である4し，「律例」（福澤諭吉，慶應2年）や「朝綱」（津田真道，慶4年）などは後者の例であったろう。</div>
+            </div>
+        </article>
+        <article id="card-6" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(6)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    「<ruby>建国<rt>けんこく</rt></ruby>ノ<ruby>法<rt>ほう</rt></ruby>」（<ruby>箕作<rt>みつくり</rt></ruby><ruby>麟祥<rt>りんしょう</rt></ruby>、<ruby>明治<rt>めいじ</rt></ruby>3<ruby>年<rt>ねん</rt></ruby>）や「<ruby>根本<rt>こんぽん</rt></ruby><ruby>律法<rt>りっぽう</rt></ruby>」（<ruby>津田<rt>つだ</rt></ruby><ruby>真道<rt>しんどう</rt></ruby>、<ruby>慶應<rt>けいおう</rt></ruby>4<ruby>年<rt>ねん</rt></ruby>）という<ruby>長め<rt>ながめ</rt></ruby>の<ruby>訳語<rt>やくご</rt></ruby>も<ruby>存在<rt>そんざい</rt></ruby>した。そもそも、<ruby>英語<rt>えいご</rt></ruby>で<ruby>言え<rt>いえ</rt></ruby>ば constitution はconstitute という<ruby>動詞<rt>どうし</rt></ruby>から<ruby>作ら<rt>つくら</rt></ruby>れた<ruby>語<rt>ご</rt></ruby>であり、つまりもともと<ruby>構成<rt>こうせい</rt></ruby>とか<ruby>骨格<rt>こっかく</rt></ruby>といったニュアンスをもつ<ruby>話<rt>はなし</rt></ruby>が、<ruby>国家<rt>こっか</rt></ruby>について<ruby>用い<rt>もちい</rt></ruby>られ、<ruby>国家<rt>こっか</rt></ruby>の<ruby>構造<rt>こうぞう</rt></ruby>を<ruby>意味<rt>いみ</rt></ruby>するとともに、その<ruby>主要<rt>しゅよう</rt></ruby>な<ruby>部分<rt>ぶぶん</rt></ruby>を<ruby>定め<rt>さだめ</rt></ruby>るテクストをも<ruby>意味<rt>いみ</rt></ruby>するようになったの。<ruby>国<rt>くに</rt></ruby> <ruby>参照<rt>さんしょう</rt></ruby>，<ruby>南野<rt>みなみの</rt></ruby>・<ruby>前掲<rt>ぜんけい</rt></ruby><ruby>注<rt>ちゅう</rt></ruby>「<ruby>立憲<rt>りっけん</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>」3<ruby>頁<rt>ぺーじ</rt></ruby>。<ruby>法典<rt>ほうてん</rt></ruby>の<ruby>名称<rt>めいしょう</rt></ruby>として「<ruby>憲法<rt>けんぽう</rt></ruby>」という<ruby>訳語<rt>やくご</rt></ruby>を<ruby>最初<rt>さいしょ</rt></ruby>に<ruby>用いた<rt>もちいた</rt></ruby>のは<ruby>箕作<rt>みつくり</rt></ruby><ruby>麟祥<rt>りんしょう</rt></ruby>であったとされる（<ruby>穂積<rt>ほづみ</rt></ruby><ruby>陳重<rt>のぶしげ</rt></ruby>『<ruby>法窓<rt>ほうそう</rt></ruby><ruby>夜話<rt>やわ</rt></ruby>」〔<ruby>岩波文庫<rt>いわなみぶんこ</rt></ruby>，1980<ruby>年<rt>ねん</rt></ruby>（<ruby>初出<rt>しょしゅつ</rt></ruby> 1916<ruby>年<rt>ねん</rt></ruby>）〕178<ruby>頁<rt>ぺーじ</rt></ruby><ruby>参照<rt>さんしょう</rt></ruby>）。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">「建国ノ法」（箕作麟祥，明治3年）や「根本律法」（津田真道，慶應4年）という長めの訳語も存在した。そもそも，英語で言えば constitution はconstitute という動詞から作られた語であり，つまりもともと構成とか骨格といったニュアンスをもつ話が，国家について用いられ，国家の構造を意味するとともに，その主要な部分を定めるテクストをも意味するようになったの。国 参照，南野・前掲注「立憲主義」3頁。法典の名称として「憲法」という訳語を最初に用いたのは箕作麟祥であったとされる（穂積陳重『法窓夜話」〔岩波文庫，1980年（初出 1916年）〕178頁参照）。</div>
+            </div>
+        </article>
+        <article id="card-7" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(7)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>箕作<rt>みつくり</rt></ruby>は、<ruby>明治<rt>めいじ</rt></ruby>2<ruby>年<rt>ねん</rt></ruby>（1869<ruby>年<rt>ねん</rt></ruby>），<ruby>新政<rt>しんせい</rt></ruby><ruby>府<rt>ふ</rt></ruby>の<ruby>参議<rt>さんぎ</rt></ruby>であった<ruby>副<rt>ふく</rt></ruby><ruby>島<rt>しま</rt></ruby><ruby>種臣<rt>たねおみ</rt></ruby>の<ruby>命<rt>いのち</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>、フランスのナポレオン<ruby>法典<rt>ほうてん</rt></ruby>（<ruby>民法<rt>みんぽう</rt></ruby>，<ruby>訴訟<rt>そしょう</rt></ruby><ruby>法<rt>ほう</rt></ruby>〔=<ruby>民事訴訟法<rt>みんじそしょうほう</rt></ruby>），<ruby>商法<rt>しょうほう</rt></ruby>，<ruby>治罪<rt>ちざい</rt></ruby><ruby>法<rt>ほう</rt></ruby>〔=<ruby>刑事訴訟法<rt>けいじそしょうほう</rt></ruby>），<ruby>刑法<rt>けいほう</rt></ruby>の5<ruby>法典<rt>ほうてん</rt></ruby>）<ruby>及び<rt>および</rt></ruby><ruby>当時<rt>とうじ</rt></ruby>のフランス<ruby>第三<rt>だいさん</rt></ruby><ruby>帝政<rt>ていせい</rt></ruby><ruby>憲法<rt>けんぽう</rt></ruby>（1852<ruby>年<rt>ねん</rt></ruby>）の、あわせて「<ruby>六法<rt>ろっぽう</rt></ruby>」の<ruby>大<rt>だい</rt></ruby><ruby>翻訳<rt>ほんやく</rt></ruby><ruby>事業<rt>じぎょう</rt></ruby>を<ruby>開始<rt>かいし</rt></ruby>する。<ruby>明治<rt>めいじ</rt></ruby>3<ruby>年<rt>ねん</rt></ruby>（1870<ruby>年<rt>ねん</rt></ruby>）に『<ruby>仏蘭西<rt>ふらんす</rt></ruby><ruby>法律<rt>ほうりつ</rt></ruby><ruby>書<rt>かき</rt></ruby> <ruby>刑法<rt>けいほう</rt></ruby>』がまず<ruby>刊行<rt>かんこう</rt></ruby>され、その<ruby>後<rt>のち</rt></ruby>，<ruby>民法<rt>みんぽう</rt></ruby>（<ruby>同年<rt>どうねん</rt></ruby>），<ruby>訴訟<rt>そしょう</rt></ruby><ruby>法<rt>ほう</rt></ruby>，<ruby>憲法<rt>けんぽう</rt></ruby>（<ruby>明治<rt>めいじ</rt></ruby>6<ruby>年<rt>ねん</rt></ruby>（1873<ruby>年<rt>ねん</rt></ruby>］），<ruby>商法<rt>しょうほう</rt></ruby>，<ruby>治罪<rt>ちざい</rt></ruby><ruby>法<rt>ほう</rt></ruby>（<ruby>明治<rt>めいじ</rt></ruby>7<ruby>年<rt>ねん</rt></ruby>（1874<ruby>年<rt>ねん</rt></ruby>））が<ruby>出さ<rt>ださ</rt></ruby>れ、「<ruby>六法<rt>ろっぽう</rt></ruby>」が<ruby>完結<rt>かんけつ</rt></ruby>した。<ruby>箕作<rt>みつくり</rt></ruby>の<ruby>法典<rt>ほうてん</rt></ruby><ruby>翻訳<rt>ほんやく</rt></ruby><ruby>事業<rt>じぎょう</rt></ruby>については，<ruby>山口<rt>やまぐち</rt></ruby><ruby>亮介<rt>りょうすけ</rt></ruby>「<ruby>明治<rt>めいじ</rt></ruby><ruby>初年<rt>しょねん</rt></ruby>の<ruby>西洋<rt>せいよう</rt></ruby><ruby>法<rt>ほう</rt></ruby><ruby>翻訳<rt>ほんやく</rt></ruby>：<ruby>箕作<rt>みつくり</rt></ruby><ruby>麟祥<rt>りんしょう</rt></ruby>の<ruby>試み<rt>こころみ</rt></ruby>」Chuo Online（<ruby>読売新聞<rt>よみうりしんぶん</rt></ruby>オンラ<ruby>家<rt>いえ</rt></ruby>の<ruby>構造<rt>こうぞう</rt></ruby>を「<ruby>国制<rt>こくせい</rt></ruby>」と<ruby>呼ぶ<rt>よぶ</rt></ruby>とすると、constitutionとは、つまり<ruby>国制<rt>こくせい</rt></ruby>のことであるとともに、<ruby>国制<rt>こくせい</rt></ruby>について<ruby>定め<rt>さだめ</rt></ruby>たテクスト<ruby>類<rt>るい</rt></ruby>でもあるということになる。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">箕作は，明治2年（1869年），新政府の参議であった副島種臣の命を受け，フランスのナポレオン法典（民法，訴訟法〔=民事訴訟法），商法，治罪法〔=刑事訴訟法），刑法の5法典）及び当時のフランス第三帝政憲法（1852年）の，あわせて「六法」の大翻訳事業を開始する。明治3年（1870年）に『仏蘭西法律書 刑法』がまず刊行され，その後，民法（同年），訴訟法，憲法（明治6年（1873年］），商法，治罪法（明治7年（1874年））が出され，「六法」が完結した。箕作の法典翻訳事業については，山口亮介「明治初年の西洋法翻訳：箕作麟祥の試み」Chuo Online（読売新聞オンラ家の構造を「国制」と呼ぶとすると，constitutionとは，つまり国制のことであるとともに，国制について定めたテクスト類でもあるということになる。</div>
+            </div>
+        </article>
+        <article id="card-8" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(8)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>日本語<rt>にほんご</rt></ruby>で「<ruby>憲法<rt>けんぽう</rt></ruby>」と<ruby>言う<rt>いう</rt></ruby><ruby>場合<rt>ばあい</rt></ruby>に、どうしても<ruby>後者<rt>こうしゃ</rt></ruby>の<ruby>一側面<rt>いちそくめん</rt></ruby>（<ruby>成典<rt>しげのり</rt></ruby><ruby>化さ<rt>かさ</rt></ruby>れたテクストとしての「<ruby>憲法<rt>けんぽう</rt></ruby>」）ばかりが<ruby>意識<rt>いしき</rt></ruby>され、その<ruby>他の<rt>ほかの</rt></ruby><ruby>側面<rt>そくめん</rt></ruby>（<ruby>国<rt>くに</rt></ruby>により<ruby>時代<rt>じだい</rt></ruby>により<ruby>国制<rt>こくせい</rt></ruby>の<ruby>一部分<rt>いちぶぶん</rt></ruby>がたとえば<ruby>不文<rt>ふぶん</rt></ruby>の<ruby>慣習<rt>かんしゅう</rt></ruby>により<ruby>定め<rt>さだめ</rt></ruby>られていることもあろう）、そして<ruby>前者<rt>ぜんしゃ</rt></ruby>の<ruby>側面<rt>そくめん</rt></ruby>（「この<ruby>国<rt>くに</rt></ruby>のかたち」）がややもすると<ruby>無視さ<rt>むしさ</rt></ruby>れてしまう<ruby>点<rt>てん</rt></ruby>が、おそらく<ruby>冒頭<rt>ぼうとう</rt></ruby>の<ruby>憲法学者<rt>けんぽうがくしゃ</rt></ruby>の<ruby>批判<rt>ひはん</rt></ruby>する「<ruby>不正確<rt>ふせいかく</rt></ruby>」な「<ruby>直感<rt>ちょっかん</rt></ruby>」なのだろう。ところで、<ruby>憲法<rt>けんぽう</rt></ruby><ruby>学の<rt>まなの</rt></ruby><ruby>教科書<rt>きょうかしょ</rt></ruby>をひもとくと、しばしばその<ruby>冒頭<rt>ぼうとう</rt></ruby>で<ruby>憲法<rt>けんぽう</rt></ruby>という<ruby>概念<rt>がいねん</rt></ruby>についての<ruby>説明<rt>せつめい</rt></ruby>が<ruby>施さ<rt>ほどこさ</rt></ruby>れているはずである。そこで<ruby>展開<rt>てんかい</rt></ruby>される<ruby>形式的<rt>けいしきてき</rt></ruby><ruby>意味<rt>いみ</rt></ruby>の<ruby>憲法<rt>けんぽう</rt></ruby>と<ruby>実質的<rt>じっしつてき</rt></ruby><ruby>意味<rt>いみ</rt></ruby>の<ruby>憲法<rt>けんぽう</rt></ruby>という<ruby>区別<rt>くべつ</rt></ruby>は、<ruby>以上<rt>いじょう</rt></ruby>の<ruby>説明<rt>せつめい</rt></ruby>をふまえると、<ruby>無味乾燥<rt>むみかんそう</rt></ruby>に<ruby>結論<rt>けつろん</rt></ruby>だけを<ruby>暗記<rt>あんき</rt></ruby>すべき<ruby>用語法<rt>ようごほう</rt></ruby>としてではなく、<ruby>翻訳<rt>ほんやく</rt></ruby>を<ruby>通し<rt>とうし</rt></ruby>て<ruby>始ま<rt>はじま</rt></ruby>った<ruby>近代日本<rt>きんだいにほん</rt></ruby>の<ruby>法学<rt>ほうがく</rt></ruby>には<ruby>元来<rt>がんらい</rt></ruby><ruby>不可避<rt>ふかひ</rt></ruby>であるはずの、<ruby>術語<rt>じゅつご</rt></ruby>の「<ruby>原義<rt>げんぎ</rt></ruby>」に<ruby>遡っ<rt>さかのぼっ</rt></ruby>て<ruby>理解<rt>りかい</rt></ruby>することの<ruby>重要<rt>じゅうよう</rt></ruby>さを<ruby>示唆す<rt>しさす</rt></ruby>るものとして、その<ruby>浅か<rt>あさか</rt></ruby>らぬ<ruby>背景<rt>はいけい</rt></ruby>とともにより<ruby>良く<rt>よく</rt></ruby><ruby>理解<rt>りかい</rt></ruby>されることになるだろう。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">日本語で「憲法」と言う場合に，どうしても後者の一側面（成典化されたテクストとしての「憲法」）ばかりが意識され，その他の側面（国により時代により国制の一部分がたとえば不文の慣習により定められていることもあろう），そして前者の側面（「この国のかたち」）がややもすると無視されてしまう点が，おそらく冒頭の憲法学者の批判する「不正確」な「直感」なのだろう。ところで，憲法学の教科書をひもとくと，しばしばその冒頭で憲法という概念についての説明が施されているはずである。そこで展開される形式的意味の憲法と実質的意味の憲法という区別は，以上の説明をふまえると，無味乾燥に結論だけを暗記すべき用語法としてではなく，翻訳を通して始まった近代日本の法学には元来不可避であるはずの，術語の「原義」に遡って理解することの重要さを示唆するものとして，その浅からぬ背景とともにより良く理解されることになるだろう。</div>
+            </div>
+        </article>
+        <article id="card-9" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(9)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    すなわち、<ruby>形式的<rt>けいしきてき</rt></ruby><ruby>意味<rt>いみ</rt></ruby>の<ruby>憲法<rt>けんぽう</rt></ruby>とは<ruby>憲法<rt>けんぽう</rt></ruby><ruby>典<rt>てん</rt></ruby>（<ruby>日本国憲法<rt>にほんこくけんぽう</rt></ruby>）のことであるとして、<ruby>実質的<rt>じっしつてき</rt></ruby><ruby>意味<rt>いみ</rt></ruby>の<ruby>憲法<rt>けんぽう</rt></ruby>とは、それとは<ruby>別に<rt>べつに</rt></ruby><ruby>存在<rt>そんざい</rt></ruby>が<ruby>観念さ<rt>かんねんさ</rt></ruby>れるものであって、それはすなわち<ruby>国制<rt>こくせい</rt></ruby>について<ruby>定め<rt>さだめ</rt></ruby>たテクスト<ruby>類<rt>るい</rt></ruby>のことである、と 「<ruby>国憲<rt>こっけん</rt></ruby>」という<ruby>漢語<rt>かんご</rt></ruby>は、<ruby>平安時代<rt>へいあんじだい</rt></ruby><ruby>初頭<rt>しょとう</rt></ruby>の<ruby>勅撰<rt>ちょくせん</rt></ruby><ruby>漢詩<rt>からうた</rt></ruby><ruby>文集<rt>ぶんしゅう</rt></ruby>である『<ruby>経国<rt>けいこく</rt></ruby><ruby>集<rt>しゅう</rt></ruby>』（827<ruby>年<rt>ねん</rt></ruby>）の<ruby>巻<rt>かん</rt></ruby> 20の<ruby>掉尾<rt>ちょうび</rt></ruby>に<ruby>収録<rt>しゅうろく</rt></ruby>されている、<ruby>奈良時代<rt>ならじだい</rt></ruby>の<ruby>官吏<rt>かんり</rt></ruby><ruby>登用<rt>とうよう</rt></ruby><ruby>試験<rt>しけん</rt></ruby>の<ruby>論述<rt>ろんじゅつ</rt></ruby><ruby>問題<rt>もんだい</rt></ruby>に<ruby>対する<rt>たいする</rt></ruby>（<ruby>模範<rt>もはん</rt></ruby>） <ruby>解答<rt>かいとう</rt></ruby><ruby>案<rt>あん</rt></ruby>である「<ruby>対策<rt>たいさく</rt></ruby>」（<ruby>天平<rt>てんぴょう</rt></ruby>5<ruby>年<rt>ねん</rt></ruby>〔<ruby>西暦<rt>せいれき</rt></ruby>733<ruby>年<rt>ねん</rt></ruby>〕）のなかに、「<ruby>因<rt>いん</rt></ruby><ruby>禮<rt>れい</rt></ruby><ruby>復讎<rt>ふくしゅう</rt></ruby>、<ruby>既<rt>がい</rt></ruby><ruby>違<rt>い</rt></ruby><ruby>國憲<rt>こっけん</rt></ruby>、<ruby>守<rt>しゅ</rt></ruby><ruby>法<rt>ほう</rt></ruby><ruby>忍<rt>にん</rt></ruby><ruby>怨<rt>えん</rt></ruby>、<ruby>失<rt>しつ</rt></ruby><ruby>子道<rt>しどう</rt></ruby>」（<ruby>礼<rt>れい</rt></ruby>に<ruby>困り<rt>こまり</rt></ruby>て<ruby>讐<rt>しゅう</rt></ruby>を<ruby>復<rt>ふく</rt></ruby>せば<ruby>既に<rt>すでに</rt></ruby><ruby>国憲<rt>こっけん</rt></ruby>に<ruby>違ひ<rt>たがひ</rt></ruby>，<ruby>法<rt>ほう</rt></ruby>を<ruby>守り<rt>まもり</rt></ruby>て<ruby>怨み<rt>うらみ</rt></ruby>を<ruby>忍べ<rt>しのべ</rt></ruby>ば<ruby>愛<rt>あい</rt></ruby>に<ruby>子道<rt>しどう</rt></ruby>を<ruby>失<rt>しつ</rt></ruby>ふ）とか「<ruby>違<rt>い</rt></ruby><ruby>國憲<rt>こっけん</rt></ruby><ruby>者<rt>もの</rt></ruby><ruby>不<rt>ふ</rt></ruby><ruby>臣<rt>しん</rt></ruby>」（<ruby>国憲<rt>こっけん</rt></ruby>に<ruby>違ふ<rt>たがふ</rt></ruby><ruby>者<rt>もの</rt></ruby>は<ruby>臣<rt>しん</rt></ruby>ならず）と<ruby>登場<rt>とうじょう</rt></ruby>するのが<ruby>最初期<rt>さいしょき</rt></ruby>の<ruby>例の<rt>れいの</rt></ruby>ようである（<ruby>小学館<rt>しょうがくかん</rt></ruby>『<ruby>日本国<rt>にほんこく</rt></ruby><ruby>語<rt>ご</rt></ruby><ruby>大辞典<rt>だいじてん</rt></ruby>」などを<ruby>参照<rt>さんしょう</rt></ruby>。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">すなわち，形式的意味の憲法とは憲法典（日本国憲法）のことであるとして，実質的意味の憲法とは，それとは別に存在が観念されるものであって，それはすなわち国制について定めたテクスト類のことである，と 「国憲」という漢語は，平安時代初頭の勅撰漢詩文集である『経国集』（827年）の巻 20の掉尾に収録されている，奈良時代の官吏登用試験の論述問題に対する（模範） 解答案である「対策」（天平5年〔西暦733年〕）のなかに，「因禮復讎，既違國憲，守法忍怨，失子道」（礼に困りて讐を復せば既に国憲に違ひ，法を守りて怨みを忍べば愛に子道を失ふ）とか「違國憲者不臣」（国憲に違ふ者は臣ならず）と登場するのが最初期の例のようである（小学館『日本国語大辞典」などを参照。</div>
+            </div>
+        </article>
+        <article id="card-10" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(10)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>訓読<rt>くんどく</rt></ruby>は<ruby>津田<rt>つだ</rt></ruby><ruby>博幸<rt>ひろゆき</rt></ruby><ruby>編<rt>へん</rt></ruby>『<ruby>経国<rt>けいこく</rt></ruby><ruby>集<rt>しゅう</rt></ruby><ruby>対策<rt>たいさく</rt></ruby><ruby>注解<rt>ちゅうかい</rt></ruby>」〔<ruby>書房<rt>しょぼう</rt></ruby>、2019<ruby>年<rt>ねん</rt></ruby>）455<ruby>頁<rt>ぺーじ</rt></ruby>に<ruby>依<rt>い</rt></ruby>った）。そして「<ruby>憲法<rt>けんぽう</rt></ruby>」という<ruby>漢語<rt>かんご</rt></ruby>は、<ruby>周知<rt>しゅうち</rt></ruby>の<ruby>通り<rt>とうり</rt></ruby>、『<ruby>日本書紀<rt>にほんしょき</rt></ruby>』（720<ruby>年<rt>ねん</rt></ruby>）に<ruby>登場<rt>とうじょう</rt></ruby>する<ruby>聖徳<rt>しょうとく</rt></ruby><ruby>太子<rt>たいし</rt></ruby>の「<ruby>憲法<rt>けんぽう</rt></ruby><ruby>十<rt>じゅう</rt></ruby><ruby>七條<rt>ななじょう</rt></ruby>」（604<ruby>年<rt>ねん</rt></ruby>）が<ruby>最初<rt>さいしょ</rt></ruby>の<ruby>例<rt>れい</rt></ruby>である。いずれも、<ruby>今日<rt>きょう</rt></ruby>の<ruby>我々<rt>われわれ</rt></ruby>が<ruby>用い<rt>もちい</rt></ruby>る「<ruby>憲法<rt>けんぽう</rt></ruby>」という<ruby>意味<rt>いみ</rt></ruby>ではなく、たんに「<ruby>法<rt>ほう</rt></ruby>」とか「<ruby>掟<rt>おきて</rt></ruby>」の<ruby>意味<rt>いみ</rt></ruby>いうわけである。したがって、<ruby>形式的<rt>けいしきてき</rt></ruby><ruby>意味<rt>いみ</rt></ruby>の<ruby>憲法<rt>けんぽう</rt></ruby>のなかに<ruby>実質的<rt>じっしつてき</rt></ruby><ruby>意味<rt>いみ</rt></ruby>の<ruby>憲法<rt>けんぽう</rt></ruby>でない<ruby>規定<rt>きてい</rt></ruby>が<ruby>含ま<rt>ふくま</rt></ruby>れることもあるかし、<ruby>実質的<rt>じっしつてき</rt></ruby><ruby>意味<rt>いみ</rt></ruby>の<ruby>憲法<rt>けんぽう</rt></ruby>が<ruby>形式的<rt>けいしきてき</rt></ruby><ruby>意味<rt>いみ</rt></ruby>の<ruby>憲法<rt>けんぽう</rt></ruby>とは<ruby>異なる<rt>ことなる</rt></ruby><ruby>存在<rt>そんざい</rt></ruby><ruby>形式<rt>けいしき</rt></ruby>をとることも<ruby>当然<rt>とうぜん</rt></ruby>ある。だからこそ、「<ruby>憲法<rt>けんぽう</rt></ruby>の<ruby>法源<rt>ほうげん</rt></ruby>」という<ruby>論点<rt>ろんてん</rt></ruby>が<ruby>成立<rt>せいりつ</rt></ruby>し、そこではいわゆる「<ruby>憲法<rt>けんぽう</rt></ruby><ruby>附属<rt>ふぞく</rt></ruby><ruby>法<rt>ほう</rt></ruby>」や「<ruby>憲法<rt>けんぽう</rt></ruby><ruby>関連<rt>かんれん</rt></ruby><ruby>法<rt>ほう</rt></ruby>」と<ruby>呼ば<rt>よば</rt></ruby>れる<ruby>一定<rt>いってい</rt></ruby>の<ruby>法令<rt>ほうれい</rt></ruby>が<ruby>挙げ<rt>あげ</rt></ruby>られたうえで、それに<ruby>加え<rt>くわえ</rt></ruby>て<ruby>判例<rt>はんれい</rt></ruby>や<ruby>慣習<rt>かんしゅう</rt></ruby>といった「<ruby>不文<rt>ふぶん</rt></ruby><ruby>法<rt>ほう</rt></ruby>」がそこに<ruby>含ま<rt>ふくま</rt></ruby>れるか<ruby>否か<rt>いなか</rt></ruby>が<ruby>論じ<rt>ろんじ</rt></ruby>られるのである。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">訓読は津田博幸編『経国集対策注解」〔書房，2019年）455頁に依った）。そして「憲法」という漢語は，周知の通り，『日本書紀』（720年）に登場する聖徳太子の「憲法十七條」（604年）が最初の例である。いずれも，今日の我々が用いる「憲法」という意味ではなく，たんに「法」とか「掟」の意味いうわけである。したがって，形式的意味の憲法のなかに実質的意味の憲法でない規定が含まれることもあるかし，実質的意味の憲法が形式的意味の憲法とは異なる存在形式をとることも当然ある。だからこそ，「憲法の法源」という論点が成立し，そこではいわゆる「憲法附属法」や「憲法関連法」と呼ばれる一定の法令が挙げられたうえで，それに加えて判例や慣習といった「不文法」がそこに含まれるか否かが論じられるのである。</div>
+            </div>
+        </article>
+        <article id="card-11" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(11)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    なお、「<ruby>憲法<rt>けんぽう</rt></ruby>の<ruby>法源<rt>ほうげん</rt></ruby>」について<ruby>注意<rt>ちゅうい</rt></ruby>しておくべきことがある。それは、そこで<ruby>言わ<rt>いわ</rt></ruby>れる「<ruby>憲法<rt>けんぽう</rt></ruby>」がいかなる<ruby>意味<rt>いみ</rt></ruby>であるのか、である。それが<ruby>国制<rt>こくせい</rt></ruby>を<ruby>定め<rt>さだめ</rt></ruby>るテクスト<ruby>類<rt>るい</rt></ruby>という<ruby>意味<rt>いみ</rt></ruby>であるならば、「<ruby>実質的<rt>じっしつてき</rt></ruby><ruby>意味<rt>いみ</rt></ruby>の<ruby>憲法<rt>けんぽう</rt></ruby>の<ruby>範囲<rt>はんい</rt></ruby>を<ruby>厳密<rt>げんみつ</rt></ruby>に<ruby>確定す<rt>かくていす</rt></ruby>ることは<ruby>不可能<rt>ふかのう</rt></ruby>であるし、そうする<ruby>実益<rt>じつえき</rt></ruby>も<ruby>少ない<rt>すくない</rt></ruby>。<ruby>実質的<rt>じっしつてき</rt></ruby><ruby>意味<rt>いみ</rt></ruby>の<ruby>憲法<rt>けんぽう</rt></ruby>の<ruby>範囲<rt>はんい</rt></ruby>は、<ruby>形式的<rt>けいしきてき</rt></ruby><ruby>意味<rt>いみ</rt></ruby>の<ruby>憲法<rt>けんぽう</rt></ruby>の<ruby>内容<rt>ないよう</rt></ruby>とも、また<ruby>憲法<rt>けんぽう</rt></ruby><ruby>学の<rt>まなの</rt></ruby><ruby>研究<rt>けんきゅう</rt></ruby>・<ruby>教育<rt>きょういく</rt></ruby>の<ruby>対象<rt>たいしょう</rt></ruby>とも<ruby>論理<rt>ろんり</rt></ruby><ruby>必然<rt>ひつぜん</rt></ruby>のつながりがないからである」という<ruby>説明<rt>せつめい</rt></ruby>がそのまま<ruby>当て<rt>あて</rt></ruby>はまるだろう。これに<ruby>対し<rt>たいし</rt></ruby>て、それが<ruby>違憲<rt>いけん</rt></ruby><ruby>審査<rt>しんさ</rt></ruby>の<ruby>基準<rt>きじゅん</rt></ruby>として<ruby>用い<rt>もちい</rt></ruby>られる「<ruby>憲法<rt>けんぽう</rt></ruby>」を<ruby>意味<rt>いみ</rt></ruby>するとすると、ことは<ruby>様相<rt>ようそう</rt></ruby>を<ruby>異に<rt>ことに</rt></ruby>する。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">なお，「憲法の法源」について注意しておくべきことがある。それは，そこで言われる「憲法」がいかなる意味であるのか，である。それが国制を定めるテクスト類という意味であるならば，「実質的意味の憲法の範囲を厳密に確定することは不可能であるし，そうする実益も少ない。実質的意味の憲法の範囲は，形式的意味の憲法の内容とも，また憲法学の研究・教育の対象とも論理必然のつながりがないからである」という説明がそのまま当てはまるだろう。これに対して，それが違憲審査の基準として用いられる「憲法」を意味するとすると，ことは様相を異にする。</div>
+            </div>
+        </article>
+        <article id="card-12" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(12)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>現在<rt>げんざい</rt></ruby>に<ruby>至る<rt>いたる</rt></ruby>まで<ruby>日本<rt>にっぽん</rt></ruby>の<ruby>違憲<rt>いけん</rt></ruby><ruby>審査<rt>しんさ</rt></ruby>の<ruby>実務<rt>じつむ</rt></ruby>では、<ruby>違憲<rt>いけん</rt></ruby>・<ruby>合憲<rt>ごうけん</rt></ruby>の<ruby>基準<rt>きじゅん</rt></ruby>となる「<ruby>憲法<rt>けんぽう</rt></ruby>」は<ruby>形式的<rt>けいしきてき</rt></ruby><ruby>意味<rt>いみ</rt></ruby>の<ruby>憲法<rt>けんぽう</rt></ruby>に<ruby>限定<rt>げんてい</rt></ruby>されてきたが、このことは<ruby>必ずしも<rt>かならずしも</rt></ruby><ruby>普遍<rt>ふへん</rt></ruby>かつ<ruby>不変<rt>ふへん</rt></ruby>というわけではなく、たとえばフランスでは<ruby>現行憲法<rt>げんこうけんぽう</rt></ruby><ruby>典<rt>てん</rt></ruby>のほかに 1789<ruby>年<rt>ねん</rt></ruby><ruby>人権宣言<rt>じんけんせんげん</rt></ruby>や「<ruby>共和国<rt>きょうわこく</rt></ruby>の<ruby>諸法<rt>しょほう</rt></ruby><ruby>律<rt>りつ</rt></ruby>によって<ruby>承認<rt>しょうにん</rt></ruby>された<ruby>基本原理<rt>きほんげんり</rt></ruby>」、さらには「<ruby>憲法<rt>けんぽう</rt></ruby>のアイデンティティ」なるものに<ruby>違憲<rt>いけん</rt></ruby><ruby>判断<rt>はんだん</rt></ruby>の<ruby>基準<rt>きじゅん</rt></ruby>としての<ruby>地位<rt>ちい</rt></ruby>が<ruby>憲法院<rt>けんぽういん</rt></ruby><ruby>自身<rt>じしん</rt></ruby>の<ruby>判決<rt>はんけつ</rt></ruby>によって<ruby>与<rt>よ</rt></ruby> <ruby>有名<rt>ゆうめい</rt></ruby>な、「<ruby>出血<rt>しゅっけつ</rt></ruby><ruby>前<rt>まえ</rt></ruby>に<ruby>麻<rt>あさ</rt></ruby><ruby>導<rt>どう</rt></ruby>させることなく<ruby>動物<rt>どうぶつ</rt></ruby>を<ruby>殺す<rt>ころす</rt></ruby>ことは、<ruby>一切<rt>いっさい</rt></ruby>の<ruby>屠殺<rt>とさつ</rt></ruby><ruby>方法<rt>ほうほう</rt></ruby>および<ruby>一切<rt>いっさい</rt></ruby>の<ruby>種類<rt>しゅるい</rt></ruby>の<ruby>家畜<rt>かちく</rt></ruby>について<ruby>例外<rt>れいがい</rt></ruby>なくこれを<ruby>禁止<rt>きんし</rt></ruby>する」というスイス<ruby>憲法<rt>けんぽう</rt></ruby>の1973<ruby>年<rt>ねん</rt></ruby><ruby>改正前<rt>かいせいまえ</rt></ruby>の<ruby>旧<rt>きゅう</rt></ruby>25<ruby>条<rt>じょう</rt></ruby>の2について、しかし、それがユダヤ<ruby>人<rt>にん</rt></ruby>の<ruby>宗教上<rt>しゅうきょうじょう</rt></ruby>の<ruby>慣行<rt>かんこう</rt></ruby>を<ruby>念頭<rt>ねんとう</rt></ruby>に 1893<ruby>年<rt>ねん</rt></ruby>の<ruby>人民<rt>じんみん</rt></ruby><ruby>発案<rt>はつあん</rt></ruby>によって<ruby>新設<rt>しんせつ</rt></ruby>された<ruby>規定<rt>きてい</rt></ruby>であることに<ruby>注意<rt>ちゅうい</rt></ruby>すれば、「<ruby>実質的<rt>じっしつてき</rt></ruby><ruby>意味<rt>いみ</rt></ruby>の<ruby>憲法<rt>けんぽう</rt></ruby>と<ruby>無関係<rt>むかんけい</rt></ruby>だといってしまうことはできないはずである」と<ruby>指摘<rt>してき</rt></ruby>するものとして、<ruby>樋口<rt>ひぐち</rt></ruby><ruby>陽一<rt>よういち</rt></ruby>『<ruby>憲法<rt>けんぽう</rt></ruby>〔<ruby>第<rt>だい</rt></ruby>4<ruby>版<rt>はん</rt></ruby>〕」（<ruby>勤<rt>つとむ</rt></ruby><ruby>草書<rt>そうしょ</rt></ruby>えられているりし、たとえば<ruby>韓国<rt>かんこく</rt></ruby>では「<ruby>首都<rt>しゅと</rt></ruby>はソウルである」という<ruby>憲法<rt>けんぽう</rt></ruby><ruby>典<rt>てん</rt></ruby>には<ruby>書か<rt>かか</rt></ruby>れていない「<ruby>慣習<rt>かんしゅう</rt></ruby><ruby>憲法<rt>けんぽう</rt></ruby>」の<ruby>存在<rt>そんざい</rt></ruby>が<ruby>憲法<rt>けんぽう</rt></ruby><ruby>裁判所<rt>さいばんしょ</rt></ruby>の<ruby>決定<rt>けってい</rt></ruby>によって<ruby>認定<rt>にんてい</rt></ruby>され、<ruby>首都<rt>しゅと</rt></ruby><ruby>移転<rt>いてん</rt></ruby><ruby>法<rt>ほう</rt></ruby>が<ruby>違憲<rt>いけん</rt></ruby>と<ruby>判断<rt>はんだん</rt></ruby>されたことがあるのである。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">現在に至るまで日本の違憲審査の実務では，違憲・合憲の基準となる「憲法」は形式的意味の憲法に限定されてきたが，このことは必ずしも普遍かつ不変というわけではなく，たとえばフランスでは現行憲法典のほかに 1789年人権宣言や「共和国の諸法律によって承認された基本原理」，さらには「憲法のアイデンティティ」なるものに違憲判断の基準としての地位が憲法院自身の判決によって与 有名な，「出血前に麻導させることなく動物を殺すことは，一切の屠殺方法および一切の種類の家畜について例外なくこれを禁止する」というスイス憲法の1973年改正前の旧25条の2について，しかし，それがユダヤ人の宗教上の慣行を念頭に 1893年の人民発案によって新設された規定であることに注意すれば，「実質的意味の憲法と無関係だといってしまうことはできないはずである」と指摘するものとして，樋口陽一『憲法〔第4版〕」（勤草書えられているりし，たとえば韓国では「首都はソウルである」という憲法典には書かれていない「慣習憲法」の存在が憲法裁判所の裁定によって認定され，首都移転法が違憲と判断されたことがあるのである。</div>
+            </div>
+        </article>
+        <article id="card-13" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(13)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    フランスや<ruby>韓国<rt>かんこく</rt></ruby>のような<ruby>違憲<rt>いけん</rt></ruby><ruby>審査<rt>しんさ</rt></ruby><ruby>制<rt>せい</rt></ruby>の<ruby>運用<rt>うんよう</rt></ruby>がみられるところでは、「<ruby>憲法<rt>けんぽう</rt></ruby>」の<ruby>法源<rt>ほうげん</rt></ruby><ruby>論<rt>ろん</rt></ruby>が<ruby>違憲<rt>いけん</rt></ruby><ruby>審査<rt>しんさ</rt></ruby>の<ruby>基準<rt>きじゅん</rt></ruby>としての「<ruby>憲法<rt>けんぽう</rt></ruby>」の<ruby>存在<rt>そんざい</rt></ruby><ruby>形式<rt>けいしき</rt></ruby>を<ruby>問う<rt>とう</rt></ruby>ものである<ruby>場合<rt>ばあい</rt></ruby>、そこに<ruby>何<rt>なに</rt></ruby>が<ruby>含ま<rt>ふくま</rt></ruby>れるかを<ruby>最終的<rt>さいしゅうてき</rt></ruby>に<ruby>決定<rt>けってい</rt></ruby>する<ruby>違憲<rt>いけん</rt></ruby><ruby>審査<rt>しんさ</rt></ruby><ruby>権者<rt>ごんじゃ</rt></ruby>の<ruby>判断<rt>はんだん</rt></ruby>に<ruby>影響<rt>えいきょう</rt></ruby>を<ruby>及ぼ<rt>およぼ</rt></ruby>す<ruby>可能性<rt>かのうせい</rt></ruby>のあるものとして、<ruby>憲法<rt>けんぽう</rt></ruby>の<ruby>最高法規<rt>さいこうほうき</rt></ruby><ruby>性<rt>せい</rt></ruby>や<ruby>硬性<rt>こうせい</rt></ruby><ruby>憲法<rt>けんぽう</rt></ruby><ruby>性<rt>せい</rt></ruby>という<ruby>論点<rt>ろんてん</rt></ruby>とともに、それは、<ruby>学説<rt>がくせつ</rt></ruby>において<ruby>激しい<rt>はげしい</rt></ruby><ruby>議論<rt>ぎろん</rt></ruby>の<ruby>対象<rt>たいしょう</rt></ruby>になる<ruby>可能性<rt>かのうせい</rt></ruby>があることに<ruby>注意<rt>ちゅうい</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>である11。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">フランスや韓国のような違憲審査制の運用がみられるところでは，「憲法」の法源論が違憲審査の基準としての「憲法」の存在形式を問うものである場合，そこに何が含まれるかを最終的に裁定する違憲審査権者の判断に影響を及ぼす可能性のあるものとして，憲法の最高法規性や硬性憲法性という論点とともに，それは，学説において激しい議論の対象になる可能性があることに注意が必要である11。</div>
+            </div>
+        </article>
+        <section id="card-14" class="my-8 rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 shadow-md border border-indigo-900/80 transition-all duration-300">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="text-xl sm:text-2xl font-bold tracking-wide font-serif text-amber-300">▶<ruby>憲法<rt>けんぽう</rt></ruby><ruby>典<rt>てん</rt></ruby>と「<ruby>憲法<rt>けんぽう</rt></ruby>」の<ruby>距離<rt>きょり</rt></ruby>さて、ここで<ruby>話<rt>はなし</rt></ruby>は<ruby>大きく<rt>おおきく</rt></ruby><ruby>変わ<rt>かわ</rt></ruby>る。</h2>
+                <button onclick="playCardText(14)" class="shrink-0 flex items-center space-x-1 bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-amber-400/40 transition-colors select-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    <span>朗讀標題</span>
+                </button>
+            </div>
+            <div class="text-base sm:text-lg font-medium text-indigo-200 font-sans">▶憲法典と「憲法」の距離さて，ここで話は大きく変わる。</div>
+        </section>
+        <article id="card-15" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(15)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>現在<rt>げんざい</rt></ruby><ruby>開会<rt>かいかい</rt></ruby><ruby>中の<rt>なかの</rt></ruby><ruby>第<rt>だい</rt></ruby> 211<ruby>回国<rt>かいこく</rt></ruby><ruby>会<rt>かい</rt></ruby>の<ruby>開会<rt>かいかい</rt></ruby>2<ruby>日目<rt>にちめ</rt></ruby>にあたる 2023<ruby>年<rt>ねん</rt></ruby>1<ruby>月<rt>がつ</rt></ruby>24<ruby>日<rt>にち</rt></ruby>、<ruby>参議院<rt>さんぎいん</rt></ruby><ruby>本会議<rt>ほんかいぎ</rt></ruby>においてつぎのような<ruby>問答<rt>もんどう</rt></ruby>があった。<ruby>岸田<rt>きしだ</rt></ruby><ruby>文雄<rt>ふみお</rt></ruby><ruby>首相<rt>しゅしょう</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby><ruby>立憲<rt>りっけん</rt></ruby><ruby>民主<rt>みんしゅ</rt></ruby><ruby>党<rt>とう</rt></ruby>の<ruby>羽田<rt>はねだ</rt></ruby><ruby>次郎<rt>じろう</rt></ruby><ruby>議員<rt>ぎいん</rt></ruby>が、「<ruby>安全<rt>あんぜん</rt></ruby><ruby>保障<rt>ほしょう</rt></ruby><ruby>政策<rt>せいさく</rt></ruby>の<ruby>大転換<rt>だいてんかん</rt></ruby>とそれに<ruby>伴う<rt>ともなう</rt></ruby><ruby>膨大<rt>ぼうだい</rt></ruby>な<ruby>国民<rt>こくみん</rt></ruby><ruby>負担<rt>ふたん</rt></ruby>をお<ruby>決め<rt>きめ</rt></ruby>になったのであれば、<ruby>国民<rt>こくみん</rt></ruby>のを<ruby>問う<rt>とう</rt></ruby>のが<ruby>当然<rt>とうぜん</rt></ruby>です。1<ruby>日<rt>にち</rt></ruby>も<ruby>早く<rt>はやく</rt></ruby>、<ruby>国民<rt>こくみん</rt></ruby>の<ruby>言を<rt>いを</rt></ruby><ruby>問う<rt>とう</rt></ruby>お<ruby>考え<rt>かんがえ</rt></ruby>があるか、<ruby>総理<rt>そうり</rt></ruby>のご<ruby>決意<rt>けつい</rt></ruby>をお<ruby>聞か<rt>きか</rt></ruby>せください。」として<ruby>衆議院<rt>しゅうぎいん</rt></ruby>の<ruby>早期<rt>そうき</rt></ruby><ruby>解散<rt>かいさん</rt></ruby>を<ruby>求め<rt>もとめ</rt></ruby>たのに<ruby>対し<rt>たいし</rt></ruby>、<ruby>自相<rt>じそう</rt></ruby>は、「<ruby>何<rt>なに</rt></ruby>について、どのように<ruby>国民<rt>こくみん</rt></ruby>の<ruby>言を<rt>いを</rt></ruby><ruby>問う<rt>とう</rt></ruby>のか、ということについては、<ruby>時の<rt>ときの</rt></ruby><ruby>内閣総理大臣<rt>ないかくそうりだいじん</rt></ruby>の<ruby>専権事項<rt>せんけんじこう</rt></ruby>として、<ruby>適切<rt>てきせつ</rt></ruby>に<ruby>判断<rt>はんだん</rt></ruby>いたします。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">現在開会中の第 211回国会の開会2日目にあたる 2023年1月24日，参議院本会議においてつぎのような問答があった。岸田文雄首相に対し立憲民主党の羽田次郎議員が，「安全保障政策の大転換とそれに伴う膨大な国民負担をお決めになったのであれば，国民のを問うのが当然です。1日も早く，国民の言を問うお考えがあるか，総理のご決意をお聞かせください。」として衆議院の早期解散を求めたのに対し，自相は，「何について，どのように国民の言を問うのか，ということについては，時の内閣総理大臣の専権事項として，適切に判断いたします。</div>
+            </div>
+        </article>
+        <article id="card-16" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(16)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    」と<ruby>答弁<rt>とうべん</rt></ruby>したのである。<ruby>首都<rt>しゅと</rt></ruby><ruby>移転<rt>いてん</rt></ruby>を<ruby>違憲<rt>いけん</rt></ruby>とした<ruby>韓国<rt>かんこく</rt></ruby><ruby>憲法<rt>けんぽう</rt></ruby><ruby>裁判所<rt>さいばんしょ</rt></ruby>の 2004<ruby>年<rt>ねん</rt></ruby>10<ruby>月<rt>がつ</rt></ruby>21<ruby>日<rt>にち</rt></ruby><ruby>判決<rt>はんけつ</rt></ruby>は、<ruby>移転<rt>いてん</rt></ruby><ruby>法案<rt>ほうあん</rt></ruby>を<ruby>提出<rt>ていしゅつ</rt></ruby>した<ruby>盧<rt>ろ</rt></ruby><ruby>武鉉<rt>ぶげん</rt></ruby><ruby>大統領<rt>だいとうりょう</rt></ruby>にとっての<ruby>大き<rt>おおき</rt></ruby>な<ruby>政治的<rt>せいじてき</rt></ruby><ruby>打撃<rt>だげき</rt></ruby>ともなったが、その5か<ruby>月前<rt>げつまえ</rt></ruby>に<ruby>同<rt>どう</rt></ruby><ruby>裁判所<rt>さいばんしょ</rt></ruby>は<ruby>同大<rt>どうだい</rt></ruby><ruby>統領<rt>とうりょう</rt></ruby>に<ruby>対する<rt>たいする</rt></ruby><ruby>弾劾<rt>だんがい</rt></ruby><ruby>請求<rt>せいきゅう</rt></ruby>を<ruby>棄却<rt>ききゃく</rt></ruby>していた。このような、「<ruby>同一人物<rt>どういつじんぶつ</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby>て・・・・・・<ruby>示さ<rt>しめさ</rt></ruby>れた<ruby>真逆<rt>まぎゃく</rt></ruby>の<ruby>性格<rt>せいかく</rt></ruby>を<ruby>有す<rt>ゆうす</rt></ruby>る」<ruby>判断<rt>はんだん</rt></ruby>が<ruby>相次<rt>あいつぎ</rt></ruby>いだことが、「<ruby>韓国<rt>かんこく</rt></ruby><ruby>政治<rt>せいじ</rt></ruby>における<ruby>憲法<rt>けんぽう</rt></ruby><ruby>裁判所<rt>さいばんしょ</rt></ruby>という<ruby>存在<rt>そんざい</rt></ruby>を<ruby>国民<rt>こくみん</rt></ruby>の<ruby>間<rt>かん</rt></ruby>で<ruby>広く<rt>ひろく</rt></ruby><ruby>認識<rt>にんしき</rt></ruby>させる<ruby>決定的<rt>けっていてき</rt></ruby>な<ruby>契機<rt>けいき</rt></ruby>になった」として、<ruby>同<rt>どう</rt></ruby><ruby>裁判所<rt>さいばんしょ</rt></ruby>のあり<ruby>方<rt>ほう</rt></ruby>ととくにその<ruby>司法<rt>しほう</rt></ruby><ruby>衆議院<rt>しゅうぎいん</rt></ruby>を<ruby>解散<rt>かいさん</rt></ruby>するというのは、<ruby>衆議院議員<rt>しゅうぎいんぎいん</rt></ruby>の<ruby>全員<rt>ぜんいん</rt></ruby>を<ruby>憲法<rt>けんぽう</rt></ruby><ruby>上の<rt>うえの</rt></ruby><ruby>任期<rt>にんき</rt></ruby>に<ruby>関わ<rt>かかわ</rt></ruby>らず<ruby>一斉<rt>いっせい</rt></ruby>にクビにすることであるから、その<ruby>権限<rt>けんげん</rt></ruby>はきわめて<ruby>強大<rt>きょうだい</rt></ruby>であると<ruby>言わ<rt>いわ</rt></ruby>ねばならない。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">」と答弁したのである。首都移転を違憲とした韓国憲法裁判所の 2004年10月21日判決は，移転法案を提出した盧武鉉大統領にとっての大きな政治的打撃ともなったが，その5か月前に同裁判所は同大統領に対する弾劾請求を棄却していた。このような，「同一人物に対して・・・・・・示された真逆の性格を有する」判断が相次いだことが，「韓国政治における憲法裁判所という存在を国民の間で広く認識させる裁定的な契機になった」として，同裁判所のあり方ととくにその司法衆議院を解散するというのは，衆議院議員の全員を憲法上の任期に関わらず一斉にクビにすることであるから，その権限はきわめて強大であると言わねばならない。</div>
+            </div>
+        </article>
+        <article id="card-17" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(17)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    そのような<ruby>権限<rt>けんげん</rt></ruby>の<ruby>行使<rt>こうし</rt></ruby>が<ruby>首相<rt>しゅしょう</rt></ruby>の<ruby>自由裁量<rt>じゆうさいりょう</rt></ruby>に<ruby>委ね<rt>ゆだね</rt></ruby>られるとするなら、「<ruby>全国民<rt>ぜんこくみん</rt></ruby>の<ruby>代表<rt>だいひょう</rt></ruby>」（<ruby>恵<rt>めぐみ</rt></ruby>43<ruby>条<rt>じょう</rt></ruby>）であり「<ruby>国権<rt>こっけん</rt></ruby>の<ruby>最高機関<rt>さいこうきかん</rt></ruby>」（<ruby>同<rt>どう</rt></ruby>41<ruby>条<rt>じょう</rt></ruby>）を<ruby>構成<rt>こうせい</rt></ruby>するはずの<ruby>衆議院議員<rt>しゅうぎいんぎいん</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby>て、<ruby>首相<rt>しゅしょう</rt></ruby>の<ruby>権限<rt>けんげん</rt></ruby>が<ruby>大きく<rt>おおきく</rt></ruby>なりすぎるようにも<ruby>思え<rt>おもえ</rt></ruby>る。はたして、<ruby>解散権<rt>かいさんけん</rt></ruby><ruby>行使<rt>こうし</rt></ruby>が<ruby>認め<rt>みとめ</rt></ruby>られる<ruby>場合<rt>ばあい</rt></ruby>は<ruby>限定<rt>げんてい</rt></ruby>されるべきではないのだろうか。このような<ruby>問題<rt>もんだい</rt></ruby>をめぐり、かねて<ruby>憲法<rt>けんぽう</rt></ruby><ruby>学に<rt>まなに</rt></ruby>おいては<ruby>議論<rt>ぎろん</rt></ruby>があるが（<ruby>解散権<rt>かいさんけん</rt></ruby><ruby>論争<rt>ろんそう</rt></ruby>12/），それはいまだに<ruby>決着<rt>けっちゃく</rt></ruby>がついているわけではない。<ruby>解散権<rt>かいさんけん</rt></ruby>の<ruby>所在<rt>しょざい</rt></ruby>や<ruby>限界<rt>げんかい</rt></ruby>をめぐる<ruby>議論<rt>ぎろん</rt></ruby>ついての<ruby>詳細<rt>しょうさい</rt></ruby>は<ruby>教科書<rt>きょうかしょ</rt></ruby><ruby>等<rt>など</rt></ruby>で<ruby>学ん<rt>まなん</rt></ruby>でもらうとして，ここでは、<ruby>憲法<rt>けんぽう</rt></ruby>テクストと<ruby>憲法<rt>けんぽう</rt></ruby><ruby>政治<rt>せいじ</rt></ruby>の<ruby>距離<rt>きょり</rt></ruby>という<ruby>観点<rt>かんてん</rt></ruby>から、いくつかの<ruby>指摘<rt>してき</rt></ruby>をしておこう。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">そのような権限の行使が首相の自由裁量に委ねられるとするなら，「全国民の代表」（恵43条）であり「国権の最高機関」（同41条）を構成するはずの衆議院議員に対して，首相の権限が大きくなりすぎるようにも思える。はたして，解散権行使が認められる場合は限定されるべきではないのだろうか。このような問題をめぐり，かねて憲法学においては議論があるが（解散権論争12/），それはいまだに決着がついているわけではない。解散権の所在や限界をめぐる議論ついての詳細は教科書等で学んでもらうとして，ここでは，憲法テクストと憲法政治の距離という観点から，いくつかの指摘をしておこう。</div>
+            </div>
+        </article>
+        <article id="card-18" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(18)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    まず、<ruby>憲法<rt>けんぽう</rt></ruby>が<ruby>解散<rt>かいさん</rt></ruby>の<ruby>行わ<rt>おこなわ</rt></ruby>れる<ruby>条件<rt>じょうけん</rt></ruby>について<ruby>規定<rt>きてい</rt></ruby>しているのは69<ruby>条<rt>じょう</rt></ruby>であるが、<ruby>戦後<rt>せんご</rt></ruby><ruby>行わ<rt>おこなわ</rt></ruby>れた25<ruby>回<rt>かい</rt></ruby>の<ruby>解散<rt>かいさん</rt></ruby>のうち 69<ruby>条<rt>じょう</rt></ruby>の<ruby>条件<rt>じょうけん</rt></ruby><ruby>一一<rt>いちいち</rt></ruby><ruby>内閣<rt>ないかく</rt></ruby><ruby>不着<rt>ふちゃく</rt></ruby><ruby>任<rt>にん</rt></ruby><ruby>案<rt>あん</rt></ruby>の<ruby>可決<rt>かけつ</rt></ruby>または<ruby>内閣<rt>ないかく</rt></ruby><ruby>言<rt>げん</rt></ruby><ruby>任<rt>にん</rt></ruby><ruby>案<rt>あん</rt></ruby>の<ruby>否決ーー<rt>ひけつーー</rt></ruby>が<ruby>満た<rt>みた</rt></ruby>されて<ruby>解散<rt>かいさん</rt></ruby>が<ruby>行わ<rt>おこなわ</rt></ruby>れたのは4<ruby>回<rt>かい</rt></ruby>に<ruby>過ぎな<rt>すぎな</rt></ruby>い。<ruby>残る<rt>のこる</rt></ruby>21<ruby>回<rt>かい</rt></ruby>は、69<ruby>条<rt>じょう</rt></ruby>の<ruby>条件<rt>じょうけん</rt></ruby>が<ruby>満た<rt>みた</rt></ruby>されていないにも<ruby>関わ<rt>かかわ</rt></ruby>らず、<ruby>憲法<rt>けんぽう</rt></ruby>7<ruby>条<rt>じょう</rt></ruby>3<ruby>号<rt>ごう</rt></ruby>の<ruby>天皇<rt>てんのう</rt></ruby>の<ruby>国事行為<rt>こくじこうい</rt></ruby>を<ruby>利用<rt>りよう</rt></ruby>して<ruby>行わ<rt>おこなわ</rt></ruby>れた。<ruby>実務<rt>じつむ</rt></ruby>においてはもちろん。<ruby>学説<rt>がくせつ</rt></ruby>においても 69<ruby>条<rt>じょう</rt></ruby>の<ruby>場合以外<rt>ばあいいがい</rt></ruby>にも<ruby>解散<rt>かいさん</rt></ruby>は<ruby>可能<rt>かのう</rt></ruby>であるとする「<ruby>非<rt>ひ</rt></ruby><ruby>限定<rt>げんてい</rt></ruby><ruby>説<rt>せつ</rt></ruby>」がほぼ<ruby>確定し<rt>かくていし</rt></ruby>ているとは<ruby>言え<rt>いえ</rt></ruby>るが、しかしその<ruby>根拠<rt>こんきょ</rt></ruby>として<ruby>政府<rt>せいふ</rt></ruby><ruby>見解<rt>けんかい</rt></ruby>や<ruby>通説<rt>つうせつ</rt></ruby><ruby>的<rt>てき</rt></ruby><ruby>見解<rt>けんかい</rt></ruby>が<ruby>採用<rt>さいよう</rt></ruby>する7<ruby>条<rt>じょう</rt></ruby><ruby>説<rt>せつ</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby>ては、<ruby>依然<rt>いぜん</rt></ruby>として<ruby>学説<rt>がくせつ</rt></ruby>において<ruby>有力<rt>ゆうりょく</rt></ruby>な<ruby>批判<rt>ひはん</rt></ruby>がある。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">まず，憲法が解散の行われる条件について規定しているのは69条であるが，戦後行われた25回の解散のうち 69条の条件一一内閣不着任案の可決または内閣言任案の否決ーーが満たされて解散が行われたのは4回に過ぎない。残る21回は，69条の条件が満たされていないにも関わらず，憲法7条3号の天皇の国事行為を利用して行われた。実務においてはもちろん。学説においても 69条の場合以外にも解散は可能であるとする「非限定説」がほぼ確定しているとは言えるが，しかしその根拠として政府見解や通説的見解が採用する7条説に対しては，依然として学説において有力な批判がある。</div>
+            </div>
+        </article>
+        <article id="card-19" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(19)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    また、<ruby>解散<rt>かいさん</rt></ruby>が「<ruby>内閣総理大臣<rt>ないかくそうりだいじん</rt></ruby>の<ruby>専権事項<rt>せんけんじこう</rt></ruby>」であるか<ruby>否か<rt>いなか</rt></ruby>については、<ruby>歴代<rt>れきだい</rt></ruby>の<ruby>首相<rt>しゅしょう</rt></ruby><ruby>答弁<rt>とうべん</rt></ruby>でも、また<ruby>政府<rt>せいふ</rt></ruby><ruby>見解<rt>けんかい</rt></ruby>でも、<ruby>解散権<rt>かいさんけん</rt></ruby>が<ruby>内閣総理大臣<rt>ないかくそうりだいじん</rt></ruby>ではなく<ruby>内閣<rt>ないかく</rt></ruby>にあることが<ruby>繰り返さ<rt>くりかえさ</rt></ruby>れてきた（だからこそ、「<ruby>閣議<rt>かくぎ</rt></ruby>の<ruby>合意<rt>ごうい</rt></ruby>を<ruby>得る<rt>える</rt></ruby><ruby>見と<rt>みと</rt></ruby>おしを<ruby>持つ<rt>もつ</rt></ruby>ことができなかった 〔<ruby>三木武夫<rt>みきたけお</rt></ruby><ruby>首相<rt>しゅしょう</rt></ruby>〕は、みずから<ruby>望む<rt>のぞむ</rt></ruby><ruby>解散<rt>かいさん</rt></ruby><ruby>総選挙<rt>そうせんきょ</rt></ruby>をおこなうことを<ruby>断念<rt>だんねん</rt></ruby>し」たし、<ruby>小泉<rt>こいずみ</rt></ruby><ruby>純一郎<rt>じゅんいちろう</rt></ruby><ruby>首相<rt>しゅしょう</rt></ruby>は、「<ruby>郵政<rt>ゆうせい</rt></ruby><ruby>解散<rt>かいさん</rt></ruby>」に<ruby>反対<rt>はんたい</rt></ruby>した<ruby>農林水産<rt>のうりんすいさん</rt></ruby><ruby>大臣<rt>だいじん</rt></ruby>をわざわざ<ruby>罷免<rt>ひめん</rt></ruby>して<ruby>解散<rt>かいさん</rt></ruby>の<ruby>閣議<rt>かくぎ</rt></ruby><ruby>決定<rt>けってい</rt></ruby>をする<ruby>必要<rt>ひつよう</rt></ruby>があったのであった）。<ruby>岸田<rt>きしだ</rt></ruby><ruby>首相<rt>しゅしょう</rt></ruby>の<ruby>発言<rt>はつげん</rt></ruby>は、つまり<ruby>誤り<rt>あやまり</rt></ruby>である。さらに、<ruby>最近<rt>さいきん</rt></ruby>では、<ruby>時の<rt>ときの</rt></ruby><ruby>内閣<rt>ないかく</rt></ruby>が<ruby>自由<rt>じゆう</rt></ruby>に<ruby>全<rt>ぜん</rt></ruby><ruby>衆議院議員<rt>しゅうぎいんぎいん</rt></ruby>のクビを<ruby>切る<rt>きる</rt></ruby>などということが<ruby>許さ<rt>ゆるさ</rt></ruby>れるのがそもそもおかしいはずで、「<ruby>内閣<rt>ないかく</rt></ruby>による<ruby>解散権<rt>かいさんけん</rt></ruby>の<ruby>行使<rt>こうし</rt></ruby>を<ruby>限定<rt>げんてい</rt></ruby>する、とくに<ruby>政府<rt>せいふ</rt></ruby>・<ruby>与党<rt>よとう</rt></ruby>にとって<ruby>有利<rt>ゆうり</rt></ruby>な<ruby>時機<rt>じき</rt></ruby>に<ruby>総選挙<rt>そうせんきょ</rt></ruby>を<ruby>施行<rt>しこう</rt></ruby>するという<ruby>党派<rt>とうは</rt></ruby><ruby>的<rt>てき</rt></ruby><ruby>利益<rt>りえき</rt></ruby>に<ruby>即し<rt>そくし</rt></ruby>た<ruby>解散<rt>かいさん</rt></ruby>を<ruby>禁止<rt>きんし</rt></ruby>する」ことの<ruby>必要性<rt>ひつようせい</rt></ruby>が<ruby>学説<rt>がくせつ</rt></ruby>においても<ruby>認知<rt>にんち</rt></ruby>され、そのための<ruby>方途<rt>ほうと</rt></ruby>が<ruby>種々<rt>しゅしゅ</rt></ruby><ruby>提案<rt>ていあん</rt></ruby>されている17。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">また，解散が「内閣総理大臣の専権事項」であるか否かについては，歴代の首相答弁でも，また政府見解でも，解散権が内閣総理大臣ではなく内閣にあることが繰り返されてきた（だからこそ，「閣議の合意を得る見とおしを持つことができなかった 〔三木武夫首相〕は，みずから望む解散総選挙をおこなうことを断念し」たし，小泉純一郎首相は，「郵政解散」に反対した農林水産大臣をわざわざ罷免して解散の閣議裁定をする必要があったのであった）。岸田首相の発言は，つまり誤りである。さらに，最近では，時の内閣が自由に全衆議院議員のクビを切るなどということが許されるのがそもそもおかしいはずで，「内閣による解散権の行使を限定する，とくに政府・与党にとって有利な時機に総選挙を施行するという党派的利益に即した解散を禁止する」ことの必要性が学説においても認知され，そのための方途が種々提案されている17。</div>
+            </div>
+        </article>
+        <article id="card-20" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(20)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    たしかに、「<ruby>解散権<rt>かいさんけん</rt></ruby>が<ruby>政治的<rt>せいじてき</rt></ruby>に<ruby>濫用<rt>らんよう</rt></ruby>されないためには、<ruby>濫用<rt>らんよう</rt></ruby>を<ruby>許さ<rt>ゆるさ</rt></ruby>ない<ruby>有権者<rt>ゆうけんしゃ</rt></ruby>の<ruby>成熟<rt>せいじゅく</rt></ruby>した<ruby>反応<rt>はんのう</rt></ruby>が<ruby>選挙結果<rt>せんきょけっか</rt></ruby>によって<ruby>示さ<rt>しめさ</rt></ruby>れる<ruby>以外<rt>いがい</rt></ruby>に、<ruby>最終的<rt>さいしゅうてき</rt></ruby>なきめ<ruby>手<rt>て</rt></ruby>はない」としても、その<ruby>選挙結果<rt>せんきょけっか</rt></ruby><ruby>自体<rt>じたい</rt></ruby>が、<ruby>内閣<rt>ないかく</rt></ruby>・<ruby>与党<rt>よとう</rt></ruby>の<ruby>賛成<rt>さんせい</rt></ruby>がなければ<ruby>改正<rt>かいせい</rt></ruby>されえない<ruby>選挙制度<rt>せんきょせいど</rt></ruby>と<ruby>内閣<rt>ないかく</rt></ruby>・<ruby>与党<rt>よとう</rt></ruby>（<ruby>内<rt>ない</rt></ruby><ruby>主流派<rt>しゅりゅうは</rt></ruby>）の<ruby>選択す<rt>せんたくす</rt></ruby>る<ruby>解散<rt>かいさん</rt></ruby><ruby>解散<rt>かいさん</rt></ruby><ruby>総選挙<rt>そうせんきょ</rt></ruby>の<ruby>時機<rt>じき</rt></ruby>に<ruby>大きく<rt>おおきく</rt></ruby><ruby>依存<rt>いぞん</rt></ruby>する<ruby>以上<rt>いじょう</rt></ruby>、<ruby>結局<rt>けっきょく</rt></ruby>は、それもさほど<ruby>期待す<rt>きたいす</rt></ruby>ることはできないと<ruby>言わ<rt>いわ</rt></ruby>ざるをえない。<ruby>憲法<rt>けんぽう</rt></ruby>の<ruby>主た<rt>しゅた</rt></ruby>る<ruby>日<rt>にち</rt></ruby><ruby>的の<rt>てきの</rt></ruby>1つは、<ruby>公権力<rt>こうけんりょく</rt></ruby>を<ruby>統制<rt>とうせい</rt></ruby>することにある。「いうまでもなく<ruby>憲法<rt>けんぽう</rt></ruby>は、<ruby>主権者<rt>しゅけんしゃ</rt></ruby>たる<ruby>国民<rt>こくみん</rt></ruby>が<ruby>国<rt>くに</rt></ruby>の<ruby>統治<rt>とうち</rt></ruby>のあり<ruby>方を<rt>ほうを</rt></ruby><ruby>縛る<rt>しばる</rt></ruby><ruby>法規<rt>ほうき</rt></ruby><ruby>範<rt>はん</rt></ruby>であり、<ruby>政治<rt>せいじ</rt></ruby>といえどもこれに<ruby>背く<rt>そむく</rt></ruby>ことは<ruby>許さ<rt>ゆるさ</rt></ruby>れない」とも<ruby>言わ<rt>いわ</rt></ruby>れるとおりである。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">たしかに，「解散権が政治的に濫用されないためには，濫用を許さない有権者の成熟した反応が選挙結果によって示される以外に，最終的なきめ手はない」としても，その選挙結果自体が，内閣・与党の賛成がなければ改正されえない選挙制度と内閣・与党（内主流派）の選択する解散＝総選挙の時機に大きく依存する以上，結局は，それもさほど期待することはできないと言わざるをえない。憲法の主たる日的の1つは，公権力を統制することにある。「いうまでもなく憲法は，主権者たる国民が国の統治のあり方を縛る法規範であり，政治といえどもこれに背くことは許されない」とも言われるとおりである。</div>
+            </div>
+        </article>
+        <article id="card-21" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(21)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    「<ruby>日本国民<rt>にほんこくみん</rt></ruby>は、<ruby>正当<rt>せいとう</rt></ruby>に<ruby>選挙<rt>せんきょ</rt></ruby>された<ruby>国会<rt>こっかい</rt></ruby>における<ruby>代表者<rt>だいひょうしゃ</rt></ruby>を<ruby>通じ<rt>つうじ</rt></ruby>て<ruby>行動<rt>こうどう</rt></ruby>」（<ruby>前文<rt>ぜんぶん</rt></ruby>）すると<ruby>宣言<rt>せんげん</rt></ruby>する<ruby>日本国憲法<rt>にほんこくけんぽう</rt></ruby><ruby>下に<rt>したに</rt></ruby>おいて、その<ruby>代表者<rt>だいひょうしゃ</rt></ruby>（の<ruby>半分<rt>はんぶん</rt></ruby>）の<ruby>地位<rt>ちい</rt></ruby>がひとり<ruby>内閣総理大臣<rt>ないかくそうりだいじん</rt></ruby>の「<ruby>適切<rt>てきせつ</rt></ruby>〔な〕<ruby>判断<rt>はんだん</rt></ruby>」にのみ<ruby>依存<rt>いぞん</rt></ruby>するなどという<ruby>主張<rt>しゅちょう</rt></ruby>は、<ruby>法的<rt>ほうてき</rt></ruby>に<ruby>正当化<rt>せいとうか</rt></ruby>される<ruby>余地<rt>よち</rt></ruby>はないはずである。しかし、<ruby>法的<rt>ほうてき</rt></ruby>に<ruby>正当化<rt>せいとうか</rt></ruby>される<ruby>余地<rt>よち</rt></ruby>はないということを<ruby>法的<rt>ほうてき</rt></ruby>に<ruby>確認す<rt>かくにんす</rt></ruby>る<ruby>術<rt>じゅつ</rt></ruby>もまたないのが、<ruby>現在<rt>げんざい</rt></ruby>の「この<ruby>国<rt>くに</rt></ruby>のかたち」なのである。<ruby>周知<rt>しゅうち</rt></ruby>のように、<ruby>最高裁<rt>さいこうさい</rt></ruby>は、<ruby>解散<rt>かいさん</rt></ruby>の<ruby>合憲<rt>ごうけん</rt></ruby><ruby>性<rt>せい</rt></ruby><ruby>審査<rt>しんさ</rt></ruby>を<ruby>初めて<rt>はじめて</rt></ruby><ruby>求め<rt>もとめ</rt></ruby>られた<ruby>際<rt>きわ</rt></ruby>、「<ruby>現実<rt>げんじつ</rt></ruby>に<ruby>行わ<rt>おこなわ</rt></ruby>れた<ruby>衆議院<rt>しゅうぎいん</rt></ruby>の<ruby>解散<rt>かいさん</rt></ruby>が、その<ruby>依拠<rt>いきょ</rt></ruby>する<ruby>憲法<rt>けんぽう</rt></ruby>の<ruby>条章<rt>じょうしょう</rt></ruby>について<ruby>適用<rt>てきよう</rt></ruby>を<ruby>誤っ<rt>あやまっ</rt></ruby>たが<ruby>故に<rt>ゆえに</rt></ruby>、<ruby>法律上<rt>ほうりつじょう</rt></ruby><ruby>無効<rt>むこう</rt></ruby>であるかどうか…・・・・・のごときは<ruby>裁判所<rt>さいばんしょ</rt></ruby>の<ruby>審査<rt>しんさ</rt></ruby><ruby>権<rt>けん</rt></ruby>に<ruby>服し<rt>ふくし</rt></ruby>ないものと<ruby>解す<rt>かいす</rt></ruby>べきである」と10<ruby>対<rt>つい</rt></ruby>4の<ruby>多数決<rt>たすうけつ</rt></ruby>で<ruby>決定<rt>けってい</rt></ruby>した20。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">「日本国民は，正当に選挙された国会における代表者を通じて行動」（前文）すると宣言する日本国憲法下において，その代表者（の半分）の地位がひとり内閣総理大臣の「適切〔な〕判断」にのみ依存するなどという主張は，法的に正当化される余地はないはずである。しかし，法的に正当化される余地はないということを法的に確認する術もまたないのが，現在の「この国のかたち」なのである。周知のように，最高裁は，解散の合憲性審査を初めて求められた際，「現実に行われた衆議院の解散が，その依拠する憲法の条章について適用を誤ったが故に，法律上無効であるかどうか…・・・・・のごときは裁判所の審査権に服しないものと解すべきである」と10対4の多数決で裁定した20。</div>
+            </div>
+        </article>
+        <article id="card-22" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(22)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>以来<rt>いらい</rt></ruby>，「<ruby>統治行為<rt>とうちこうい</rt></ruby><ruby>論<rt>ろん</rt></ruby>」は<ruby>一人歩き<rt>ひとりあるき</rt></ruby>をし、<ruby>解散<rt>かいさん</rt></ruby>の<ruby>合憲<rt>ごうけん</rt></ruby><ruby>性<rt>せい</rt></ruby>を<ruby>裁判所<rt>さいばんしょ</rt></ruby>で<ruby>争う<rt>あらそう</rt></ruby>ことはできないものと<ruby>一般に<rt>いっぱんに</rt></ruby><ruby>解さ<rt>かいさ</rt></ruby>れてきた。<ruby>憲法<rt>けんぽう</rt></ruby><ruby>条文<rt>じょうぶん</rt></ruby>と<ruby>憲法<rt>けんぽう</rt></ruby><ruby>政治<rt>せいじ</rt></ruby>の<ruby>乖離<rt>かいり</rt></ruby>とおぼしき<ruby>事例<rt>じれい</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby><ruby>最高裁<rt>さいこうさい</rt></ruby>が<ruby>違憲<rt>いけん</rt></ruby><ruby>審査<rt>しんさ</rt></ruby><ruby>権限<rt>けんげん</rt></ruby>を<ruby>行使<rt>こうし</rt></ruby>しないのは、もちろん<ruby>解散権<rt>かいさんけん</rt></ruby>に<ruby>限っ<rt>かぎっ</rt></ruby>たことではない。たとえば<ruby>憲法<rt>けんぽう</rt></ruby> 53<ruby>条<rt>じょう</rt></ruby><ruby>後段<rt>こうだん</rt></ruby>に<ruby>定め<rt>さだめ</rt></ruby>のある「いづれかの<ruby>議院<rt>ぎいん</rt></ruby>の<ruby>総<rt>そう</rt></ruby><ruby>議員<rt>ぎいん</rt></ruby>の4<ruby>分<rt>ふん</rt></ruby>の1<ruby>以上<rt>いじょう</rt></ruby>の<ruby>要求<rt>ようきゅう</rt></ruby>」に<ruby>基づ<rt>もとづ</rt></ruby>く<ruby>内閣<rt>ないかく</rt></ruby>の<ruby>臨時<rt>りんじ</rt></ruby><ruby>国会<rt>こっかい</rt></ruby><ruby>召集<rt>しょうしゅう</rt></ruby><ruby>決定<rt>けってい</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>が<ruby>内閣<rt>ないかく</rt></ruby>によって<ruby>合理的<rt>ごうりてき</rt></ruby><ruby>期間内<rt>きかんない</rt></ruby>に<ruby>果た<rt>はた</rt></ruby>されない<ruby>問題<rt>もんだい</rt></ruby>もそうであるし，<ruby>内閣総理大臣<rt>ないかくそうりだいじん</rt></ruby>による<ruby>靖國神社参拝<rt>やすくにじんじゃさんぱい</rt></ruby>と<ruby>憲法<rt>けんぽう</rt></ruby> 20<ruby>条<rt>じょう</rt></ruby>3<ruby>項<rt>こう</rt></ruby>の<ruby>関係<rt>かんけい</rt></ruby>についてもそうである。<ruby>憲法<rt>けんぽう</rt></ruby><ruby>尊重<rt>そんちょう</rt></ruby><ruby>擁護<rt>ようご</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>（<ruby>憲<rt>のり</rt></ruby> 99<ruby>条<rt>じょう</rt></ruby>）を<ruby>負う<rt>おう</rt></ruby><ruby>国会議員<rt>こっかいぎいん</rt></ruby>（<ruby>元首相<rt>もとしゅしょう</rt></ruby>）が<ruby>日本国憲法<rt>にほんこくけんぽう</rt></ruby>を「みっともない<ruby>憲法<rt>けんぽう</rt></ruby>」と<ruby>侮辱<rt>ぶじょく</rt></ruby>してもなにか<ruby>法的<rt>ほうてき</rt></ruby>な<ruby>制裁<rt>せいさい</rt></ruby>があるわけではない。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">以来，「統治行為論」は一人歩きをし，解散の合憲性を裁判所で争うことはできないものと一般に解されてきた。憲法条文と憲法政治の乖離とおぼしき事例に対し最高裁が違憲審査権限を行使しないのは，もちろん解散権に限ったことではない。たとえば憲法 53条後段に定めのある「いづれかの議院の総議員の4分の1以上の要求」に基づく内閣の臨時国会召集裁定義務が内閣によって合理的期間内に果たされない問題もそうであるし，内閣総理大臣による靖國神社参拝と憲法 20条3項の関係についてもそうである。憲法尊重擁護義務（憲 99条）を負う国会議員（元首相）が日本国憲法を「みっともない憲法」と侮辱してもなにか法的な制裁があるわけではない。</div>
+            </div>
+        </article>
+        <article id="card-23" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(23)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    そして、<ruby>憲法<rt>けんぽう</rt></ruby>9<ruby>条<rt>じょう</rt></ruby>と<ruby>自衛隊<rt>じえいたい</rt></ruby>や<ruby>自衛隊<rt>じえいたい</rt></ruby><ruby>関連<rt>かんれん</rt></ruby><ruby>法制<rt>ほうせい</rt></ruby>の<ruby>適合性<rt>てきごうせい</rt></ruby>については、<ruby>改め<rt>あらため</rt></ruby>て<ruby>言う<rt>いう</rt></ruby>までもない。<ruby>内閣<rt>ないかく</rt></ruby>による<ruby>衆議院<rt>しゅうぎいん</rt></ruby>の<ruby>解散<rt>かいさん</rt></ruby>については<ruby>憲法<rt>けんぽう</rt></ruby><ruby>条文<rt>じょうぶん</rt></ruby>に<ruby>欠<rt>けつ</rt></ruby><ruby>缺<rt>けつ</rt></ruby>があるかもしれないのに<ruby>対し<rt>たいし</rt></ruby>、これらの<ruby>事例<rt>じれい</rt></ruby>については<ruby>明確<rt>めいかく</rt></ruby>に<ruby>憲法<rt>けんぽう</rt></ruby><ruby>条文<rt>じょうぶん</rt></ruby>が<ruby>存在<rt>そんざい</rt></ruby>するように<ruby>見え<rt>みえ</rt></ruby>るにも<ruby>関わ<rt>かかわ</rt></ruby>らず、<ruby>最高裁<rt>さいこうさい</rt></ruby>の<ruby>判断<rt>はんだん</rt></ruby>はない。「<ruby>最高裁判所<rt>さいこうさいばんしょ</rt></ruby>が<ruby>日本<rt>にっぽん</rt></ruby>において<ruby>妥当<rt>だとう</rt></ruby>すべき<ruby>憲法<rt>けんぽう</rt></ruby>テクストの<ruby>意味<rt>いみ</rt></ruby>すなわち<ruby>憲法<rt>けんぽう</rt></ruby><ruby>規範<rt>きはん</rt></ruby>を<ruby>最終的<rt>さいしゅうてき</rt></ruby>に<ruby>確定す<rt>かくていす</rt></ruby>る<ruby>権限<rt>けんげん</rt></ruby>を<ruby>有す<rt>ゆうす</rt></ruby>る<ruby>機関<rt>きかん</rt></ruby>である」<ruby>以上<rt>いじょう</rt></ruby>は、「<ruby>最高裁判所<rt>さいこうさいばんしょ</rt></ruby>による<ruby>憲法判断<rt>けんぽうはんだん</rt></ruby>が<ruby>下さ<rt>くださ</rt></ruby>れなければ、<ruby>未だ<rt>いまだ</rt></ruby><ruby>個別<rt>こべつ</rt></ruby>の<ruby>条文<rt>じょうぶん</rt></ruby>の<ruby>意味<rt>いみ</rt></ruby>は<ruby>確定し<rt>かくていし</rt></ruby>ないままである」ということになる。<ruby>憲法<rt>けんぽう</rt></ruby><ruby>典<rt>てん</rt></ruby>はたしかにそこにあるが、「<ruby>憲法<rt>けんぽう</rt></ruby>」は、<ruby>控え<rt>ひかえ</rt></ruby>めに<ruby>言って<rt>いって</rt></ruby><ruby>流動的<rt>りゅうどうてき</rt></ruby>・<ruby>動態<rt>どうたい</rt></ruby><ruby>的<rt>てき</rt></ruby>でしかなく、あえて<ruby>言え<rt>いえ</rt></ruby>ばまだそこに<ruby>存在<rt>そんざい</rt></ruby>していない、とさえ<ruby>言え<rt>いえ</rt></ruby>るかもしれないのである。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">そして，憲法9条と自衛隊や自衛隊関連法制の適合性については，改めて言うまでもない。内閣による衆議院の解散については憲法条文に欠缺があるかもしれないのに対し，これらの事例については明確に憲法条文が存在するように見えるにも関わらず，最高裁の判断はない。「最高法院が日本において妥当すべき憲法テクストの意味すなわち憲法規範を最終的に確定する権限を有する機関である」以上は，「最高法院による憲法判断が下されなければ，未だ個別の条文の意味は確定しないままである」ということになる。憲法典はたしかにそこにあるが，「憲法」は，控えめに言って流動的・動態的でしかなく，あえて言えばまだそこに存在していない，とさえ言えるかもしれないのである。</div>
+            </div>
+        </article>
+        <section id="card-24" class="my-8 rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 shadow-md border border-indigo-900/80 transition-all duration-300">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="text-xl sm:text-2xl font-bold tracking-wide font-serif text-amber-300">おわりにいまから40<ruby>年以上<rt>ねんいじょう</rt></ruby><ruby>前<rt>まえ</rt></ruby>と<ruby>少し<rt>すこし</rt></ruby><ruby>古く<rt>ふるく</rt></ruby>なるが、<ruby>昭和<rt>しょうわ</rt></ruby>の<ruby>偉大<rt>いだい</rt></ruby>な<ruby>憲法学者<rt>けんぽうがくしゃ</rt></ruby>のなかには、その<ruby>教科書<rt>きょうかしょ</rt></ruby>の<ruby>冒頭<rt>ぼうとう</rt></ruby>で、「『<ruby>憲法<rt>けんぽう</rt></ruby>』と<ruby>聞い<rt>きい</rt></ruby>て<ruby>憲法<rt>けんぽう</rt></ruby><ruby>典<rt>てん</rt></ruby>しか<ruby>考え<rt>かんがえ</rt></ruby>ないようでは、<ruby>学問<rt>がくもん</rt></ruby>は<ruby>始<rt>し</rt></ruby>から<ruby>駄目<rt>だめ</rt></ruby>である」と<ruby>厳しく<rt>いかめしく</rt></ruby><ruby>書く<rt>かく</rt></ruby><ruby>人<rt>にん</rt></ruby>もいた。</h2>
+                <button onclick="playCardText(24)" class="shrink-0 flex items-center space-x-1 bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-amber-400/40 transition-colors select-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    <span>朗讀標題</span>
+                </button>
+            </div>
+            <div class="text-base sm:text-lg font-medium text-indigo-200 font-sans">おわりにいまから40年以上前と少し古くなるが，昭和の偉大な憲法学者のなかには，その教科書の冒頭で，「『憲法』と聞いて憲法典しか考えないようでは，学問は始から駄目である」と厳しく書く人もいた。</div>
+        </section>
+        <article id="card-25" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(25)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>頑<rt>がん</rt></ruby><ruby>学に<rt>まなに</rt></ruby><ruby>倣っ<rt>ならっ</rt></ruby>てそこまで<ruby>厳しい<rt>いかめしい</rt></ruby>ことを<ruby>言う<rt>いう</rt></ruby>つもりも、また<ruby>言え<rt>いえ</rt></ruby>る<ruby>準備<rt>じゅんび</rt></ruby>も<ruby>筆者<rt>ひっしゃ</rt></ruby>にはないが、<ruby>本稿<rt>ほんこう</rt></ruby>は、<ruby>読者<rt>どくしゃ</rt></ruby>が<ruby>憲法<rt>けんぽう</rt></ruby><ruby>学修<rt>がくしゅう</rt></ruby>を<ruby>進め<rt>すすめ</rt></ruby>るうえで、「<ruby>憲法<rt>けんぽう</rt></ruby>」という<ruby>日本語<rt>にほんご</rt></ruby>、<ruby>概念<rt>がいねん</rt></ruby>それ1つをとってみても<ruby>多様<rt>たよう</rt></ruby>な<ruby>意味<rt>いみ</rt></ruby>や<ruby>背景<rt>はいけい</rt></ruby>があることを<ruby>知る<rt>しる</rt></ruby>ことが、<ruby>憲法<rt>けんぽう</rt></ruby>というものの<ruby>特質<rt>とくしつ</rt></ruby>を<ruby>理解<rt>りかい</rt></ruby>することにつながると<ruby>考え<rt>かんがえ</rt></ruby>、その<ruby>解説<rt>かいせつ</rt></ruby>を<ruby>試み<rt>こころみ</rt></ruby>た。そもそも<ruby>憲法<rt>けんぽう</rt></ruby>（「<ruby>規範<rt>きはん</rt></ruby>」）によって<ruby>政治<rt>せいじ</rt></ruby>（「<ruby>現実<rt>げんじつ</rt></ruby>」）を<ruby>統制<rt>とうせい</rt></ruby>しようとするのが<ruby>立憲<rt>りっけん</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>という<ruby>企<rt>き</rt></ruby>てであるとすると，それはもともと<ruby>容易な<rt>よういな</rt></ruby>らざるプロジェクトのはずである。そしてその<ruby>実現<rt>じつげん</rt></ruby>に<ruby>主力<rt>しゅりょく</rt></ruby><ruby>級<rt>きゅう</rt></ruby>の<ruby>貢献<rt>こうけん</rt></ruby>を<ruby>期待さ<rt>きたいさ</rt></ruby>れているはずの<ruby>違憲<rt>いけん</rt></ruby><ruby>審査<rt>しんさ</rt></ruby><ruby>機関<rt>きかん</rt></ruby>が、いくつかの<ruby>立憲<rt>りっけん</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby><ruby>国<rt>くに</rt></ruby>のそれに<ruby>比べ<rt>くらべ</rt></ruby>ると<ruby>際だ<rt>きわだ</rt></ruby>って<ruby>消極的<rt>しょうきょくてき</rt></ruby>であると<ruby>評価<rt>ひょうか</rt></ruby>されざるをえないわが<ruby>国<rt>くに</rt></ruby>の<ruby>場合<rt>ばあい</rt></ruby>、なおさらである。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">頑学に倣ってそこまで厳しいことを言うつもりも，また言える準備も筆者にはないが，本稿は，読者が憲法学修を進めるうえで，「憲法」という日本語，概念それ1つをとってみても多様な意味や背景があることを知ることが，憲法というものの特質を理解することにつながると考え，その解説を試みた。そもそも憲法（「規範」）によって政治（「現実」）を統制しようとするのが立憲主義という企てであるとすると，それはもともと容易ならざるプロジェクトのはずである。そしてその実現に主力級の貢献を期待されているはずの違憲審査機関が，いくつかの立憲主義国のそれに比べると際だって消極的であると評価されざるをえないわが国の場合，なおさらである。</div>
+            </div>
+        </article>
+        <article id="card-26" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(26)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>政治<rt>せいじ</rt></ruby>は<ruby>憲法<rt>けんぽう</rt></ruby>によって<ruby>制<rt>せい</rt></ruby><ruby>倒さ<rt>たおさ</rt></ruby>れねばならず、<ruby>現実<rt>げんじつ</rt></ruby>は<ruby>規範<rt>きはん</rt></ruby>によって<ruby>統制<rt>とうせい</rt></ruby>されねばならぬとしても、<ruby>政治<rt>せいじ</rt></ruby>が<ruby>憲法<rt>けんぽう</rt></ruby>から<ruby>遠ざ<rt>とおざ</rt></ruby>かれば<ruby>遠ざ<rt>とおざ</rt></ruby>かるほど、<ruby>憲法<rt>けんぽう</rt></ruby>の<ruby>統制<rt>とうせい</rt></ruby><ruby>力<rt>ちから</rt></ruby>は<ruby>低下<rt>ていか</rt></ruby>したと<ruby>評価<rt>ひょうか</rt></ruby>され、その<ruby>結果<rt>けっか</rt></ruby><ruby>立憲<rt>りっけん</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>を「<ruby>復権<rt>ふっけん</rt></ruby>」させるために<ruby>今度<rt>こんど</rt></ruby>は<ruby>規範<rt>きはん</rt></ruby>を<ruby>現実<rt>げんじつ</rt></ruby>に<ruby>合わ<rt>あわ</rt></ruby>せるべきだという<ruby>主張<rt>しゅちょう</rt></ruby>が<ruby>説得力<rt>せっとくりょく</rt></ruby>を<ruby>増す<rt>ます</rt></ruby>ことがある。こと9<ruby>条<rt>じょう</rt></ruby>について<ruby>言え<rt>いえ</rt></ruby>ば、「9<ruby>条<rt>じょう</rt></ruby>の<ruby>死文化<rt>しぶんか</rt></ruby>を<ruby>言い<rt>いい</rt></ruby><ruby>募る<rt>つのる</rt></ruby>」のか、それとも<ruby>特定<rt>とくてい</rt></ruby>の<ruby>現実<rt>げんじつ</rt></ruby>について「9<ruby>条<rt>じょう</rt></ruby><ruby>違反<rt>いはん</rt></ruby>の<ruby>疑い<rt>うたがい</rt></ruby>があると<ruby>告発<rt>こくはつ</rt></ruby>し<ruby>続け<rt>つづけ</rt></ruby>る」のか，<ruby>政治<rt>せいじ</rt></ruby>の<ruby>法<rt>ほう</rt></ruby>（jus politicum）としての<ruby>憲法<rt>けんぽう</rt></ruby><ruby>学の<rt>まなの</rt></ruby><ruby>前<rt>まえ</rt></ruby>には<ruby>厳しい<rt>いかめしい</rt></ruby><ruby>選択<rt>せんたく</rt></ruby>がある。（みなみの・しげる） <ruby>血<rt>ち</rt></ruby>
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">政治は憲法によって制倒されねばならず，現実は規範によって統制されねばならぬとしても，政治が憲法から遠ざかれば遠ざかるほど，憲法の統制力は低下したと評価され，その結果立憲主義を「復権」させるために今度は規範を現実に合わせるべきだという主張が説得力を増すことがある。こと9条について言えば，「9条の死文化を言い募る」のか，それとも特定の現実について「9条違反の疑いがあると告発し続ける」のか，政治の法（jus politicum）としての憲法学の前には厳しい選択がある。（みなみの・しげる） 血</div>
+            </div>
+        </article>
+                </main>
+
+                <!-- Footer -->
+                <footer class="bg-slate-900 border-t border-slate-800 py-6 px-6 rounded-xl text-center text-xs text-slate-400">
+                    <p>憲法2023 — 左右對照朗讀與翻譯版</p>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Audio Control Bar -->
+    <div class="fixed bottom-4 right-4 sm:right-8 w-11/12 max-w-xl bg-slate-900/95 backdrop-blur text-white px-5 py-3.5 rounded-2xl shadow-2xl border border-slate-700/80 flex items-center justify-between z-50">
+        <div class="flex items-center space-x-3">
+            <button id="btn-play-all" onclick="togglePlayAll()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold p-2.5 rounded-xl transition-colors shadow-md flex items-center justify-center">
+                <svg id="icon-play" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <svg id="icon-pause" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </button>
+            <button onclick="stopSpeech()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold p-2.5 rounded-xl border border-slate-700 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"></path></svg>
+            </button>
+            <div class="text-xs sm:text-sm">
+                <div id="tts-status" class="font-medium text-slate-200">準備朗讀</div>
+                <div id="tts-detail" class="text-slate-400 text-xs truncate max-w-[150px] sm:max-w-[200px]">點擊按鈕開啟日文語音朗讀</div>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-2">
+            <label class="text-xs text-slate-400 select-none hidden sm:inline">語速</label>
+            <select id="select-rate" onchange="changeRate()" class="bg-slate-800 text-xs text-slate-200 border border-slate-700 rounded-lg px-2 py-1.5 focus:outline-none focus:border-indigo-500">
+                <option value="0.75">0.75x</option>
+                <option value="1.0" selected>1.0x (標準)</option>
+                <option value="1.25">1.25x</option>
+                <option value="1.5">1.5x</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Speech Synthesis & PDF Zoom JavaScript -->
+    <script>
+        let synth = window.speechSynthesis;
+        let currentUtterance = null;
+        let playQueue = [];
+        let currentCardIndex = -1;
+        let isPlayingAll = false;
+        let speechRate = 1.0;
+        let japaneseVoice = null;
+        let currentPdfZoom = 1.0;
+        let pdfBaseSrc = '憲法2023.pdf';
+
+        function setPdfZoom(scaleFactor) {
+            currentPdfZoom = scaleFactor;
+            applyPdfZoom();
+        }
+
+        function zoomPdf(ratio) {
+            currentPdfZoom = Math.max(0.5, Math.min(3.0, currentPdfZoom * ratio));
+            applyPdfZoom();
+        }
+
+        function resetPdfZoom() {
+            currentPdfZoom = 1.0;
+            applyPdfZoom();
+        }
+
+        function applyPdfZoom() {
+            const zoomPercent = Math.round(currentPdfZoom * 100);
+            document.getElementById('pdf-zoom-val').textContent = zoomPercent + '%';
+            const iframe = document.getElementById('pdf-frame');
+            
+            // Apply PDF Open Parameters
+            iframe.src = pdfBaseSrc + '#zoom=' + zoomPercent + '&view=FitH';
+            
+            // Apply CSS Scaling for smooth visual enhancement
+            iframe.style.transform = 'scale(' + currentPdfZoom + ')';
+            iframe.style.width = (100 / currentPdfZoom) + '%';
+            iframe.style.height = (100 / currentPdfZoom) + '%';
+        }
+
+        function togglePdfPanel() {
+            const pdfPanel = document.getElementById('pdf-panel');
+            const contentPanel = document.getElementById('content-panel');
+            if (pdfPanel.classList.contains('hidden')) {
+                pdfPanel.classList.remove('hidden');
+                contentPanel.className = 'w-full lg:w-1/2 h-1/2 lg:h-full bg-slate-950 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 pb-32 transition-all duration-300';
+            } else {
+                pdfPanel.classList.add('hidden');
+                contentPanel.className = 'w-full lg:w-full h-full bg-slate-950 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 pb-32 transition-all duration-300';
+            }
+        }
+
+        function loadVoices() {
+            let voices = synth.getVoices();
+            japaneseVoice = voices.find(v => v.lang === 'ja-JP' || v.lang.startsWith('ja')) || null;
+        }
+
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = loadVoices;
+        }
+        loadVoices();
+
+        function getCleanText(cardId) {
+            const cardEl = document.getElementById('card-' + cardId);
+            if (!cardEl) return '';
+            
+            let targetEl = cardEl.querySelector('.jp-text-content') || cardEl.querySelector('h2') || cardEl;
+            const clone = targetEl.cloneNode(true);
+            
+            const rts = clone.querySelectorAll('rt');
+            rts.forEach(rt => rt.remove());
+            
+            let text = clone.textContent || '';
+            text = text.replace(/\(\d+\)/g, '').replace(/朗讀本段|朗讀標題/g, '').trim();
+            return text;
+        }
+
+        function highlightCard(index) {
+            document.querySelectorAll('.playing-card').forEach(el => el.classList.remove('playing-card'));
+            if (index >= 0) {
+                const el = document.getElementById('card-' + index);
+                if (el) {
+                    el.classList.add('playing-card');
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        }
+
+        function updateUIState(playing) {
+            const iconPlay = document.getElementById('icon-play');
+            const iconPause = document.getElementById('icon-pause');
+            const statusEl = document.getElementById('tts-status');
+            
+            if (playing) {
+                iconPlay.classList.add('hidden');
+                iconPause.classList.remove('hidden');
+                statusEl.textContent = '朗讀中...';
+            } else {
+                iconPlay.classList.remove('hidden');
+                iconPause.classList.add('hidden');
+                statusEl.textContent = '已暫停 / 準備就緒';
+            }
+        }
+
+        function playCardText(index) {
+            stopSpeech();
+            isPlayingAll = false;
+            currentCardIndex = index;
+            const text = getCleanText(index);
+            if (!text) return;
+            
+            speakText(text, index, () => {
+                highlightCard(-1);
+                updateUIState(false);
+                document.getElementById('tts-detail').textContent = '朗讀完成';
+            });
+        }
+
+        function speakText(text, cardIndex, onEndCallback) {
+            if (synth.speaking) synth.cancel();
+            
+            highlightCard(cardIndex);
+            updateUIState(true);
+            document.getElementById('tts-detail').textContent = text.substring(0, 30) + '...';
+            
+            currentUtterance = new SpeechSynthesisUtterance(text);
+            currentUtterance.lang = 'ja-JP';
+            if (japaneseVoice) currentUtterance.voice = japaneseVoice;
+            currentUtterance.rate = speechRate;
+            
+            currentUtterance.onend = function() {
+                if (onEndCallback) onEndCallback();
+            };
+            
+            currentUtterance.onerror = function(e) {
+                console.error('Speech synthesis error:', e);
+                highlightCard(-1);
+                updateUIState(false);
+            };
+            
+            synth.speak(currentUtterance);
+        }
+
+        function togglePlayAll() {
+            if (synth.speaking && isPlayingAll) {
+                if (synth.paused) {
+                    synth.resume();
+                    updateUIState(true);
+                } else {
+                    synth.pause();
+                    updateUIState(false);
+                }
+                return;
+            }
+            
+            stopSpeech();
+            isPlayingAll = true;
+            let totalCards = document.querySelectorAll('[id^="card-"]').length;
+            let queue = [];
+            for (let i = 0; i < totalCards; i++) {
+                queue.push(i);
+            }
+            
+            playNextInQueue(queue);
+        }
+
+        function playNextInQueue(queue) {
+            if (!isPlayingAll || queue.length === 0) {
+                isPlayingAll = false;
+                highlightCard(-1);
+                updateUIState(false);
+                document.getElementById('tts-detail').textContent = '全文朗讀完畢';
+                return;
+            }
+            
+            let nextIndex = queue.shift();
+            currentCardIndex = nextIndex;
+            const text = getCleanText(nextIndex);
+            
+            if (!text) {
+                playNextInQueue(queue);
+                return;
+            }
+            
+            speakText(text, nextIndex, () => {
+                if (isPlayingAll) playNextInQueue(queue);
+            });
+        }
+
+        function stopSpeech() {
+            isPlayingAll = false;
+            if (synth.speaking || synth.paused) {
+                synth.cancel();
+            }
+            highlightCard(-1);
+            updateUIState(false);
+            document.getElementById('tts-detail').textContent = '已停止朗讀';
+        }
+
+        function changeRate() {
+            const select = document.getElementById('select-rate');
+            speechRate = parseFloat(select.value);
+            if (synth.speaking && currentCardIndex >= 0) {
+                let wasPlayingAll = isPlayingAll;
+                let cardToResume = currentCardIndex;
+                stopSpeech();
+                if (wasPlayingAll) {
+                    isPlayingAll = true;
+                    let totalCards = document.querySelectorAll('[id^="card-"]').length;
+                    let queue = [];
+                    for (let i = cardToResume; i < totalCards; i++) queue.push(i);
+                    playNextInQueue(queue);
+                } else {
+                    playCardText(cardToResume);
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

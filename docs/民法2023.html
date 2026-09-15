@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>民法2023 - 左右對照朗讀與翻譯版</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #0f172a;
+            color: #1e293b;
+        }
+
+        .font-serif {
+            font-family: 'Noto Serif JP', "MS Mincho", serif;
+        }
+
+        .font-sans {
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+
+        .jp-col {
+            font-size: 1.05rem;
+            line-height: 3.1;
+            letter-spacing: 0.02em;
+            word-break: break-word;
+            color: #0f172a;
+        }
+
+        ruby {
+            ruby-position: over;
+            display: inline-ruby;
+        }
+
+        rt {
+            font-size: 0.52em;
+            color: #475569;
+            letter-spacing: 0.01em;
+            font-weight: normal;
+            line-height: 1.0;
+            user-select: none;
+        }
+
+        u {
+            text-decoration: none;
+            border-bottom: 2px solid #ef4444;
+            padding-bottom: 2px;
+        }
+
+        .zh-col {
+            font-size: 1.0rem;
+            line-height: 1.75;
+        }
+
+        .playing-card {
+            box-shadow: 0 0 0 3px #6366f1, 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+            background-color: #f5f3ff !important;
+        }
+    </style>
+</head>
+
+<body class="h-screen overflow-hidden flex flex-col bg-slate-950">
+    <!-- Top Fixed Header -->
+    <header class="h-14 bg-slate-950 text-white px-4 sm:px-6 border-b border-slate-800 shrink-0 flex items-center justify-between shadow-md z-40">
+        <div class="flex items-center space-x-3 truncate">
+            <a href="index.html" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 hover:text-white px-3 py-1.5 rounded-lg text-xs font-semibold border border-slate-700 transition-colors flex items-center space-x-1 shrink-0 select-none">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                <span>總覽</span>
+            </a>
+            <h1 class="text-sm sm:text-base font-bold truncate font-serif text-slate-100">
+                民法2023
+            </h1>
+        </div>
+        <div class="flex items-center space-x-2 shrink-0">
+            <button onclick="togglePdfPanel()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors flex items-center space-x-1 select-none">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                <span id="toggle-pdf-text">隱藏/顯示 原文PDF</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Split View Container (Height = 100vh - 3.5rem) -->
+    <div class="flex-1 flex flex-col lg:flex-row w-full overflow-hidden h-[calc(100vh-3.5rem)]">
+        <!-- Left Panel: Fixed Original PDF Viewer with Zoom Controls -->
+        <div id="pdf-panel" class="w-full lg:w-1/2 h-1/2 lg:h-full bg-slate-900 border-r border-slate-800 flex flex-col shrink-0">
+            <!-- PDF Zoom & Control Bar -->
+            <div class="bg-slate-950 px-3 py-2 border-b border-slate-800 flex items-center justify-between text-xs shrink-0 select-none">
+                <span class="text-slate-400 font-semibold flex items-center">
+                    <svg class="w-3.5 h-3.5 mr-1 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    PDF 縮放控制
+                </span>
+                <div class="flex items-center space-x-1.5">
+                    <button onclick="zoomPdf(0.9)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-2 py-0.5 rounded border border-slate-700 transition-colors" title="縮小">-</button>
+                    <span id="pdf-zoom-val" class="font-mono text-indigo-300 w-12 text-center">100%</span>
+                    <button onclick="zoomPdf(1.1)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-2 py-0.5 rounded border border-slate-700 transition-colors" title="放大">+</button>
+                    <button onclick="setPdfZoom(1.25)" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 px-2 py-0.5 rounded border border-slate-700 transition-colors">1.25x</button>
+                    <button onclick="setPdfZoom(1.5)" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 px-2 py-0.5 rounded border border-slate-700 transition-colors">1.5x</button>
+                    <button onclick="setPdfZoom(2.0)" class="bg-slate-800 hover:bg-slate-700 text-amber-300 px-2 py-0.5 rounded border border-slate-700 transition-colors">2.0x</button>
+                    <button onclick="resetPdfZoom()" class="bg-slate-800 hover:bg-slate-700 text-slate-400 px-2 py-0.5 rounded border border-slate-700 transition-colors">重置</button>
+                </div>
+            </div>
+            <!-- PDF Iframe Container -->
+            <div id="pdf-container" class="flex-1 w-full h-full overflow-auto bg-slate-900 p-2 relative">
+                <iframe id="pdf-frame" src="民法2023.pdf" class="w-full h-full rounded-xl bg-white shadow-inner border border-slate-700 transition-transform origin-top-left"></iframe>
+            </div>
+        </div>
+
+        <!-- Right Panel: Independently Scrolling Translated Content & Audio Reader -->
+        <div id="content-panel" class="w-full lg:w-1/2 h-1/2 lg:h-full bg-slate-950 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 pb-32 transition-all duration-300">
+            <div class="max-w-3xl mx-auto space-y-4">
+                <!-- Banner Card -->
+                <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 rounded-2xl shadow-xl border border-indigo-900">
+                    <span class="inline-block bg-indigo-500/20 text-indigo-300 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider mb-2 border border-indigo-400/30">
+                        法學日文左右對照朗讀版
+                    </span>
+                    <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-white mb-2 font-serif">
+                        民法2023
+                    </h2>
+                    <p class="text-indigo-200 text-sm sm:text-base font-medium mb-3">
+                        ——民法2023 法學論文對照解析 <span class="text-indigo-300/80 text-xs font-normal">（民法2023 法律專題解析）</span>
+                    </p>
+                    <div class="text-xs text-slate-300 pt-3 border-t border-indigo-900/80">
+                        <span class="font-semibold text-indigo-300">作者：</span>日本法學研究會 / Legal Research Group
+                    </div>
+                </div>
+
+                <!-- Main Paragraphs -->
+                <main class="space-y-4">
+
+        <section id="card-0" class="my-8 rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 shadow-md border border-indigo-900/80 transition-all duration-300">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="text-xl sm:text-2xl font-bold tracking-wide font-serif text-amber-300">SPECIAL FEATURE<ruby>民法<rt>みんぽう</rt></ruby>「<ruby>人<rt>にん</rt></ruby>」<ruby>東京大学<rt>とうきょうだいがく</rt></ruby><ruby>教授<rt>きょうじゅ</rt></ruby><ruby>小粥<rt>おかい</rt></ruby><ruby>太郎<rt>たろう</rt></ruby>KOGAYU Taroはじめに<ruby>本稿<rt>ほんこう</rt></ruby>では、<ruby>民法<rt>みんぽう</rt></ruby>および<ruby>民法<rt>みんぽう</rt></ruby><ruby>学<rt>がく</rt></ruby>がどのようなものであるのか、それらの<ruby>一端<rt>いったん</rt></ruby>について、「<ruby>人<rt>にん</rt></ruby>」という<ruby>切り口<rt>きりくち</rt></ruby>からの<ruby>説明<rt>せつめい</rt></ruby>が<ruby>行わ<rt>おこなわ</rt></ruby>れる。</h2>
+                <button onclick="playCardText(0)" class="shrink-0 flex items-center space-x-1 bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-amber-400/40 transition-colors select-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    <span>朗讀標題</span>
+                </button>
+            </div>
+            <div class="text-base sm:text-lg font-medium text-indigo-200 font-sans">SPECIAL FEATURE民法「人」東京大学教授小粥太郎KOGAYU Taroはじめに本稿では，民法および民法学がどのようなものであるのか，それらの一端について，「人」という切り口からの説明が行われる。</div>
+        </section>
+        <article id="card-1" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(1)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    「『<ruby>事実<rt>じじつ</rt></ruby>の（de facto） <ruby>世界<rt>せかい</rt></ruby>』と<ruby>区別<rt>くべつ</rt></ruby>して、<ruby>別個<rt>べっこ</rt></ruby>に『<ruby>法<rt>ほう</rt></ruby>と<ruby>権利<rt>けんり</rt></ruby>の（de jure）<ruby>世界<rt>せかい</rt></ruby>』を<ruby>構成<rt>こうせい</rt></ruby>する<ruby>技術<rt>ぎじゅつ</rt></ruby>は、『<ruby>西洋<rt>せいよう</rt></ruby>』に<ruby>始ま<rt>はじま</rt></ruby>る<ruby>制度<rt>せいど</rt></ruby>である。そこでは，<ruby>事実<rt>じじつ</rt></ruby>の<ruby>世界<rt>せかい</rt></ruby>でおきる<ruby>人間<rt>にんげん</rt></ruby>の<ruby>接触<rt>せっしょく</rt></ruby><ruby>交流<rt>こうりゅう</rt></ruby>の<ruby>要点<rt>ようてん</rt></ruby>に、<ruby>法<rt>ほう</rt></ruby>と<ruby>権利<rt>けんり</rt></ruby>の<ruby>世界<rt>せかい</rt></ruby>の<ruby>効果<rt>こうか</rt></ruby>が<ruby>対応<rt>たいおう</rt></ruby>する。」といわれる。この<ruby>世界観<rt>せかいかん</rt></ruby>に<ruby>照ら<rt>てら</rt></ruby>せば、「<ruby>人<rt>にん</rt></ruby>」は、「<ruby>事実<rt>じじつ</rt></ruby>の<ruby>世界<rt>せかい</rt></ruby>」に<ruby>存在<rt>そんざい</rt></ruby>する<ruby>生身<rt>なまみ</rt></ruby>の<ruby>人間<rt>にんげん</rt></ruby>や<ruby>企業<rt>きぎょう</rt></ruby>などとは<ruby>異な<rt>ことな</rt></ruby>り、「<ruby>法<rt>ほう</rt></ruby>（と<ruby>権利<rt>けんり</rt></ruby>）の<ruby>世界<rt>せかい</rt></ruby>」に<ruby>属する<rt>ぞくする</rt></ruby>「<ruby>概念<rt>がいねん</rt></ruby>」である。<ruby>民法<rt>みんぽう</rt></ruby><ruby>学<rt>がく</rt></ruby>は、この<ruby>別<rt>べつ</rt></ruby>を<ruby>活用<rt>かつよう</rt></ruby>して<ruby>物事<rt>ものごと</rt></ruby>を<ruby>考え<rt>かんがえ</rt></ruby>る。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">「『事実の（de facto） 世界』と区別して，別個に『法と権利の（de jure）世界』を構成する技術は，『西洋』に始まる制度である。そこでは，事実の世界でおきる人間の接触交流の要点に，法と権利の世界の効果が対応する。」といわれる。この世界観に照らせば，「人」は，「事実の世界」に存在する生身の人間や企業などとは異なり，「法（と権利）の世界」に属する「概念」である。民法学は，この別を活用して物事を考える。</div>
+            </div>
+        </article>
+        <section id="card-2" class="my-8 rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 shadow-md border border-indigo-900/80 transition-all duration-300">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="text-xl sm:text-2xl font-bold tracking-wide font-serif text-amber-300">はじめに、<ruby>民法<rt>みんぽう</rt></ruby>とは<ruby>何か<rt>なにか</rt></ruby>について、ごくおおまかに<ruby>情報<rt>じょうほう</rt></ruby>を<ruby>共有<rt>きょうゆう</rt></ruby>しておきたい。</h2>
+                <button onclick="playCardText(2)" class="shrink-0 flex items-center space-x-1 bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-amber-400/40 transition-colors select-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    <span>朗讀標題</span>
+                </button>
+            </div>
+            <div class="text-base sm:text-lg font-medium text-indigo-200 font-sans">はじめに，民法とは何かについて，ごくおおまかに情報を共有しておきたい。</div>
+        </section>
+        <article id="card-3" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(3)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>更<rt>こう</rt></ruby>・<ruby>消滅<rt>しょうめつ</rt></ruby>）が<ruby>生じ<rt>しょうじ</rt></ruby>る［<ruby>効果<rt>こうか</rt></ruby>］という<ruby>約束事<rt>やくそくごと</rt></ruby>である。ルールは、<ruby>民法<rt>みんぽう</rt></ruby><ruby>典<rt>てん</rt></ruby>（<ruby>民法<rt>みんぽう</rt></ruby>という<ruby>名前<rt>なまえ</rt></ruby>の<ruby>付い<rt>つい</rt></ruby>た<ruby>法律<rt>ほうりつ</rt></ruby>）に<ruby>明記<rt>めいき</rt></ruby>されていることもあるが、<ruby>重要な<rt>じゅうような</rt></ruby>ルールであっても<ruby>当然<rt>とうぜん</rt></ruby>の<ruby>前提<rt>ぜんてい</rt></ruby>だということで<ruby>書か<rt>かか</rt></ruby>れていないことも<ruby>珍しく<rt>めずらしく</rt></ruby>ない（そうした<ruby>事情<rt>じじょう</rt></ruby>もあり、<ruby>条文<rt>じょうぶん</rt></ruby>だけでなく、<ruby>教科書<rt>きょうかしょ</rt></ruby>を<ruby>読む<rt>よむ</rt></ruby><ruby>必要<rt>ひつよう</rt></ruby>がある）。<ruby>民法<rt>みんぽう</rt></ruby>の<ruby>世界<rt>せかい</rt></ruby>では、<ruby>実社会<rt>じっしゃかい</rt></ruby>の<ruby>紛争<rt>ふんそう</rt></ruby>を、<ruby>民法上<rt>みんぽうじょう</rt></ruby>の<ruby>権利<rt>けんり</rt></ruby>の<ruby>有無<rt>うむ</rt></ruby>という<ruby>形<rt>かたち</rt></ruby>に<ruby>翻訳<rt>ほんやく</rt></ruby>して<ruby>把握<rt>はあく</rt></ruby>する。たとえば、<ruby>実際に<rt>じっさいに</rt></ruby>は、さまざまな<ruby>感情<rt>かんじょう</rt></ruby>がうごめくはずのもめごとが、<ruby>民法<rt>みんぽう</rt></ruby>の<ruby>世界<rt>せかい</rt></ruby>では、<ruby>民法<rt>みんぽう</rt></ruby> 709<ruby>条<rt>じょう</rt></ruby>が<ruby>定め<rt>さだめ</rt></ruby>る、<ruby>不法行為<rt>ふほうこうい</rt></ruby>による<ruby>損害賠償請求<rt>そんがいばいしょうせいきゅう</rt></ruby><ruby>権<rt>けん</rt></ruby>（<ruby>債権<rt>さいけん</rt></ruby>）が<ruby>生じ<rt>しょうじ</rt></ruby>るための<ruby>要件<rt>ようけん</rt></ruby>が<ruby>充足<rt>じゅうそく</rt></ruby>されたか<ruby>否か<rt>いなか</rt></ruby>という<ruby>形<rt>かたち</rt></ruby>を<ruby>纏っ<rt>まとっ</rt></ruby>たりする。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">更・消滅）が生じる［効果］という約束事である。ルールは，民法典（民法という名前の付いた法律）に明記されていることもあるが，重要なルールであっても当然の前提だということで書かれていないことも珍しくない（そうした事情もあり，条文だけでなく，教科書を読む必要がある）。民法の世界では，実社会の紛争を，民法上の権利の有無という形に翻訳して把握する。たとえば，実際には，さまざまな感情がうごめくはずのもめごとが，民法の世界では，民法 709条が定める，不法行為による損害賠償請求権（債権）が生じるための要件が充足されたか否かという形を纏ったりする。</div>
+            </div>
+        </article>
+        <section id="card-4" class="my-8 rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 shadow-md border border-indigo-900/80 transition-all duration-300">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="text-xl sm:text-2xl font-bold tracking-wide font-serif text-amber-300">2．<ruby>実質<rt>じっしつ</rt></ruby>つぎに、<ruby>実質的<rt>じっしつてき</rt></ruby>にみれば、<ruby>民法<rt>みんぽう</rt></ruby>は、<ruby>商品<rt>しょうひん</rt></ruby><ruby>交換<rt>こうかん</rt></ruby><ruby>法<rt>ほう</rt></ruby>の<ruby>基本構造<rt>きほんこうぞう</rt></ruby>を<ruby>示す<rt>しめす</rt></ruby>ものとされてきた。</h2>
+                <button onclick="playCardText(4)" class="shrink-0 flex items-center space-x-1 bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-amber-400/40 transition-colors select-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    <span>朗讀標題</span>
+                </button>
+            </div>
+            <div class="text-base sm:text-lg font-medium text-indigo-200 font-sans">2．実質つぎに，実質的にみれば，民法は，商品交換法の基本構造を示すものとされてきた。</div>
+        </section>
+        <article id="card-5" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(5)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>図<rt>ず</rt></ruby><ruby>不法行為<rt>ふほうこうい</rt></ruby>②<ruby>契約<rt>けいやく</rt></ruby>②<ruby>人<rt>にん</rt></ruby>①=<ruby>物権<rt>ぶっけん</rt></ruby>②=<ruby>債権<rt>さいけん</rt></ruby>①①<ruby>物物<rt>ぶつぶつ</rt></ruby><ruby>基本構造<rt>きほんこうぞう</rt></ruby>を<ruby>形成<rt>けいせい</rt></ruby>するのは、（a）<ruby>法主<rt>ほうしゅ</rt></ruby><ruby>体<rt>からだ</rt></ruby>である「<ruby>人<rt>にん</rt></ruby>」。（b）「<ruby>人<rt>にん</rt></ruby>」が<ruby>物<rt>もの</rt></ruby>を<ruby>直接<rt>ちょくせつ</rt></ruby>に<ruby>支配<rt>しはい</rt></ruby>する「<ruby>所有<rt>しょゆう</rt></ruby>」、（c）「<ruby>人<rt>にん</rt></ruby>」が<ruby>他の<rt>ほかの</rt></ruby>「<ruby>人<rt>にん</rt></ruby>」との<ruby>間<rt>かん</rt></ruby>で<ruby>各自<rt>かくじ</rt></ruby>が「<ruby>所有<rt>しょゆう</rt></ruby>」する「<ruby>物<rt>もの</rt></ruby>」を<ruby>交換<rt>こうかん</rt></ruby>するための「<ruby>契約<rt>けいやく</rt></ruby>」，これら3つの<ruby>制度<rt>せいど</rt></ruby>である。<ruby>現代<rt>げんだい</rt></ruby>の<ruby>民法<rt>みんぽう</rt></ruby>では、<ruby>人間<rt>にんげん</rt></ruby>であればだれでも，<ruby>民法上<rt>みんぽうじょう</rt></ruby>の「<ruby>人<rt>にん</rt></ruby>」と<ruby>認め<rt>みとめ</rt></ruby>られ、<ruby>物<rt>もの</rt></ruby>を「<ruby>所有<rt>しょゆう</rt></ruby>」し（<ruby>所有権<rt>しょゆうけん</rt></ruby><ruby>物権<rt>ぶっけん</rt></ruby>），「<ruby>契約<rt>けいやく</rt></ruby>」（<ruby>両<rt>りょう</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby>について、それぞれ、<ruby>相手<rt>あいて</rt></ruby>にその「<ruby>物<rt>もの</rt></ruby>」を<ruby>引き渡す<rt>ひきわたす</rt></ruby>ことを<ruby>請求<rt>せいきゅう</rt></ruby>する<ruby>権利<rt>けんり</rt></ruby>〔C<ruby>債権<rt>さいけん</rt></ruby>〕を<ruby>発生<rt>はっせい</rt></ruby>させる<ruby>要件<rt>ようけん</rt></ruby>）によって、「<ruby>所有<rt>しょゆう</rt></ruby>」する<ruby>物<rt>もの</rt></ruby>を<ruby>他の<rt>ほかの</rt></ruby>「<ruby>人<rt>にん</rt></ruby>」「<ruby>所有<rt>しょゆう</rt></ruby>」<ruby>制度<rt>せいど</rt></ruby>の<ruby>一<rt>いち</rt></ruby><ruby>内容<rt>ないよう</rt></ruby>）が、その<ruby>物<rt>もの</rt></ruby>を<ruby>他の<rt>ほかの</rt></ruby>「<ruby>人<rt>にん</rt></ruby>」が<ruby>壊し<rt>こわし</rt></ruby>た<ruby>場合<rt>ばあい</rt></ruby>にはこれに<ruby>対する<rt>たいする</rt></ruby><ruby>損害賠償請求<rt>そんがいばいしょうせいきゅう</rt></ruby><ruby>権<rt>けん</rt></ruby>（<ruby>不法行為<rt>ふほうこうい</rt></ruby>によって<ruby>生じ<rt>しょうじ</rt></ruby>る<ruby>損害賠償請求<rt>そんがいばいしょうせいきゅう</rt></ruby><ruby>権<rt>けん</rt></ruby>。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">図不法行為②契約②人①=物権②=債権①①物物基本構造を形成するのは，（a）法主体である「人」。（b）「人」が物を直接に支配する「所有」，（c）「人」が他の「人」との間で各自が「所有」する「物」を交換するための「契約」，これら3つの制度である。現代の民法では，人間であればだれでも，民法上の「人」と認められ，物を「所有」し（所有権物権），「契約」（＝両当事者について，それぞれ，相手にその「物」を引き渡すことを請求する権利〔C債権〕を発生させる要件）によって，「所有」する物を他の「人」「所有」制度の一内容）が，その物を他の「人」が壊した場合にはこれに対する損害賠償請求権（不法行為によって生じる損害賠償請求権。</div>
+            </div>
+        </article>
+        <article id="card-6" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(6)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>債権<rt>さいけん</rt></ruby>の<ruby>一例<rt>いちれい</rt></ruby>）が、<ruby>当該<rt>とうがい</rt></ruby><ruby>物<rt>もの</rt></ruby>を「<ruby>所有<rt>しょゆう</rt></ruby>」する「<ruby>人<rt>にん</rt></ruby>」を<ruby>権利者<rt>けんりしゃ</rt></ruby>とする<ruby>形<rt>かたち</rt></ruby>で、<ruby>通常<rt>つうじょう</rt></ruby>は、<ruby>発生<rt>はっせい</rt></ruby>する。「<ruby>人<rt>にん</rt></ruby>」の<ruby>外延<rt>がいえん</rt></ruby>Iでみたとおり、「<ruby>人<rt>にん</rt></ruby>」は、<ruby>権利<rt>けんり</rt></ruby>（<ruby>裏<rt>うら</rt></ruby>からいえば<ruby>義務<rt>ぎむ</rt></ruby>）の<ruby>主体<rt>しゅたい</rt></ruby>を<ruby>構成<rt>こうせい</rt></ruby>する<ruby>制度<rt>せいど</rt></ruby>として、<ruby>民法<rt>みんぽう</rt></ruby>という<ruby>仕組み<rt>しくみ</rt></ruby>の<ruby>基礎<rt>きそ</rt></ruby>を<ruby>成し<rt>なし</rt></ruby>ている。とはいえ、<ruby>人間<rt>にんげん</rt></ruby>であれば、だれでも<ruby>民法上<rt>みんぽうじょう</rt></ruby>の「<ruby>人<rt>にん</rt></ruby>」であることに<ruby>今日<rt>きょう</rt></ruby><ruby>異論<rt>いろん</rt></ruby>はないから、「<ruby>人<rt>にん</rt></ruby>」に<ruby>関す<rt>かんす</rt></ruby>る<ruby>民法<rt>みんぽう</rt></ruby>の<ruby>学び<rt>まなび</rt></ruby>にも、それほど<ruby>難しい<rt>むずかしい</rt></ruby>ところはなさそうにみえる（イヌやサルは<ruby>人間<rt>にんげん</rt></ruby>ではないから、<ruby>民法上<rt>みんぽうじょう</rt></ruby>の「<ruby>人<rt>にん</rt></ruby>」ではないではない<ruby>権利<rt>けんり</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>の<ruby>主体<rt>しゅたい</rt></ruby>とならないことくらいをたしかめておけばよさそうだ）。ところが、<ruby>少し<rt>すこし</rt></ruby><ruby>歴史<rt>れきし</rt></ruby>をふりかえると、<ruby>人間<rt>にんげん</rt></ruby>=「<ruby>人<rt>にん</rt></ruby>」が<ruby>決して<rt>けっして</rt></ruby><ruby>当たり前<rt>あたりまえ</rt></ruby>でなかったことが<ruby>知ら<rt>しら</rt></ruby>れる。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">債権の一例）が，当該物を「所有」する「人」を権利者とする形で，通常は，発生する。「人」の外延Iでみたとおり，「人」は，権利（裏からいえば義務）の主体を構成する制度として，民法という仕組みの基礎を成している。とはいえ，人間であれば，だれでも民法上の「人」であることに今日異論はないから，「人」に関する民法の学びにも，それほど難しいところはなさそうにみえる（イヌやサルは人間ではないから，民法上の「人」ではない＝権利義務の主体とならないことくらいをたしかめておけばよさそうだ）。ところが，少し歴史をふりかえると，人間=「人」が決して当たり前でなかったことが知られる。</div>
+            </div>
+        </article>
+        <article id="card-7" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(7)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>民法<rt>みんぽう</rt></ruby><ruby>学<rt>がく</rt></ruby>という<ruby>観点<rt>かんてん</rt></ruby>からは、「<ruby>人<rt>にん</rt></ruby>」<ruby>概念<rt>がいねん</rt></ruby>が、その<ruby>抽象性<rt>ちゅうしょうせい</rt></ruby>ゆえに、<ruby>時に<rt>ときに</rt></ruby>つれ、<ruby>事実<rt>じじつ</rt></ruby>の<ruby>世界<rt>せかい</rt></ruby>に<ruby>属する<rt>ぞくする</rt></ruby>さまざまなものを<ruby>包摂<rt>ほうせつ</rt></ruby>してきたこと、それが、<ruby>平等<rt>びょうどう</rt></ruby><ruby>取扱い<rt>とりあつかい</rt></ruby>という<ruby>価値<rt>かち</rt></ruby>と<ruby>関係<rt>かんけい</rt></ruby>しているようであることに<ruby>注意<rt>ちゅうい</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>である。1.<ruby>人間<rt>にんげん</rt></ruby><ruby>一方<rt>いっぽう</rt></ruby>で、<ruby>人間<rt>にんげん</rt></ruby>であっても「<ruby>人<rt>にん</rt></ruby>」ではない<ruby>者<rt>もの</rt></ruby>があった。<ruby>伝統的<rt>でんとうてき</rt></ruby>には、<ruby>人間社会<rt>にんげんしゃかい</rt></ruby>に<ruby>身分<rt>みぶん</rt></ruby>というものがあり、<ruby>身分<rt>みぶん</rt></ruby>に<ruby>応じ<rt>おうじ</rt></ruby>て<ruby>法的地位<rt>ほうてきちい</rt></ruby>が<ruby>異な<rt>ことな</rt></ruby>っており、<ruby>中世<rt>ちゅうせい</rt></ruby>ヨーロッパで<ruby>今日<rt>きょう</rt></ruby>でいう<ruby>民法<rt>みんぽう</rt></ruby>の<ruby>世界<rt>せかい</rt></ruby>に<ruby>登場<rt>とうじょう</rt></ruby>するのは、<ruby>基本的<rt>きほんてき</rt></ruby>に<ruby>家長<rt>かちょう</rt></ruby>であった（<ruby>他に<rt>ほかに</rt></ruby>も<ruby>家族構成<rt>かぞくこうせい</rt></ruby><ruby>員<rt>いん</rt></ruby>はいたはずなのに）。そして、それほど<ruby>遠く<rt>とおく</rt></ruby>ない<ruby>過去<rt>かこ</rt></ruby>まで、<ruby>奴隷<rt>どれい</rt></ruby>は、<ruby>人間<rt>にんげん</rt></ruby>であるにもかかわらず「<ruby>人<rt>にん</rt></ruby>」でないとされていた。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">民法学という観点からは，「人」概念が，その抽象性ゆえに，時につれ，事実の世界に属するさまざまなものを包摂してきたこと，それが，平等取扱いという価値と関係しているようであることに注意が必要である。1.人間一方で，人間であっても「人」ではない者があった。伝統的には，人間社会に身分というものがあり，身分に応じて法的地位が異なっており，中世ヨーロッパで今日でいう民法の世界に登場するのは，基本的に家長であった（他にも家族構成員はいたはずなのに）。そして，それほど遠くない過去まで，奴隷は，人間であるにもかかわらず「人」でないとされていた。</div>
+            </div>
+        </article>
+        <article id="card-8" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(8)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>伝統的<rt>でんとうてき</rt></ruby>な<ruby>法的<rt>ほうてき</rt></ruby><ruby>二分法<rt>にぶんほう</rt></ruby>によれば、「<ruby>人<rt>にん</rt></ruby>」でなければ「<ruby>物<rt>もの</rt></ruby>」とされ、<ruby>権利<rt>けんり</rt></ruby>の<ruby>主体<rt>しゅたい</rt></ruby>ではなく、<ruby>客体<rt>きゃくたい</rt></ruby>となる。<ruby>日本<rt>にっぽん</rt></ruby>では、<ruby>現行<rt>げんこう</rt></ruby><ruby>民法<rt>みんぽう</rt></ruby><ruby>制定時<rt>せいていじ</rt></ruby>（<ruby>明治<rt>めいじ</rt></ruby>29（18<ruby>年<rt>ねん</rt></ruby>），その<ruby>冒頭<rt>ぼうとう</rt></ruby>に、「<ruby>私権<rt>しけん</rt></ruby>ノ<ruby>草<rt>くさ</rt></ruby><ruby>有<rt>あり</rt></ruby><ruby>出生<rt>しゅっしょう</rt></ruby><ruby>二<rt>に</rt></ruby><ruby>始<rt>し</rt></ruby>マル」との<ruby>規定<rt>きてい</rt></ruby>が<ruby>置か<rt>おか</rt></ruby>れたが（<ruby>現在<rt>げんざい</rt></ruby>の<ruby>民法<rt>みんぽう</rt></ruby>3<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>に<ruby>相当<rt>そうとう</rt></ruby>。<ruby>同様<rt>どうよう</rt></ruby>の<ruby>規定<rt>きてい</rt></ruby>を<ruby>持つ<rt>もつ</rt></ruby><ruby>民法<rt>みんぽう</rt></ruby><ruby>典<rt>てん</rt></ruby>は<ruby>珍しく<rt>めずらしく</rt></ruby>ない），これは、「<ruby>単に<rt>たんに</rt></ruby><ruby>権利<rt>けんり</rt></ruby><ruby>能力<rt>のうりょく</rt></ruby>の<ruby>始期<rt>しき</rt></ruby>だけを<ruby>規定<rt>きてい</rt></ruby>したのではなく、すべての<ruby>人<rt>にん</rt></ruby>は<ruby>生まれ<rt>うまれ</rt></ruby>ながらにして<ruby>権利<rt>けんり</rt></ruby><ruby>能力<rt>のうりょく</rt></ruby>を<ruby>取得<rt>しゅとく</rt></ruby>する、という<ruby>近代<rt>きんだい</rt></ruby><ruby>法<rt>ほう</rt></ruby>の<ruby>大原則<rt>だいげんそく</rt></ruby>を<ruby>民法<rt>みんぽう</rt></ruby>の<ruby>劈頭<rt>へきとう</rt></ruby>に<ruby>掲げ<rt>かかげ</rt></ruby>たものと、<ruby>解釈<rt>かいしゃく</rt></ruby>されているのである」う。また、<ruby>歴史的<rt>れきしてき</rt></ruby>に、<ruby>法<rt>ほう</rt></ruby>の<ruby>世界<rt>せかい</rt></ruby>で<ruby>男性<rt>だんせい</rt></ruby><ruby>中心<rt>ちゅうしん</rt></ruby><ruby>社会<rt>しゃかい</rt></ruby>が<ruby>想定<rt>そうてい</rt></ruby>されてきた<ruby>影響<rt>えいきょう</rt></ruby>は<ruby>民法<rt>みんぽう</rt></ruby><ruby>典<rt>てん</rt></ruby><ruby>制定<rt>せいてい</rt></ruby><ruby>後<rt>のち</rt></ruby>も<ruby>残り<rt>のこり</rt></ruby>（<ruby>民法<rt>みんぽう</rt></ruby><ruby>原始<rt>げんし</rt></ruby><ruby>規定<rt>きてい</rt></ruby> 14<ruby>条<rt>じょう</rt></ruby>「<ruby>妻<rt>つま</rt></ruby><ruby>力<rt>ちから</rt></ruby><ruby>左<rt>ひだり</rt></ruby><ruby>二<rt>に</rt></ruby><ruby>掲<rt>けい</rt></ruby>ケタル<ruby>行為<rt>こうい</rt></ruby>ヲ<ruby>為<rt>ため</rt></ruby>スニハ<ruby>夫<rt>おっと</rt></ruby>ノ<ruby>許可<rt>きょか</rt></ruby>ヲ<ruby>受<rt>じゅ</rt></ruby>クルコトヲ<ruby>要<rt>よう</rt></ruby>ス〔<ruby>以下略<rt>いかりゃく</rt></ruby>）」〔いわゆる「<ruby>妻<rt>つま</rt></ruby>の<ruby>無能<rt>むのう</rt></ruby><ruby>力<rt>ちから</rt></ruby>」に<ruby>関す<rt>かんす</rt></ruby>る<ruby>規定<rt>きてい</rt></ruby>）、<ruby>同<rt>どう</rt></ruby>789<ruby>条<rt>じょう</rt></ruby>「<ruby>妻<rt>つま</rt></ruby>ハ<ruby>夫<rt>おっと</rt></ruby>ト<ruby>同居<rt>どうきょ</rt></ruby>スル<ruby>義務<rt>ぎむ</rt></ruby>ヲ<ruby>負<rt>ふ</rt></ruby>フ／<ruby>夫<rt>おっと</rt></ruby>ハ<ruby>妻<rt>つま</rt></ruby>フシテ<ruby>同居<rt>どうきょ</rt></ruby>ラ<ruby>為<rt>ため</rt></ruby>サシムルコトヲ<ruby>要<rt>よう</rt></ruby>ス」〔<ruby>妻<rt>つま</rt></ruby>だけが<ruby>同居<rt>どうきょ</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>を<ruby>負う<rt>おう</rt></ruby>）など），<ruby>民法上<rt>みんぽうじょう</rt></ruby>、<ruby>同じ<rt>おなじ</rt></ruby>く「<ruby>人<rt>にん</rt></ruby>」であるはずの<ruby>男女<rt>だんじょ</rt></ruby>の<ruby>処遇<rt>しょぐう</rt></ruby>が<ruby>法<rt>ほう</rt></ruby><ruby>形式上<rt>けいしきじょう</rt></ruby><ruby>基本的<rt>きほんてき</rt></ruby>に<ruby>平等化<rt>びょうどうか</rt></ruby>されるには、<ruby>個人<rt>こじん</rt></ruby>の<ruby>尊厳<rt>そんげん</rt></ruby>と<ruby>両性<rt>りょうせい</rt></ruby>の<ruby>本質的<rt>ほんしつてき</rt></ruby><ruby>平等<rt>びょうどう</rt></ruby>（<ruby>現在<rt>げんざい</rt></ruby>の<ruby>民法<rt>みんぽう</rt></ruby>2<ruby>条<rt>じょう</rt></ruby>）を<ruby>謳う<rt>うたう</rt></ruby><ruby>昭和<rt>しょうわ</rt></ruby>22（19<ruby>年<rt>ねん</rt></ruby><ruby>法律<rt>ほうりつ</rt></ruby><ruby>第<rt>だい</rt></ruby> 222<ruby>号<rt>ごう</rt></ruby>による<ruby>民法<rt>みんぽう</rt></ruby><ruby>改正<rt>かいせい</rt></ruby>を<ruby>待た<rt>また</rt></ruby>なければならなかったことも、<ruby>忘れ<rt>わすれ</rt></ruby>てはならない。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">伝統的な法的二分法によれば，「人」でなければ「物」とされ，権利の主体ではなく，客体となる。日本では，現行民法制定時（明治29（18年），その冒頭に，「私権ノ草有出生二始マル」との規定が置かれたが（現在の民法3条1項に相当。同様の規定を持つ民法典は珍しくない），これは，「単に権利能力の始期だけを規定したのではなく，すべての人は生まれながらにして権利能力を取得する，という近代法の大原則を民法の劈頭に掲げたものと，解釈されているのである」う。また，歴史的に，法の世界で男性中心社会が想定されてきた影響は民法典制定後も残り（民法原始規定 14条「妻力左二掲ケタル行為ヲ為スニハ夫ノ許可ヲ受クルコトヲ要ス〔以下略）」〔いわゆる「妻の無能力」に関する規定），同789条「妻ハ夫ト同居スル義務ヲ負フ／夫ハ妻フシテ同居ラ為サシムルコトヲ要ス」〔妻だけが同居義務を負う）など），民法上，同じく「人」であるはずの男女の処遇が法形式上基本的に平等化されるには，個人の尊厳と両性の本質的平等（現在の民法2条）を謳う昭和22（19年法律第 222号による民法改正を待たなければならなかったことも，忘れてはならない。</div>
+            </div>
+        </article>
+        <article id="card-9" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(9)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    2.<ruby>団体<rt>だんたい</rt></ruby><ruby>他方<rt>たほう</rt></ruby>で、<ruby>人間<rt>にんげん</rt></ruby>でなくても「<ruby>人<rt>にん</rt></ruby>」とされるものがある。<ruby>民法<rt>みんぽう</rt></ruby>は、<ruby>法人<rt>ほうじん</rt></ruby>というものを<ruby>認め<rt>みとめ</rt></ruby>ている（<ruby>民法第<rt>みんぽうだい</rt></ruby>1<ruby>編<rt>へん</rt></ruby><ruby>総則<rt>そうそく</rt></ruby><ruby>第<rt>だい</rt></ruby>3<ruby>章<rt>しょう</rt></ruby><ruby>法人<rt>ほうじん</rt></ruby>）。<ruby>講学<rt>こうがく</rt></ruby><ruby>上<rt>うえ</rt></ruby>、<ruby>人間<rt>にんげん</rt></ruby>は、<ruby>法人<rt>ほうじん</rt></ruby>と<ruby>区別<rt>くべつ</rt></ruby>されるために、（<ruby>人<rt>にん</rt></ruby>ではなく）<ruby>自然人<rt>しぜんじん</rt></ruby>と<ruby>呼ば<rt>よば</rt></ruby>れ、<ruby>自然人<rt>しぜんじん</rt></ruby>と<ruby>法人<rt>ほうじん</rt></ruby>とが、<ruby>同格<rt>どうかく</rt></ruby>で「<ruby>人<rt>にん</rt></ruby>」の<ruby>下位<rt>かい</rt></ruby><ruby>概念<rt>がいねん</rt></ruby>になると<ruby>整理<rt>せいり</rt></ruby>されてきた。<ruby>法人<rt>ほうじん</rt></ruby>とは、<ruby>形式的<rt>けいしきてき</rt></ruby>にいえば、<ruby>自然人<rt>しぜんじん</rt></ruby><ruby>以外<rt>いがい</rt></ruby>に<ruby>法主<rt>ほうしゅ</rt></ruby><ruby>体性<rt>たいせい</rt></ruby>が<ruby>認め<rt>みとめ</rt></ruby>られたものである。たとえば、<ruby>特定<rt>とくてい</rt></ruby><ruby>非営利<rt>ひえいり</rt></ruby><ruby>活動<rt>かつどう</rt></ruby><ruby>促進<rt>そくしん</rt></ruby><ruby>法<rt>ほう</rt></ruby>（<ruby>平成<rt>へいせい</rt></ruby>10（19<ruby>年<rt>ねん</rt></ruby><ruby>法律<rt>ほうりつ</rt></ruby><ruby>第<rt>だい</rt></ruby>7<ruby>号<rt>ごう</rt></ruby>）に<ruby>基づ<rt>もとづ</rt></ruby>いて<ruby>設立<rt>せつりつ</rt></ruby>されたNPO<ruby>法人<rt>ほうじん</rt></ruby>や、<ruby>会社<rt>かいしゃ</rt></ruby><ruby>法<rt>ほう</rt></ruby>（<ruby>平成<rt>へいせい</rt></ruby>17〔20 <ruby>年<rt>ねん</rt></ruby><ruby>法律<rt>ほうりつ</rt></ruby><ruby>第<rt>だい</rt></ruby>86<ruby>号<rt>ごう</rt></ruby>）に<ruby>基づ<rt>もとづ</rt></ruby>いて<ruby>設立<rt>せつりつ</rt></ruby>された<ruby>各種<rt>かくしゅ</rt></ruby>の<ruby>会社<rt>かいしゃ</rt></ruby>は、<ruby>法人<rt>ほうじん</rt></ruby>である。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">2.団体他方で，人間でなくても「人」とされるものがある。民法は，法人というものを認めている（民法第1編総則第3章法人）。講学上，人間は，法人と区別されるために，（人ではなく）自然人と呼ばれ，自然人と法人とが，同格で「人」の下位概念になると整理されてきた。法人とは，形式的にいえば，自然人以外に法主体性が認められたものである。たとえば，特定非営利活動促進法（平成10（19年法律第7号）に基づいて設立されたNPO法人や，公司法（平成17〔20 年法律第86号）に基づいて設立された各種の会社は，法人である。</div>
+            </div>
+        </article>
+        <article id="card-10" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(10)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>民法<rt>みんぽう</rt></ruby>33<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>は、「<ruby>法人<rt>ほうじん</rt></ruby>は、この<ruby>法律<rt>ほうりつ</rt></ruby>その<ruby>他の<rt>ほかの</rt></ruby><ruby>法律<rt>ほうりつ</rt></ruby>の<ruby>規定<rt>きてい</rt></ruby>によらなければ、<ruby>成立<rt>せいりつ</rt></ruby>しない。」と<ruby>定め<rt>さだめ</rt></ruby>る。この<ruby>規定<rt>きてい</rt></ruby>につづいて、<ruby>制定<rt>せいてい</rt></ruby><ruby>当時<rt>とうじ</rt></ruby>の<ruby>民法<rt>みんぽう</rt></ruby>には、<ruby>公益<rt>こうえき</rt></ruby><ruby>社団法人<rt>しゃだんほうじん</rt></ruby>・<ruby>公益<rt>こうえき</rt></ruby><ruby>財団法人<rt>ざいだんほうじん</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>一群<rt>いちぐん</rt></ruby>の<ruby>規律<rt>きりつ</rt></ruby>が<ruby>設け<rt>もうけ</rt></ruby>られていたが、これらの<ruby>規定<rt>きてい</rt></ruby>の<ruby>大半<rt>たいはん</rt></ruby>（38<ruby>条<rt>じょう</rt></ruby>から84<ruby>条<rt>じょう</rt></ruby>まで）は、いわゆる<ruby>公益<rt>こうえき</rt></ruby><ruby>法人<rt>ほうじん</rt></ruby><ruby>制度<rt>せいど</rt></ruby><ruby>改革<rt>かいかく</rt></ruby>による<ruby>法人<rt>ほうじん</rt></ruby><ruby>法制<rt>ほうせい</rt></ruby>の<ruby>見直し<rt>みなおし</rt></ruby>に<ruby>伴い<rt>ともない</rt></ruby>、<ruby>民法<rt>みんぽう</rt></ruby>から<ruby>削除<rt>さくじょ</rt></ruby>された（<ruby>一般<rt>いっぱん</rt></ruby><ruby>社団法人<rt>しゃだんほうじん</rt></ruby><ruby>及び<rt>および</rt></ruby><ruby>一般<rt>いっぱん</rt></ruby><ruby>財団法人<rt>ざいだんほうじん</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>法律<rt>ほうりつ</rt></ruby><ruby>及び<rt>および</rt></ruby><ruby>公益<rt>こうえき</rt></ruby><ruby>社団法人<rt>しゃだんほうじん</rt></ruby><ruby>及び<rt>および</rt></ruby><ruby>公益<rt>こうえき</rt></ruby><ruby>財団法人<rt>ざいだんほうじん</rt></ruby>の<ruby>認定<rt>にんてい</rt></ruby><ruby>等<rt>など</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>法律<rt>ほうりつ</rt></ruby>の<ruby>施行<rt>しこう</rt></ruby>に<ruby>伴う<rt>ともなう</rt></ruby><ruby>関係<rt>かんけい</rt></ruby><ruby>法律<rt>ほうりつ</rt></ruby>の<ruby>整備等<rt>せいびなど</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>法律<rt>ほうりつ</rt></ruby>（<ruby>平成<rt>へいせい</rt></ruby> 18（20<ruby>年<rt>ねん</rt></ruby><ruby>法律<rt>ほうりつ</rt></ruby><ruby>第<rt>だい</rt></ruby>50<ruby>号<rt>ごう</rt></ruby>）38<ruby>条<rt>じょう</rt></ruby>）。そして、<ruby>非営利<rt>ひえいり</rt></ruby>（3<ruby>公益<rt>こうえき</rt></ruby>）の<ruby>社団法人<rt>しゃだんほうじん</rt></ruby>・<ruby>財団法人<rt>ざいだんほうじん</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>基本<rt>きほん</rt></ruby>ルールが、<ruby>新たに<rt>あらたに</rt></ruby><ruby>一般<rt>いっぱん</rt></ruby><ruby>社団法人<rt>しゃだんほうじん</rt></ruby><ruby>及び<rt>および</rt></ruby><ruby>一般<rt>いっぱん</rt></ruby><ruby>財団法人<rt>ざいだんほうじん</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>法律<rt>ほうりつ</rt></ruby>（<ruby>平成<rt>へいせい</rt></ruby> 18（20<ruby>年<rt>ねん</rt></ruby><ruby>法律<rt>ほうりつ</rt></ruby><ruby>第<rt>だい</rt></ruby>48<ruby>号<rt>ごう</rt></ruby>）に<ruby>置か<rt>おか</rt></ruby>れることになった。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">民法33条1項は，「法人は，この法律その他の法律の規定によらなければ，成立しない。」と定める。この規定につづいて，制定当時の民法には，公益社団法人・公益財団法人に関する一群の規律が設けられていたが，これらの規定の大半（38条から84条まで）は，いわゆる公益法人制度改革による法人法制の見直しに伴い，民法から削除された（一般社団法人及び一般財団法人に関する法律及び公益社団法人及び公益財団法人の認定等に関する法律の施行に伴う関係法律の整備等に関する法律（平成 18（20年法律第50号）38条）。そして，非営利（3公益）の社団法人・財団法人に関する基本ルールが，新たに一般社団法人及び一般財団法人に関する法律（平成 18（20年法律第48号）に置かれることになった。</div>
+            </div>
+        </article>
+        <article id="card-11" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(11)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    その<ruby>結果<rt>けっか</rt></ruby>、<ruby>現在<rt>げんざい</rt></ruby>の<ruby>民法<rt>みんぽう</rt></ruby>の<ruby>法人<rt>ほうじん</rt></ruby>の<ruby>章<rt>しょう</rt></ruby>には、<ruby>法人<rt>ほうじん</rt></ruby>が<ruby>法律<rt>ほうりつ</rt></ruby>の<ruby>規定<rt>きてい</rt></ruby>によってのみ<ruby>成立<rt>せいりつ</rt></ruby>すること（33<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>），<ruby>法人<rt>ほうじん</rt></ruby>に<ruby>認め<rt>みとめ</rt></ruby>られる<ruby>能力<rt>のうりょく</rt></ruby>の<ruby>範囲<rt>はんい</rt></ruby>（34<ruby>条<rt>じょう</rt></ruby>），<ruby>法人<rt>ほうじん</rt></ruby>は<ruby>登記<rt>とうき</rt></ruby>されるべきこと（36<ruby>条<rt>じょう</rt></ruby>）<ruby>程度<rt>ていど</rt></ruby>の<ruby>定め<rt>さだめ</rt></ruby>しか<ruby>残っ<rt>のこっ</rt></ruby>ていない。とはいえ、<ruby>民法<rt>みんぽう</rt></ruby>にこれらの<ruby>規定<rt>きてい</rt></ruby>が<ruby>残さ<rt>のこさ</rt></ruby>れたことによって、いまなお、<ruby>法人<rt>ほうじん</rt></ruby>も<ruby>民法上<rt>みんぽうじょう</rt></ruby>の「<ruby>人<rt>にん</rt></ruby>」であることが、<ruby>法体系<rt>ほうたいけい</rt></ruby>の<ruby>基層<rt>きそう</rt></ruby>レベルで<ruby>確認さ<rt>かくにんさ</rt></ruby>れているものと<ruby>考え<rt>かんがえ</rt></ruby>られる。<ruby>今日<rt>きょう</rt></ruby>では、<ruby>一動<rt>いちどう</rt></ruby><ruby>物<rt>もの</rt></ruby>，<ruby>自然<rt>しぜん</rt></ruby>「<ruby>人<rt>にん</rt></ruby>」<ruby>概念<rt>がいねん</rt></ruby>が、<ruby>団体<rt>だんたい</rt></ruby><ruby>以外<rt>いがい</rt></ruby>のもの<ruby>一環<rt>いっかん</rt></ruby><ruby>境<rt>さかい</rt></ruby>，AIなどーも<ruby>包摂<rt>ほうせつ</rt></ruby>しうるかが<ruby>検討さ<rt>けんとうさ</rt></ruby>れるようになっていることも<ruby>付記<rt>ふき</rt></ruby>しておこう。<ruby>歴史<rt>れきし</rt></ruby>をふりかえれば、<ruby>法人<rt>ほうじん</rt></ruby>が「<ruby>人<rt>にん</rt></ruby>」とされたのは、<ruby>比較的最近<rt>ひかくてきさいきん</rt></ruby>のことである。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">その結果，現在の民法の法人の章には，法人が法律の規定によってのみ成立すること（33条1項），法人に認められる能力の範囲（34条），法人は登記されるべきこと（36条）程度の定めしか残っていない。とはいえ，民法にこれらの規定が残されたことによって，いまなお，法人も民法上の「人」であることが，法体系の基層レベルで確認されているものと考えられる。今日では，一動物，自然「人」概念が，団体以外のもの一環境，AIなどーも包摂しうるかが検討されるようになっていることも付記しておこう。歴史をふりかえれば，法人が「人」とされたのは，比較的最近のことである。</div>
+            </div>
+        </article>
+        <article id="card-12" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(12)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>日本<rt>にっぽん</rt></ruby><ruby>民法<rt>みんぽう</rt></ruby><ruby>学の<rt>まなの</rt></ruby><ruby>代表的<rt>だいひょうてき</rt></ruby><ruby>体系<rt>たいけい</rt></ruby><ruby>書<rt>かき</rt></ruby>は、<ruby>法人<rt>ほうじん</rt></ruby>の<ruby>歴史<rt>れきし</rt></ruby>について、<ruby>以下の<rt>いかの</rt></ruby>ように<ruby>述べ<rt>のべ</rt></ruby>る。すなわち、「<ruby>近代<rt>きんだい</rt></ruby>の<ruby>個人<rt>こじん</rt></ruby><ruby>自由主義<rt>じゆうしゅぎ</rt></ruby>の<ruby>最高潮<rt>さいこうちょう</rt></ruby><ruby>時代<rt>じだい</rt></ruby>における<ruby>民法<rt>みんぽう</rt></ruby>は、<ruby>権利<rt>けんり</rt></ruby><ruby>能力<rt>のうりょく</rt></ruby>を<ruby>有す<rt>ゆうす</rt></ruby>るものも<ruby>個人<rt>こじん</rt></ruby>に<ruby>限り<rt>かぎり</rt></ruby>、<ruby>団体<rt>だんたい</rt></ruby>を、<ruby>最小限度<rt>さいしょうげんど</rt></ruby>において、<ruby>例外的<rt>れいがいてき</rt></ruby>に<ruby>個人<rt>こじん</rt></ruby>になぞらえられるものとした。しかし、<ruby>第<rt>だい</rt></ruby><ruby>十九<rt>じゅうきゅう</rt></ruby><ruby>世紀<rt>せいき</rt></ruby>から<ruby>第二<rt>だいに</rt></ruby><ruby>十<rt>じゅう</rt></ruby><ruby>世紀<rt>せいき</rt></ruby>にかけての<ruby>個人主義<rt>こじんしゅぎ</rt></ruby><ruby>経済<rt>けいざい</rt></ruby><ruby>組織<rt>そしき</rt></ruby>の<ruby>発達<rt>はったつ</rt></ruby>は、おのずから、その<ruby>社会<rt>しゃかい</rt></ruby>に、<ruby>団体<rt>だんたい</rt></ruby>の<ruby>独自<rt>どくじ</rt></ruby>の<ruby>存在<rt>そんざい</rt></ruby>を<ruby>認め<rt>みとめ</rt></ruby>ねばならないようになり、<ruby>現代<rt>げんだい</rt></ruby>の<ruby>法律<rt>ほうりつ</rt></ruby><ruby>組織<rt>そしき</rt></ruby>においては、<ruby>団体<rt>だんたい</rt></ruby>もまた<ruby>個人<rt>こじん</rt></ruby>と<ruby>並ん<rt>ならん</rt></ruby>で、<ruby>権利<rt>けんり</rt></ruby>の<ruby>主体<rt>しゅたい</rt></ruby>たりうるもの、すなわち<ruby>権利<rt>けんり</rt></ruby><ruby>能力<rt>のうりょく</rt></ruby>を<ruby>有す<rt>ゆうす</rt></ruby>るものるものと<ruby>考え<rt>かんがえ</rt></ruby>られるにいたった」”）。<ruby>日本<rt>にっぽん</rt></ruby>の<ruby>最高裁判所<rt>さいこうさいばんしょ</rt></ruby>も、<ruby>会社<rt>かいしゃ</rt></ruby>が、「<ruby>自然人<rt>しぜんじん</rt></ruby>とひとしく、<ruby>国家<rt>こっか</rt></ruby>、<ruby>地方公共団体<rt>ちほうこうきょうだんたい</rt></ruby>，<ruby>地域社会<rt>ちいきしゃかい</rt></ruby>その<ruby>他<rt>ほか</rt></ruby>」「の<ruby>構成<rt>こうせい</rt></ruby><ruby>単位<rt>たんい</rt></ruby>たる<ruby>社会的<rt>しゃかいてき</rt></ruby><ruby>実在<rt>じつざい</rt></ruby>なのである」と<ruby>述べ<rt>のべ</rt></ruby>、<ruby>自然人<rt>しぜんじん</rt></ruby>と<ruby>法人<rt>ほうじん</rt></ruby>が<ruby>対等<rt>たいとう</rt></ruby>の<ruby>立場<rt>たちば</rt></ruby>で<ruby>社会<rt>しゃかい</rt></ruby>を<ruby>構成<rt>こうせい</rt></ruby>するものと<ruby>考え<rt>かんがえ</rt></ruby>ているようである。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">日本民法学の代表的体系書は，法人の歴史について，以下のように述べる。すなわち，「近代の個人自由主義の最高潮時代における民法は，権利能力を有するものも個人に限り，団体を，最小限度において，例外的に個人になぞらえられるものとした。しかし，第十九世紀から第二十世紀にかけての個人主義経済組織の発達は，おのずから，その社会に，団体の独自の存在を認めねばならないようになり，現代の法律組織においては，団体もまた個人と並んで，権利の主体たりうるもの，すなわち権利能力を有するもの；と考えられるにいたった」”）。日本の最高法院も，会社が，「自然人とひとしく，国家，地方公共団体，地域社会その他」「の構成単位たる社会的実在なのである」と述べ，自然人と法人が対等の立場で社会を構成するものと考えているようである。</div>
+            </div>
+        </article>
+        <article id="card-13" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(13)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    しかし、これに<ruby>抗う<rt>あらがう</rt></ruby>、<ruby>個人<rt>こじん</rt></ruby>を<ruby>基調<rt>きちょう</rt></ruby>とする<ruby>構想<rt>こうそう</rt></ruby>も<ruby>示さ<rt>しめさ</rt></ruby>れている9。1801<ruby>年<rt>ねん</rt></ruby>、<ruby>世界初<rt>せかいはつ</rt></ruby>の<ruby>民法<rt>みんぽう</rt></ruby><ruby>典<rt>てん</rt></ruby>を<ruby>創り<rt>つくり</rt></ruby><ruby>出し<rt>だし</rt></ruby>たフランスは、<ruby>結社<rt>けっしゃ</rt></ruby>を<ruby>敵視<rt>てきし</rt></ruby>してきた<ruby>伝統<rt>でんとう</rt></ruby>を<ruby>有し<rt>ゆうし</rt></ruby>、その<ruby>民法<rt>みんぽう</rt></ruby><ruby>典<rt>てん</rt></ruby>は、いまなお、<ruby>法人<rt>ほうじん</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>るまとまった<ruby>規定<rt>きてい</rt></ruby>を<ruby>持た<rt>もた</rt></ruby>ない。<ruby>今日<rt>きょう</rt></ruby>のフランス<ruby>民法<rt>みんぽう</rt></ruby><ruby>学<rt>がく</rt></ruby>は、<ruby>法人<rt>ほうじん</rt></ruby>も<ruby>権利<rt>けんり</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>の<ruby>帰属<rt>きぞく</rt></ruby><ruby>主体<rt>しゅたい</rt></ruby>であることを<ruby>認め<rt>みとめ</rt></ruby>るが、<ruby>代表的<rt>だいひょうてき</rt></ruby>な<ruby>教科書<rt>きょうかしょ</rt></ruby>は、<ruby>自然人<rt>しぜんじん</rt></ruby>の<ruby>法人<rt>ほうじん</rt></ruby>に<ruby>対する<rt>たいする</rt></ruby><ruby>優位<rt>ゆうい</rt></ruby>を<ruby>明言<rt>めいげん</rt></ruby>する10。<ruby>日本<rt>にっぽん</rt></ruby><ruby>民法<rt>みんぽう</rt></ruby>における<ruby>自然人<rt>しぜんじん</rt></ruby><ruby>法人等<rt>ほうじんなど</rt></ruby><ruby>置<rt>ち</rt></ruby>の<ruby>背景<rt>はいけい</rt></ruby>には、20<ruby>世紀<rt>せいき</rt></ruby><ruby>前半<rt>ぜんはん</rt></ruby>の<ruby>時代<rt>じだい</rt></ruby><ruby>思潮<rt>しちょう</rt></ruby>を<ruby>色濃く<rt>いろこく</rt></ruby><ruby>反映<rt>はんえい</rt></ruby>する<ruby>我妻<rt>わがつま</rt></ruby><ruby>栄<rt>さかえ</rt></ruby>の<ruby>素朴<rt>そぼく</rt></ruby>な<ruby>歴史<rt>れきし</rt></ruby><ruby>発展<rt>はってん</rt></ruby><ruby>図式ー<rt>ずしきー</rt></ruby><ruby>一個人<rt>いちこじん</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>から<ruby>団体<rt>だんたい</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>へーがあり、21<ruby>世紀<rt>せいき</rt></ruby><ruby>前半<rt>ぜんはん</rt></ruby>のいま、<ruby>民法<rt>みんぽう</rt></ruby>の<ruby>法人<rt>ほうじん</rt></ruby><ruby>関連<rt>かんれん</rt></ruby><ruby>規定<rt>きてい</rt></ruby>は<ruby>空洞化<rt>くうどうか</rt></ruby>していることを<ruby>考慮す<rt>こうりょす</rt></ruby>るなら、<ruby>民法<rt>みんぽう</rt></ruby>の<ruby>解釈<rt>かいしゃく</rt></ruby>として、「<ruby>人<rt>にん</rt></ruby>」<ruby>概念<rt>がいねん</rt></ruby>の<ruby>下<rt>した</rt></ruby>で、<ruby>法人<rt>ほうじん</rt></ruby>を<ruby>自然人<rt>しぜんじん</rt></ruby>と<ruby>同格<rt>どうかく</rt></ruby>としつづけることでよいかは、<ruby>検討<rt>けんとう</rt></ruby>の<ruby>余地<rt>よち</rt></ruby>がありそうである！
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">しかし，これに抗う，個人を基調とする構想も示されている9。1801年，世界初の民法典を創り出したフランスは，結社を敵視してきた伝統を有し，その民法典は，いまなお，法人に関するまとまった規定を持たない。今日のフランス民法学は，法人も権利義務の帰属主体であることを認めるが，代表的な教科書は，自然人の法人に対する優位を明言する10。日本民法における自然人法人等置の背景には，20世紀前半の時代思潮を色濃く反映する我妻栄の素朴な歴史発展図式ー一個人主義から団体主義へーがあり，21世紀前半のいま，民法の法人関連規定は空洞化していることを考慮するなら，民法の解釈として，「人」概念の下で，法人を自然人と同格としつづけることでよいかは，検討の余地がありそうである！</div>
+            </div>
+        </article>
+        <article id="card-14" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(14)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    ！）。<ruby>山<rt>やま</rt></ruby>「<ruby>人<rt>にん</rt></ruby>」の<ruby>属性<rt>ぞくせい</rt></ruby>IIでは、<ruby>主と<rt>しゅと</rt></ruby>して「<ruby>人<rt>にん</rt></ruby>」<ruby>概念<rt>がいねん</rt></ruby>の<ruby>外延<rt>がいえん</rt></ruby>の<ruby>拡張<rt>かくちょう</rt></ruby>および<ruby>拡張<rt>かくちょう</rt></ruby>への<ruby>反省ー<rt>はんせいー</rt></ruby>をみた。<ruby>今度<rt>こんど</rt></ruby>は、「<ruby>人<rt>にん</rt></ruby>」の<ruby>性質<rt>せいしつ</rt></ruby>、それも<ruby>自然人<rt>しぜんじん</rt></ruby>のそれに<ruby>照準<rt>しょうじゅん</rt></ruby>を<ruby>合わ<rt>あわ</rt></ruby>せてみよう。<ruby>民法<rt>みんぽう</rt></ruby><ruby>学<rt>がく</rt></ruby>は、<ruby>個別<rt>こべつ</rt></ruby>の<ruby>紛争<rt>ふんそう</rt></ruby>、<ruby>個々の<rt>ここの</rt></ruby><ruby>利益<rt>りえき</rt></ruby><ruby>主張<rt>しゅちょう</rt></ruby>にも<ruby>注意<rt>ちゅうい</rt></ruby>を<ruby>払う<rt>はらう</rt></ruby>けれども、それらを、「<ruby>法<rt>ほう</rt></ruby>の<ruby>世界<rt>せかい</rt></ruby>」で<ruby>受け<rt>うけ</rt></ruby><ruby>止め<rt>とめ</rt></ruby>、<ruby>社会<rt>しゃかい</rt></ruby><ruby>構成員<rt>こうせいいん</rt></ruby><ruby>全体<rt>ぜんたい</rt></ruby>にかかわる<ruby>問題<rt>もんだい</rt></ruby>として<ruby>議論<rt>ぎろん</rt></ruby>しようとする。そのための<ruby>技術<rt>ぎじゅつ</rt></ruby>の1つが、<ruby>法<rt>ほう</rt></ruby>の<ruby>世界<rt>せかい</rt></ruby>に<ruby>属する<rt>ぞくする</rt></ruby>「<ruby>概念<rt>がいねん</rt></ruby>」である。<ruby>法概念<rt>ほうがいねん</rt></ruby>の<ruby>中身<rt>なかみ</rt></ruby>は、<ruby>人々<rt>ひとびと</rt></ruby>の<ruby>意識<rt>いしき</rt></ruby>や<ruby>社会<rt>しゃかい</rt></ruby>の<ruby>変化<rt>へんか</rt></ruby>と<ruby>緊張関係<rt>きんちょうかんけい</rt></ruby>を<ruby>持ち<rt>もち</rt></ruby>つつ，<ruby>維持さ<rt>いじさ</rt></ruby>れ／<ruby>変化す<rt>へんかす</rt></ruby>る。1<ruby>魂<rt>たましい</rt></ruby><ruby>民法<rt>みんぽう</rt></ruby>における「<ruby>人<rt>にん</rt></ruby>」は、<ruby>肉体<rt>にくたい</rt></ruby>を<ruby>捨象<rt>しゃしょう</rt></ruby>された<ruby>魂<rt>たましい</rt></ruby>だけの<ruby>存在<rt>そんざい</rt></ruby>のようにみえることがある。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">！）。山「人」の属性IIでは，主として「人」概念の外延の拡張および拡張への反省ーをみた。今度は，「人」の性質，それも自然人のそれに照準を合わせてみよう。民法学は，個別の紛争，個々の利益主張にも注意を払うけれども，それらを，「法の世界」で受け止め，社会構成員全体にかかわる問題として議論しようとする。そのための技術の1つが，法の世界に属する「概念」である。法概念の中身は，人々の意識や社会の変化と緊張関係を持ちつつ，維持され／変化する。1魂民法における「人」は，肉体を捨象された魂だけの存在のようにみえることがある。</div>
+            </div>
+        </article>
+        <article id="card-15" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(15)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    すなわち、<ruby>民法<rt>みんぽう</rt></ruby>の<ruby>条文<rt>じょうぶん</rt></ruby>を<ruby>冒頭<rt>ぼうとう</rt></ruby>から<ruby>順に<rt>じゅんに</rt></ruby>ながめていくと、<ruby>第<rt>だい</rt></ruby>1<ruby>編<rt>へん</rt></ruby><ruby>総則<rt>そうそく</rt></ruby>あたりでは、「<ruby>人<rt>にん</rt></ruby>」（<ruby>自然人<rt>しぜんじん</rt></ruby>）が、<ruby>意思表示<rt>いしひょうじ</rt></ruby>（<ruby>契約<rt>けいやく</rt></ruby>に<ruby>代表<rt>だいひょう</rt></ruby>される<ruby>法律<rt>ほうりつ</rt></ruby><ruby>行為<rt>こうい</rt></ruby>の<ruby>構成要素<rt>こうせいようそ</rt></ruby>）によって<ruby>自ら<rt>みずから</rt></ruby>の<ruby>権利<rt>けんり</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>を<ruby>発生<rt>はっせい</rt></ruby>・<ruby>変更<rt>へんこう</rt></ruby>・<ruby>消滅<rt>しょうめつ</rt></ruby>させるものであることは<ruby>読み取れ<rt>よみとれ</rt></ruby>るけれども、<ruby>字面<rt>じづら</rt></ruby>からは、その<ruby>肉体<rt>にくたい</rt></ruby>のイメージが<ruby>薄い<rt>うすい</rt></ruby>てこない（「<ruby>人<rt>にん</rt></ruby>」は、<ruby>法文<rt>ほうぶん</rt></ruby><ruby>上<rt>うえ</rt></ruby>、「<ruby>者<rt>もの</rt></ruby>」と<ruby>表記<rt>ひょうき</rt></ruby>されることも<ruby>多い<rt>おおい</rt></ruby>）。<ruby>民法第<rt>みんぽうだい</rt></ruby>3<ruby>編<rt>へん</rt></ruby><ruby>債権<rt>さいけん</rt></ruby><ruby>第<rt>だい</rt></ruby>5<ruby>章<rt>しょう</rt></ruby><ruby>不法行為<rt>ふほうこうい</rt></ruby>に<ruby>至っ<rt>いたっ</rt></ruby>てようやく、「<ruby>人<rt>にん</rt></ruby>」が、<ruby>身体<rt>しんたい</rt></ruby>・<ruby>自由<rt>じゆう</rt></ruby>・<ruby>名誉<rt>めいよ</rt></ruby>（710<ruby>条<rt>じょう</rt></ruby>）、また、<ruby>生命<rt>せいめい</rt></ruby>（711<ruby>条<rt>じょう</rt></ruby>）を<ruby>持つ<rt>もつ</rt></ruby><ruby>存在<rt>そんざい</rt></ruby>であることがわかる。その<ruby>後<rt>のち</rt></ruby>、<ruby>第<rt>だい</rt></ruby>4<ruby>編<rt>へん</rt></ruby><ruby>親族<rt>しんぞく</rt></ruby>（725<ruby>条<rt>じょう</rt></ruby><ruby>以下<rt>いか</rt></ruby>）にすすめば、<ruby>婚姻<rt>こんいん</rt></ruby>や<ruby>親子<rt>おやこ</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>規定<rt>きてい</rt></ruby>が<ruby>並ぶ<rt>ならぶ</rt></ruby>ので、「<ruby>人<rt>にん</rt></ruby>」が、<ruby>生身<rt>なまみ</rt></ruby>の<ruby>人間<rt>にんげん</rt></ruby>であることははっきりしてくる。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">すなわち，民法の条文を冒頭から順にながめていくと，第1編総則あたりでは，「人」（自然人）が，意思表示（契約に代表される法律行為の構成要素）によって自らの権利義務を発生・変更・消滅させるものであることは読み取れるけれども，字面からは，その肉体のイメージが薄いてこない（「人」は，法文上，「者」と表記されることも多い）。民法第3編債権第5章不法行為に至ってようやく，「人」が，身体・自由・名誉（710条），また，生命（711条）を持つ存在であることがわかる。その後，第4編親族（725条以下）にすすめば，婚姻や親子に関する規定が並ぶので，「人」が，生身の人間であることははっきりしてくる。</div>
+            </div>
+        </article>
+        <article id="card-16" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(16)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>民法<rt>みんぽう</rt></ruby><ruby>学<rt>がく</rt></ruby>も、<ruby>伝統的<rt>でんとうてき</rt></ruby>には、「<ruby>人<rt>にん</rt></ruby>」を、<ruby>肉体<rt>にくたい</rt></ruby>を<ruby>忘れ<rt>わすれ</rt></ruby>た<ruby>魂<rt>たましい</rt></ruby>だけの<ruby>意思表示<rt>いしひょうじ</rt></ruby>マシンのようなものとして<ruby>把握<rt>はあく</rt></ruby>してきたと<ruby>思わ<rt>おもわ</rt></ruby>れる。だからこそ、<ruby>民法<rt>みんぽう</rt></ruby>のイメージがI2の<ruby>図<rt>ず</rt></ruby>によって<ruby>表現<rt>ひょうげん</rt></ruby>されえたのだし、<ruby>自然人<rt>しぜんじん</rt></ruby>と<ruby>法人<rt>ほうじん</rt></ruby>とを「<ruby>人<rt>にん</rt></ruby>」<ruby>概念<rt>がいねん</rt></ruby>の<ruby>下に<rt>したに</rt></ruby><ruby>同列<rt>どうれつ</rt></ruby>に<ruby>置く<rt>おく</rt></ruby>ことに<ruby>抵抗感<rt>ていこうかん</rt></ruby>も<ruby>生まれ<rt>うまれ</rt></ruby>にくい。しかし、<ruby>一部<rt>いちぶ</rt></ruby>の<ruby>民法<rt>みんぽう</rt></ruby><ruby>学説<rt>がくせつ</rt></ruby>は、<ruby>肉体<rt>にくたい</rt></ruby>あっての<ruby>人間<rt>にんげん</rt></ruby>だという<ruby>観点<rt>かんてん</rt></ruby><ruby>等<rt>など</rt></ruby>もふまえつつ、<ruby>同じ<rt>おなじ</rt></ruby>「<ruby>人<rt>にん</rt></ruby>」であっても、<ruby>自然人<rt>しぜんじん</rt></ruby>と<ruby>法人<rt>ほうじん</rt></ruby>とは<ruby>区別<rt>くべつ</rt></ruby>して<ruby>論じ<rt>ろんじ</rt></ruby>られるべきこと、<ruby>体系的<rt>たいけいてき</rt></ruby>にも、<ruby>民法<rt>みんぽう</rt></ruby><ruby>総則<rt>そうそく</rt></ruby><ruby>編<rt>へん</rt></ruby>で<ruby>自然人<rt>しぜんじん</rt></ruby>と<ruby>法人<rt>ほうじん</rt></ruby>を<ruby>並置<rt>へいち</rt></ruby>するのではなく、<ruby>自然人<rt>しぜんじん</rt></ruby>については、「<ruby>人<rt>にん</rt></ruby>の<ruby>法<rt>ほう</rt></ruby>」として、<ruby>人格権<rt>じんかくけん</rt></ruby>、<ruby>自然人<rt>しぜんじん</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>民法<rt>みんぽう</rt></ruby><ruby>総則<rt>そうそく</rt></ruby>の<ruby>規律<rt>きりつ</rt></ruby>さらに<ruby>婚姻<rt>こんいん</rt></ruby>・<ruby>親子<rt>おやこ</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>規律<rt>きりつ</rt></ruby>などをまとめる（<ruby>法人<rt>ほうじん</rt></ruby><ruby>法<rt>ほう</rt></ruby>は<ruby>分離<rt>ぶんり</rt></ruby>させる）<ruby>構想<rt>こうそう</rt></ruby>を<ruby>提示<rt>ていじ</rt></ruby>する14。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">民法学も，伝統的には，「人」を，肉体を忘れた魂だけの意思表示マシンのようなものとして把握してきたと思われる。だからこそ，民法のイメージがI2の図によって表現されえたのだし，自然人と法人とを「人」概念の下に同列に置くことに抵抗感も生まれにくい。しかし，一部の民法学説は，肉体あっての人間だという観点等もふまえつつ，同じ「人」であっても，自然人と法人とは区別して論じられるべきこと，体系的にも，民法総則編で自然人と法人を並置するのではなく，自然人については，「人の法」として，人格権，自然人に関する民法総則の規律さらに婚姻・親子に関する規律などをまとめる（法人法は分離させる）構想を提示する14。</div>
+            </div>
+        </article>
+        <section id="card-17" class="my-8 rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 shadow-md border border-indigo-900/80 transition-all duration-300">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="text-xl sm:text-2xl font-bold tracking-wide font-serif text-amber-300">2．<ruby>性別<rt>せいべつ</rt></ruby><ruby>民法<rt>みんぽう</rt></ruby>における「<ruby>人<rt>にん</rt></ruby>」は、<ruby>男<rt>おとこ</rt></ruby>と<ruby>女<rt>おんな</rt></ruby>から<ruby>構成<rt>こうせい</rt></ruby>されているようにもみえる。</h2>
+                <button onclick="playCardText(17)" class="shrink-0 flex items-center space-x-1 bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-amber-400/40 transition-colors select-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    <span>朗讀標題</span>
+                </button>
+            </div>
+            <div class="text-base sm:text-lg font-medium text-indigo-200 font-sans">2．性別民法における「人」は，男と女から構成されているようにもみえる。</div>
+        </section>
+        <article id="card-18" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(18)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    すなわち、かって、<ruby>男女<rt>だんじょ</rt></ruby>の<ruby>別<rt>べつ</rt></ruby>は、<ruby>自明<rt>じめい</rt></ruby>であると<ruby>考え<rt>かんがえ</rt></ruby>られていたのだろう。「<ruby>人<rt>にん</rt></ruby>」の<ruby>同定<rt>どうてい</rt></ruby><ruby>要素<rt>ようそ</rt></ruby>として、<ruby>氏名<rt>しめい</rt></ruby>・<ruby>生年月日<rt>せいねんがっぴ</rt></ruby>・<ruby>住所<rt>じゅうしょ</rt></ruby>とともに、<ruby>男女<rt>だんじょ</rt></ruby>の<ruby>別<rt>べつ</rt></ruby>が<ruby>掲げ<rt>かかげ</rt></ruby>られることは、<ruby>近年<rt>きんねん</rt></ruby>でも<ruby>珍しく<rt>めずらしく</rt></ruby>ない。「<ruby>人<rt>にん</rt></ruby>」の<ruby>属性<rt>ぞくせい</rt></ruby>として<ruby>性別<rt>せいべつ</rt></ruby>が<ruby>重視<rt>じゅうし</rt></ruby>されているとすれば、これは、<ruby>民法<rt>みんぽう</rt></ruby>が、<ruby>社会<rt>しゃかい</rt></ruby>は<ruby>男<rt>おとこ</rt></ruby>と<ruby>女<rt>おんな</rt></ruby>から<ruby>成り立っ<rt>なりたっ</rt></ruby>ており、その<ruby>男<rt>おとこ</rt></ruby>と<ruby>女<rt>おんな</rt></ruby>が<ruby>婚姻<rt>こんいん</rt></ruby>をし （あるいはせずに）<ruby>親子関係<rt>おやこかんけい</rt></ruby>を<ruby>形成<rt>けいせい</rt></ruby>してゆくことを、<ruby>前提<rt>ぜんてい</rt></ruby>にしてきたということにもなりうる。しかし、<ruby>今日<rt>きょう</rt></ruby>、<ruby>男女<rt>だんじょ</rt></ruby>の<ruby>別<rt>べつ</rt></ruby>は<ruby>自明<rt>じめい</rt></ruby>でなく、<ruby>中間<rt>ちゅうかん</rt></ruby><ruby>領域<rt>りょういき</rt></ruby>が<ruby>認め<rt>みとめ</rt></ruby>られることや、<ruby>領域<rt>りょういき</rt></ruby><ruby>間の<rt>まの</rt></ruby><ruby>移行<rt>いこう</rt></ruby>があり、うること、<ruby>性的<rt>せいてき</rt></ruby><ruby>志向<rt>しこう</rt></ruby>や<ruby>性<rt>せい</rt></ruby><ruby>自認<rt>じにん</rt></ruby>についても、<ruby>多様<rt>たよう</rt></ruby>なものがあることが、<ruby>広く<rt>ひろく</rt></ruby><ruby>知ら<rt>しら</rt></ruby>れている。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">すなわち，かって，男女の別は，自明であると考えられていたのだろう。「人」の同定要素として，氏名・生年月日・住所とともに，男女の別が掲げられることは，近年でも珍しくない。「人」の属性として性別が重視されているとすれば，これは，民法が，社会は男と女から成り立っており，その男と女が婚姻をし （あるいはせずに）親子関係を形成してゆくことを，前提にしてきたということにもなりうる。しかし，今日，男女の別は自明でなく，中間領域が認められることや，領域間の移行があり，うること，性的志向や性自認についても，多様なものがあることが，広く知られている。</div>
+            </div>
+        </article>
+        <article id="card-19" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(19)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>人々<rt>ひとびと</rt></ruby>の<ruby>意識<rt>いしき</rt></ruby>の<ruby>上で<rt>うえで</rt></ruby>も、「<ruby>人<rt>にん</rt></ruby>」が、<ruby>男女<rt>だんじょ</rt></ruby>のみから<ruby>構成<rt>こうせい</rt></ruby>され、しかもそれぞれ、もっぱら<ruby>異性<rt>いせい</rt></ruby><ruby>愛<rt>あい</rt></ruby><ruby>志向<rt>しこう</rt></ruby>であるという<ruby>了解<rt>りょうかい</rt></ruby>がはらむ<ruby>問題性<rt>もんだいせい</rt></ruby>に<ruby>対する<rt>たいする</rt></ruby><ruby>認識<rt>にんしき</rt></ruby>が、<ruby>深ま<rt>ふかま</rt></ruby>りつつある。<ruby>民法<rt>みんぽう</rt></ruby><ruby>学<rt>がく</rt></ruby>は、この<ruby>課題<rt>かだい</rt></ruby>について、<ruby>当事者<rt>とうじしゃ</rt></ruby>の<ruby>視点<rt>してん</rt></ruby>からの<ruby>利益不利益<rt>りえきふりえき</rt></ruby>だけでなく、「<ruby>人<rt>にん</rt></ruby>」<ruby>概念<rt>がいねん</rt></ruby>のレベルで<ruby>受け<rt>うけ</rt></ruby><ruby>止め<rt>とめ</rt></ruby>、<ruby>状況<rt>じょうきょう</rt></ruby>に<ruby>応じ<rt>おうじ</rt></ruby>て<ruby>従前<rt>じゅうぜん</rt></ruby>の「<ruby>人<rt>にん</rt></ruby>」<ruby>概念<rt>がいねん</rt></ruby>を<ruby>更新<rt>こうしん</rt></ruby>し、それに<ruby>対応<rt>たいおう</rt></ruby>する<ruby>社会<rt>しゃかい</rt></ruby><ruby>像<rt>ぞう</rt></ruby>を<ruby>検討す<rt>けんとうす</rt></ruby>る<ruby>必要<rt>ひつよう</rt></ruby>がある。この<ruby>問題<rt>もんだい</rt></ruby>の<ruby>周辺<rt>しゅうへん</rt></ruby>で、「<ruby>人<rt>にん</rt></ruby>」<ruby>概念<rt>がいねん</rt></ruby>の<ruby>更新<rt>こうしん</rt></ruby>と<ruby>新しい<rt>あたらしい</rt></ruby><ruby>社会<rt>しゃかい</rt></ruby><ruby>像<rt>ぞう</rt></ruby>の<ruby>提示<rt>ていじ</rt></ruby>の<ruby>関連性<rt>かんれんせい</rt></ruby>が<ruby>看取<rt>かんしゅ</rt></ruby>される<ruby>例<rt>れい</rt></ruby>として，「<ruby>人<rt>にん</rt></ruby>」の<ruby>嫡出<rt>ちゃくしゅつ</rt></ruby><ruby>性<rt>せい</rt></ruby>の<ruby>有無<rt>うむ</rt></ruby>に<ruby>関連す<rt>かんれんす</rt></ruby>る<ruby>動き<rt>うごき</rt></ruby>があげられよう。<ruby>民法<rt>みんぽう</rt></ruby><ruby>原始<rt>げんし</rt></ruby><ruby>規定<rt>きてい</rt></ruby>の<ruby>下<rt>した</rt></ruby>では、<ruby>嫡出<rt>ちゃくしゅつ</rt></ruby><ruby>子<rt>こ</rt></ruby>・<ruby>非<rt>ひ</rt></ruby><ruby>嫡出<rt>ちゃくしゅつ</rt></ruby><ruby>子<rt>こ</rt></ruby>（<ruby>庶子<rt>しょし</rt></ruby>）の<ruby>区別<rt>くべつ</rt></ruby>は、イエ<ruby>制度<rt>せいど</rt></ruby>を<ruby>抱く<rt>だく</rt></ruby><ruby>社会<rt>しゃかい</rt></ruby>のなかで、<ruby>家相<rt>かそう</rt></ruby><ruby>続<rt>ぞく</rt></ruby>の<ruby>資格<rt>しかく</rt></ruby>の<ruby>有無<rt>うむ</rt></ruby>や<ruby>順位<rt>じゅんい</rt></ruby>に<ruby>関係<rt>かんけい</rt></ruby>するため、<ruby>重要な<rt>じゅうような</rt></ruby><ruby>属性<rt>ぞくせい</rt></ruby>であった。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">人々の意識の上でも，「人」が，男女のみから構成され，しかもそれぞれ，もっぱら異性愛志向であるという了解がはらむ問題性に対する認識が，深まりつつある。民法学は，この課題について，当事者の視点からの利益不利益だけでなく，「人」概念のレベルで受け止め，状況に応じて従前の「人」概念を更新し，それに対応する社会像を検討する必要がある。この問題の周辺で，「人」概念の更新と新しい社会像の提示の関連性が看取される例として，「人」の嫡出性の有無に関連する動きがあげられよう。民法原始規定の下では，嫡出子・非嫡出子（庶子）の区別は，イエ制度を抱く社会のなかで，家相続の資格の有無や順位に関係するため，重要な属性であった。</div>
+            </div>
+        </article>
+        <article id="card-20" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(20)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    しかし、<ruby>昭和<rt>しょうわ</rt></ruby> 22（19 <ruby>年<rt>ねん</rt></ruby><ruby>法律<rt>ほうりつ</rt></ruby><ruby>第<rt>だい</rt></ruby>222<ruby>号<rt>ごう</rt></ruby>による<ruby>民法<rt>みんぽう</rt></ruby><ruby>改正<rt>かいせい</rt></ruby>によってイエ<ruby>制度<rt>せいど</rt></ruby>も<ruby>家督<rt>かとく</rt></ruby><ruby>相続<rt>そうぞく</rt></ruby><ruby>制度<rt>せいど</rt></ruby>も<ruby>廃止<rt>はいし</rt></ruby>され、その<ruby>後<rt>のち</rt></ruby>、<ruby>平成<rt>へいせい</rt></ruby>25（20<ruby>年<rt>ねん</rt></ruby><ruby>法律<rt>ほうりつ</rt></ruby><ruby>第<rt>だい</rt></ruby>94<ruby>号<rt>ごう</rt></ruby>によって<ruby>当時<rt>とうじ</rt></ruby>の<ruby>民法<rt>みんぽう</rt></ruby> 900<ruby>条<rt>じょう</rt></ruby>4<ruby>号<rt>ごう</rt></ruby>（<ruby>非<rt>ひ</rt></ruby><ruby>嫡出<rt>ちゃくしゅつ</rt></ruby><ruby>子<rt>こ</rt></ruby>の<ruby>法定<rt>ほうてい</rt></ruby><ruby>相続分<rt>そうぞくぶん</rt></ruby>を<ruby>嫡出<rt>ちゃくしゅつ</rt></ruby><ruby>子<rt>こ</rt></ruby>の2<ruby>分<rt>ふん</rt></ruby>の1と<ruby>定め<rt>さだめ</rt></ruby>ていた）が<ruby>削除<rt>さくじょ</rt></ruby>された<ruby>現在<rt>げんざい</rt></ruby>，<ruby>嫡出<rt>ちゃくしゅつ</rt></ruby><ruby>子<rt>こ</rt></ruby>であるか<ruby>否か<rt>いなか</rt></ruby>の<ruby>違い<rt>ちがい</rt></ruby>は、その「<ruby>人<rt>にん</rt></ruby>」の<ruby>父<rt>ちち</rt></ruby>との<ruby>親子関係<rt>おやこかんけい</rt></ruby>の<ruby>判定方法<rt>はんていほうほう</rt></ruby>が<ruby>異なる<rt>ことなる</rt></ruby>（<ruby>嫡出<rt>ちゃくしゅつ</rt></ruby><ruby>子<rt>こ</rt></ruby>は<ruby>嫡出<rt>ちゃくしゅつ</rt></ruby><ruby>推定<rt>すいてい</rt></ruby><ruby>制度<rt>せいど</rt></ruby>，<ruby>非<rt>ひ</rt></ruby><ruby>嫡出<rt>ちゃくしゅつ</rt></ruby><ruby>子<rt>こ</rt></ruby>は<ruby>認知<rt>にんち</rt></ruby><ruby>制度<rt>せいど</rt></ruby>）<ruby>程度<rt>ていど</rt></ruby>のものとなった。<ruby>現代<rt>げんだい</rt></ruby>の<ruby>家族<rt>かぞく</rt></ruby><ruby>法<rt>ほう</rt></ruby><ruby>教科書<rt>きょうかしょ</rt></ruby>は、<ruby>逡巡<rt>しゅんじゅん</rt></ruby>しつつも、<ruby>嫡出<rt>ちゃくしゅつ</rt></ruby><ruby>子<rt>こ</rt></ruby>／<ruby>非<rt>ひ</rt></ruby><ruby>嫡出<rt>ちゃくしゅつ</rt></ruby><ruby>子<rt>こ</rt></ruby>の<ruby>別<rt>べつ</rt></ruby>を「<ruby>人<rt>にん</rt></ruby>、の<ruby>属性<rt>ぞくせい</rt></ruby>から<ruby>消滅<rt>しょうめつ</rt></ruby>させようとしている。いわく、①「<ruby>民法<rt>みんぽう</rt></ruby>が、まず<ruby>全体<rt>ぜんたい</rt></ruby>を、<ruby>嫡出<rt>ちゃくしゅつ</rt></ruby>とそれ<ruby>以外<rt>いがい</rt></ruby>という<ruby>形<rt>かたち</rt></ruby>に<ruby>分け<rt>わけ</rt></ruby>て<ruby>規定<rt>きてい</rt></ruby>していることは、「<ruby>婚姻<rt>こんいん</rt></ruby><ruby>関係<rt>かんけい</rt></ruby>を<ruby>前提<rt>ぜんてい</rt></ruby>とする<ruby>親子<rt>おやこ</rt></ruby>』、『それ<ruby>以外<rt>いがい</rt></ruby>』を<ruby>全体<rt>ぜんたい</rt></ruby>の<ruby>最も<rt>もっとも</rt></ruby><ruby>大き<rt>おおき</rt></ruby>な<ruby>分類<rt>ぶんるい</rt></ruby>としているように<ruby>見え<rt>みえ</rt></ruby>る」。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">しかし，昭和 22（19 年法律第222号による民法改正によってイエ制度も家督相続制度も廃止され，その後，平成25（20年法律第94号によって当時の民法 900条4号（非嫡出子の法定相続分を嫡出子の2分の1と定めていた）が削除された現在，嫡出子であるか否かの違いは，その「人」の父との親子関係の判定方法が異なる（嫡出子は嫡出推定制度，非嫡出子は認知制度）程度のものとなった。現代の家族法教科書は，逡巡しつつも，嫡出子／非嫡出子の別を「人，の属性から消滅させようとしている。いわく，①「民法が，まず全体を，嫡出とそれ以外という形に分けて規定していることは，「婚姻関係を前提とする親子』，『それ以外』を全体の最も大きな分類としているように見える」。</div>
+            </div>
+        </article>
+        <article id="card-21" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(21)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>他方<rt>たほう</rt></ruby>で、②「<ruby>親子<rt>おやこ</rt></ruby><ruby>法<rt>ほう</rt></ruby>の<ruby>最も<rt>もっとも</rt></ruby><ruby>基本的<rt>きほんてき</rt></ruby>な<ruby>要素<rt>ようそ</rt></ruby>として、<ruby>母子<rt>ぼし</rt></ruby><ruby>関係<rt>かんけい</rt></ruby>と<ruby>父子<rt>ふし</rt></ruby><ruby>関係<rt>かんけい</rt></ruby>を<ruby>位置付け<rt>いちづけ</rt></ruby>るという<ruby>見方<rt>みかた</rt></ruby>もあるだろう。」「<ruby>婚姻<rt>こんいん</rt></ruby><ruby>夫婦<rt>ふうふ</rt></ruby>と<ruby>子<rt>こ</rt></ruby>の<ruby>親子関係<rt>おやこかんけい</rt></ruby>を<ruby>論ず<rt>ろんず</rt></ruby>るのではなく、あくまで<ruby>母<rt>はは</rt></ruby>と<ruby>子<rt>こ</rt></ruby>の<ruby>関係<rt>かんけい</rt></ruby>、<ruby>父<rt>ちち</rt></ruby>と<ruby>子<rt>こ</rt></ruby>の<ruby>関係<rt>かんけい</rt></ruby>を<ruby>考え<rt>かんがえ</rt></ruby>ることが、<ruby>親子<rt>おやこ</rt></ruby><ruby>法<rt>ほう</rt></ruby>の<ruby>基本<rt>きほん</rt></ruby>となるという<ruby>理解<rt>りかい</rt></ruby>」，「<ruby>嫡出<rt>ちゃくしゅつ</rt></ruby><ruby>子<rt>こ</rt></ruby>や<ruby>非<rt>ひ</rt></ruby><ruby>嫡出<rt>ちゃくしゅつ</rt></ruby><ruby>子<rt>こ</rt></ruby>という<ruby>子<rt>こ</rt></ruby>の<ruby>身分<rt>みぶん</rt></ruby>として<ruby>問題<rt>もんだい</rt></ruby>を<ruby>理解<rt>りかい</rt></ruby>するということに<ruby>消極的<rt>しょうきょくてき</rt></ruby>な<ruby>立場<rt>たちば</rt></ruby>」からは、「<ruby>一応<rt>いちおう</rt></ruby>，②の<ruby>方向<rt>ほうこう</rt></ruby>に<ruby>向かい<rt>むかい</rt></ruby>そうである」と。<ruby>同様<rt>どうよう</rt></ruby>に、<ruby>同性<rt>どうせい</rt></ruby>カップルの<ruby>婚姻<rt>こんいん</rt></ruby>をめぐる<ruby>議論<rt>ぎろん</rt></ruby>についても、<ruby>当事者<rt>とうじしゃ</rt></ruby>の<ruby>利益不利益<rt>りえきふりえき</rt></ruby>のみならず、<ruby>社会<rt>しゃかい</rt></ruby>の<ruby>制度<rt>せいど</rt></ruby>という<ruby>観点<rt>かんてん</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>であり、さまざまな<ruby>利害<rt>りがい</rt></ruby>が<ruby>交錯<rt>こうさく</rt></ruby>する<ruby>後者<rt>こうしゃ</rt></ruby>の<ruby>領域<rt>りょういき</rt></ruby>での<ruby>議論<rt>ぎろん</rt></ruby>を<ruby>求め<rt>もとめ</rt></ruby>るための<ruby>場<rt>ば</rt></ruby>の1つが、「<ruby>人<rt>にん</rt></ruby>」<ruby>概念<rt>がいねん</rt></ruby>、ないしその<ruby>属性<rt>ぞくせい</rt></ruby>としての<ruby>男女<rt>だんじょ</rt></ruby>の<ruby>別<rt>べつ</rt></ruby>（の<ruby>維持<rt>いじ</rt></ruby>・<ruby>修正<rt>しゅうせい</rt></ruby>なり<ruby>放棄<rt>ほうき</rt></ruby>なり、<ruby>代替<rt>だいたい</rt></ruby>する<ruby>何か<rt>なにか</rt></ruby>の<ruby>創案<rt>そうあん</rt></ruby>なり）、また、<ruby>婚姻<rt>こんいん</rt></ruby>の<ruby>概念<rt>がいねん</rt></ruby>（とくに<ruby>婚姻<rt>こんいん</rt></ruby><ruby>制度<rt>せいど</rt></ruby>と<ruby>親子<rt>おやこ</rt></ruby><ruby>制度<rt>せいど</rt></ruby>の<ruby>結び<rt>むすび</rt></ruby>つきをどう<ruby>考え<rt>かんがえ</rt></ruby>るかとなるように<ruby>思わ<rt>おもわ</rt></ruby>れる。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">他方で，②「親子法の最も基本的な要素として，母子関係と父子関係を位置付けるという見方もあるだろう。」「婚姻夫婦と子の親子関係を論ずるのではなく，あくまで母と子の関係，父と子の関係を考えることが，親子法の基本となるという理解」，「嫡出子や非嫡出子という子の身分として問題を理解するということに消極的な立場」からは，「一応，②の方向に向かいそうである」と。同様に，同性カップルの婚姻をめぐる議論についても，当事者の利益不利益のみならず，社会の制度という観点が必要であり，さまざまな利害が交錯する後者の領域での議論を求めるための場の1つが，「人」概念，ないしその属性としての男女の別（の維持・修正なり放棄なり，代替する何かの創案なり），また，婚姻の概念（とくに婚姻制度と親子制度の結びつきをどう考えるかとなるように思われる。</div>
+            </div>
+        </article>
+        <section id="card-22" class="my-8 rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 shadow-md border border-indigo-900/80 transition-all duration-300">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="text-xl sm:text-2xl font-bold tracking-wide font-serif text-amber-300">•おわりに<ruby>学生<rt>がくせい</rt></ruby>の<ruby>立場<rt>たちば</rt></ruby>になって、<ruby>民法<rt>みんぽう</rt></ruby>を<ruby>学び<rt>まなび</rt></ruby>、<ruby>期末試験<rt>きまつしけん</rt></ruby>や<ruby>司法試験<rt>しほうしけん</rt></ruby>などを<ruby>受験<rt>じゅけん</rt></ruby>することを<ruby>想像<rt>そうぞう</rt></ruby>した<ruby>場合<rt>ばあい</rt></ruby>、とりわけ、<ruby>試験問題<rt>しけんもんだい</rt></ruby>として、ツールとしての<ruby>民法<rt>みんぽう</rt></ruby>をいわば<ruby>所与<rt>しょよ</rt></ruby>として、<ruby>事例<rt>じれい</rt></ruby><ruby>問題<rt>もんだい</rt></ruby>の<ruby>解決案<rt>かいけつあん</rt></ruby>を<ruby>考え<rt>かんがえ</rt></ruby>させるような<ruby>出題<rt>しゅつだい</rt></ruby>が<ruby>予想<rt>よそう</rt></ruby>されるときには、<ruby>民法<rt>みんぽう</rt></ruby>のたくさんの<ruby>基本概念<rt>きほんがいねん</rt></ruby>の<ruby>外延<rt>がいえん</rt></ruby>・<ruby>内包<rt>ないほう</rt></ruby>を<ruby>理解<rt>りかい</rt></ruby>し、できれば、その<ruby>定義<rt>ていぎ</rt></ruby>をきっちり<ruby>暗記<rt>あんき</rt></ruby>しておきたくなる。</h2>
+                <button onclick="playCardText(22)" class="shrink-0 flex items-center space-x-1 bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-amber-400/40 transition-colors select-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    <span>朗讀標題</span>
+                </button>
+            </div>
+            <div class="text-base sm:text-lg font-medium text-indigo-200 font-sans">•おわりに学生の立場になって，民法を学び，期末試験や司法試験などを受験することを想像した場合，とりわけ，試験問題として，ツールとしての民法をいわば所与として，事例問題の解決案を考えさせるような出題が予想されるときには，民法のたくさんの基本概念の外延・内包を理解し，できれば，その定義をきっちり暗記しておきたくなる。</div>
+        </section>
+        <article id="card-23" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(23)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    さもないと、<ruby>短い<rt>みじかい</rt></ruby><ruby>試験時間<rt>しけんじかん</rt></ruby>のなかで、<ruby>民法<rt>みんぽう</rt></ruby>という<ruby>道具箱<rt>どうぐばこ</rt></ruby>に<ruby>入っ<rt>いっっ</rt></ruby>ているたくさんの<ruby>道具<rt>どうぐ</rt></ruby>のなかから<ruby>適切<rt>てきせつ</rt></ruby>なものを<ruby>拾い<rt>ひろい</rt></ruby><ruby>出し<rt>だし</rt></ruby>、それらを<ruby>利用<rt>りよう</rt></ruby>して<ruby>問題<rt>もんだい</rt></ruby>を<ruby>解決<rt>かいけつ</rt></ruby>することが<ruby>覚束なさそ<rt>おぼつかなさそ</rt></ruby>うだから。ところが、<ruby>本稿<rt>ほんこう</rt></ruby>では、「<ruby>人<rt>にん</rt></ruby>」<ruby>概念<rt>がいねん</rt></ruby>について、I・Iを<ruby>通じ<rt>つうじ</rt></ruby>て、それが<ruby>時間<rt>じかん</rt></ruby>とともに<ruby>揺れ<rt>ゆれ</rt></ruby><ruby>動く<rt>うごく</rt></ruby><ruby>様子<rt>ようす</rt></ruby>を<ruby>描い<rt>えがい</rt></ruby>た。<ruby>学生<rt>がくせい</rt></ruby>が、ふわふわしたことを<ruby>勉強<rt>べんきょう</rt></ruby>するばかりでは、<ruby>試験<rt>しけん</rt></ruby>での<ruby>成果<rt>せいか</rt></ruby>を<ruby>望む<rt>のぞむ</rt></ruby>ことは<ruby>難しい<rt>むずかしい</rt></ruby>だろう。にもかかわらず、なぜ、<ruby>本稿<rt>ほんこう</rt></ruby>は、「<ruby>人<rt>にん</rt></ruby>」<ruby>概念<rt>がいねん</rt></ruby>のゆらぎを<ruby>注視<rt>ちゅうし</rt></ruby>したのか。<ruby>実は<rt>じつは</rt></ruby>、20<ruby>世紀後半<rt>せいきこうはん</rt></ruby>の<ruby>有力<rt>ゆうりょく</rt></ruby>な<ruby>民法<rt>みんぽう</rt></ruby><ruby>教科書<rt>きょうかしょ</rt></ruby>は、<ruby>基本概念<rt>きほんがいねん</rt></ruby>の<ruby>定義<rt>ていぎ</rt></ruby>をあえて<ruby>書か<rt>かか</rt></ruby>ないという<ruby>戦略<rt>せんりゃく</rt></ruby>を<ruby>採用<rt>さいよう</rt></ruby>していた。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">さもないと，短い試験時間のなかで，民法という道具箱に入っているたくさんの道具のなかから適切なものを拾い出し，それらを利用して問題を解決することが覚束なさそうだから。ところが，本稿では，「人」概念について，I・Iを通じて，それが時間とともに揺れ動く様子を描いた。学生が，ふわふわしたことを勉強するばかりでは，試験での成果を望むことは難しいだろう。にもかかわらず，なぜ，本稿は，「人」概念のゆらぎを注視したのか。実は，20世紀後半の有力な民法教科書は，基本概念の定義をあえて書かないという戦略を採用していた。</div>
+            </div>
+        </article>
+        <article id="card-24" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(24)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    あるものは、「<ruby>本書<rt>ほんしょ</rt></ruby>では<ruby>制度<rt>せいど</rt></ruby>や<ruby>概念<rt>がいねん</rt></ruby>につき、<ruby>民法<rt>みんぽう</rt></ruby>の<ruby>規定<rt>きてい</rt></ruby>を<ruby>離れ<rt>はなれ</rt></ruby>ていきなり<ruby>定義<rt>ていぎ</rt></ruby>を<ruby>書く<rt>かく</rt></ruby>ということを<ruby>努め<rt>つとめ</rt></ruby>て<ruby>避け<rt>さけ</rt></ruby>た。<ruby>定義<rt>ていぎ</rt></ruby>とは、<ruby>学問<rt>がくもん</rt></ruby>のアルファであり、オメガであって、これを<ruby>欠く<rt>かく</rt></ruby>のはおよそ<ruby>概説書<rt>がいせつしょ</rt></ruby>としての<ruby>体<rt>からだ</rt></ruby>をなさない、との<ruby>批判<rt>ひはん</rt></ruby>もあり<ruby>得よ<rt>えよ</rt></ruby>う。しかし」，「<ruby>従来<rt>じゅうらい</rt></ruby>、<ruby>教師<rt>きょうし</rt></ruby>から•・・・・・<ruby>制度<rt>せいど</rt></ruby>の<ruby>定義<rt>ていぎ</rt></ruby>をいきなり<ruby>述べ<rt>のべ</rt></ruby>られて•・・・・・・わからないままにただ<ruby>定義<rt>ていぎ</rt></ruby>を<ruby>覚え<rt>おぼえ</rt></ruby>こんだりすることが<ruby>少なく<rt>すくなく</rt></ruby>なかったと<ruby>思わ<rt>おもわ</rt></ruby>れる。しかし、それでは、<ruby>通説<rt>つうせつ</rt></ruby>により<ruby>体系化<rt>たいけいか</rt></ruby>された<ruby>民法<rt>みんぽう</rt></ruby>を<ruby>知る<rt>しる</rt></ruby>ことにはなるが、<ruby>真<rt>まこと</rt></ruby>に<ruby>民法<rt>みんぽう</rt></ruby>そのものを<ruby>学ん<rt>まなん</rt></ruby>だことになるか<ruby>否か<rt>いなか</rt></ruby>、<ruby>疑問<rt>ぎもん</rt></ruby>がある。」とし、<ruby>別の<rt>べつの</rt></ruby>ものは、そのまえがきにおいて、「<ruby>抽象的<rt>ちゅうしょうてき</rt></ruby>な<ruby>概念規定<rt>がいねんきてい</rt></ruby>や<ruby>要件<rt>ようけん</rt></ruby>・<ruby>効果<rt>こうか</rt></ruby>の<ruby>羅列<rt>られつ</rt></ruby>を<ruby>極力避け<rt>きょくりょくさけ</rt></ruby>、<ruby>具体的<rt>ぐたいてき</rt></ruby>な<ruby>制度<rt>せいど</rt></ruby>のあり<ruby>方<rt>ほう</rt></ruby>や<ruby>機能<rt>きのう</rt></ruby>をまず<ruby>叙述<rt>じょじゅつ</rt></ruby>し、<ruby>定義<rt>ていぎ</rt></ruby>などは<ruby>学生自身<rt>がくせいじしん</rt></ruby>にあとで<ruby>自分<rt>じぶん</rt></ruby>で<ruby>構成<rt>こうせい</rt></ruby>させるように、<ruby>努力<rt>どりょく</rt></ruby>した。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">あるものは，「本書では制度や概念につき，民法の規定を離れていきなり定義を書くということを努めて避けた。定義とは，学問のアルファであり，オメガであって，これを欠くのはおよそ概説書としての体をなさない，との批判もあり得よう。しかし」，「従来，教師から•・・・・・制度の定義をいきなり述べられて•・・・・・・わからないままにただ定義を覚えこんだりすることが少なくなかったと思われる。しかし，それでは，通説により体系化された民法を知ることにはなるが，真に民法そのものを学んだことになるか否か，疑問がある。」とし，別のものは，そのまえがきにおいて，「抽象的な概念規定や要件・効果の羅列を極力避け，具体的な制度のあり方や機能をまず叙述し，定義などは学生自身にあとで自分で構成させるように，努力した。</div>
+            </div>
+        </article>
+        <article id="card-25" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(25)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    」と<ruby>宜<rt>ぎ</rt></ruby><ruby>言<rt>げん</rt></ruby>していた。<ruby>著者<rt>ちょしゃ</rt></ruby>たちが<ruby>企図<rt>きと</rt></ruby>していたのは、<ruby>固定<rt>こてい</rt></ruby>された<ruby>民<rt>たみ</rt></ruby><ruby>造<rt>ぞう</rt></ruby>システムを<ruby>前提<rt>ぜんてい</rt></ruby>にして、<ruby>試験問題<rt>しけんもんだい</rt></ruby>に<ruby>対する<rt>たいする</rt></ruby><ruby>正解<rt>せいかい</rt></ruby>を<ruby>導き出す<rt>みちびきだす</rt></ruby><ruby>能力<rt>のうりょく</rt></ruby>の<ruby>涵養<rt>かんよう</rt></ruby><ruby>一一<rt>いちいち</rt></ruby><ruby>数学<rt>すうがく</rt></ruby>の<ruby>試験問題<rt>しけんもんだい</rt></ruby>が<ruby>解け<rt>とけ</rt></ruby>るようになるための<ruby>訓練<rt>くんれん</rt></ruby>のような<ruby>教育<rt>きょういく</rt></ruby>？<ruby>一<rt>いち</rt></ruby>にとどまらす。<ruby>堅牢<rt>けんろう</rt></ruby>な<ruby>民法<rt>みんぽう</rt></ruby>システムを<ruby>柔軟<rt>じゅうなん</rt></ruby><ruby>化し<rt>かし</rt></ruby>て、<ruby>妥当<rt>だとう</rt></ruby>な<ruby>解決案<rt>かいけつあん</rt></ruby>を<ruby>創出<rt>そうしゅつ</rt></ruby>し、さらには<ruby>新しい<rt>あたらしい</rt></ruby>システムを<ruby>提示<rt>ていじ</rt></ruby>する<ruby>能力<rt>のうりょく</rt></ruby>の<ruby>涵養<rt>かんよう</rt></ruby>だったのではないかと<ruby>思わ<rt>おもわ</rt></ruby>れる。<ruby>法<rt>ほう</rt></ruby>の<ruby>基本的<rt>きほんてき</rt></ruby>な<ruby>概念<rt>がいねん</rt></ruby>の<ruby>定義<rt>ていぎ</rt></ruby>は、<ruby>厳格<rt>げんかく</rt></ruby>なものではあるが、これを<ruby>揺さ<rt>ゆさ</rt></ruby>ぶり、<ruby>少し<rt>すこし</rt></ruby>ずつ<ruby>姿<rt>すがた</rt></ruby>を<ruby>変え<rt>かえ</rt></ruby>、いつの<ruby>間に<rt>まに</rt></ruby>か<ruby>平穏<rt>へいおん</rt></ruby><ruby>裡<rt>り</rt></ruby>にシステム<ruby>全体<rt>ぜんたい</rt></ruby>の<ruby>姿<rt>すがた</rt></ruby>を<ruby>変え<rt>かえ</rt></ruby>るということは、<ruby>社会<rt>しゃかい</rt></ruby>の<ruby>変化<rt>へんか</rt></ruby>に<ruby>法<rt>ほう</rt></ruby>システムを<ruby>対応<rt>たいおう</rt></ruby>させるために<ruby>必要<rt>ひつよう</rt></ruby>なことであり、また、<ruby>新しい<rt>あたらしい</rt></ruby><ruby>法<rt>ほう</rt></ruby>システムを<ruby>提案<rt>ていあん</rt></ruby>することによって<ruby>社会<rt>しゃかい</rt></ruby>を<ruby>変化さ<rt>へんかさ</rt></ruby>せるためにも<ruby>必要<rt>ひつよう</rt></ruby>なことである。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">」と宜言していた。著者たちが企図していたのは，固定された民造システムを前提にして，試験問題に対する正解を導き出す能力の涵養一一数学の試験問題が解けるようになるための訓練のような教育？一にとどまらす。堅牢な民法システムを柔軟化して，妥当な解決案を創出し，さらには新しいシステムを提示する能力の涵養だったのではないかと思われる。法の基本的な概念の定義は，厳格なものではあるが，これを揺さぶり，少しずつ姿を変え，いつの間にか平穏裡にシステム全体の姿を変えるということは，社会の変化に法システムを対応させるために必要なことであり，また，新しい法システムを提案することによって社会を変化させるためにも必要なことである。</div>
+            </div>
+        </article>
+        <article id="card-26" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(26)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    この<ruby>更新<rt>こうしん</rt></ruby><ruby>作業<rt>さぎょう</rt></ruby>には、<ruby>制定<rt>せいてい</rt></ruby><ruby>法<rt>ほう</rt></ruby>・<ruby>判例<rt>はんれい</rt></ruby>・<ruby>学説<rt>がくせつ</rt></ruby>の<ruby>相互作用<rt>そうごさよう</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>となることが<ruby>多い<rt>おおい</rt></ruby>（<ruby>制定<rt>せいてい</rt></ruby><ruby>法<rt>ほう</rt></ruby>を<ruby>操作<rt>そうさ</rt></ruby>するだけで<ruby>市民社会<rt>しみんしゃかい</rt></ruby>の<ruby>基本語<rt>きほんご</rt></ruby><ruby>彙<rt>い</rt></ruby>の<ruby>意味内容<rt>いみないよう</rt></ruby>を<ruby>変え<rt>かえ</rt></ruby>ることは<ruby>難しい<rt>むずかしい</rt></ruby>）。<ruby>民法<rt>みんぽう</rt></ruby><ruby>教育<rt>きょういく</rt></ruby>のなかで、あえて<ruby>概念<rt>がいねん</rt></ruby>の<ruby>定義<rt>ていぎ</rt></ruby>が<ruby>示さ<rt>しめさ</rt></ruby>れなかったり、<ruby>概念<rt>がいねん</rt></ruby>の<ruby>外延<rt>がいえん</rt></ruby><ruby>内包<rt>ないほう</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>見解<rt>けんかい</rt></ruby>の<ruby>対立<rt>たいりつ</rt></ruby>が<ruby>紹介<rt>しょうかい</rt></ruby>されることがあるけれども、その<ruby>背景<rt>はいけい</rt></ruby>には、<ruby>以上<rt>いじょう</rt></ruby>のような<ruby>事情<rt>じじょう</rt></ruby>があると<ruby>考え<rt>かんがえ</rt></ruby>る。<ruby>本稿<rt>ほんこう</rt></ruby>は、「<ruby>人<rt>にん</rt></ruby>」を<ruby>通じ<rt>つうじ</rt></ruby>た<ruby>民法<rt>みんぽう</rt></ruby><ruby>入門<rt>にゅうもん</rt></ruby>を<ruby>試み<rt>こころみ</rt></ruby>るとともに、<ruby>一見<rt>いっけん</rt></ruby><ruby>無味乾燥<rt>むみかんそう</rt></ruby>にも<ruby>思え<rt>おもえ</rt></ruby>る「<ruby>人<rt>にん</rt></ruby>」<ruby>概念<rt>がいねん</rt></ruby>をめぐる<ruby>議論<rt>ぎろん</rt></ruby>，とくに<ruby>時間軸<rt>じかんじく</rt></ruby>による<ruby>変遷<rt>へんせん</rt></ruby>を<ruby>意識<rt>いしき</rt></ruby>することによって、（<ruby>定義<rt>ていぎ</rt></ruby>を<ruby>暗記<rt>あんき</rt></ruby>して）<ruby>所与<rt>しょよ</rt></ruby>の<ruby>固定<rt>こてい</rt></ruby>された<ruby>民法<rt>みんぽう</rt></ruby>システムのなかで<ruby>正解<rt>せいかい</rt></ruby>を<ruby>出せ<rt>だせ</rt></ruby>るようになること<ruby>以外<rt>いがい</rt></ruby>にも、<ruby>民法<rt>みんぽう</rt></ruby>を<ruby>学ぶ<rt>まなぶ</rt></ruby><ruby>意義<rt>いぎ</rt></ruby>があることを<ruby>説明し<rt>せつめいし</rt></ruby>たつもりである。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">この更新作業には，制定法・判例・学説の相互作用が必要となることが多い（制定法を操作するだけで市民社会の基本語彙の意味内容を変えることは難しい）。民法教育のなかで，あえて概念の定義が示されなかったり，概念の外延内包に関する見解の対立が紹介されることがあるけれども，その背景には，以上のような事情があると考える。本稿は，「人」を通じた民法入門を試みるとともに，一見無味乾燥にも思える「人」概念をめぐる議論，とくに時間軸による変遷を意識することによって，（定義を暗記して）所与の固定された民法システムのなかで正解を出せるようになること以外にも，民法を学ぶ意義があることを説明したつもりである。</div>
+            </div>
+        </article>
+        <article id="card-27" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(27)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    （こがゆ・たろう） <ruby>血<rt>ち</rt></ruby>
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">（こがゆ・たろう） 血</div>
+            </div>
+        </article>
+                </main>
+
+                <!-- Footer -->
+                <footer class="bg-slate-900 border-t border-slate-800 py-6 px-6 rounded-xl text-center text-xs text-slate-400">
+                    <p>民法2023 — 左右對照朗讀與翻譯版</p>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Audio Control Bar -->
+    <div class="fixed bottom-4 right-4 sm:right-8 w-11/12 max-w-xl bg-slate-900/95 backdrop-blur text-white px-5 py-3.5 rounded-2xl shadow-2xl border border-slate-700/80 flex items-center justify-between z-50">
+        <div class="flex items-center space-x-3">
+            <button id="btn-play-all" onclick="togglePlayAll()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold p-2.5 rounded-xl transition-colors shadow-md flex items-center justify-center">
+                <svg id="icon-play" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <svg id="icon-pause" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </button>
+            <button onclick="stopSpeech()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold p-2.5 rounded-xl border border-slate-700 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"></path></svg>
+            </button>
+            <div class="text-xs sm:text-sm">
+                <div id="tts-status" class="font-medium text-slate-200">準備朗讀</div>
+                <div id="tts-detail" class="text-slate-400 text-xs truncate max-w-[150px] sm:max-w-[200px]">點擊按鈕開啟日文語音朗讀</div>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-2">
+            <label class="text-xs text-slate-400 select-none hidden sm:inline">語速</label>
+            <select id="select-rate" onchange="changeRate()" class="bg-slate-800 text-xs text-slate-200 border border-slate-700 rounded-lg px-2 py-1.5 focus:outline-none focus:border-indigo-500">
+                <option value="0.75">0.75x</option>
+                <option value="1.0" selected>1.0x (標準)</option>
+                <option value="1.25">1.25x</option>
+                <option value="1.5">1.5x</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Speech Synthesis & PDF Zoom JavaScript -->
+    <script>
+        let synth = window.speechSynthesis;
+        let currentUtterance = null;
+        let playQueue = [];
+        let currentCardIndex = -1;
+        let isPlayingAll = false;
+        let speechRate = 1.0;
+        let japaneseVoice = null;
+        let currentPdfZoom = 1.0;
+        let pdfBaseSrc = '民法2023.pdf';
+
+        function setPdfZoom(scaleFactor) {
+            currentPdfZoom = scaleFactor;
+            applyPdfZoom();
+        }
+
+        function zoomPdf(ratio) {
+            currentPdfZoom = Math.max(0.5, Math.min(3.0, currentPdfZoom * ratio));
+            applyPdfZoom();
+        }
+
+        function resetPdfZoom() {
+            currentPdfZoom = 1.0;
+            applyPdfZoom();
+        }
+
+        function applyPdfZoom() {
+            const zoomPercent = Math.round(currentPdfZoom * 100);
+            document.getElementById('pdf-zoom-val').textContent = zoomPercent + '%';
+            const iframe = document.getElementById('pdf-frame');
+            
+            // Apply PDF Open Parameters
+            iframe.src = pdfBaseSrc + '#zoom=' + zoomPercent + '&view=FitH';
+            
+            // Apply CSS Scaling for smooth visual enhancement
+            iframe.style.transform = 'scale(' + currentPdfZoom + ')';
+            iframe.style.width = (100 / currentPdfZoom) + '%';
+            iframe.style.height = (100 / currentPdfZoom) + '%';
+        }
+
+        function togglePdfPanel() {
+            const pdfPanel = document.getElementById('pdf-panel');
+            const contentPanel = document.getElementById('content-panel');
+            if (pdfPanel.classList.contains('hidden')) {
+                pdfPanel.classList.remove('hidden');
+                contentPanel.className = 'w-full lg:w-1/2 h-1/2 lg:h-full bg-slate-950 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 pb-32 transition-all duration-300';
+            } else {
+                pdfPanel.classList.add('hidden');
+                contentPanel.className = 'w-full lg:w-full h-full bg-slate-950 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 pb-32 transition-all duration-300';
+            }
+        }
+
+        function loadVoices() {
+            let voices = synth.getVoices();
+            japaneseVoice = voices.find(v => v.lang === 'ja-JP' || v.lang.startsWith('ja')) || null;
+        }
+
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = loadVoices;
+        }
+        loadVoices();
+
+        function getCleanText(cardId) {
+            const cardEl = document.getElementById('card-' + cardId);
+            if (!cardEl) return '';
+            
+            let targetEl = cardEl.querySelector('.jp-text-content') || cardEl.querySelector('h2') || cardEl;
+            const clone = targetEl.cloneNode(true);
+            
+            const rts = clone.querySelectorAll('rt');
+            rts.forEach(rt => rt.remove());
+            
+            let text = clone.textContent || '';
+            text = text.replace(/\(\d+\)/g, '').replace(/朗讀本段|朗讀標題/g, '').trim();
+            return text;
+        }
+
+        function highlightCard(index) {
+            document.querySelectorAll('.playing-card').forEach(el => el.classList.remove('playing-card'));
+            if (index >= 0) {
+                const el = document.getElementById('card-' + index);
+                if (el) {
+                    el.classList.add('playing-card');
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        }
+
+        function updateUIState(playing) {
+            const iconPlay = document.getElementById('icon-play');
+            const iconPause = document.getElementById('icon-pause');
+            const statusEl = document.getElementById('tts-status');
+            
+            if (playing) {
+                iconPlay.classList.add('hidden');
+                iconPause.classList.remove('hidden');
+                statusEl.textContent = '朗讀中...';
+            } else {
+                iconPlay.classList.remove('hidden');
+                iconPause.classList.add('hidden');
+                statusEl.textContent = '已暫停 / 準備就緒';
+            }
+        }
+
+        function playCardText(index) {
+            stopSpeech();
+            isPlayingAll = false;
+            currentCardIndex = index;
+            const text = getCleanText(index);
+            if (!text) return;
+            
+            speakText(text, index, () => {
+                highlightCard(-1);
+                updateUIState(false);
+                document.getElementById('tts-detail').textContent = '朗讀完成';
+            });
+        }
+
+        function speakText(text, cardIndex, onEndCallback) {
+            if (synth.speaking) synth.cancel();
+            
+            highlightCard(cardIndex);
+            updateUIState(true);
+            document.getElementById('tts-detail').textContent = text.substring(0, 30) + '...';
+            
+            currentUtterance = new SpeechSynthesisUtterance(text);
+            currentUtterance.lang = 'ja-JP';
+            if (japaneseVoice) currentUtterance.voice = japaneseVoice;
+            currentUtterance.rate = speechRate;
+            
+            currentUtterance.onend = function() {
+                if (onEndCallback) onEndCallback();
+            };
+            
+            currentUtterance.onerror = function(e) {
+                console.error('Speech synthesis error:', e);
+                highlightCard(-1);
+                updateUIState(false);
+            };
+            
+            synth.speak(currentUtterance);
+        }
+
+        function togglePlayAll() {
+            if (synth.speaking && isPlayingAll) {
+                if (synth.paused) {
+                    synth.resume();
+                    updateUIState(true);
+                } else {
+                    synth.pause();
+                    updateUIState(false);
+                }
+                return;
+            }
+            
+            stopSpeech();
+            isPlayingAll = true;
+            let totalCards = document.querySelectorAll('[id^="card-"]').length;
+            let queue = [];
+            for (let i = 0; i < totalCards; i++) {
+                queue.push(i);
+            }
+            
+            playNextInQueue(queue);
+        }
+
+        function playNextInQueue(queue) {
+            if (!isPlayingAll || queue.length === 0) {
+                isPlayingAll = false;
+                highlightCard(-1);
+                updateUIState(false);
+                document.getElementById('tts-detail').textContent = '全文朗讀完畢';
+                return;
+            }
+            
+            let nextIndex = queue.shift();
+            currentCardIndex = nextIndex;
+            const text = getCleanText(nextIndex);
+            
+            if (!text) {
+                playNextInQueue(queue);
+                return;
+            }
+            
+            speakText(text, nextIndex, () => {
+                if (isPlayingAll) playNextInQueue(queue);
+            });
+        }
+
+        function stopSpeech() {
+            isPlayingAll = false;
+            if (synth.speaking || synth.paused) {
+                synth.cancel();
+            }
+            highlightCard(-1);
+            updateUIState(false);
+            document.getElementById('tts-detail').textContent = '已停止朗讀';
+        }
+
+        function changeRate() {
+            const select = document.getElementById('select-rate');
+            speechRate = parseFloat(select.value);
+            if (synth.speaking && currentCardIndex >= 0) {
+                let wasPlayingAll = isPlayingAll;
+                let cardToResume = currentCardIndex;
+                stopSpeech();
+                if (wasPlayingAll) {
+                    isPlayingAll = true;
+                    let totalCards = document.querySelectorAll('[id^="card-"]').length;
+                    let queue = [];
+                    for (let i = cardToResume; i < totalCards; i++) queue.push(i);
+                    playNextInQueue(queue);
+                } else {
+                    playCardText(cardToResume);
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

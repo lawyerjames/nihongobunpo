@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>06フェイクと民事訴訟 - 左右對照朗讀與翻譯版</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #0f172a;
+            color: #1e293b;
+        }
+
+        .font-serif {
+            font-family: 'Noto Serif JP', "MS Mincho", serif;
+        }
+
+        .font-sans {
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+
+        .jp-col {
+            font-size: 1.05rem;
+            line-height: 3.1;
+            letter-spacing: 0.02em;
+            word-break: break-word;
+            color: #0f172a;
+        }
+
+        ruby {
+            ruby-position: over;
+            display: inline-ruby;
+        }
+
+        rt {
+            font-size: 0.52em;
+            color: #475569;
+            letter-spacing: 0.01em;
+            font-weight: normal;
+            line-height: 1.0;
+            user-select: none;
+        }
+
+        u {
+            text-decoration: none;
+            border-bottom: 2px solid #ef4444;
+            padding-bottom: 2px;
+        }
+
+        .zh-col {
+            font-size: 1.0rem;
+            line-height: 1.75;
+        }
+
+        .playing-card {
+            box-shadow: 0 0 0 3px #6366f1, 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+            background-color: #f5f3ff !important;
+        }
+    </style>
+</head>
+
+<body class="h-screen overflow-hidden flex flex-col bg-slate-950">
+    <!-- Top Fixed Header -->
+    <header class="h-14 bg-slate-950 text-white px-4 sm:px-6 border-b border-slate-800 shrink-0 flex items-center justify-between shadow-md z-40">
+        <div class="flex items-center space-x-3 truncate">
+            <a href="index.html" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 hover:text-white px-3 py-1.5 rounded-lg text-xs font-semibold border border-slate-700 transition-colors flex items-center space-x-1 shrink-0 select-none">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                <span>總覽</span>
+            </a>
+            <h1 class="text-sm sm:text-base font-bold truncate font-serif text-slate-100">
+                06フェイクと民事訴訟
+            </h1>
+        </div>
+        <div class="flex items-center space-x-2 shrink-0">
+            <button onclick="togglePdfPanel()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors flex items-center space-x-1 select-none">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                <span id="toggle-pdf-text">隱藏/顯示 原文PDF</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Split View Container (Height = 100vh - 3.5rem) -->
+    <div class="flex-1 flex flex-col lg:flex-row w-full overflow-hidden h-[calc(100vh-3.5rem)]">
+        <!-- Left Panel: Fixed Original PDF Viewer with Zoom Controls -->
+        <div id="pdf-panel" class="w-full lg:w-1/2 h-1/2 lg:h-full bg-slate-900 border-r border-slate-800 flex flex-col shrink-0">
+            <!-- PDF Zoom & Control Bar -->
+            <div class="bg-slate-950 px-3 py-2 border-b border-slate-800 flex items-center justify-between text-xs shrink-0 select-none">
+                <span class="text-slate-400 font-semibold flex items-center">
+                    <svg class="w-3.5 h-3.5 mr-1 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    PDF 縮放控制
+                </span>
+                <div class="flex items-center space-x-1.5">
+                    <button onclick="zoomPdf(0.9)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-2 py-0.5 rounded border border-slate-700 transition-colors" title="縮小">-</button>
+                    <span id="pdf-zoom-val" class="font-mono text-indigo-300 w-12 text-center">100%</span>
+                    <button onclick="zoomPdf(1.1)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-2 py-0.5 rounded border border-slate-700 transition-colors" title="放大">+</button>
+                    <button onclick="setPdfZoom(1.25)" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 px-2 py-0.5 rounded border border-slate-700 transition-colors">1.25x</button>
+                    <button onclick="setPdfZoom(1.5)" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 px-2 py-0.5 rounded border border-slate-700 transition-colors">1.5x</button>
+                    <button onclick="setPdfZoom(2.0)" class="bg-slate-800 hover:bg-slate-700 text-amber-300 px-2 py-0.5 rounded border border-slate-700 transition-colors">2.0x</button>
+                    <button onclick="resetPdfZoom()" class="bg-slate-800 hover:bg-slate-700 text-slate-400 px-2 py-0.5 rounded border border-slate-700 transition-colors">重置</button>
+                </div>
+            </div>
+            <!-- PDF Iframe Container -->
+            <div id="pdf-container" class="flex-1 w-full h-full overflow-auto bg-slate-900 p-2 relative">
+                <iframe id="pdf-frame" src="06フェイクと民事訴訟.pdf" class="w-full h-full rounded-xl bg-white shadow-inner border border-slate-700 transition-transform origin-top-left"></iframe>
+            </div>
+        </div>
+
+        <!-- Right Panel: Independently Scrolling Translated Content & Audio Reader -->
+        <div id="content-panel" class="w-full lg:w-1/2 h-1/2 lg:h-full bg-slate-950 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 pb-32 transition-all duration-300">
+            <div class="max-w-3xl mx-auto space-y-4">
+                <!-- Banner Card -->
+                <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 rounded-2xl shadow-xl border border-indigo-900">
+                    <span class="inline-block bg-indigo-500/20 text-indigo-300 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider mb-2 border border-indigo-400/30">
+                        法學日文左右對照朗讀版
+                    </span>
+                    <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-white mb-2 font-serif">
+                        06フェイクと民事訴訟
+                    </h2>
+                    <p class="text-indigo-200 text-sm sm:text-base font-medium mb-3">
+                        ——06フェイクと民事訴訟 法學論文對照解析 <span class="text-indigo-300/80 text-xs font-normal">（06フェイクと民事訴訟 法律專題解析）</span>
+                    </p>
+                    <div class="text-xs text-slate-300 pt-3 border-t border-indigo-900/80">
+                        <span class="font-semibold text-indigo-300">作者：</span>日本法學研究會 / Legal Research Group
+                    </div>
+                </div>
+
+                <!-- Main Paragraphs -->
+                <main class="space-y-4">
+
+        <article id="card-0" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(0)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    SPECIAL FEATUREフェイクと<ruby>民事訴訟<rt>みんじそしょう</rt></ruby><ruby>成城大<rt>せいじょうだい</rt></ruby><ruby>学<rt>がく</rt></ruby><ruby>教授<rt>きょうじゅ</rt></ruby><ruby>町村<rt>ちょうそん</rt></ruby><ruby>泰貴<rt>やすたか</rt></ruby>MACHIMURA Yasutaka↓ <ruby>問題<rt>もんだい</rt></ruby>の<ruby>所在<rt>しょざい</rt></ruby>インターネット<ruby>時代<rt>じだい</rt></ruby>の<ruby>民事訴訟<rt>みんじそしょう</rt></ruby>は、<ruby>手続<rt>てつづき</rt></ruby>のIT<ruby>化<rt>か</rt></ruby>によって<ruby>今<rt>いま</rt></ruby>より<ruby>迅速<rt>じんそく</rt></ruby>になり、<ruby>経済効率<rt>けいざいこうりつ</rt></ruby>も<ruby>向上<rt>こうじょう</rt></ruby>するものと<ruby>期待さ<rt>きたいさ</rt></ruby>れる。しかし、デジタル<ruby>化<rt>か</rt></ruby>の<ruby>弊害<rt>へいがい</rt></ruby>としてフェイク<ruby>情報<rt>じょうほう</rt></ruby>が<ruby>蔓延<rt>まんえん</rt></ruby>し<ruby>真偽<rt>しんぎ</rt></ruby>の<ruby>区別<rt>くべつ</rt></ruby>がつきにくくなるという<ruby>問題<rt>もんだい</rt></ruby>は、<ruby>民事訴訟<rt>みんじそしょう</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>にも<ruby>関係<rt>かんけい</rt></ruby>する。フェイク<ruby>情報<rt>じょうほう</rt></ruby>というと、AIにより<ruby>生成さ<rt>せいせいさ</rt></ruby>れた<ruby>虚<rt>きょ</rt></ruby>の<ruby>写真<rt>しゃしん</rt></ruby>や<ruby>動画<rt>どうが</rt></ruby>、いわゆるディープフェイクが<ruby>思い浮か<rt>おもいうか</rt></ruby>ぶ。<ruby>裁判<rt>さいばん</rt></ruby>は、<ruby>事実関係<rt>じじつかんけい</rt></ruby>に<ruby>法<rt>ほう</rt></ruby>を<ruby>適用<rt>てきよう</rt></ruby>して<ruby>紛争<rt>ふんそう</rt></ruby>を<ruby>解決<rt>かいけつ</rt></ruby>する<ruby>営み<rt>いとなみ</rt></ruby>であるが、ディープフェイクで<ruby>偽物<rt>にせもの</rt></ruby>とは<ruby>分か<rt>わか</rt></ruby>らないような<ruby>写真<rt>しゃしん</rt></ruby>や<ruby>動画<rt>どうが</rt></ruby>が<ruby>裁判<rt>さいばん</rt></ruby>に<ruby>持ち込ま<rt>もちこま</rt></ruby>れると、<ruby>裁判<rt>さいばん</rt></ruby>の<ruby>結論<rt>けつろん</rt></ruby>（これを<ruby>本案<rt>ほんあん</rt></ruby><ruby>判断<rt>はんだん</rt></ruby>という）が<ruby>歪め<rt>ひずめ</rt></ruby>られることになる。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">SPECIAL FEATUREフェイクと民事訴訟成城大学教授町村泰貴MACHIMURA Yasutaka↓ 問題の所在インターネット時代の民事訴訟は，手続のIT化によって今より迅速になり，経済効率も向上するものと期待される。しかし，デジタル化の弊害としてフェイク情報が蔓延し真偽の区別がつきにくくなるという問題は，民事訴訟手続にも関係する。フェイク情報というと，AIにより生成された虚の写真や動画，いわゆるディープフェイクが思い浮かぶ。裁判は，事実関係に法を適用して紛争を解決する営みであるが，ディープフェイクで偽物とは分からないような写真や動画が裁判に持ち込まれると，裁判の結論（これを本案判断という）が歪められることになる。</div>
+            </div>
+        </article>
+        <article id="card-1" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(1)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>例えば<rt>たとえば</rt></ruby>、<ruby>交通事故<rt>こうつうじこ</rt></ruby>による<ruby>損害賠償請求<rt>そんがいばいしょうせいきゅう</rt></ruby><ruby>訴訟<rt>そしょう</rt></ruby>で，<ruby>原告<rt>げんこく</rt></ruby>・<ruby>被害者<rt>ひがいしゃ</rt></ruby>が<ruby>被告<rt>ひこく</rt></ruby>の<ruby>車<rt>くるま</rt></ruby>の<ruby>前<rt>まえ</rt></ruby>に<ruby>飛び出し<rt>とびだし</rt></ruby>，<ruby>避け<rt>さけ</rt></ruby><ruby>切れ<rt>きれ</rt></ruby>ずに<ruby>衝突<rt>しょうとつ</rt></ruby>したというドライブレコーダーの<ruby>映像<rt>えいぞう</rt></ruby>が<ruby>被告側<rt>ひこくがわ</rt></ruby>から<ruby>提出<rt>ていしゅつ</rt></ruby>されたとすると、<ruby>事故<rt>じこ</rt></ruby>の<ruby>責任<rt>せきにん</rt></ruby>はむしろ<ruby>原告<rt>げんこく</rt></ruby>にあると<ruby>認定<rt>にんてい</rt></ruby>されて、<ruby>大幅<rt>おおはば</rt></ruby>な<ruby>過失<rt>かしつ</rt></ruby><ruby>相殺<rt>そうさい</rt></ruby>、または<ruby>請求<rt>せいきゅう</rt></ruby><ruby>棄却<rt>ききゃく</rt></ruby>となるかもしれない。<ruby>契約関係<rt>けいやくかんけい</rt></ruby>の<ruby>紛争<rt>ふんそう</rt></ruby>でも、<ruby>契約<rt>けいやく</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby>の<ruby>一方<rt>いっぽう</rt></ruby>が<ruby>他方<rt>たほう</rt></ruby>を<ruby>強迫<rt>きょうはく</rt></ruby>して<ruby>契約<rt>けいやく</rt></ruby>に<ruby>応じ<rt>おうじ</rt></ruby>させたと<ruby>見ら<rt>みら</rt></ruby>れる<ruby>場面<rt>ばめん</rt></ruby>が<ruby>録音<rt>ろくおん</rt></ruby><ruby>録画<rt>ろくが</rt></ruby>されたファイルが<ruby>証拠<rt>しょうこ</rt></ruby>として<ruby>提出<rt>ていしゅつ</rt></ruby>されると、<ruby>契約<rt>けいやく</rt></ruby>の<ruby>履行<rt>りこう</rt></ruby><ruby>請求<rt>せいきゅう</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby>て<ruby>強迫<rt>きょうはく</rt></ruby>による<ruby>取消し<rt>とりけし</rt></ruby>が<ruby>認め<rt>みとめ</rt></ruby>られるかもしれない。しかし、これらの<ruby>結論<rt>けつろん</rt></ruby>を<ruby>左右<rt>さゆう</rt></ruby>する<ruby>証拠<rt>しょうこ</rt></ruby>が、ディープフェイク<ruby>技術<rt>ぎじゅつ</rt></ruby>で<ruby>作出<rt>さくしゅつ</rt></ruby>されたものだったとすれば、<ruby>判決<rt>はんけつ</rt></ruby>が<ruby>間違い<rt>まちがい</rt></ruby>ということになる。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">例えば，交通事故による損害賠償請求訴訟で，原告・被害者が被告の車の前に飛び出し，避け切れずに衝突したというドライブレコーダーの映像が被告側から提出されたとすると，事故の責任はむしろ原告にあると認定されて，大幅な過失相殺，または請求棄却となるかもしれない。契約関係の紛争でも，契約当事者の一方が他方を強迫して契約に応じさせたと見られる場面が録音録画されたファイルが証拠として提出されると，契約の履行請求に対して強迫による取消しが認められるかもしれない。しかし，これらの結論を左右する証拠が，ディープフェイク技術で作出されたものだったとすれば，判決が間違いということになる。</div>
+            </div>
+        </article>
+        <article id="card-2" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(2)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    そうした<ruby>事態<rt>じたい</rt></ruby>が<ruby>蔓延<rt>まんえん</rt></ruby>すれば、<ruby>司法<rt>しほう</rt></ruby>に<ruby>対する<rt>たいする</rt></ruby><ruby>頼も<rt>たのも</rt></ruby><ruby>大きく<rt>おおきく</rt></ruby><ruby>揺ら<rt>ゆら</rt></ruby>ぐことになろう。フェイク<ruby>情報<rt>じょうほう</rt></ruby>が<ruby>影響<rt>えいきょう</rt></ruby>を<ruby>与え<rt>あたえ</rt></ruby>るのは<ruby>本案<rt>ほんあん</rt></ruby><ruby>判断<rt>はんだん</rt></ruby>にとどまらない。<ruby>民事訴訟<rt>みんじそしょう</rt></ruby>では、<ruby>当事者<rt>とうじしゃ</rt></ruby>が<ruby>誰か<rt>だれか</rt></ruby>ということをはっきりさせて、その<ruby>当事者<rt>とうじしゃ</rt></ruby>に<ruby>弁論<rt>べんろん</rt></ruby>などの<ruby>訴訟<rt>そしょう</rt></ruby><ruby>行為<rt>こうい</rt></ruby>をさせ、<ruby>判決<rt>はんけつ</rt></ruby>の<ruby>効力<rt>こうりょく</rt></ruby>もその<ruby>当事者<rt>とうじしゃ</rt></ruby>についてのみ<ruby>及ぶ<rt>およぶ</rt></ruby>という<ruby>仕組み<rt>しくみ</rt></ruby>をとっている。<ruby>例えば<rt>たとえば</rt></ruby>、<ruby>甲野<rt>こうの</rt></ruby><ruby>太郎<rt>たろう</rt></ruby>が<ruby>原告<rt>げんこく</rt></ruby>となり、<ruby>乙<rt>おつ</rt></ruby><ruby>山花<rt>やまはな</rt></ruby><ruby>子<rt>こ</rt></ruby>を<ruby>被告<rt>ひこく</rt></ruby>として、<ruby>貸金<rt>かしきん</rt></ruby>1000<ruby>万円<rt>まんえん</rt></ruby>の<ruby>返還<rt>へんかん</rt></ruby>を<ruby>求め<rt>もとめ</rt></ruby>る<ruby>訴え<rt>うったえ</rt></ruby>を<ruby>提起<rt>ていき</rt></ruby>したとしよう。<ruby>原告<rt>げんこく</rt></ruby>・<ruby>甲野<rt>こうの</rt></ruby>と<ruby>被告<rt>ひこく</rt></ruby>・<ruby>乙<rt>おつ</rt></ruby><ruby>山<rt>やま</rt></ruby>とがそれぞれの<ruby>主張<rt>しゅちょう</rt></ruby><ruby>立証<rt>りっしょう</rt></ruby>を<ruby>裁判所<rt>さいばんしょ</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby>て<ruby>行い<rt>おこない</rt></ruby>，<ruby>裁判所<rt>さいばんしょ</rt></ruby>は<ruby>甲野<rt>こうの</rt></ruby>の<ruby>乙<rt>おつ</rt></ruby><ruby>山<rt>やま</rt></ruby>に<ruby>対する<rt>たいする</rt></ruby> 1000<ruby>万円<rt>まんえん</rt></ruby>の<ruby>債権<rt>さいけん</rt></ruby>が<ruby>存在<rt>そんざい</rt></ruby>するかどうかを<ruby>判断<rt>はんだん</rt></ruby>して<ruby>結論<rt>けつろん</rt></ruby>を<ruby>下す<rt>くだす</rt></ruby>。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">そうした事態が蔓延すれば，司法に対する頼も大きく揺らぐことになろう。フェイク情報が影響を与えるのは本案判断にとどまらない。民事訴訟では，当事者が誰かということをはっきりさせて，その当事者に弁論などの訴訟行為をさせ，判決の効力もその当事者についてのみ及ぶという仕組みをとっている。例えば，甲野太郎が原告となり，乙山花子を被告として，貸金1000万円の返還を求める訴えを提起したとしよう。原告・甲野と被告・乙山とがそれぞれの主張立証を裁判所に対して行い，裁判所は甲野の乙山に対する 1000万円の債権が存在するかどうかを判断して結論を下す。</div>
+            </div>
+        </article>
+        <article id="card-3" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(3)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    その<ruby>判決<rt>はんけつ</rt></ruby>の<ruby>効力<rt>こうりょく</rt></ruby>は、<ruby>訴訟<rt>そしょう</rt></ruby><ruby>行為<rt>こうい</rt></ruby>を<ruby>行った<rt>いった</rt></ruby><ruby>甲野<rt>こうの</rt></ruby>と<ruby>乙<rt>おつ</rt></ruby><ruby>山<rt>やま</rt></ruby>の<ruby>間に<rt>まに</rt></ruby>のみ<ruby>及ぶ<rt>およぶ</rt></ruby>。ところが、<ruby>無関係<rt>むかんけい</rt></ruby>のAが<ruby>甲野<rt>こうの</rt></ruby><ruby>太郎<rt>たろう</rt></ruby>を<ruby>名乗っ<rt>なのっ</rt></ruby>て<ruby>訴え<rt>うったえ</rt></ruby>を<ruby>提起<rt>ていき</rt></ruby>して<ruby>判決<rt>はんけつ</rt></ruby>を<ruby>得た<rt>えた</rt></ruby>とすると、どうなるだろうか。<ruby>逆に<rt>ぎゃくに</rt></ruby>Bがて<ruby>山花<rt>やまはな</rt></ruby><ruby>子<rt>こ</rt></ruby>を<ruby>名乗っ<rt>なのっ</rt></ruby>て、<ruby>被告<rt>ひこく</rt></ruby>として<ruby>応訴<rt>おうそ</rt></ruby>したとすればどうか。<ruby>当事者<rt>とうじしゃ</rt></ruby>とは<ruby>別の<rt>べつの</rt></ruby><ruby>人<rt>にん</rt></ruby>が<ruby>当事者<rt>とうじしゃ</rt></ruby>になりすまして<ruby>訴訟<rt>そしょう</rt></ruby><ruby>行為<rt>こうい</rt></ruby>を<ruby>行い<rt>おこない</rt></ruby>、その<ruby>結果<rt>けっか</rt></ruby><ruby>敗訴<rt>はいそ</rt></ruby>したとすると、<ruby>自分<rt>じぶん</rt></ruby>の<ruby>知ら<rt>しら</rt></ruby>ないところで<ruby>下さ<rt>くださ</rt></ruby>れた<ruby>敗訴<rt>はいそ</rt></ruby><ruby>判決<rt>はんけつ</rt></ruby>の<ruby>効力<rt>こうりょく</rt></ruby>によって<ruby>経済的<rt>けいざいてき</rt></ruby><ruby>損失<rt>そんしつ</rt></ruby>を<ruby>被る<rt>こうむる</rt></ruby>という<ruby>可能性<rt>かのうせい</rt></ruby>もある。なりすましのおそれは、<ruby>当事者<rt>とうじしゃ</rt></ruby>のみならず<ruby>証人<rt>しょうにん</rt></ruby>についても<ruby>生じ<rt>しょうじ</rt></ruby>うる。このようななりすまし<ruby>行為<rt>こうい</rt></ruby>がデジタル<ruby>技術<rt>ぎじゅつ</rt></ruby>の<ruby>発達<rt>はったつ</rt></ruby>により<ruby>容易に<rt>よういに</rt></ruby>なるとすれば、<ruby>民事<rt>みんじ</rt></ruby><ruby>司法<rt>しほう</rt></ruby>の<ruby>仕組み<rt>しくみ</rt></ruby><ruby>自体<rt>じたい</rt></ruby>を<ruby>見直さ<rt>みなおさ</rt></ruby>なければならなくなるかもしれない。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">その判決の効力は，訴訟行為を行った甲野と乙山の間にのみ及ぶ。ところが，無関係のAが甲野太郎を名乗って訴えを提起して判決を得たとすると，どうなるだろうか。逆にBがて山花子を名乗って，被告として応訴したとすればどうか。当事者とは別の人が当事者になりすまして訴訟行為を行い，その結果敗訴したとすると，自分の知らないところで下された敗訴判決の効力によって経済的損失を被るという可能性もある。なりすましのおそれは，当事者のみならず証人についても生じうる。このようななりすまし行為がデジタル技術の発達により容易になるとすれば，民事司法の仕組み自体を見直さなければならなくなるかもしれない。</div>
+            </div>
+        </article>
+        <article id="card-4" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(4)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    こうしたフェイク<ruby>情報<rt>じょうほう</rt></ruby>の<ruby>弊害<rt>へいがい</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby>ては、フェイクが<ruby>手続<rt>てつづき</rt></ruby>に<ruby>入っ<rt>いっっ</rt></ruby>てこないように<ruby>予防<rt>よぼう</rt></ruby>できれば<ruby>最も<rt>もっとも</rt></ruby><ruby>良い<rt>よい</rt></ruby>。しかしAI<ruby>生成<rt>せいせい</rt></ruby>フェイクは<ruby>巧妙<rt>こうみょう</rt></ruby>で、<ruby>完全<rt>かんぜん</rt></ruby>に<ruby>予防<rt>よぼう</rt></ruby>することは<ruby>難しい<rt>むずかしい</rt></ruby>。そうだとすると、フェイクにより<ruby>重要な<rt>じゅうような</rt></ruby><ruby>判断<rt>はんだん</rt></ruby>が<ruby>歪め<rt>ひずめ</rt></ruby>られたときに、それをどう<ruby>是正<rt>ぜせい</rt></ruby>するかということも<ruby>考え<rt>かんがえ</rt></ruby>ておく<ruby>必要<rt>ひつよう</rt></ruby>がある。そこで、<ruby>民事訴訟法<rt>みんじそしょうほう</rt></ruby>りはフェイク<ruby>情報<rt>じょうほう</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby>てどのような<ruby>防<rt>ぼう</rt></ruby><ruby>策<rt>さく</rt></ruby>を<ruby>設け<rt>もうけ</rt></ruby>ているか、また、フェイクにより<ruby>判断<rt>はんだん</rt></ruby>が<ruby>歪め<rt>ひずめ</rt></ruby>られた<ruby>場合<rt>ばあい</rt></ruby>に、どう<ruby>対処<rt>たいしょ</rt></ruby>してきたかということを<ruby>考え<rt>かんがえ</rt></ruby>てみよう。<ruby>民事訴訟<rt>みんじそしょう</rt></ruby><ruby>制度<rt>せいど</rt></ruby>の<ruby>全体<rt>ぜんたい</rt></ruby>に<ruby>関係<rt>かんけい</rt></ruby>するところではあるが、スペースの<ruby>限界<rt>げんかい</rt></ruby>もあるので、<ruby>無関係<rt>むかんけい</rt></ruby>の<ruby>人<rt>にん</rt></ruby>が<ruby>当事者<rt>とうじしゃ</rt></ruby>や<ruby>証人<rt>しょうにん</rt></ruby>になりすます<ruby>事例<rt>じれい</rt></ruby>と、フェイクの<ruby>証拠<rt>しょうこ</rt></ruby>が<ruby>提出<rt>ていしゅつ</rt></ruby>された<ruby>場合<rt>ばあい</rt></ruby>とを<ruby>取り上げ<rt>とりあげ</rt></ruby>て、それぞれ<ruby>従来<rt>じゅうらい</rt></ruby>の<ruby>解決<rt>かいけつ</rt></ruby>と<ruby>現代<rt>げんだい</rt></ruby>における<ruby>問題<rt>もんだい</rt></ruby>の<ruby>展開<rt>てんかい</rt></ruby>を<ruby>検討す<rt>けんとうす</rt></ruby>る。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">こうしたフェイク情報の弊害に対しては，フェイクが手続に入ってこないように予防できれば最も良い。しかしAI生成フェイクは巧妙で，完全に予防することは難しい。そうだとすると，フェイクにより重要な判断が歪められたときに，それをどう是正するかということも考えておく必要がある。そこで，民事訴訟法りはフェイク情報に対してどのような防策を設けているか，また，フェイクにより判断が歪められた場合に，どう対処してきたかということを考えてみよう。民事訴訟制度の全体に関係するところではあるが，スペースの限界もあるので，無関係の人が当事者や証人になりすます事例と，フェイクの証拠が提出された場合とを取り上げて，それぞれ従来の解決と現代における問題の展開を検討する。</div>
+            </div>
+        </article>
+        <article id="card-5" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(5)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>訴訟<rt>そしょう</rt></ruby><ruby>関係者<rt>かんけいしゃ</rt></ruby>へのなりすまし1.<ruby>事<rt>こと</rt></ruby><ruby>者<rt>もの</rt></ruby><ruby>本人<rt>ほんにん</rt></ruby>や<ruby>証人<rt>しょうにん</rt></ruby>の<ruby>本人<rt>ほんにん</rt></ruby><ruby>確認<rt>かくにん</rt></ruby><ruby>一般社会<rt>いっぱんしゃかい</rt></ruby>であれば、<ruby>何らか<rt>なんらか</rt></ruby>の<ruby>取引<rt>とりひき</rt></ruby>を<ruby>行う<rt>おこなう</rt></ruby>に<ruby>際し<rt>さいし</rt></ruby>て、<ruby>免許証<rt>めんきょしょう</rt></ruby>やマイナンバーカードなどの<ruby>提示<rt>ていじ</rt></ruby>を<ruby>求め<rt>もとめ</rt></ruby>て<ruby>本人<rt>ほんにん</rt></ruby><ruby>確認<rt>かくにん</rt></ruby>をすることで、なりすましを<ruby>防止<rt>ぼうし</rt></ruby>する<ruby>仕組み<rt>しくみ</rt></ruby>が<ruby>多く<rt>おおく</rt></ruby>とられている。<ruby>裁判所<rt>さいばんしょ</rt></ruby>も<ruby>肖<rt>しょう</rt></ruby><ruby>然<rt>ぜん</rt></ruby>それくらいはしているだろうと<ruby>思わ<rt>おもわ</rt></ruby>れるかもしれない。ところが、<ruby>現在<rt>げんざい</rt></ruby>の<ruby>民事訴訟法<rt>みんじそしょうほう</rt></ruby>も<ruby>民事訴訟<rt>みんじそしょう</rt></ruby><ruby>規則<rt>きそく</rt></ruby>も、<ruby>当事者<rt>とうじしゃ</rt></ruby>や<ruby>証人<rt>しょうにん</rt></ruby>に<ruby>本人<rt>ほんにん</rt></ruby><ruby>確認書<rt>かくにんしょ</rt></ruby><ruby>類<rt>るい</rt></ruby>の<ruby>提示<rt>ていじ</rt></ruby>を<ruby>求め<rt>もとめ</rt></ruby>るという<ruby>規定<rt>きてい</rt></ruby>はおかれていない。<ruby>証人<rt>しょうにん</rt></ruby>については、<ruby>出廷<rt>しゅってい</rt></ruby>した<ruby>際に<rt>さいに</rt></ruby><ruby>書記<rt>しょき</rt></ruby><ruby>官<rt>かん</rt></ruby>が<ruby>証人<rt>しょうにん</rt></ruby>カードへの<ruby>記入<rt>きにゅう</rt></ruby>や<ruby>宜<rt>ぎ</rt></ruby><ruby>誓書<rt>せいしょ</rt></ruby>への<ruby>署名<rt>しょめい</rt></ruby><ruby>捺印<rt>なついん</rt></ruby>を<ruby>求め<rt>もとめ</rt></ruby>、<ruby>法廷<rt>ほうてい</rt></ruby>では、<ruby>裁判長<rt>さいばんちょう</rt></ruby>が<ruby>証人<rt>しょうにん</rt></ruby><ruby>尋問<rt>じんもん</rt></ruby>に<ruby>先立っ<rt>さきだっ</rt></ruby>て<ruby>氏名<rt>しめい</rt></ruby>、<ruby>住所<rt>じゅうしょ</rt></ruby>、<ruby>生年月日<rt>せいねんがっぴ</rt></ruby>を<ruby>述べ<rt>のべ</rt></ruby>させる<ruby>人定<rt>じんてい</rt></ruby><ruby>尋問<rt>じんもん</rt></ruby>という<ruby>手順<rt>てじゅん</rt></ruby>がある。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">訴訟関係者へのなりすまし1.事者本人や証人の本人確認一般社会であれば，何らかの交易を行うに際して，免許証やマイナンバーカードなどの提示を求めて本人確認をすることで，なりすましを防止する仕組みが多くとられている。裁判所も肖然それくらいはしているだろうと思われるかもしれない。ところが，現在の民事訴訟法も民事訴訟規則も，当事者や証人に本人確認書類の提示を求めるという規定はおかれていない。証人については，出廷した際に書記官が証人カードへの記入や宜誓書への署名捺印を求め，法廷では，裁判長が証人尋問に先立って氏名，住所，生年月日を述べさせる人定尋問という手順がある。</div>
+            </div>
+        </article>
+        <article id="card-6" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(6)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    しかし、<ruby>両<rt>りょう</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby>が<ruby>疑義<rt>ぎぎ</rt></ruby>を<ruby>述べ<rt>のべ</rt></ruby>ず、また<ruby>裁判所<rt>さいばんしょ</rt></ruby>も<ruby>疑い<rt>うたがい</rt></ruby>を<ruby>持た<rt>もた</rt></ruby>なければ、<ruby>形式的<rt>けいしきてき</rt></ruby>なものである。<ruby>当事者<rt>とうじしゃ</rt></ruby>については、<ruby>本人<rt>ほんにん</rt></ruby><ruby>確認<rt>かくにん</rt></ruby>の<ruby>手順<rt>てじゅん</rt></ruby>も<ruby>本人<rt>ほんにん</rt></ruby><ruby>確認書<rt>かくにんしょ</rt></ruby><ruby>類<rt>るい</rt></ruby>の<ruby>添付<rt>てんぷ</rt></ruby>も<ruby>要求<rt>ようきゅう</rt></ruby>されずに<ruby>訴状<rt>そじょう</rt></ruby>が<ruby>裁判所<rt>さいばんしょ</rt></ruby>に<ruby>受理<rt>じゅり</rt></ruby>される。<ruby>提出<rt>ていしゅつ</rt></ruby>された<ruby>訴状<rt>そじょう</rt></ruby>は<ruby>被告<rt>ひこく</rt></ruby>に<ruby>送達<rt>そうたつ</rt></ruby>されるが、その<ruby>訴状<rt>そじょう</rt></ruby>に<ruby>記載さ<rt>きさいさ</rt></ruby>れた<ruby>被告<rt>ひこく</rt></ruby>の<ruby>住所等<rt>じゅうしょなど</rt></ruby>に<ruby>特別<rt>とくべつ</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby>という<ruby>名<rt>めい</rt></ruby>の<ruby>郵便<rt>ゆうびん</rt></ruby>など（<ruby>民訴<rt>みんそ</rt></ruby> 101<ruby>条<rt>じょう</rt></ruby>）で<ruby>送ら<rt>おくら</rt></ruby>れ、<ruby>被告<rt>ひこく</rt></ruby>と<ruby>記載さ<rt>きさいさ</rt></ruby>れた<ruby>人<rt>にん</rt></ruby>に<ruby>交付<rt>こうふ</rt></ruby>される（<ruby>民訴<rt>みんそ</rt></ruby>102<ruby>条<rt>じょう</rt></ruby>の。その<ruby>際に<rt>さいに</rt></ruby><ruby>署名<rt>しょめい</rt></ruby><ruby>捺印<rt>なついん</rt></ruby>は<ruby>求め<rt>もとめ</rt></ruby>られるが、<ruby>本人<rt>ほんにん</rt></ruby><ruby>確認書<rt>かくにんしょ</rt></ruby><ruby>類<rt>るい</rt></ruby>の<ruby>提示<rt>ていじ</rt></ruby>を<ruby>求め<rt>もとめ</rt></ruby>るという<ruby>規定<rt>きてい</rt></ruby>があるわけではないし、<ruby>同居人<rt>どうきょにん</rt></ruby>への<ruby>送達<rt>そうたつ</rt></ruby>（<ruby>民訴<rt>みんそ</rt></ruby>106<ruby>条<rt>じょう</rt></ruby>・<ruby>補充<rt>ほじゅう</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby>）や<ruby>書留<rt>かきとめ</rt></ruby><ruby>郵便<rt>ゆうびん</rt></ruby>に<ruby>付す<rt>ふす</rt></ruby>る<ruby>送達<rt>そうたつ</rt></ruby>（<ruby>民訴<rt>みんそ</rt></ruby> 107<ruby>条<rt>じょう</rt></ruby>）でも<ruby>被告<rt>ひこく</rt></ruby>の<ruby>本人<rt>ほんにん</rt></ruby><ruby>確認<rt>かくにん</rt></ruby>なしに<ruby>送達<rt>そうたつ</rt></ruby>の<ruby>効果<rt>こうか</rt></ruby>が<ruby>生じ<rt>しょうじ</rt></ruby>る。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">しかし，両当事者が疑義を述べず，また裁判所も疑いを持たなければ，形式的なものである。当事者については，本人確認の手順も本人確認書類の添付も要求されずに訴状が裁判所に受理される。提出された訴状は被告に送達されるが，その訴状に記載された被告の住所等に特別送達という名の郵便など（民訴 101条）で送られ，被告と記載された人に交付される（民訴102条の。その際に署名捺印は求められるが，本人確認書類の提示を求めるという規定があるわけではないし，同居人への送達（民訴106条・補充送達）や書留郵便に付する送達（民訴 107条）でも被告の本人確認なしに送達の効果が生じる。</div>
+            </div>
+        </article>
+        <article id="card-7" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(7)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    こうなると、<ruby>当事者<rt>とうじしゃ</rt></ruby>についても<ruby>証人<rt>しょうにん</rt></ruby>についても、<ruby>第三者<rt>だいさんしゃ</rt></ruby>がなりすまし<ruby>行為<rt>こうい</rt></ruby>をすることは<ruby>容易に<rt>よういに</rt></ruby>も<ruby>思え<rt>おもえ</rt></ruby>る。もちろん、なりすまし<ruby>行為<rt>こうい</rt></ruby>は<ruby>私文書<rt>しぶんしょ</rt></ruby><ruby>造<rt>ぞう</rt></ruby>などの<ruby>犯罪<rt>はんざい</rt></ruby>を<ruby>構成<rt>こうせい</rt></ruby>するので、それによって<ruby>抑制<rt>よくせい</rt></ruby>される。また<ruby>裁判<rt>さいばん</rt></ruby>は<ruby>法廷<rt>ほうてい</rt></ruby>だけで<ruby>完結<rt>かんけつ</rt></ruby>することではなく、<ruby>現実社会<rt>げんじつしゃかい</rt></ruby>における<ruby>人間関係<rt>にんげんかんけい</rt></ruby>のトラブルを<ruby>対象<rt>たいしょう</rt></ruby>とするものであるから、<ruby>当事者<rt>とうじしゃ</rt></ruby>や<ruby>証人<rt>しょうにん</rt></ruby>が<ruby>現実社会<rt>げんじつしゃかい</rt></ruby>で<ruby>互い<rt>たがい</rt></ruby>を<ruby>知って<rt>しって</rt></ruby>いる<ruby>場合<rt>ばあい</rt></ruby>が<ruby>多く<rt>おおく</rt></ruby>、なりすましが<ruby>介在<rt>かいざい</rt></ruby>すれば<ruby>露見<rt>ろけん</rt></ruby>する<ruby>可能性<rt>かのうせい</rt></ruby>も<ruby>高い<rt>たかい</rt></ruby>。そして<ruby>弁護士<rt>べんごし</rt></ruby>を<ruby>代理人<rt>だいりにん</rt></ruby>とする<ruby>場合<rt>ばあい</rt></ruby>も、<ruby>依頼人<rt>いらいにん</rt></ruby>が<ruby>直接<rt>ちょくせつ</rt></ruby>の<ruby>知り合い<rt>しりあい</rt></ruby>でなければ、<ruby>弁護士<rt>べんごし</rt></ruby>が<ruby>依頼人<rt>いらいにん</rt></ruby>の<ruby>本人<rt>ほんにん</rt></ruby><ruby>性<rt>せい</rt></ruby>を<ruby>確認す<rt>かくにんす</rt></ruby>ることとなるであるう。そうだとすると、<ruby>現実<rt>げんじつ</rt></ruby>にはなりすまし<ruby>行為<rt>こうい</rt></ruby>はなかなか<ruby>起こ<rt>おこ</rt></ruby>り<ruby>得な<rt>えな</rt></ruby>いし、<ruby>万一<rt>まんいち</rt></ruby>そのような<ruby>事態<rt>じたい</rt></ruby>が<ruby>生じ<rt>しょうじ</rt></ruby>ても<ruby>早期<rt>そうき</rt></ruby>に<ruby>露見<rt>ろけん</rt></ruby>して<ruby>是正<rt>ぜせい</rt></ruby>されるから、<ruby>逆に<rt>ぎゃくに</rt></ruby><ruby>厳格<rt>げんかく</rt></ruby>な<ruby>本人<rt>ほんにん</rt></ruby><ruby>確認<rt>かくにん</rt></ruby>を<ruby>要求<rt>ようきゅう</rt></ruby>しなくとも<ruby>問題<rt>もんだい</rt></ruby>は<ruby>大きく<rt>おおきく</rt></ruby>ないと<ruby>考え<rt>かんがえ</rt></ruby>られているのであろう。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">こうなると，当事者についても証人についても，第三者がなりすまし行為をすることは容易にも思える。もちろん，なりすまし行為は私文書造などの犯罪を構成するので，それによって抑制される。また裁判は法廷だけで完結することではなく，現実社会における人間関係のトラブルを対象とするものであるから，当事者や証人が現実社会で互いを知っている場合が多く，なりすましが介在すれば露見する可能性も高い。そして弁護士を代理人とする場合も，依頼人が直接の知り合いでなければ，弁護士が依頼人の本人性を確認することとなるであるう。そうだとすると，現実にはなりすまし行為はなかなか起こり得ないし，万一そのような事態が生じても早期に露見して是正されるから，逆に厳格な本人確認を要求しなくとも問題は大きくないと考えられているのであろう。</div>
+            </div>
+        </article>
+        <article id="card-8" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(8)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    2. なりすましの<ruby>弊害<rt>へいがい</rt></ruby>しかし、なりすまし<ruby>行為<rt>こうい</rt></ruby>が<ruby>完全<rt>かんぜん</rt></ruby>には<ruby>防止<rt>ぼうし</rt></ruby>されないとすると、そのまま<ruby>訴訟<rt>そしょう</rt></ruby>が<ruby>進行<rt>しんこう</rt></ruby>してしまう<ruby>可能性<rt>かのうせい</rt></ruby>はある。そしてなりすまし<ruby>行為<rt>こうい</rt></ruby>を<ruby>見過ご<rt>みすご</rt></ruby>したまま<ruby>判決<rt>はんけつ</rt></ruby>が<ruby>出て<rt>でて</rt></ruby>しまうと、<ruby>経済的<rt>けいざいてき</rt></ruby><ruby>被害<rt>ひがい</rt></ruby>が<ruby>発生<rt>はっせい</rt></ruby>することにもなりかねない。<ruby>例えば<rt>たとえば</rt></ruby><ruby>証人<rt>しょうにん</rt></ruby>・<ruby>内川<rt>うちかわ</rt></ruby><ruby>三郎<rt>さぶろう</rt></ruby>になりすましてCが<ruby>証言<rt>しょうげん</rt></ruby>したという<ruby>場合<rt>ばあい</rt></ruby>、<ruby>丙<rt>ひのえ</rt></ruby><ruby>川<rt>かわ</rt></ruby><ruby>三郎<rt>さぶろう</rt></ruby>の<ruby>証言<rt>しょうげん</rt></ruby>とは<ruby>異なる<rt>ことなる</rt></ruby>ものであるから<ruby>本来<rt>ほんらい</rt></ruby>は<ruby>証拠<rt>しょうこ</rt></ruby><ruby>価値<rt>かち</rt></ruby>がゼロであり、そのような<ruby>証言内容<rt>しょうげんないよう</rt></ruby>を<ruby>基礎<rt>きそ</rt></ruby>として<ruby>出さ<rt>ださ</rt></ruby>れた<ruby>判決<rt>はんけつ</rt></ruby>は、<ruby>虚無<rt>きょむ</rt></ruby>の<ruby>証拠<rt>しょうこ</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>く<ruby>砂上<rt>さじょう</rt></ruby>の<ruby>楼閣<rt>ろうかく</rt></ruby>ともいうべきものとなる。また<ruby>当事者<rt>とうじしゃ</rt></ruby>の<ruby>一方<rt>いっぽう</rt></ruby>がなりすまされたまま<ruby>判決<rt>はんけつ</rt></ruby>が<ruby>下さ<rt>くださ</rt></ruby>れて<ruby>確定し<rt>かくていし</rt></ruby>た<ruby>場合<rt>ばあい</rt></ruby>、<ruby>判決<rt>はんけつ</rt></ruby>の<ruby>効力<rt>こうりょく</rt></ruby>は<ruby>当事者<rt>とうじしゃ</rt></ruby>にのみ<ruby>及ぶ<rt>およぶ</rt></ruby>のが<ruby>原則<rt>げんそく</rt></ruby>（<ruby>民訴<rt>みんそ</rt></ruby>115<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>1<ruby>号<rt>ごう</rt></ruby>）であるから、なりすまされた<ruby>人<rt>にん</rt></ruby>が<ruby>当事者<rt>とうじしゃ</rt></ruby>と<ruby>扱わ<rt>あつかわ</rt></ruby>れる<ruby>限り<rt>かぎり</rt></ruby>、<ruby>自分<rt>じぶん</rt></ruby>の<ruby>知ら<rt>しら</rt></ruby>ないところで<ruby>他人<rt>たにん</rt></ruby>が<ruby>行った<rt>いった</rt></ruby><ruby>訴訟<rt>そしょう</rt></ruby>の<ruby>結果<rt>けっか</rt></ruby>を<ruby>被る<rt>こうむる</rt></ruby>ということになる。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">2. なりすましの弊害しかし，なりすまし行為が完全には防止されないとすると，そのまま訴訟が進行してしまう可能性はある。そしてなりすまし行為を見過ごしたまま判決が出てしまうと，経済的被害が発生することにもなりかねない。例えば証人・内川三郎になりすましてCが証言したという場合，丙川三郎の証言とは異なるものであるから本来は証拠価値がゼロであり，そのような証言内容を基礎として出された判決は，虚無の証拠に基づく砂上の楼閣ともいうべきものとなる。また当事者の一方がなりすまされたまま判決が下されて確定した場合，判決の効力は当事者にのみ及ぶのが原則（民訴115条1項1号）であるから，なりすまされた人が当事者と扱われる限り，自分の知らないところで他人が行った訴訟の結果を被るということになる。</div>
+            </div>
+        </article>
+        <article id="card-9" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(9)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>上述<rt>じょうじゅつ</rt></ruby>の<ruby>例<rt>れい</rt></ruby>で、Aが<ruby>甲野<rt>こうの</rt></ruby><ruby>太郎<rt>たろう</rt></ruby>の<ruby>名で<rt>めいで</rt></ruby><ruby>訴え<rt>うったえ</rt></ruby>を<ruby>提起<rt>ていき</rt></ruby>したが<ruby>敗訴<rt>はいそ</rt></ruby>したとすると、その<ruby>判決<rt>はんけつ</rt></ruby>の<ruby>確定<rt>かくてい</rt></ruby>により<ruby>甲野<rt>こうの</rt></ruby><ruby>太郎<rt>たろう</rt></ruby>にはAが<ruby>訴訟<rt>そしょう</rt></ruby>で<ruby>請求<rt>せいきゅう</rt></ruby>した<ruby>権利<rt>けんり</rt></ruby>が<ruby>存在<rt>そんざい</rt></ruby>しないということになる。この<ruby>効力<rt>こうりょく</rt></ruby>を<ruby>既判<rt>きはん</rt></ruby><ruby>力<rt>ちから</rt></ruby>という。またBが<ruby>乙<rt>おつ</rt></ruby><ruby>山花<rt>やまはな</rt></ruby><ruby>子<rt>こ</rt></ruby>の<ruby>名で<rt>めいで</rt></ruby><ruby>応訴<rt>おうそ</rt></ruby>し、これまた<ruby>敗訴<rt>はいそ</rt></ruby>したということになると、<ruby>乙<rt>おつ</rt></ruby><ruby>山花<rt>やまはな</rt></ruby><ruby>子<rt>こ</rt></ruby>は、その<ruby>訴訟<rt>そしょう</rt></ruby>で<ruby>認め<rt>みとめ</rt></ruby>られた<ruby>義務<rt>ぎむ</rt></ruby>を<ruby>否定<rt>ひてい</rt></ruby>できなくなるばかりか、<ruby>金銭<rt>きんせん</rt></ruby>を<ruby>支払<rt>しはらい</rt></ruby>えという<ruby>判決<rt>はんけつ</rt></ruby>であれば、その<ruby>執行<rt>しっこう</rt></ruby>のために<ruby>財産<rt>ざいさん</rt></ruby>や<ruby>給料<rt>きゅうりょう</rt></ruby>を<ruby>差し<rt>さし</rt></ruby><ruby>押さ<rt>おさ</rt></ruby>えられることにもなる。これを<ruby>執行<rt>しっこう</rt></ruby><ruby>力<rt>ちから</rt></ruby>という。<ruby>実は<rt>じつは</rt></ruby>、こうしたなりすまし<ruby>事例<rt>じれい</rt></ruby>は、<ruby>学説<rt>がくせつ</rt></ruby><ruby>上<rt>うえ</rt></ruby>は<ruby>氏名<rt>しめい</rt></ruby><ruby>冒用<rt>ぼうよう</rt></ruby><ruby>訴訟<rt>そしょう</rt></ruby>と<ruby>呼ば<rt>よば</rt></ruby>れ、<ruby>実際<rt>じっさい</rt></ruby>の<ruby>事件<rt>じけん</rt></ruby>でも<ruby>問題<rt>もんだい</rt></ruby>となってきた。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">上述の例で，Aが甲野太郎の名で訴えを提起したが敗訴したとすると，その判決の確定により甲野太郎にはAが訴訟で請求した権利が存在しないということになる。この効力を既判力という。またBが乙山花子の名で応訴し，これまた敗訴したということになると，乙山花子は，その訴訟で認められた義務を否定できなくなるばかりか，金銭を支払えという判決であれば，その執行のために財産や給料を差し押さえられることにもなる。これを執行力という。実は，こうしたなりすまし事例は，学説上は氏名冒用訴訟と呼ばれ，実際の事件でも問題となってきた。</div>
+            </div>
+        </article>
+        <article id="card-10" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(10)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    もちろん、なりすまし<ruby>事例<rt>じれい</rt></ruby>では、なりすまされた<ruby>当事者<rt>とうじしゃ</rt></ruby>が<ruby>自分<rt>じぶん</rt></ruby>の<ruby>知ら<rt>しら</rt></ruby>ないところで<ruby>下さ<rt>くださ</rt></ruby>れた<ruby>判決<rt>はんけつ</rt></ruby>によって<ruby>不利益<rt>ふりえき</rt></ruby>を<ruby>受ける<rt>うける</rt></ruby>ということになると、<ruby>不当<rt>ふとう</rt></ruby><ruby>以外<rt>いがい</rt></ruby>の<ruby>何も<rt>なにも</rt></ruby>のでもない。そこで、<ruby>戦前<rt>せんぜん</rt></ruby>から<ruby>戦後<rt>せんご</rt></ruby>にかけて、<ruby>判例<rt>はんれい</rt></ruby>を<ruby>中心<rt>ちゅうしん</rt></ruby>になりすましに<ruby>関す<rt>かんす</rt></ruby>る<ruby>救済<rt>きゅうさい</rt></ruby>が<ruby>行わ<rt>おこなわ</rt></ruby>れ、<ruby>学説<rt>がくせつ</rt></ruby>でも<ruby>当事者<rt>とうじしゃ</rt></ruby>の<ruby>確定<rt>かくてい</rt></ruby>という<ruby>論点<rt>ろんてん</rt></ruby>の<ruby>下<rt>した</rt></ruby>で<ruby>論じ<rt>ろんじ</rt></ruby>られてきた。<ruby>以下<rt>いか</rt></ruby>、その<ruby>解決<rt>かいけつ</rt></ruby><ruby>事例<rt>じれい</rt></ruby>をいくつか<ruby>見て<rt>みて</rt></ruby>みよう。3.<ruby>事<rt>こと</rt></ruby><ruby>者<rt>もの</rt></ruby>のなりすましが<ruby>判明<rt>はんめい</rt></ruby>した<ruby>場合<rt>ばあい</rt></ruby>の<ruby>処理<rt>しょり</rt></ruby>まず<ruby>上述<rt>じょうじゅつ</rt></ruby>の<ruby>例の<rt>れいの</rt></ruby>うち、<ruby>甲野<rt>こうの</rt></ruby><ruby>太郎<rt>たろう</rt></ruby>の<ruby>名前<rt>なまえ</rt></ruby>を<ruby>使って<rt>つかって</rt></ruby>Aが<ruby>訴え<rt>うったえ</rt></ruby>を<ruby>提起<rt>ていき</rt></ruby>したところ<ruby>敗訴<rt>はいそ</rt></ruby>したという<ruby>事例<rt>じれい</rt></ruby>で，<ruby>戦前<rt>せんぜん</rt></ruby>の<ruby>最高裁判所<rt>さいこうさいばんしょ</rt></ruby>に<ruby>当た<rt>あた</rt></ruby>る<ruby>大審<rt>だいしん</rt></ruby><ruby>院<rt>いん</rt></ruby>は、なりすまされた<ruby>甲野<rt>こうの</rt></ruby><ruby>太郎<rt>たろう</rt></ruby>ではなくAが<ruby>当事者<rt>とうじしゃ</rt></ruby>だとして、<ruby>甲野<rt>こうの</rt></ruby><ruby>太郎<rt>たろう</rt></ruby>に<ruby>既判<rt>きはん</rt></ruby><ruby>力<rt>ちから</rt></ruby>が<ruby>及ば<rt>およば</rt></ruby>ないと<ruby>判断<rt>はんだん</rt></ruby>したの。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">もちろん，なりすまし事例では，なりすまされた当事者が自分の知らないところで下された判決によって不利益を受けるということになると，不当以外の何ものでもない。そこで，戦前から戦後にかけて，判例を中心になりすましに関する救済が行われ，学説でも当事者の確定という論点の下で論じられてきた。以下，その解決事例をいくつか見てみよう。3.事者のなりすましが判明した場合の処理まず上述の例のうち，甲野太郎の名前を使ってAが訴えを提起したところ敗訴したという事例で，戦前の最高法院に当たる大審院は，なりすまされた甲野太郎ではなくAが当事者だとして，甲野太郎に既判力が及ばないと判断したの。</div>
+            </div>
+        </article>
+        <article id="card-11" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(11)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    つまり<ruby>甲野<rt>こうの</rt></ruby><ruby>太郎<rt>たろう</rt></ruby>の<ruby>権利<rt>けんり</rt></ruby>は、<ruby>別に<rt>べつに</rt></ruby><ruby>甲野<rt>こうの</rt></ruby><ruby>太郎<rt>たろう</rt></ruby><ruby>自身<rt>じしん</rt></ruby>が<ruby>訴訟<rt>そしょう</rt></ruby>で<ruby>主張<rt>しゅちょう</rt></ruby>できるものとした。<ruby>他方<rt>たほう</rt></ruby>、<ruby>乙<rt>おつ</rt></ruby><ruby>山花<rt>やまはな</rt></ruby><ruby>子<rt>こ</rt></ruby>に<ruby>対する<rt>たいする</rt></ruby><ruby>訴え<rt>うったえ</rt></ruby>を、<ruby>無関係<rt>むかんけい</rt></ruby>のBが<ruby>乙<rt>おつ</rt></ruby><ruby>山<rt>やま</rt></ruby>の<ruby>知ら<rt>しら</rt></ruby>ないところで<ruby>弁護士<rt>べんごし</rt></ruby>に<ruby>依頼<rt>いらい</rt></ruby>し、<ruby>応訴<rt>おうそ</rt></ruby>したが<ruby>敗訴<rt>はいそ</rt></ruby>したという<ruby>事例<rt>じれい</rt></ruby>では、<ruby>乙<rt>おつ</rt></ruby><ruby>山花<rt>やまはな</rt></ruby><ruby>子<rt>こ</rt></ruby>がその<ruby>敗訴<rt>はいそ</rt></ruby><ruby>判決<rt>はんけつ</rt></ruby>により<ruby>強制<rt>きょうせい</rt></ruby><ruby>執行<rt>しっこう</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>たので、<ruby>再審<rt>さいしん</rt></ruby>の<ruby>訴え<rt>うったえ</rt></ruby>を<ruby>提起<rt>ていき</rt></ruby>して<ruby>敗訴<rt>はいそ</rt></ruby><ruby>判決<rt>はんけつ</rt></ruby>の<ruby>取消し<rt>とりけし</rt></ruby>を<ruby>求め<rt>もとめ</rt></ruby>た。これに<ruby>対し<rt>たいし</rt></ruby>て<ruby>大審<rt>だいしん</rt></ruby><ruby>院<rt>いん</rt></ruby>は、<ruby>今度<rt>こんど</rt></ruby>はなりすまされた<ruby>乙<rt>おつ</rt></ruby><ruby>山花<rt>やまはな</rt></ruby><ruby>子<rt>こ</rt></ruby>が<ruby>当事者<rt>とうじしゃ</rt></ruby>であったとして、<ruby>乙<rt>おつ</rt></ruby><ruby>山花<rt>やまはな</rt></ruby><ruby>子<rt>こ</rt></ruby>の<ruby>再審<rt>さいしん</rt></ruby><ruby>請求<rt>せいきゅう</rt></ruby>を<ruby>適法<rt>てきほう</rt></ruby>と<ruby>認め<rt>みとめ</rt></ruby>たり。<ruby>以上<rt>いじょう</rt></ruby>は<ruby>一見<rt>いっけん</rt></ruby>すると、なりすまされた<ruby>人<rt>にん</rt></ruby>を<ruby>当事者<rt>とうじしゃ</rt></ruby>と<ruby>扱う<rt>あつかう</rt></ruby>のか、なりすました<ruby>人<rt>にん</rt></ruby>を<ruby>当事者<rt>とうじしゃ</rt></ruby>と<ruby>扱う<rt>あつかう</rt></ruby>のかという<ruby>点<rt>てん</rt></ruby>で<ruby>矛盾<rt>むじゅん</rt></ruby>した<ruby>判断<rt>はんだん</rt></ruby>のようにも<ruby>思わ<rt>おもわ</rt></ruby>れる。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">つまり甲野太郎の権利は，別に甲野太郎自身が訴訟で主張できるものとした。他方，乙山花子に対する訴えを，無関係のBが乙山の知らないところで弁護士に依頼し，応訴したが敗訴したという事例では，乙山花子がその敗訴判決により強制執行を受けたので，再審の訴えを提起して敗訴判決の取消しを求めた。これに対して大審院は，今度はなりすまされた乙山花子が当事者であったとして，乙山花子の再審請求を適法と認めたり。以上は一見すると，なりすまされた人を当事者と扱うのか，なりすました人を当事者と扱うのかという点で矛盾した判断のようにも思われる。</div>
+            </div>
+        </article>
+        <article id="card-12" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(12)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    しかし、なりすまされた<ruby>人<rt>にん</rt></ruby>が<ruby>当事者<rt>とうじしゃ</rt></ruby>であるとした<ruby>判断<rt>はんだん</rt></ruby>は、<ruby>被告側<rt>ひこくがわ</rt></ruby>の<ruby>乙<rt>おつ</rt></ruby><ruby>山花<rt>やまはな</rt></ruby><ruby>子<rt>こ</rt></ruby>が<ruby>敗訴<rt>はいそ</rt></ruby><ruby>判決<rt>はんけつ</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>、しかも<ruby>強制<rt>きょうせい</rt></ruby><ruby>執行<rt>しっこう</rt></ruby>までされたという<ruby>事案<rt>じあん</rt></ruby>であるから、<ruby>再審<rt>さいしん</rt></ruby><ruby>請求<rt>せいきゅう</rt></ruby>を<ruby>認め<rt>みとめ</rt></ruby>て<ruby>強制<rt>きょうせい</rt></ruby><ruby>執行<rt>しっこう</rt></ruby>を<ruby>取り消す<rt>とりけす</rt></ruby><ruby>必要<rt>ひつよう</rt></ruby>があった。これに<ruby>対し<rt>たいし</rt></ruby>て<ruby>原告<rt>げんこく</rt></ruby>・<ruby>甲野<rt>こうの</rt></ruby><ruby>太郎<rt>たろう</rt></ruby><ruby>側<rt>がわ</rt></ruby>のなりすまし<ruby>事例<rt>じれい</rt></ruby>は、<ruby>甲野<rt>こうの</rt></ruby><ruby>太郎<rt>たろう</rt></ruby><ruby>名義<rt>めいぎ</rt></ruby>の<ruby>敗訴<rt>はいそ</rt></ruby><ruby>確定<rt>かくてい</rt></ruby><ruby>判決<rt>はんけつ</rt></ruby>の<ruby>既判<rt>きはん</rt></ruby><ruby>力<rt>ちから</rt></ruby>が<ruby>甲野<rt>こうの</rt></ruby><ruby>太郎<rt>たろう</rt></ruby>に<ruby>及ば<rt>およば</rt></ruby>ないとすれば、<ruby>少なくとも<rt>すくなくとも</rt></ruby><ruby>甲野<rt>こうの</rt></ruby><ruby>太郎<rt>たろう</rt></ruby>に<ruby>関し<rt>かんし</rt></ruby>ては<ruby>再<rt>さい</rt></ruby><ruby>訴<rt>そ</rt></ruby><ruby>可能<rt>かのう</rt></ruby>で<ruby>問題<rt>もんだい</rt></ruby>がなくなる。<ruby>大審<rt>だいしん</rt></ruby><ruby>院<rt>いん</rt></ruby>は、<ruby>救済<rt>きゅうさい</rt></ruby>の<ruby>必要<rt>ひつよう</rt></ruby>と<ruby>適切<rt>てきせつ</rt></ruby>な<ruby>解決<rt>かいけつ</rt></ruby>のために、なりすまされた<ruby>者<rt>もの</rt></ruby>を<ruby>当事者<rt>とうじしゃ</rt></ruby>と<ruby>認め<rt>みとめ</rt></ruby>たり、<ruby>認め<rt>みとめ</rt></ruby>なかったりしたものと<ruby>考え<rt>かんがえ</rt></ruby>られる。なお、この2つの<ruby>裁判<rt>さいばん</rt></ruby><ruby>例<rt>れい</rt></ruby>はいずれも<ruby>戦前<rt>せんぜん</rt></ruby>のもので、<ruby>現代<rt>げんだい</rt></ruby>には<ruby>起こ<rt>おこ</rt></ruby>らないのではないかと<ruby>思う<rt>おもう</rt></ruby><ruby>人<rt>にん</rt></ruby>もいるかもしれないが、なりすましという<ruby>事例<rt>じれい</rt></ruby>は<ruby>現代<rt>げんだい</rt></ruby>でも<ruby>時々<rt>ときどき</rt></ruby><ruby>発生<rt>はっせい</rt></ruby>するし、<ruby>類似<rt>るいじ</rt></ruby>する<ruby>事例<rt>じれい</rt></ruby>は<ruby>法科<rt>ほうか</rt></ruby><ruby>大学院<rt>だいがくいん</rt></ruby><ruby>制度<rt>せいど</rt></ruby><ruby>以後<rt>いご</rt></ruby>の<ruby>司法試験<rt>しほうしけん</rt></ruby>の<ruby>問題<rt>もんだい</rt></ruby>ともなっているりのである。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">しかし，なりすまされた人が当事者であるとした判断は，被告側の乙山花子が敗訴判決を受け，しかも強制執行までされたという事案であるから，再審請求を認めて強制執行を取り消す必要があった。これに対して原告・甲野太郎側のなりすまし事例は，甲野太郎名義の敗訴確定判決の既判力が甲野太郎に及ばないとすれば，少なくとも甲野太郎に関しては再訴可能で問題がなくなる。大審院は，救済の必要と適切な解決のために，なりすまされた者を当事者と認めたり，認めなかったりしたものと考えられる。なお，この2つの裁判例はいずれも戦前のもので，現代には起こらないのではないかと思う人もいるかもしれないが，なりすましという事例は現代でも時々発生するし，類似する事例は法科大学院制度以後の司法試験の問題ともなっているりのである。</div>
+            </div>
+        </article>
+        <article id="card-13" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(13)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    4.IT<ruby>化<rt>か</rt></ruby>による<ruby>変化<rt>へんか</rt></ruby><ruby>以上<rt>いじょう</rt></ruby>のような<ruby>問題<rt>もんだい</rt></ruby>は、<ruby>民事訴訟<rt>みんじそしょう</rt></ruby>のIT<ruby>化<rt>か</rt></ruby>によって、すなわち<ruby>民事訴訟<rt>みんじそしょう</rt></ruby>の<ruby>申立て<rt>もうしたて</rt></ruby>がオンラインシステムによって<ruby>可能<rt>かのう</rt></ruby>となる<ruby>場合<rt>ばあい</rt></ruby>でも、<ruby>基本的<rt>きほんてき</rt></ruby>には<ruby>変わ<rt>かわ</rt></ruby>らない。むしろ、オンラインシステムの<ruby>利用<rt>りよう</rt></ruby><ruby>登録<rt>とうろく</rt></ruby>の<ruby>際に<rt>さいに</rt></ruby><ruby>本人<rt>ほんにん</rt></ruby><ruby>確認<rt>かくにん</rt></ruby>が<ruby>行わ<rt>おこなわ</rt></ruby>れるとすれば、<ruby>少なくとも<rt>すくなくとも</rt></ruby>オンライン<ruby>申立て<rt>もうしたて</rt></ruby>を<ruby>行う<rt>おこなう</rt></ruby><ruby>場合<rt>ばあい</rt></ruby>にはなりすましが<ruby>生じ<rt>しょうじ</rt></ruby>にくくなることは<ruby>確か<rt>たしか</rt></ruby>である。しかし<ruby>逆に<rt>ぎゃくに</rt></ruby>、<ruby>冒頭<rt>ぼうとう</rt></ruby>に<ruby>述べ<rt>のべ</rt></ruby>たように、<ruby>高度<rt>こうど</rt></ruby>なフェイク<ruby>技術<rt>ぎじゅつ</rt></ruby>が<ruby>一般に<rt>いっぱんに</rt></ruby>も<ruby>広ま<rt>ひろま</rt></ruby>れば、なりすましの<ruby>可能性<rt>かのうせい</rt></ruby>がかえって<ruby>増大<rt>ぞうだい</rt></ruby>することにもなりかねず、セキュリティとのいたちごっことなるかもしれない。<ruby>現実社会<rt>げんじつしゃかい</rt></ruby>での<ruby>紛争<rt>ふんそう</rt></ruby>に<ruby>際し<rt>さいし</rt></ruby>て<ruby>当事者<rt>とうじしゃ</rt></ruby>が<ruby>互いに<rt>たがいに</rt></ruby><ruby>見知<rt>けんち</rt></ruby>っているとか、<ruby>弁護士<rt>べんごし</rt></ruby>による<ruby>本人<rt>ほんにん</rt></ruby><ruby>確認<rt>かくにん</rt></ruby>がなされるなど、なりすましがしにくい<ruby>状況<rt>じょうきょう</rt></ruby>も、オンライン<ruby>取引<rt>とりひき</rt></ruby>に<ruby>伴う<rt>ともなう</rt></ruby>トラブルが<ruby>増加<rt>ぞうか</rt></ruby>し、<ruby>弁護士<rt>べんごし</rt></ruby>・<ruby>依頼者<rt>いらいしゃ</rt></ruby>の<ruby>関係<rt>かんけい</rt></ruby>もオンラインで<ruby>築か<rt>きづか</rt></ruby>れるようになると、<ruby>本人<rt>ほんにん</rt></ruby><ruby>確認<rt>かくにん</rt></ruby>の<ruby>確実性<rt>かくじつせい</rt></ruby>が<ruby>薄く<rt>うすく</rt></ruby>なる<ruby>可能性<rt>かのうせい</rt></ruby>もある。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">4.IT化による変化以上のような問題は，民事訴訟のIT化によって，すなわち民事訴訟の申立てがオンラインシステムによって可能となる場合でも，基本的には変わらない。むしろ，オンラインシステムの利用登録の際に本人確認が行われるとすれば，少なくともオンライン申立てを行う場合にはなりすましが生じにくくなることは確かである。しかし逆に，冒頭に述べたように，高度なフェイク技術が一般にも広まれば，なりすましの可能性がかえって増大することにもなりかねず，セキュリティとのいたちごっことなるかもしれない。現実社会での紛争に際して当事者が互いに見知っているとか，弁護士による本人確認がなされるなど，なりすましがしにくい状況も，オンライン交易に伴うトラブルが増加し，弁護士・依頼者の関係もオンラインで築かれるようになると，本人確認の確実性が薄くなる可能性もある。</div>
+            </div>
+        </article>
+        <article id="card-14" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(14)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    そうした<ruby>懸念<rt>けねん</rt></ruby>を<ruby>考え<rt>かんがえ</rt></ruby>ると、<ruby>特に<rt>とくに</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>本人<rt>ほんにん</rt></ruby>のマイナンバーカードなどを<ruby>用いた<rt>もちいた</rt></ruby><ruby>本人<rt>ほんにん</rt></ruby><ruby>認証<rt>にんしょう</rt></ruby>システムを、<ruby>裁判<rt>さいばん</rt></ruby><ruby>上<rt>うえ</rt></ruby>も<ruby>取り入れ<rt>とりいれ</rt></ruby>る<ruby>必要<rt>ひつよう</rt></ruby>があるかもしれない。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">そうした懸念を考えると，特に当事者本人のマイナンバーカードなどを用いた本人認証システムを，裁判上も取り入れる必要があるかもしれない。</div>
+            </div>
+        </article>
+        <section id="card-15" class="my-8 rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 shadow-md border border-indigo-900/80 transition-all duration-300">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="text-xl sm:text-2xl font-bold tracking-wide font-serif text-amber-300">・フェイク<ruby>証拠<rt>しょうこ</rt></ruby>1．<ruby>証拠<rt>しょうこ</rt></ruby>の<ruby>真正<rt>しんせい</rt></ruby><ruby>性<rt>せい</rt></ruby><ruby>確認<rt>かくにん</rt></ruby>の<ruby>必要性<rt>ひつようせい</rt></ruby>と<ruby>方法<rt>ほうほう</rt></ruby><ruby>次に<rt>つぎに</rt></ruby>、<ruby>裁判所<rt>さいばんしょ</rt></ruby>に<ruby>提出<rt>ていしゅつ</rt></ruby>された<ruby>証拠<rt>しょうこ</rt></ruby>が<ruby>高度<rt>こうど</rt></ruby>なフェイク<ruby>技術<rt>ぎじゅつ</rt></ruby>により<ruby>作出<rt>さくしゅつ</rt></ruby>されたものという<ruby>可能性<rt>かのうせい</rt></ruby>について<ruby>検討す<rt>けんとうす</rt></ruby>る。</h2>
+                <button onclick="playCardText(15)" class="shrink-0 flex items-center space-x-1 bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-amber-400/40 transition-colors select-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    <span>朗讀標題</span>
+                </button>
+            </div>
+            <div class="text-base sm:text-lg font-medium text-indigo-200 font-sans">・フェイク証拠1．証拠の真正性確認の必要性と方法次に，裁判所に提出された証拠が高度なフェイク技術により作出されたものという可能性について検討する。</div>
+        </section>
+        <article id="card-16" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(16)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    こちらの<ruby>問題<rt>もんだい</rt></ruby>も<ruby>新しい<rt>あたらしい</rt></ruby>ことではなく、<ruby>従来<rt>じゅうらい</rt></ruby>の<ruby>民事訴訟法<rt>みんじそしょうほう</rt></ruby>でも、<ruby>特に<rt>とくに</rt></ruby><ruby>文書<rt>ぶんしょ</rt></ruby>を<ruby>証拠<rt>しょうこ</rt></ruby>とする<ruby>場合<rt>ばあい</rt></ruby>に、まず<ruby>形式的<rt>けいしきてき</rt></ruby><ruby>証拠<rt>しょうこ</rt></ruby><ruby>力<rt>ちから</rt></ruby>のテストにより<ruby>造<rt>ぞう</rt></ruby><ruby>証拠<rt>しょうこ</rt></ruby>を<ruby>排除<rt>はいじょ</rt></ruby>する<ruby>仕組み<rt>しくみ</rt></ruby>がとられている。<ruby>形式的<rt>けいしきてき</rt></ruby><ruby>証拠<rt>しょうこ</rt></ruby><ruby>力<rt>ちから</rt></ruby>とは、<ruby>文書<rt>ぶんしょ</rt></ruby>が<ruby>為<rt>ため</rt></ruby><ruby>造<rt>ぞう</rt></ruby>されたものではないこと、すなわち<ruby>作成<rt>さくせい</rt></ruby><ruby>名義人<rt>めいぎにん</rt></ruby>の<ruby>意思<rt>いし</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>いて<ruby>作成<rt>さくせい</rt></ruby>されたものと<ruby>認め<rt>みとめ</rt></ruby>られることを<ruby>意味<rt>いみ</rt></ruby>する。これを<ruby>文書<rt>ぶんしょ</rt></ruby>の<ruby>真正<rt>しんせい</rt></ruby>な<ruby>成立と<rt>なりたと</rt></ruby>いうが、その<ruby>点<rt>てん</rt></ruby>に<ruby>争い<rt>あらそい</rt></ruby>があれば、その<ruby>文書<rt>ぶんしょ</rt></ruby>を<ruby>証拠<rt>しょうこ</rt></ruby>としたい<ruby>当事者<rt>とうじしゃ</rt></ruby>（<ruby>挙証<rt>きょしょう</rt></ruby><ruby>者<rt>もの</rt></ruby>）がその<ruby>真正<rt>しんせい</rt></ruby>な<ruby>成立<rt>せいりつ</rt></ruby>を<ruby>証明し<rt>しょうめいし</rt></ruby>なければならない（<ruby>民訴<rt>みんそ</rt></ruby> 228<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>）。ただし<ruby>公文書<rt>こうぶんしょ</rt></ruby>については、<ruby>方式<rt>ほうしき</rt></ruby>および<ruby>趣旨<rt>しゅし</rt></ruby>から<ruby>公務員<rt>こうむいん</rt></ruby>が<ruby>職務上作成<rt>しょくむじょうさくせい</rt></ruby>したものと<ruby>認め<rt>みとめ</rt></ruby>られるのであれば<ruby>真正<rt>しんせい</rt></ruby>な<ruby>成立<rt>せいりつ</rt></ruby>が<ruby>推定<rt>すいてい</rt></ruby>されるし（<ruby>同条<rt>どうじょう</rt></ruby>2<ruby>項<rt>こう</rt></ruby>），<ruby>私文書<rt>しぶんしょ</rt></ruby>も<ruby>署名<rt>しょめい</rt></ruby>または<ruby>押印<rt>おういん</rt></ruby>があれば<ruby>真正<rt>しんせい</rt></ruby>な<ruby>成立<rt>せいりつ</rt></ruby>が<ruby>推定<rt>すいてい</rt></ruby>される （<ruby>同条<rt>どうじょう</rt></ruby>4<ruby>項<rt>こう</rt></ruby>）。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">こちらの問題も新しいことではなく，従来の民事訴訟法でも，特に文書を証拠とする場合に，まず形式的証拠力のテストにより造証拠を排除する仕組みがとられている。形式的証拠力とは，文書が為造されたものではないこと，すなわち作成名義人の意思に基づいて作成されたものと認められることを意味する。これを文書の真正な成立というが，その点に争いがあれば，その文書を証拠としたい当事者（挙証者）がその真正な成立を証明しなければならない（民訴 228条1項）。ただし公文書については，方式および趣旨から公務員が職務上作成したものと認められるのであれば真正な成立が推定されるし（同条2項），私文書も署名または押印があれば真正な成立が推定される （同条4項）。</div>
+            </div>
+        </article>
+        <article id="card-17" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(17)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>署名<rt>しょめい</rt></ruby>や<ruby>押印<rt>おういん</rt></ruby>によって<ruby>真正<rt>しんせい</rt></ruby><ruby>性<rt>せい</rt></ruby>が<ruby>証明<rt>しょうめい</rt></ruby>できない<ruby>場合<rt>ばあい</rt></ruby>でも、<ruby>筆跡<rt>ひっせき</rt></ruby>や<ruby>印影<rt>いんえい</rt></ruby>の<ruby>対照<rt>たいしょう</rt></ruby>により<ruby>真正<rt>しんせい</rt></ruby><ruby>性<rt>せい</rt></ruby>の<ruby>証明<rt>しょうめい</rt></ruby>が<ruby>可能<rt>かのう</rt></ruby>であり（<ruby>民訴<rt>みんそ</rt></ruby> 229<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>），そのために、<ruby>対照<rt>たいしょう</rt></ruby><ruby>用<rt>よう</rt></ruby>の<ruby>他の<rt>ほかの</rt></ruby><ruby>文書<rt>ぶんしょ</rt></ruby>の<ruby>提出<rt>ていしゅつ</rt></ruby>や<ruby>筆記<rt>ひっき</rt></ruby>を<ruby>相手方<rt>あいてかた</rt></ruby>（<ruby>文書<rt>ぶんしょ</rt></ruby>の<ruby>作成者<rt>さくせいしゃ</rt></ruby>）に<ruby>命じ<rt>めいじ</rt></ruby>ることもできる（<ruby>同条<rt>どうじょう</rt></ruby>2<ruby>項<rt>こう</rt></ruby>・3<ruby>項<rt>こう</rt></ruby>）。これに<ruby>従わ<rt>したがわ</rt></ruby>ない<ruby>場合<rt>ばあい</rt></ruby>は、<ruby>文書<rt>ぶんしょ</rt></ruby>の<ruby>成立<rt>せいりつ</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>挙証<rt>きょしょう</rt></ruby><ruby>者<rt>もの</rt></ruby>の<ruby>主張<rt>しゅちょう</rt></ruby>を<ruby>真実<rt>しんじつ</rt></ruby>と<ruby>認め<rt>みとめ</rt></ruby>ることができる（<ruby>同条<rt>どうじょう</rt></ruby>4<ruby>項<rt>こう</rt></ruby>）。<ruby>電磁的<rt>でんじてき</rt></ruby><ruby>記録<rt>きろく</rt></ruby>に<ruby>関し<rt>かんし</rt></ruby>ては、いわゆる<ruby>電子<rt>でんし</rt></ruby><ruby>署名<rt>しょめい</rt></ruby>による<ruby>真正<rt>しんせい</rt></ruby>な<ruby>成立<rt>せいりつ</rt></ruby>の<ruby>推定<rt>すいてい</rt></ruby>が、2000<ruby>年<rt>ねん</rt></ruby><ruby>公布<rt>こうふ</rt></ruby>の<ruby>特別<rt>とくべつ</rt></ruby><ruby>法<rt>ほう</rt></ruby>11によって<ruby>認め<rt>みとめ</rt></ruby>られていた。いずれにせよ、<ruby>形式的<rt>けいしきてき</rt></ruby><ruby>証拠<rt>しょうこ</rt></ruby><ruby>力<rt>ちから</rt></ruby>があるかどうかについても、<ruby>自由<rt>じゆう</rt></ruby><ruby>心証<rt>しんしょう</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>の<ruby>下<rt>した</rt></ruby>で<ruby>裁判官<rt>さいばんかん</rt></ruby>の<ruby>判断<rt>はんだん</rt></ruby>に<ruby>委ね<rt>ゆだね</rt></ruby>られているので、<ruby>証言<rt>しょうげん</rt></ruby>などから<ruby>認め<rt>みとめ</rt></ruby>られることもあるし、<ruby>逆に<rt>ぎゃくに</rt></ruby><ruby>専門家<rt>せんもんか</rt></ruby>による<ruby>鑑定<rt>かんてい</rt></ruby>により<ruby>判断<rt>はんだん</rt></ruby>する<ruby>場合<rt>ばあい</rt></ruby>もある。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">署名や押印によって真正性が証明できない場合でも，筆跡や印影の対照により真正性の証明が可能であり（民訴 229条1項），そのために，対照用の他の文書の提出や筆記を相手方（文書の作成者）に命じることもできる（同条2項・3項）。これに従わない場合は，文書の成立に関する挙証者の主張を真実と認めることができる（同条4項）。電磁紀錄に関しては，いわゆる電子署名による真正な成立の推定が，2000年公布の特別法11によって認められていた。いずれにせよ，形式的証拠力があるかどうかについても，自由心証主義の下で裁判官の判断に委ねられているので，証言などから認められることもあるし，逆に専門家による鑑定により判断する場合もある。</div>
+            </div>
+        </article>
+        <article id="card-18" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(18)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    なお、<ruby>形式的<rt>けいしきてき</rt></ruby><ruby>証拠<rt>しょうこ</rt></ruby><ruby>力<rt>ちから</rt></ruby>が<ruby>認め<rt>みとめ</rt></ruby>られても、<ruby>記載内容<rt>きさいないよう</rt></ruby>が<ruby>真実<rt>しんじつ</rt></ruby>かどうかはまた<ruby>別の<rt>べつの</rt></ruby><ruby>問題<rt>もんだい</rt></ruby>（これを<ruby>証拠<rt>しょうこ</rt></ruby><ruby>価値<rt>かち</rt></ruby>または<ruby>実質的<rt>じっしつてき</rt></ruby><ruby>証拠<rt>しょうこ</rt></ruby><ruby>力<rt>ちから</rt></ruby>という）である。しかし<ruby>遺言書<rt>ゆいごんしょ</rt></ruby>などの<ruby>要式<rt>ようしき</rt></ruby><ruby>行為<rt>こうい</rt></ruby>や<ruby>契約書<rt>けいやくしょ</rt></ruby>などの<ruby>意思表示<rt>いしひょうじ</rt></ruby>を<ruby>記載し<rt>きさいし</rt></ruby>た<ruby>文書<rt>ぶんしょ</rt></ruby>は、<ruby>形式的<rt>けいしきてき</rt></ruby><ruby>証拠<rt>しょうこ</rt></ruby><ruby>力<rt>ちから</rt></ruby>が<ruby>認め<rt>みとめ</rt></ruby>られれば、それによって<ruby>要<rt>よう</rt></ruby><ruby>証<rt>しょう</rt></ruby><ruby>事実<rt>じじつ</rt></ruby>が<ruby>証明さ<rt>しょうめいさ</rt></ruby>れるという<ruby>強力<rt>きょうりょく</rt></ruby>な<ruby>効果<rt>こうか</rt></ruby>がある。<ruby>以上<rt>いじょう</rt></ruby>の<ruby>規律<rt>きりつ</rt></ruby>は，<ruby>紙<rt>かみ</rt></ruby><ruby>媒体<rt>ばいたい</rt></ruby>の<ruby>文書<rt>ぶんしょ</rt></ruby>にとどまらず、<ruby>写真<rt>しゃしん</rt></ruby>や<ruby>録音<rt>ろくおん</rt></ruby>，<ruby>録画<rt>ろくが</rt></ruby>などにも<ruby>準用<rt>じゅんよう</rt></ruby>される（<ruby>民訴<rt>みんそ</rt></ruby>231<ruby>条<rt>じょう</rt></ruby>・<ruby>準<rt>じゅん</rt></ruby><ruby>文書<rt>ぶんしょ</rt></ruby>）。そこで、<ruby>写真<rt>しゃしん</rt></ruby>や<ruby>映像<rt>えいぞう</rt></ruby><ruby>等<rt>など</rt></ruby>も、ディープフェイクにより<ruby>作成<rt>さくせい</rt></ruby>されたものなどと<ruby>争<rt>そう</rt></ruby>われれば、その<ruby>真正<rt>しんせい</rt></ruby>な<ruby>成立<rt>せいりつ</rt></ruby>を<ruby>挙証<rt>きょしょう</rt></ruby><ruby>者<rt>もの</rt></ruby>が<ruby>証明し<rt>しょうめいし</rt></ruby>なければならず、<ruby>普通<rt>ふつう</rt></ruby>の<ruby>文書<rt>ぶんしょ</rt></ruby>と<ruby>異な<rt>ことな</rt></ruby>り<ruby>署名<rt>しょめい</rt></ruby><ruby>押印<rt>おういん</rt></ruby>により<ruby>真正<rt>しんせい</rt></ruby><ruby>性<rt>せい</rt></ruby>が<ruby>推定<rt>すいてい</rt></ruby>されることはないので、それ<ruby>以外<rt>いがい</rt></ruby>の<ruby>手段<rt>しゅだん</rt></ruby>により<ruby>証明し<rt>しょうめいし</rt></ruby>なければならない。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">なお，形式的証拠力が認められても，記載内容が真実かどうかはまた別の問題（これを証拠価値または実質的証拠力という）である。しかし遺言書などの要式行為や契約書などの意思表示を記載した文書は，形式的証拠力が認められれば，それによって要証事実が証明されるという強力な効果がある。以上の規律は，紙媒体の文書にとどまらず，写真や録音，録画などにも準用される（民訴231条・準文書）。そこで，写真や映像等も，ディープフェイクにより作成されたものなどと争われれば，その真正な成立を挙証者が証明しなければならず，普通の文書と異なり署名押印により真正性が推定されることはないので，それ以外の手段により証明しなければならない。</div>
+            </div>
+        </article>
+        <article id="card-19" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(19)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>以前<rt>いぜん</rt></ruby>であれば、<ruby>合成<rt>ごうせい</rt></ruby><ruby>写真<rt>しゃしん</rt></ruby>などは<ruby>鑑定<rt>かんてい</rt></ruby>により<ruby>判別可能<rt>はんべつかのう</rt></ruby>なことも<ruby>多か<rt>おおか</rt></ruby>ったが、<ruby>技術<rt>ぎじゅつ</rt></ruby>の<ruby>進歩<rt>しんぽ</rt></ruby>は<ruby>真贋<rt>しんがん</rt></ruby>の<ruby>判定<rt>はんてい</rt></ruby>を<ruby>極め<rt>きわめ</rt></ruby>て<ruby>困難<rt>こんなん</rt></ruby>にした。こうなると、<ruby>造<rt>ぞう</rt></ruby>の<ruby>証明<rt>しょうめい</rt></ruby>も<ruby>難しい<rt>むずかしい</rt></ruby>が、<ruby>真正<rt>しんせい</rt></ruby>な<ruby>成立<rt>せいりつ</rt></ruby>の<ruby>証明<rt>しょうめい</rt></ruby>も<ruby>同様<rt>どうよう</rt></ruby>に<ruby>難しく<rt>むずかしく</rt></ruby>、<ruby>特に<rt>とくに</rt></ruby>プリントアウトされた<ruby>写真<rt>しゃしん</rt></ruby>では<ruby>決定的<rt>けっていてき</rt></ruby>な<ruby>証拠<rt>しょうこ</rt></ruby>とはいい<ruby>難い<rt>がたい</rt></ruby><ruby>場面<rt>ばめん</rt></ruby>も<ruby>増え<rt>ふえ</rt></ruby>てくるであろう。なお、<ruby>造<rt>ぞう</rt></ruby><ruby>証拠<rt>しょうこ</rt></ruby>が<ruby>見過ご<rt>みすご</rt></ruby>されて<ruby>判決<rt>はんけつ</rt></ruby>の<ruby>資料<rt>しりょう</rt></ruby>となり、その<ruby>判決<rt>はんけつ</rt></ruby>が<ruby>確定し<rt>かくていし</rt></ruby>た<ruby>場合<rt>ばあい</rt></ruby>には、<ruby>再審<rt>さいしん</rt></ruby><ruby>請求<rt>せいきゅう</rt></ruby>による<ruby>取消し<rt>とりけし</rt></ruby>が<ruby>行わ<rt>おこなわ</rt></ruby>れ<ruby>得る<rt>える</rt></ruby>（<ruby>民訴<rt>みんそ</rt></ruby> 338<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>6<ruby>号<rt>ごう</rt></ruby>）。もっとも、<ruby>証拠<rt>しょうこ</rt></ruby>が<ruby>造<rt>ぞう</rt></ruby>されたものだったというだけでは<ruby>十分<rt>じゅうぶん</rt></ruby>ではない。<ruby>造<rt>ぞう</rt></ruby><ruby>証拠<rt>しょうこ</rt></ruby>による<ruby>再審<rt>さいしん</rt></ruby>は、<ruby>同条<rt>どうじょう</rt></ruby>2<ruby>項<rt>こう</rt></ruby>により「<ruby>罰<rt>ばつ</rt></ruby>すべき<ruby>行為<rt>こうい</rt></ruby>について、<ruby>有罪<rt>ゆうざい</rt></ruby>の<ruby>判決<rt>はんけつ</rt></ruby><ruby>若しくは<rt>もしくは</rt></ruby><ruby>過料<rt>かりょう</rt></ruby>の<ruby>裁判<rt>さいばん</rt></ruby>が<ruby>確定し<rt>かくていし</rt></ruby>たとき、<ruby>又は<rt>または</rt></ruby><ruby>証拠<rt>しょうこ</rt></ruby>がないという<ruby>理由<rt>りゆう</rt></ruby><ruby>以外<rt>いがい</rt></ruby>の<ruby>理由<rt>りゆう</rt></ruby>により<ruby>有罪<rt>ゆうざい</rt></ruby>の<ruby>確定<rt>かくてい</rt></ruby><ruby>判決<rt>はんけつ</rt></ruby><ruby>若しくは<rt>もしくは</rt></ruby><ruby>過料<rt>かりょう</rt></ruby>の<ruby>確定<rt>かくてい</rt></ruby><ruby>裁判<rt>さいばん</rt></ruby>を<ruby>得る<rt>える</rt></ruby>ことができないときに<ruby>限<rt>げん</rt></ruby>」ると<ruby>規定<rt>きてい</rt></ruby>されているので、<ruby>刑事<rt>けいじ</rt></ruby><ruby>訴追<rt>そつい</rt></ruby>が<ruby>前提<rt>ぜんてい</rt></ruby>となり、ハードルは<ruby>高い<rt>たかい</rt></ruby>。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">以前であれば，合成写真などは鑑定により判別可能なことも多かったが，技術の進歩は真贋の判定を極めて困難にした。こうなると，造の証明も難しいが，真正な成立の証明も同様に難しく，特にプリントアウトされた写真では裁定的な証拠とはいい難い場面も増えてくるであろう。なお，造証拠が見過ごされて判決の資料となり，その判決が確定した場合には，再審請求による取消しが行われ得る（民訴 338条1項6号）。もっとも，証拠が造されたものだったというだけでは十分ではない。造証拠による再審は，同条2項により「罰すべき行為について，有罪の判決若しくは過料の裁判が確定したとき，又は証拠がないという理由以外の理由により有罪の確定判決若しくは過料の確定裁判を得ることができないときに限」ると規定されているので，刑事訴追が前提となり，ハードルは高い。</div>
+            </div>
+        </article>
+        <article id="card-20" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(20)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    2.IT<ruby>化<rt>か</rt></ruby>による<ruby>変化<rt>へんか</rt></ruby><ruby>民事訴訟<rt>みんじそしょう</rt></ruby>のIT<ruby>化<rt>か</rt></ruby>により、<ruby>紙<rt>かみ</rt></ruby><ruby>媒体<rt>ばいたい</rt></ruby>の<ruby>文書<rt>ぶんしょ</rt></ruby>や<ruby>準<rt>じゅん</rt></ruby><ruby>文書<rt>ぶんしょ</rt></ruby>に<ruby>加え<rt>くわえ</rt></ruby>て、<ruby>電磁的<rt>でんじてき</rt></ruby><ruby>記録<rt>きろく</rt></ruby>に<ruby>記録<rt>きろく</rt></ruby>された<ruby>情報<rt>じょうほう</rt></ruby>の<ruby>内容<rt>ないよう</rt></ruby>に<ruby>係る<rt>かかる</rt></ruby><ruby>証拠<rt>しょうこ</rt></ruby><ruby>調べ<rt>しらべ</rt></ruby>が<ruby>新たに<rt>あらたに</rt></ruby><ruby>設け<rt>もうけ</rt></ruby>られた。それ<ruby>以前<rt>いぜん</rt></ruby>も、<ruby>電磁的<rt>でんじてき</rt></ruby><ruby>記録<rt>きろく</rt></ruby>の<ruby>情報<rt>じょうほう</rt></ruby>が<ruby>証拠<rt>しょうこ</rt></ruby><ruby>調べ<rt>しらべ</rt></ruby>の<ruby>対象<rt>たいしょう</rt></ruby>とならなかったわけではないが、<ruby>書証<rt>しょしょう</rt></ruby>の<ruby>規定<rt>きてい</rt></ruby>によるのか<ruby>検証<rt>けんしょう</rt></ruby>の<ruby>規定<rt>きてい</rt></ruby>によるのかなど、<ruby>取調べ<rt>とりしらべ</rt></ruby><ruby>方法<rt>ほうほう</rt></ruby>は<ruby>実務<rt>じつむ</rt></ruby>に<ruby>委ね<rt>ゆだね</rt></ruby>られていた。<ruby>今後<rt>こんご</rt></ruby>、<ruby>電磁的<rt>でんじてき</rt></ruby><ruby>記録<rt>きろく</rt></ruby>の<ruby>情報<rt>じょうほう</rt></ruby>については、<ruby>民訴<rt>みんそ</rt></ruby><ruby>法<rt>ほう</rt></ruby>231<ruby>条<rt>じょう</rt></ruby>の2および231<ruby>条<rt>じょう</rt></ruby>の3の<ruby>規定<rt>きてい</rt></ruby>，そして<ruby>民訴<rt>みんそ</rt></ruby><ruby>規則<rt>きそく</rt></ruby> 149<ruby>条<rt>じょう</rt></ruby>の2<ruby>以下<rt>いか</rt></ruby>という<ruby>新設<rt>しんせつ</rt></ruby>された<ruby>規定<rt>きてい</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>いて、<ruby>証拠<rt>しょうこ</rt></ruby><ruby>調べ<rt>しらべ</rt></ruby>が<ruby>行わ<rt>おこなわ</rt></ruby>れる。ただし、<ruby>本稿<rt>ほんこう</rt></ruby>で<ruby>問題<rt>もんだい</rt></ruby>としている<ruby>証拠<rt>しょうこ</rt></ruby><ruby>造<rt>ぞう</rt></ruby>の<ruby>問題<rt>もんだい</rt></ruby>に<ruby>関し<rt>かんし</rt></ruby>ては、<ruby>明確<rt>めいかく</rt></ruby>な<ruby>規定<rt>きてい</rt></ruby>がおかれていない。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">2.IT化による変化民事訴訟のIT化により，紙媒体の文書や準文書に加えて，電磁紀錄に記録された情報の内容に係る証拠調べが新たに設けられた。それ以前も，電磁紀錄の情報が証拠調べの対象とならなかったわけではないが，書証の規定によるのか勘驗の規定によるのかなど，取調べ方法は実務に委ねられていた。今後，電磁紀錄の情報については，民訴法231条の2および231条の3の規定，そして民訴規則 149条の2以下という新設された規定に基づいて，証拠調べが行われる。ただし，本稿で問題としている証拠造の問題に関しては，明確な規定がおかれていない。</div>
+            </div>
+        </article>
+        <article id="card-21" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(21)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>真正<rt>しんせい</rt></ruby>な<ruby>成立<rt>せいりつ</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>民訴<rt>みんそ</rt></ruby><ruby>法<rt>ほう</rt></ruby> 228<ruby>条<rt>じょう</rt></ruby>の<ruby>規定<rt>きてい</rt></ruby>は<ruby>準用<rt>じゅんよう</rt></ruby>されているし、<ruby>準用<rt>じゅんよう</rt></ruby>から<ruby>除か<rt>のぞか</rt></ruby>れた<ruby>私文書<rt>しぶんしょ</rt></ruby>の<ruby>真正<rt>しんせい</rt></ruby>な<ruby>推定<rt>すいてい</rt></ruby>（<ruby>同条<rt>どうじょう</rt></ruby>4<ruby>項<rt>こう</rt></ruby>）については<ruby>従前<rt>じゅうぜん</rt></ruby>から<ruby>電子<rt>でんし</rt></ruby><ruby>署名<rt>しょめい</rt></ruby><ruby>及び<rt>および</rt></ruby><ruby>認証<rt>にんしょう</rt></ruby><ruby>業務<rt>ぎょうむ</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>法律<rt>ほうりつ</rt></ruby>3<ruby>条<rt>じょう</rt></ruby>により、<ruby>電子<rt>でんし</rt></ruby><ruby>署名<rt>しょめい</rt></ruby>が<ruby>施さ<rt>ほどこさ</rt></ruby>れた<ruby>場合<rt>ばあい</rt></ruby>の<ruby>真正<rt>しんせい</rt></ruby>な<ruby>成立<rt>せいりつ</rt></ruby>の<ruby>推定<rt>すいてい</rt></ruby>が<ruby>認め<rt>みとめ</rt></ruby>られる。そして<ruby>真正<rt>しんせい</rt></ruby><ruby>性<rt>せい</rt></ruby>の<ruby>推定<rt>すいてい</rt></ruby>が<ruby>認め<rt>みとめ</rt></ruby>られない<ruby>場合<rt>ばあい</rt></ruby>は、<ruby>争<rt>そう</rt></ruby>われれば<ruby>電磁的<rt>でんじてき</rt></ruby><ruby>記録<rt>きろく</rt></ruby>の<ruby>成立<rt>せいりつ</rt></ruby>の<ruby>真正<rt>しんせい</rt></ruby><ruby>性<rt>せい</rt></ruby>（すなわち<ruby>作成者<rt>さくせいしゃ</rt></ruby>の<ruby>意思<rt>いし</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>いた<ruby>作成<rt>さくせい</rt></ruby>）を、<ruby>挙証<rt>きょしょう</rt></ruby><ruby>者<rt>もの</rt></ruby>において<ruby>証明し<rt>しょうめいし</rt></ruby>なければならない。<ruby>電磁的<rt>でんじてき</rt></ruby><ruby>記録<rt>きろく</rt></ruby>に<ruby>関し<rt>かんし</rt></ruby>て、<ruby>造<rt>ぞう</rt></ruby>されていないかどうかを<ruby>立証<rt>りっしょう</rt></ruby>する<ruby>方法<rt>ほうほう</rt></ruby>としては、デジタル・フォレンジック<ruby>技術<rt>ぎじゅつ</rt></ruby>の<ruby>活用<rt>かつよう</rt></ruby>が<ruby>考え<rt>かんがえ</rt></ruby>られるところである。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">真正な成立に関する民訴法 228条の規定は準用されているし，準用から除かれた私文書の真正な推定（同条4項）については従前から電子署名及び認証業務に関する法律3条により，電子署名が施された場合の真正な成立の推定が認められる。そして真正性の推定が認められない場合は，争われれば電磁紀錄の成立の真正性（すなわち作成者の意思に基づいた作成）を，挙証者において証明しなければならない。電磁紀錄に関して，造されていないかどうかを立証する方法としては，デジタル・フォレンジック技術の活用が考えられるところである。</div>
+            </div>
+        </article>
+        <article id="card-22" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(22)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    デジタル・フォレンジックとは、<ruby>電子<rt>でんし</rt></ruby><ruby>鑑識<rt>かんしき</rt></ruby>などと<ruby>訳さ<rt>やくさ</rt></ruby>れることもあるが、<ruby>一般的<rt>いっぱんてき</rt></ruby>には「<ruby>電磁的<rt>でんじてき</rt></ruby><ruby>記録<rt>きろく</rt></ruby>の<ruby>証拠<rt>しょうこ</rt></ruby><ruby>保全<rt>ほぜん</rt></ruby><ruby>及び<rt>および</rt></ruby><ruby>調査<rt>ちょうさ</rt></ruby>・<ruby>分析<rt>ぶんせき</rt></ruby>を<ruby>行う<rt>おこなう</rt></ruby>とともに、<ruby>電磁的<rt>でんじてき</rt></ruby><ruby>記録<rt>きろく</rt></ruby>の<ruby>改<rt>かい</rt></ruby>ざん・<ruby>毀損<rt>きそん</rt></ruby><ruby>等<rt>など</rt></ruby>についての<ruby>分析<rt>ぶんせき</rt></ruby>・<ruby>情報収集<rt>じょうほうしゅうしゅう</rt></ruby><ruby>等<rt>など</rt></ruby>を<ruby>行う<rt>おこなう</rt></ruby><ruby>一連<rt>いちれん</rt></ruby>の<ruby>科学的<rt>かがくてき</rt></ruby><ruby>調査<rt>ちょうさ</rt></ruby><ruby>手法<rt>しゅほう</rt></ruby>・<ruby>技術<rt>ぎじゅつ</rt></ruby>」と<ruby>定義<rt>ていぎ</rt></ruby>される。デジタル・フォレンジックは、<ruby>主と<rt>しゅと</rt></ruby>して<ruby>警察<rt>けいさつ</rt></ruby><ruby>捜査<rt>そうさ</rt></ruby>に<ruby>用い<rt>もちい</rt></ruby>られることが<ruby>多い<rt>おおい</rt></ruby>が、それ<ruby>以外<rt>いがい</rt></ruby>にも、<ruby>情報<rt>じょうほう</rt></ruby><ruby>漏洩<rt>ろうえい</rt></ruby><ruby>時の<rt>ときの</rt></ruby><ruby>漏洩<rt>ろうえい</rt></ruby>ルートの<ruby>捜索<rt>そうさく</rt></ruby>や、アメリカの<ruby>民事訴訟<rt>みんじそしょう</rt></ruby>における<ruby>電子情報<rt>でんしじょうほう</rt></ruby>のディスカバリ（eディスカバリ）に<ruby>必要<rt>ひつよう</rt></ruby>な<ruby>関連<rt>かんれん</rt></ruby>ファイル<ruby>捜索<rt>そうさく</rt></ruby><ruby>確定<rt>かくてい</rt></ruby>などに<ruby>用い<rt>もちい</rt></ruby>られる。<ruby>民事訴訟<rt>みんじそしょう</rt></ruby><ruby>上の<rt>うえの</rt></ruby><ruby>証拠<rt>しょうこ</rt></ruby>の<ruby>為<rt>ため</rt></ruby><ruby>造<rt>ぞう</rt></ruby>に<ruby>関し<rt>かんし</rt></ruby>ては、<ruby>電子<rt>でんし</rt></ruby><ruby>記憶媒体<rt>きおくばいたい</rt></ruby><ruby>上の<rt>うえの</rt></ruby><ruby>消去<rt>しょうきょ</rt></ruby>されたデータの<ruby>復<rt>ふく</rt></ruby><ruby>示<rt>じ</rt></ruby>や、データ<ruby>作成日<rt>さくせいび</rt></ruby><ruby>時<rt>とき</rt></ruby>や<ruby>変更日<rt>へんこうび</rt></ruby><ruby>時な<rt>ときな</rt></ruby>どの<ruby>履歴<rt>りれき</rt></ruby><ruby>情報<rt>じょうほう</rt></ruby>の<ruby>確認<rt>かくにん</rt></ruby>。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">デジタル・フォレンジックとは，電子鑑識などと訳されることもあるが，一般的には「電磁紀錄の証拠保全及び調査・分析を行うとともに，電磁紀錄の改ざん・毀損等についての分析・情報収集等を行う一連の科学的調査手法・技術」と定義される。デジタル・フォレンジックは，主として警察偵查に用いられることが多いが，それ以外にも，情報漏洩時の漏洩ルートの搜索や，アメリカの民事訴訟における電子情報のディスカバリ（eディスカバリ）に必要な関連ファイル搜索確定などに用いられる。民事訴訟上の証拠の為造に関しては，電子記憶媒体上の消去されたデータの復示や，データ作成日時や変更日時などの履歴情報の確認。</div>
+            </div>
+        </article>
+        <article id="card-23" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(23)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>作成者<rt>さくせいしゃ</rt></ruby>および<ruby>変更<rt>へんこう</rt></ruby><ruby>者<rt>もの</rt></ruby>の<ruby>特定<rt>とくてい</rt></ruby>などにより、<ruby>造<rt>ぞう</rt></ruby>の<ruby>有無<rt>うむ</rt></ruby>の<ruby>確認<rt>かくにん</rt></ruby>を<ruby>行う<rt>おこなう</rt></ruby>ことが<ruby>考え<rt>かんがえ</rt></ruby>られよう。ただし、<ruby>造<rt>ぞう</rt></ruby>されたことの<ruby>痕跡<rt>こんせき</rt></ruby>を<ruby>見つ<rt>みつ</rt></ruby>けることはできても、<ruby>偽造<rt>ぎぞう</rt></ruby>されていないことを<ruby>直接<rt>ちょくせつ</rt></ruby><ruby>証明す<rt>しょうめいす</rt></ruby>ることは<ruby>困難<rt>こんなん</rt></ruby>である。そこで、<ruby>文書<rt>ぶんしょ</rt></ruby><ruby>証拠<rt>しょうこ</rt></ruby>に<ruby>関し<rt>かんし</rt></ruby>て<ruby>規定<rt>きてい</rt></ruby>されている「<ruby>文書<rt>ぶんしょ</rt></ruby>の<ruby>成立<rt>せいりつ</rt></ruby>を<ruby>否認<rt>ひにん</rt></ruby>するときは、その<ruby>理由<rt>りゆう</rt></ruby>を<ruby>明らか<rt>あきらか</rt></ruby>にしなければならない」（<ruby>民訴<rt>みんそ</rt></ruby><ruby>規<rt>き</rt></ruby> 145<ruby>条<rt>じょう</rt></ruby>）とのルールを<ruby>基礎<rt>きそ</rt></ruby>として、<ruby>挙証<rt>きょしょう</rt></ruby><ruby>者<rt>もの</rt></ruby>が<ruby>相手方<rt>あいてかた</rt></ruby>の<ruby>述べ<rt>のべ</rt></ruby>る<ruby>否認<rt>ひにん</rt></ruby>の<ruby>根拠<rt>こんきょ</rt></ruby>の<ruby>否定<rt>ひてい</rt></ruby>に<ruby>成功<rt>せいこう</rt></ruby>すれば、<ruby>真正<rt>しんせい</rt></ruby>な<ruby>成立<rt>せいりつ</rt></ruby>の<ruby>証明<rt>しょうめい</rt></ruby>があったものとするといった<ruby>運用<rt>うんよう</rt></ruby>が<ruby>考え<rt>かんがえ</rt></ruby>られよう。<ruby>終わり<rt>おわり</rt></ruby>に<ruby>一般的<rt>いっぱんてき</rt></ruby>に<ruby>裁判制度<rt>さいばんせいど</rt></ruby>は、<ruby>真実<rt>しんじつ</rt></ruby>を<ruby>明らか<rt>あきらか</rt></ruby>にして<ruby>法<rt>ほう</rt></ruby>を<ruby>適用<rt>てきよう</rt></ruby>するプロセスであり、<ruby>真実<rt>しんじつ</rt></ruby>にかなった<ruby>裁判<rt>さいばん</rt></ruby>であることが<ruby>何<rt>なに</rt></ruby>よりも<ruby>重要<rt>じゅうよう</rt></ruby>と<ruby>思わ<rt>おもわ</rt></ruby>れている。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">作成者および変更者の特定などにより，造の有無の確認を行うことが考えられよう。ただし，造されたことの痕跡を見つけることはできても，偽造されていないことを直接証明することは困難である。そこで，文書証拠に関して規定されている「文書の成立を否認するときは，その理由を明らかにしなければならない」（民訴規 145条）とのルールを基礎として，挙証者が相手方の述べる否認の根拠の否定に成功すれば，真正な成立の証明があったものとするといった運用が考えられよう。終わりに一般的に裁判制度は，真実を明らかにして法を適用するプロセスであり，真実にかなった裁判であることが何よりも重要と思われている。</div>
+            </div>
+        </article>
+        <article id="card-24" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(24)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    フェイク<ruby>情報<rt>じょうほう</rt></ruby>は、そのような<ruby>裁判制度<rt>さいばんせいど</rt></ruby>のイメージからいっても<ruby>大き<rt>おおき</rt></ruby>な<ruby>脅威<rt>きょうい</rt></ruby>だと<ruby>考え<rt>かんがえ</rt></ruby>られそうである。しかし、<ruby>証拠<rt>しょうこ</rt></ruby>の<ruby>橋<rt>はし</rt></ruby><ruby>造<rt>ぞう</rt></ruby>や<ruby>氏名<rt>しめい</rt></ruby><ruby>冒用<rt>ぼうよう</rt></ruby>といったフェイク<ruby>情報<rt>じょうほう</rt></ruby>の<ruby>弊害<rt>へいがい</rt></ruby>は<ruby>従来<rt>じゅうらい</rt></ruby>から<ruby>存在<rt>そんざい</rt></ruby>していた。<ruby>民事訴訟<rt>みんじそしょう</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>は，フェイク<ruby>情報<rt>じょうほう</rt></ruby>が<ruby>混入<rt>こんにゅう</rt></ruby>しにくい<ruby>構造<rt>こうぞう</rt></ruby>であることを<ruby>前提<rt>ぜんてい</rt></ruby>としつつ、それらの<ruby>完全<rt>かんぜん</rt></ruby><ruby>排除<rt>はいじょ</rt></ruby>を<ruby>目指す<rt>めざす</rt></ruby>のではなく、フェイク<ruby>情報<rt>じょうほう</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>いて<ruby>行わ<rt>おこなわ</rt></ruby>れた<ruby>手続<rt>てつづき</rt></ruby>やそれに<ruby>基づ<rt>もとづ</rt></ruby>く<ruby>判決<rt>はんけつ</rt></ruby>をどう<ruby>扱う<rt>あつかう</rt></ruby>かという<ruby>事後的<rt>じごてき</rt></ruby>な<ruby>是正<rt>ぜせい</rt></ruby>を<ruby>備え<rt>そなえ</rt></ruby>てきた。とはいえ、ディープフェイクなどの<ruby>技術<rt>ぎじゅつ</rt></ruby><ruby>進化<rt>しんか</rt></ruby>により、<ruby>従来<rt>じゅうらい</rt></ruby><ruby>以上<rt>いじょう</rt></ruby>にフェイク<ruby>情報<rt>じょうほう</rt></ruby>が<ruby>混入<rt>こんにゅう</rt></ruby>するようであれば、その<ruby>事前<rt>じぜん</rt></ruby><ruby>予防<rt>よぼう</rt></ruby>も<ruby>高度化<rt>こうどか</rt></ruby>せざるを<ruby>得な<rt>えな</rt></ruby>い。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">フェイク情報は，そのような裁判制度のイメージからいっても大きな脅威だと考えられそうである。しかし，証拠の橋造や氏名冒用といったフェイク情報の弊害は従来から存在していた。民事訴訟手続は，フェイク情報が混入しにくい構造であることを前提としつつ，それらの完全排除を目指すのではなく，フェイク情報に基づいて行われた手続やそれに基づく判決をどう扱うかという事後的な是正を備えてきた。とはいえ，ディープフェイクなどの技術進化により，従来以上にフェイク情報が混入するようであれば，その事前予防も高度化せざるを得ない。</div>
+            </div>
+        </article>
+        <article id="card-25" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(25)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>今後<rt>こんご</rt></ruby>の<ruby>民事訴訟<rt>みんじそしょう</rt></ruby><ruby>制度<rt>せいど</rt></ruby>は、そうした<ruby>情報<rt>じょうほう</rt></ruby>セキュリティも<ruby>大き<rt>おおき</rt></ruby>な<ruby>課題<rt>かだい</rt></ruby>となることであろう。（まちむら・やすたか）<ruby>血<rt>ち</rt></ruby>
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">今後の民事訴訟制度は，そうした情報セキュリティも大きな課題となることであろう。（まちむら・やすたか）血</div>
+            </div>
+        </article>
+                </main>
+
+                <!-- Footer -->
+                <footer class="bg-slate-900 border-t border-slate-800 py-6 px-6 rounded-xl text-center text-xs text-slate-400">
+                    <p>06フェイクと民事訴訟 — 左右對照朗讀與翻譯版</p>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Audio Control Bar -->
+    <div class="fixed bottom-4 right-4 sm:right-8 w-11/12 max-w-xl bg-slate-900/95 backdrop-blur text-white px-5 py-3.5 rounded-2xl shadow-2xl border border-slate-700/80 flex items-center justify-between z-50">
+        <div class="flex items-center space-x-3">
+            <button id="btn-play-all" onclick="togglePlayAll()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold p-2.5 rounded-xl transition-colors shadow-md flex items-center justify-center">
+                <svg id="icon-play" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <svg id="icon-pause" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </button>
+            <button onclick="stopSpeech()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold p-2.5 rounded-xl border border-slate-700 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"></path></svg>
+            </button>
+            <div class="text-xs sm:text-sm">
+                <div id="tts-status" class="font-medium text-slate-200">準備朗讀</div>
+                <div id="tts-detail" class="text-slate-400 text-xs truncate max-w-[150px] sm:max-w-[200px]">點擊按鈕開啟日文語音朗讀</div>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-2">
+            <label class="text-xs text-slate-400 select-none hidden sm:inline">語速</label>
+            <select id="select-rate" onchange="changeRate()" class="bg-slate-800 text-xs text-slate-200 border border-slate-700 rounded-lg px-2 py-1.5 focus:outline-none focus:border-indigo-500">
+                <option value="0.75">0.75x</option>
+                <option value="1.0" selected>1.0x (標準)</option>
+                <option value="1.25">1.25x</option>
+                <option value="1.5">1.5x</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Speech Synthesis & PDF Zoom JavaScript -->
+    <script>
+        let synth = window.speechSynthesis;
+        let currentUtterance = null;
+        let playQueue = [];
+        let currentCardIndex = -1;
+        let isPlayingAll = false;
+        let speechRate = 1.0;
+        let japaneseVoice = null;
+        let currentPdfZoom = 1.0;
+        let pdfBaseSrc = '06フェイクと民事訴訟.pdf';
+
+        function setPdfZoom(scaleFactor) {
+            currentPdfZoom = scaleFactor;
+            applyPdfZoom();
+        }
+
+        function zoomPdf(ratio) {
+            currentPdfZoom = Math.max(0.5, Math.min(3.0, currentPdfZoom * ratio));
+            applyPdfZoom();
+        }
+
+        function resetPdfZoom() {
+            currentPdfZoom = 1.0;
+            applyPdfZoom();
+        }
+
+        function applyPdfZoom() {
+            const zoomPercent = Math.round(currentPdfZoom * 100);
+            document.getElementById('pdf-zoom-val').textContent = zoomPercent + '%';
+            const iframe = document.getElementById('pdf-frame');
+            
+            // Apply PDF Open Parameters
+            iframe.src = pdfBaseSrc + '#zoom=' + zoomPercent + '&view=FitH';
+            
+            // Apply CSS Scaling for smooth visual enhancement
+            iframe.style.transform = 'scale(' + currentPdfZoom + ')';
+            iframe.style.width = (100 / currentPdfZoom) + '%';
+            iframe.style.height = (100 / currentPdfZoom) + '%';
+        }
+
+        function togglePdfPanel() {
+            const pdfPanel = document.getElementById('pdf-panel');
+            const contentPanel = document.getElementById('content-panel');
+            if (pdfPanel.classList.contains('hidden')) {
+                pdfPanel.classList.remove('hidden');
+                contentPanel.className = 'w-full lg:w-1/2 h-1/2 lg:h-full bg-slate-950 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 pb-32 transition-all duration-300';
+            } else {
+                pdfPanel.classList.add('hidden');
+                contentPanel.className = 'w-full lg:w-full h-full bg-slate-950 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 pb-32 transition-all duration-300';
+            }
+        }
+
+        function loadVoices() {
+            let voices = synth.getVoices();
+            japaneseVoice = voices.find(v => v.lang === 'ja-JP' || v.lang.startsWith('ja')) || null;
+        }
+
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = loadVoices;
+        }
+        loadVoices();
+
+        function getCleanText(cardId) {
+            const cardEl = document.getElementById('card-' + cardId);
+            if (!cardEl) return '';
+            
+            let targetEl = cardEl.querySelector('.jp-text-content') || cardEl.querySelector('h2') || cardEl;
+            const clone = targetEl.cloneNode(true);
+            
+            const rts = clone.querySelectorAll('rt');
+            rts.forEach(rt => rt.remove());
+            
+            let text = clone.textContent || '';
+            text = text.replace(/\(\d+\)/g, '').replace(/朗讀本段|朗讀標題/g, '').trim();
+            return text;
+        }
+
+        function highlightCard(index) {
+            document.querySelectorAll('.playing-card').forEach(el => el.classList.remove('playing-card'));
+            if (index >= 0) {
+                const el = document.getElementById('card-' + index);
+                if (el) {
+                    el.classList.add('playing-card');
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        }
+
+        function updateUIState(playing) {
+            const iconPlay = document.getElementById('icon-play');
+            const iconPause = document.getElementById('icon-pause');
+            const statusEl = document.getElementById('tts-status');
+            
+            if (playing) {
+                iconPlay.classList.add('hidden');
+                iconPause.classList.remove('hidden');
+                statusEl.textContent = '朗讀中...';
+            } else {
+                iconPlay.classList.remove('hidden');
+                iconPause.classList.add('hidden');
+                statusEl.textContent = '已暫停 / 準備就緒';
+            }
+        }
+
+        function playCardText(index) {
+            stopSpeech();
+            isPlayingAll = false;
+            currentCardIndex = index;
+            const text = getCleanText(index);
+            if (!text) return;
+            
+            speakText(text, index, () => {
+                highlightCard(-1);
+                updateUIState(false);
+                document.getElementById('tts-detail').textContent = '朗讀完成';
+            });
+        }
+
+        function speakText(text, cardIndex, onEndCallback) {
+            if (synth.speaking) synth.cancel();
+            
+            highlightCard(cardIndex);
+            updateUIState(true);
+            document.getElementById('tts-detail').textContent = text.substring(0, 30) + '...';
+            
+            currentUtterance = new SpeechSynthesisUtterance(text);
+            currentUtterance.lang = 'ja-JP';
+            if (japaneseVoice) currentUtterance.voice = japaneseVoice;
+            currentUtterance.rate = speechRate;
+            
+            currentUtterance.onend = function() {
+                if (onEndCallback) onEndCallback();
+            };
+            
+            currentUtterance.onerror = function(e) {
+                console.error('Speech synthesis error:', e);
+                highlightCard(-1);
+                updateUIState(false);
+            };
+            
+            synth.speak(currentUtterance);
+        }
+
+        function togglePlayAll() {
+            if (synth.speaking && isPlayingAll) {
+                if (synth.paused) {
+                    synth.resume();
+                    updateUIState(true);
+                } else {
+                    synth.pause();
+                    updateUIState(false);
+                }
+                return;
+            }
+            
+            stopSpeech();
+            isPlayingAll = true;
+            let totalCards = document.querySelectorAll('[id^="card-"]').length;
+            let queue = [];
+            for (let i = 0; i < totalCards; i++) {
+                queue.push(i);
+            }
+            
+            playNextInQueue(queue);
+        }
+
+        function playNextInQueue(queue) {
+            if (!isPlayingAll || queue.length === 0) {
+                isPlayingAll = false;
+                highlightCard(-1);
+                updateUIState(false);
+                document.getElementById('tts-detail').textContent = '全文朗讀完畢';
+                return;
+            }
+            
+            let nextIndex = queue.shift();
+            currentCardIndex = nextIndex;
+            const text = getCleanText(nextIndex);
+            
+            if (!text) {
+                playNextInQueue(queue);
+                return;
+            }
+            
+            speakText(text, nextIndex, () => {
+                if (isPlayingAll) playNextInQueue(queue);
+            });
+        }
+
+        function stopSpeech() {
+            isPlayingAll = false;
+            if (synth.speaking || synth.paused) {
+                synth.cancel();
+            }
+            highlightCard(-1);
+            updateUIState(false);
+            document.getElementById('tts-detail').textContent = '已停止朗讀';
+        }
+
+        function changeRate() {
+            const select = document.getElementById('select-rate');
+            speechRate = parseFloat(select.value);
+            if (synth.speaking && currentCardIndex >= 0) {
+                let wasPlayingAll = isPlayingAll;
+                let cardToResume = currentCardIndex;
+                stopSpeech();
+                if (wasPlayingAll) {
+                    isPlayingAll = true;
+                    let totalCards = document.querySelectorAll('[id^="card-"]').length;
+                    let queue = [];
+                    for (let i = cardToResume; i < totalCards; i++) queue.push(i);
+                    playNextInQueue(queue);
+                } else {
+                    playCardText(cardToResume);
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

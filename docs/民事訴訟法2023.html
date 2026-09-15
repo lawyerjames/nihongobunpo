@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>民事訴訟法2023 - 左右對照朗讀與翻譯版</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #0f172a;
+            color: #1e293b;
+        }
+
+        .font-serif {
+            font-family: 'Noto Serif JP', "MS Mincho", serif;
+        }
+
+        .font-sans {
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+
+        .jp-col {
+            font-size: 1.05rem;
+            line-height: 3.1;
+            letter-spacing: 0.02em;
+            word-break: break-word;
+            color: #0f172a;
+        }
+
+        ruby {
+            ruby-position: over;
+            display: inline-ruby;
+        }
+
+        rt {
+            font-size: 0.52em;
+            color: #475569;
+            letter-spacing: 0.01em;
+            font-weight: normal;
+            line-height: 1.0;
+            user-select: none;
+        }
+
+        u {
+            text-decoration: none;
+            border-bottom: 2px solid #ef4444;
+            padding-bottom: 2px;
+        }
+
+        .zh-col {
+            font-size: 1.0rem;
+            line-height: 1.75;
+        }
+
+        .playing-card {
+            box-shadow: 0 0 0 3px #6366f1, 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+            background-color: #f5f3ff !important;
+        }
+    </style>
+</head>
+
+<body class="h-screen overflow-hidden flex flex-col bg-slate-950">
+    <!-- Top Fixed Header -->
+    <header class="h-14 bg-slate-950 text-white px-4 sm:px-6 border-b border-slate-800 shrink-0 flex items-center justify-between shadow-md z-40">
+        <div class="flex items-center space-x-3 truncate">
+            <a href="index.html" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 hover:text-white px-3 py-1.5 rounded-lg text-xs font-semibold border border-slate-700 transition-colors flex items-center space-x-1 shrink-0 select-none">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                <span>總覽</span>
+            </a>
+            <h1 class="text-sm sm:text-base font-bold truncate font-serif text-slate-100">
+                民事訴訟法2023
+            </h1>
+        </div>
+        <div class="flex items-center space-x-2 shrink-0">
+            <button onclick="togglePdfPanel()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors flex items-center space-x-1 select-none">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                <span id="toggle-pdf-text">隱藏/顯示 原文PDF</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Split View Container (Height = 100vh - 3.5rem) -->
+    <div class="flex-1 flex flex-col lg:flex-row w-full overflow-hidden h-[calc(100vh-3.5rem)]">
+        <!-- Left Panel: Fixed Original PDF Viewer with Zoom Controls -->
+        <div id="pdf-panel" class="w-full lg:w-1/2 h-1/2 lg:h-full bg-slate-900 border-r border-slate-800 flex flex-col shrink-0">
+            <!-- PDF Zoom & Control Bar -->
+            <div class="bg-slate-950 px-3 py-2 border-b border-slate-800 flex items-center justify-between text-xs shrink-0 select-none">
+                <span class="text-slate-400 font-semibold flex items-center">
+                    <svg class="w-3.5 h-3.5 mr-1 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    PDF 縮放控制
+                </span>
+                <div class="flex items-center space-x-1.5">
+                    <button onclick="zoomPdf(0.9)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-2 py-0.5 rounded border border-slate-700 transition-colors" title="縮小">-</button>
+                    <span id="pdf-zoom-val" class="font-mono text-indigo-300 w-12 text-center">100%</span>
+                    <button onclick="zoomPdf(1.1)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-2 py-0.5 rounded border border-slate-700 transition-colors" title="放大">+</button>
+                    <button onclick="setPdfZoom(1.25)" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 px-2 py-0.5 rounded border border-slate-700 transition-colors">1.25x</button>
+                    <button onclick="setPdfZoom(1.5)" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 px-2 py-0.5 rounded border border-slate-700 transition-colors">1.5x</button>
+                    <button onclick="setPdfZoom(2.0)" class="bg-slate-800 hover:bg-slate-700 text-amber-300 px-2 py-0.5 rounded border border-slate-700 transition-colors">2.0x</button>
+                    <button onclick="resetPdfZoom()" class="bg-slate-800 hover:bg-slate-700 text-slate-400 px-2 py-0.5 rounded border border-slate-700 transition-colors">重置</button>
+                </div>
+            </div>
+            <!-- PDF Iframe Container -->
+            <div id="pdf-container" class="flex-1 w-full h-full overflow-auto bg-slate-900 p-2 relative">
+                <iframe id="pdf-frame" src="民事訴訟法2023.pdf" class="w-full h-full rounded-xl bg-white shadow-inner border border-slate-700 transition-transform origin-top-left"></iframe>
+            </div>
+        </div>
+
+        <!-- Right Panel: Independently Scrolling Translated Content & Audio Reader -->
+        <div id="content-panel" class="w-full lg:w-1/2 h-1/2 lg:h-full bg-slate-950 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 pb-32 transition-all duration-300">
+            <div class="max-w-3xl mx-auto space-y-4">
+                <!-- Banner Card -->
+                <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 rounded-2xl shadow-xl border border-indigo-900">
+                    <span class="inline-block bg-indigo-500/20 text-indigo-300 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider mb-2 border border-indigo-400/30">
+                        法學日文左右對照朗讀版
+                    </span>
+                    <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-white mb-2 font-serif">
+                        民事訴訟法2023
+                    </h2>
+                    <p class="text-indigo-200 text-sm sm:text-base font-medium mb-3">
+                        ——民事訴訟法2023 法學論文對照解析 <span class="text-indigo-300/80 text-xs font-normal">（民事訴訟法2023 法律專題解析）</span>
+                    </p>
+                    <div class="text-xs text-slate-300 pt-3 border-t border-indigo-900/80">
+                        <span class="font-semibold text-indigo-300">作者：</span>日本法學研究會 / Legal Research Group
+                    </div>
+                </div>
+
+                <!-- Main Paragraphs -->
+                <main class="space-y-4">
+
+        <section id="card-0" class="my-8 rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 shadow-md border border-indigo-900/80 transition-all duration-300">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="text-xl sm:text-2xl font-bold tracking-wide font-serif text-amber-300">SPECIAL FEATURE<ruby>民事訴訟法<rt>みんじそしょうほう</rt></ruby>「<ruby>手続<rt>てつづき</rt></ruby><ruby>保障<rt>ほしょう</rt></ruby>」<ruby>学習院大学<rt>がくしゅういんだいがく</rt></ruby><ruby>教授<rt>きょうじゅ</rt></ruby><ruby>長谷部<rt>はせべ</rt></ruby><ruby>由起子<rt>ゆきこ</rt></ruby>HASEBE Yukikoはじめに「<ruby>手続<rt>てつづき</rt></ruby><ruby>保障<rt>ほしょう</rt></ruby>」については、<ruby>近年<rt>きんねん</rt></ruby><ruby>多く<rt>おおく</rt></ruby>の<ruby>教科書<rt>きょうかしょ</rt></ruby>で<ruby>触れら<rt>ふれら</rt></ruby>れている。</h2>
+                <button onclick="playCardText(0)" class="shrink-0 flex items-center space-x-1 bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-amber-400/40 transition-colors select-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    <span>朗讀標題</span>
+                </button>
+            </div>
+            <div class="text-base sm:text-lg font-medium text-indigo-200 font-sans">SPECIAL FEATURE民事訴訟法「手続保障」学習院大学教授長谷部由起子HASEBE Yukikoはじめに「手続保障」については，近年多くの教科書で触れられている。</div>
+        </section>
+        <article id="card-1" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(1)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>法学部<rt>ほうがくぶ</rt></ruby>で<ruby>民事訴訟法<rt>みんじそしょうほう</rt></ruby>を<ruby>勉強<rt>べんきょう</rt></ruby>したことがある<ruby>人<rt>にん</rt></ruby>には、なじみのある<ruby>概念<rt>がいねん</rt></ruby>であろう。そうであるだけに、<ruby>内容<rt>ないよう</rt></ruby>を<ruby>深く<rt>ふかく</rt></ruby><ruby>理解<rt>りかい</rt></ruby>せず、に<ruby>使って<rt>つかって</rt></ruby>いることはないだろうかり。たしかに、「<ruby>手続<rt>てつづき</rt></ruby><ruby>保障<rt>ほしょう</rt></ruby>」は<ruby>民事訴訟法<rt>みんじそしょうほう</rt></ruby>における<ruby>重要な<rt>じゅうような</rt></ruby><ruby>概念<rt>がいねん</rt></ruby>の1つではある。しかし、「<ruby>当事者<rt>とうじしゃ</rt></ruby>」，「<ruby>訴え<rt>うったえ</rt></ruby>の<ruby>利益<rt>りえき</rt></ruby>」、「<ruby>既判<rt>きはん</rt></ruby><ruby>力<rt>ちから</rt></ruby>」などのドイツ<ruby>法<rt>ほう</rt></ruby>に<ruby>淵源<rt>えんげん</rt></ruby>のある<ruby>概念<rt>がいねん</rt></ruby>に<ruby>比べ<rt>くらべ</rt></ruby>れば、<ruby>歴史<rt>れきし</rt></ruby>は<ruby>浅い<rt>あさい</rt></ruby>。「<ruby>手続<rt>てつづき</rt></ruby><ruby>保障<rt>ほしょう</rt></ruby>」という<ruby>言葉<rt>ことば</rt></ruby>が<ruby>教科書<rt>きょうかしょ</rt></ruby>で<ruby>用い<rt>もちい</rt></ruby>られたのは、1974<ruby>年<rt>ねん</rt></ruby>に<ruby>刊行<rt>かんこう</rt></ruby>された<ruby>新堂<rt>しんどう</rt></ruby><ruby>幸司<rt>こうじ</rt></ruby>『<ruby>民事訴訟法<rt>みんじそしょうほう</rt></ruby>』が<ruby>最初<rt>さいしょ</rt></ruby>だといわれている？）。<ruby>相対的<rt>そうたいてき</rt></ruby>に<ruby>新しく<rt>あたらしく</rt></ruby>、かつ、<ruby>外国<rt>がいこく</rt></ruby><ruby>法<rt>ほう</rt></ruby>の<ruby>直接的<rt>ちょくせつてき</rt></ruby>な<ruby>影響<rt>えいきょう</rt></ruby>を<ruby>受ける<rt>うける</rt></ruby>ことなくわが<ruby>国<rt>くに</rt></ruby><ruby>独自<rt>どくじ</rt></ruby>の<ruby>発展<rt>はってん</rt></ruby>を<ruby>遂げ<rt>とげ</rt></ruby>た<ruby>概念<rt>がいねん</rt></ruby>であるけれども、だからといって、<ruby>他の<rt>ほかの</rt></ruby><ruby>概念<rt>がいねん</rt></ruby>よりも<ruby>平明<rt>へいめい</rt></ruby>で<ruby>理解<rt>りかい</rt></ruby>しやすい<ruby>議論<rt>ぎろん</rt></ruby>が<ruby>展開<rt>てんかい</rt></ruby>されてきたというわけではない。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">法学部で民事訴訟法を勉強したことがある人には，なじみのある概念であろう。そうであるだけに，内容を深く理解せず，に使っていることはないだろうかり。たしかに，「手続保障」は民事訴訟法における重要な概念の1つではある。しかし，「当事者」，「訴えの利益」，「既判力」などのドイツ法に淵源のある概念に比べれば，歴史は浅い。「手続保障」という言葉が教科書で用いられたのは，1974年に刊行された新堂幸司『民事訴訟法』が最初だといわれている？）。相対的に新しく，かつ，外国法の直接的な影響を受けることなくわが国独自の発展を遂げた概念であるけれども，だからといって，他の概念よりも平明で理解しやすい議論が展開されてきたというわけではない。</div>
+            </div>
+        </article>
+        <article id="card-2" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(2)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    むしろ、<ruby>短い<rt>みじかい</rt></ruby><ruby>期間<rt>きかん</rt></ruby>に<ruby>多様<rt>たよう</rt></ruby>な<ruby>見解<rt>けんかい</rt></ruby>が<ruby>提唱<rt>ていしょう</rt></ruby>された<ruby>結果<rt>けっか</rt></ruby>、<ruby>議論<rt>ぎろん</rt></ruby>は<ruby>複雑<rt>ふくざつ</rt></ruby>になり、<ruby>全体像<rt>ぜんたいぞう</rt></ruby>が<ruby>見え<rt>みえ</rt></ruby>にくくなっているように<ruby>思わ<rt>おもわ</rt></ruby>れる。<ruby>手続<rt>てつづき</rt></ruby><ruby>保障<rt>ほしょう</rt></ruby>をめぐるこれまでの<ruby>議論<rt>ぎろん</rt></ruby>を<ruby>振り返れ<rt>ふりかえれ</rt></ruby>ば、<ruby>人<rt>にん</rt></ruby>が<ruby>手続<rt>てつづき</rt></ruby>の<ruby>主体<rt>しゅたい</rt></ruby>（<ruby>当事者<rt>とうじしゃ</rt></ruby>）たる<ruby>地位<rt>ちい</rt></ruby>につくことによって<ruby>保障<rt>ほしょう</rt></ruby>されるべき<ruby>権利<rt>けんり</rt></ruby>（<ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>権<rt>けん</rt></ruby>）に<ruby>着眼<rt>ちゃくがん</rt></ruby>することから<ruby>始まり<rt>はじまり</rt></ruby>3，<ruby>当事者<rt>とうじしゃ</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby>て<ruby>十分<rt>じゅうぶん</rt></ruby>な<ruby>手続<rt>てつづき</rt></ruby><ruby>保障<rt>ほしょう</rt></ruby>が<ruby>与え<rt>あたえ</rt></ruby>られたことが、<ruby>不利<rt>ふり</rt></ruby>な<ruby>裁判<rt>さいばん</rt></ruby>にも<ruby>当事者<rt>とうじしゃ</rt></ruby>は<ruby>従わ<rt>したがわ</rt></ruby>なければならないことを<ruby>正当化<rt>せいとうか</rt></ruby>するという<ruby>議論<rt>ぎろん</rt></ruby>へと<ruby>進ん<rt>すすん</rt></ruby>できた。<ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>以外<rt>いがい</rt></ruby>の<ruby>者<rt>もの</rt></ruby>（<ruby>訴訟<rt>そしょう</rt></ruby><ruby>担当<rt>たんとう</rt></ruby>における<ruby>被<rt>ひ</rt></ruby><ruby>担当者<rt>たんとうしゃ</rt></ruby>、<ruby>口頭<rt>こうとう</rt></ruby><ruby>弁論<rt>べんろん</rt></ruby><ruby>終結<rt>しゅうけつ</rt></ruby><ruby>後の<rt>のちの</rt></ruby><ruby>承継<rt>しょうけい</rt></ruby><ruby>人<rt>にん</rt></ruby>）に<ruby>対する<rt>たいする</rt></ruby><ruby>既判<rt>きはん</rt></ruby><ruby>力<rt>ちから</rt></ruby>の<ruby>拡張<rt>かくちょう</rt></ruby>の<ruby>根拠<rt>こんきょ</rt></ruby>としても、<ruby>手続<rt>てつづき</rt></ruby><ruby>保障<rt>ほしょう</rt></ruby>の<ruby>概念<rt>がいねん</rt></ruby>が<ruby>用い<rt>もちい</rt></ruby>られるようになっている。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">むしろ，短い期間に多様な見解が提唱された結果，議論は複雑になり，全体像が見えにくくなっているように思われる。手続保障をめぐるこれまでの議論を振り返れば，人が手続の主体（当事者）たる地位につくことによって保障されるべき権利（当事者権）に着眼することから始まり3，当事者に対して十分な手続保障が与えられたことが，不利な裁判にも当事者は従わなければならないことを正当化するという議論へと進んできた。当事者以外の者（訴訟担当における被担当者，口頭弁論終結後の承継人）に対する既判力の拡張の根拠としても，手続保障の概念が用いられるようになっている。</div>
+            </div>
+        </article>
+        <article id="card-3" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(3)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    こうして<ruby>議論<rt>ぎろん</rt></ruby>のルートが<ruby>開拓<rt>かいたく</rt></ruby>されてきたならば、それに<ruby>沿って<rt>そって</rt></ruby>「<ruby>手続<rt>てつづき</rt></ruby><ruby>保障<rt>ほしょう</rt></ruby>」を<ruby>論じ<rt>ろんじ</rt></ruby>ていくことが、<ruby>堅実<rt>けんじつ</rt></ruby>で<ruby>生産的<rt>せいさんてき</rt></ruby>な<ruby>議論<rt>ぎろん</rt></ruby>を<ruby>可能に<rt>かのうに</rt></ruby>するように<ruby>思わ<rt>おもわ</rt></ruby>れる。すなわち、<ruby>個別<rt>こべつ</rt></ruby>の<ruby>問題<rt>もんだい</rt></ruby>に<ruby>関し<rt>かんし</rt></ruby>て<ruby>当事者<rt>とうじしゃ</rt></ruby>に<ruby>手続<rt>てつづき</rt></ruby><ruby>保障<rt>ほしょう</rt></ruby>があったか<ruby>否か<rt>いなか</rt></ruby>を<ruby>論ず<rt>ろんず</rt></ruby>るにあたっては、まず、<ruby>当該<rt>とうがい</rt></ruby><ruby>事案<rt>じあん</rt></ruby>では<ruby>当事者<rt>とうじしゃ</rt></ruby>にどのような<ruby>手続<rt>てつづき</rt></ruby><ruby>上の<rt>うえの</rt></ruby><ruby>権利<rt>けんり</rt></ruby>が<ruby>保障<rt>ほしょう</rt></ruby>されるべきかっそうした<ruby>保障<rt>ほしょう</rt></ruby>がなかったのはどのような<ruby>要因<rt>よういん</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>くものかを<ruby>分析<rt>ぶんせき</rt></ruby>することから<ruby>始め<rt>はじめ</rt></ruby>る。そして、<ruby>当事者<rt>とうじしゃ</rt></ruby>に<ruby>対する<rt>たいする</rt></ruby><ruby>権利<rt>けんり</rt></ruby>の<ruby>保障<rt>ほしょう</rt></ruby>を<ruby>欠い<rt>かい</rt></ruby>たまま、その<ruby>当事者<rt>とうじしゃ</rt></ruby>に<ruby>不利<rt>ふり</rt></ruby>な<ruby>扱い<rt>あつかい</rt></ruby>をすることがはたして<ruby>正当化<rt>せいとうか</rt></ruby>されるのかを<ruby>検討し<rt>けんとうし</rt></ruby>ていくことになる。このような<ruby>考え方<rt>かんがえかた</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>いて、<ruby>判例<rt>はんれい</rt></ruby>にあらわれた<ruby>問題<rt>もんだい</rt></ruby>にアプローチしてみよう。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">こうして議論のルートが開拓されてきたならば，それに沿って「手続保障」を論じていくことが，堅実で生産的な議論を可能にするように思われる。すなわち，個別の問題に関して当事者に手続保障があったか否かを論ずるにあたっては，まず，当該事案では当事者にどのような手続上の権利が保障されるべきかっそうした保障がなかったのはどのような要因に基づくものかを分析することから始める。そして，当事者に対する権利の保障を欠いたまま，その当事者に不利な扱いをすることがはたして正当化されるのかを検討していくことになる。このような考え方に基づいて，判例にあらわれた問題にアプローチしてみよう。</div>
+            </div>
+        </article>
+        <article id="card-4" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(4)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    なお、<ruby>以下<rt>いか</rt></ruby>で<ruby>引用<rt>いんよう</rt></ruby>する<ruby>条文<rt>じょうぶん</rt></ruby>は、<ruby>断り<rt>ことわり</rt></ruby>のない<ruby>限り<rt>かぎり</rt></ruby>、<ruby>令和<rt>れいわ</rt></ruby>4<ruby>年<rt>ねん</rt></ruby><ruby>改正後<rt>かいせいご</rt></ruby>の<ruby>民事訴訟法<rt>みんじそしょうほう</rt></ruby>の<ruby>条文<rt>じょうぶん</rt></ruby>である。<ruby>口頭<rt>こうとう</rt></ruby><ruby>弁論<rt>べんろん</rt></ruby>の<ruby>再開<rt>さいかい</rt></ruby><ruby>一<rt>いち</rt></ruby><ruby>攻撃<rt>こうげき</rt></ruby><ruby>防御<rt>ぼうぎょ</rt></ruby><ruby>方法<rt>ほうほう</rt></ruby>を<ruby>提出<rt>ていしゅつ</rt></ruby>する<ruby>機会<rt>きかい</rt></ruby>の<ruby>保障<rt>ほしょう</rt></ruby>1.<ruby>弁論<rt>べんろん</rt></ruby>を<ruby>再開<rt>さいかい</rt></ruby>せずに<ruby>判決<rt>はんけつ</rt></ruby>をすることが<ruby>違法<rt>いほう</rt></ruby>とされる<ruby>場合<rt>ばあい</rt></ruby><ruby>裁判所<rt>さいばんしょ</rt></ruby>は、<ruby>訴訟<rt>そしょう</rt></ruby>が<ruby>裁判<rt>さいばん</rt></ruby>をするのに<ruby>熱し<rt>あつし</rt></ruby>たときは、<ruby>口頭<rt>こうとう</rt></ruby><ruby>弁論<rt>べんろん</rt></ruby>を<ruby>終結<rt>しゅうけつ</rt></ruby>して<ruby>終局<rt>しゅうきょく</rt></ruby><ruby>判決<rt>はんけつ</rt></ruby>をすることができる（213<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>）。いったん<ruby>終結<rt>しゅうけつ</rt></ruby>した<ruby>弁論<rt>べんろん</rt></ruby>を<ruby>再開<rt>さいかい</rt></ruby>することもできるが（153<ruby>条<rt>じょう</rt></ruby>），その<ruby>要件<rt>ようけん</rt></ruby>は<ruby>法定<rt>ほうてい</rt></ruby>されていない。<ruby>判例<rt>はんれい</rt></ruby>・<ruby>通説<rt>つうせつ</rt></ruby>によれば、<ruby>弁論<rt>べんろん</rt></ruby>を<ruby>再開<rt>さいかい</rt></ruby>するか<ruby>否か<rt>いなか</rt></ruby>は<ruby>裁判所<rt>さいばんしょ</rt></ruby>の<ruby>裁量<rt>さいりょう</rt></ruby><ruby>的<rt>てき</rt></ruby><ruby>判断<rt>はんだん</rt></ruby>に<ruby>委ね<rt>ゆだね</rt></ruby>られており、<ruby>当事者<rt>とうじしゃ</rt></ruby>に<ruby>弁論<rt>べんろん</rt></ruby>の<ruby>再開<rt>さいかい</rt></ruby>を<ruby>申し<rt>もうし</rt></ruby><ruby>立て<rt>たて</rt></ruby>る<ruby>権利<rt>けんり</rt></ruby>はないとされている5。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">なお，以下で引用する条文は，断りのない限り，令和4年改正後の民事訴訟法の条文である。口頭弁論の再開一攻撃防御方法を提出する機会の保障1.弁論を再開せずに判決をすることが違法とされる場合裁判所は，訴訟が裁判をするのに熱したときは，口頭弁論を終結して終局判決をすることができる（213条1項）。いったん終結した弁論を再開することもできるが（153条），その要件は法定されていない。判例・通説によれば，弁論を再開するか否かは裁判所の裁量的判断に委ねられており，当事者に弁論の再開を申し立てる権利はないとされている5。</div>
+            </div>
+        </article>
+        <article id="card-5" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(5)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    もっとも、<ruby>裁判所<rt>さいばんしょ</rt></ruby>の<ruby>裁量<rt>さいりょう</rt></ruby>にも<ruby>限界<rt>げんかい</rt></ruby>はあり、<ruby>弁論<rt>べんろん</rt></ruby>を<ruby>再開<rt>さいかい</rt></ruby>しないことが<ruby>違法<rt>いほう</rt></ruby>とされる<ruby>場合<rt>ばあい</rt></ruby>もある。この<ruby>問題<rt>もんだい</rt></ruby>について、<ruby>最判<rt>さいはん</rt></ruby><ruby>昭和<rt>しょうわ</rt></ruby>56・9・24（<ruby>民集<rt>みんしゅう</rt></ruby>35<ruby>巻<rt>かん</rt></ruby>6<ruby>号<rt>ごう</rt></ruby>1088<ruby>頁<rt>ぺーじ</rt></ruby>）［<ruby>民事訴訟法<rt>みんじそしょうほう</rt></ruby><ruby>判例<rt>はんれい</rt></ruby><ruby>百選<rt>ひゃくせん</rt></ruby>〔<ruby>第<rt>だい</rt></ruby>5<ruby>版<rt>はん</rt></ruby>）41<ruby>事件<rt>じけん</rt></ruby>］は<ruby>以下の<rt>いかの</rt></ruby>ように<ruby>述べ<rt>のべ</rt></ruby>て、<ruby>弁論<rt>べんろん</rt></ruby>を<ruby>再開<rt>さいかい</rt></ruby>しなかった<ruby>原審<rt>げんしん</rt></ruby>の<ruby>措置<rt>そち</rt></ruby>を<ruby>違法<rt>いほう</rt></ruby>であるとした。「〔<ruby>弁論<rt>べんろん</rt></ruby>を<ruby>再開<rt>さいかい</rt></ruby>するか<ruby>否か<rt>いなか</rt></ruby>についての<ruby>裁判所<rt>さいばんしょ</rt></ruby>の）<ruby>裁量権<rt>さいりょうけん</rt></ruby>も<ruby>絶対<rt>ぜったい</rt></ruby><ruby>無制限<rt>むせいげん</rt></ruby>のものではなく、<ruby>弁論<rt>べんろん</rt></ruby>を<ruby>再開<rt>さいかい</rt></ruby>して<ruby>当事者<rt>とうじしゃ</rt></ruby>に<ruby>更に<rt>さらに</rt></ruby><ruby>攻撃<rt>こうげき</rt></ruby><ruby>防禦<rt>ぼうぎょ</rt></ruby>の<ruby>方法<rt>ほうほう</rt></ruby>を<ruby>提出<rt>ていしゅつ</rt></ruby>する<ruby>機会<rt>きかい</rt></ruby>を<ruby>与え<rt>あたえ</rt></ruby>ることが<ruby>明らか<rt>あきらか</rt></ruby>に<ruby>民事訴訟<rt>みんじそしょう</rt></ruby>における<ruby>手続的<rt>てつづきてき</rt></ruby><ruby>正義<rt>せいぎ</rt></ruby>の<ruby>要求<rt>ようきゅう</rt></ruby>するところであると<ruby>認め<rt>みとめ</rt></ruby>られるような<ruby>特段<rt>とくだん</rt></ruby>の<ruby>事由<rt>じゆう</rt></ruby>がある<ruby>場合<rt>ばあい</rt></ruby>には、<ruby>裁判所<rt>さいばんしょ</rt></ruby>は<ruby>弁論<rt>べんろん</rt></ruby>を<ruby>再開<rt>さいかい</rt></ruby>すべきものであり、これをしないでそのまま<ruby>判決<rt>はんけつ</rt></ruby>をするのは<ruby>違法<rt>いほう</rt></ruby>であることを<ruby>免れ<rt>まぬかれ</rt></ruby>ない」。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">もっとも，裁判所の裁量にも限界はあり，弁論を再開しないことが違法とされる場合もある。この問題について，最判昭和56・9・24（民集35巻6号1088頁）［民事訴訟法判例百選〔第5版）41事件］は以下のように述べて，弁論を再開しなかった原審の措置を違法であるとした。「〔弁論を再開するか否かについての裁判所の）裁量権も絶対無制限のものではなく，弁論を再開して当事者に更に攻撃防禦の方法を提出する機会を与えることが明らかに民事訴訟における手続的正義の要求するところであると認められるような特段の事由がある場合には，裁判所は弁論を再開すべきものであり，これをしないでそのまま判決をするのは違法であることを免れない」。</div>
+            </div>
+        </article>
+        <article id="card-6" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(6)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    2.<ruby>本件<rt>ほんけん</rt></ruby>の<ruby>事実関係<rt>じじつかんけい</rt></ruby>とそれに<ruby>対する<rt>たいする</rt></ruby><ruby>本<rt>ほん</rt></ruby><ruby>判決<rt>はんけつ</rt></ruby>の<ruby>判示<rt>はんじ</rt></ruby>（ <ruby>本件<rt>ほんけん</rt></ruby>の<ruby>事実<rt>じじつ</rt></ruby>の<ruby>概要<rt>がいよう</rt></ruby>は、<ruby>以下の<rt>いかの</rt></ruby>とおりである。A （<ruby>原告<rt>げんこく</rt></ruby>・<ruby>被<rt>ひ</rt></ruby><ruby>控訴<rt>こうそ</rt></ruby><ruby>人<rt>にん</rt></ruby>）は、Y（<ruby>被告<rt>ひこく</rt></ruby>・<ruby>控訴<rt>こうそ</rt></ruby><ruby>人<rt>にん</rt></ruby>・<ruby>上告<rt>じょうこく</rt></ruby><ruby>人<rt>にん</rt></ruby>）に<ruby>対し<rt>たいし</rt></ruby>て、A<ruby>所有<rt>しょゆう</rt></ruby>の<ruby>不動産<rt>ふどうさん</rt></ruby>（<ruby>本件<rt>ほんけん</rt></ruby><ruby>不動産<rt>ふどうさん</rt></ruby>）につきのためにされた<ruby>所有権移転<rt>しょゆうけんいてん</rt></ruby><ruby>登記<rt>とうき</rt></ruby>、<ruby>抵当権<rt>ていとうけん</rt></ruby><ruby>設定<rt>せってい</rt></ruby><ruby>登記<rt>とうき</rt></ruby><ruby>等<rt>など</rt></ruby>はいずれも<ruby>登記<rt>とうき</rt></ruby><ruby>原因<rt>げんいん</rt></ruby>を<ruby>欠き<rt>かき</rt></ruby>、<ruby>実体<rt>じったい</rt></ruby><ruby>上の<rt>うえの</rt></ruby><ruby>権利関係<rt>けんりかんけい</rt></ruby>に<ruby>適合<rt>てきごう</rt></ruby>しないと<ruby>主張<rt>しゅちょう</rt></ruby>して、これらの<ruby>登記<rt>とうき</rt></ruby>の<ruby>抹消<rt>まっしょう</rt></ruby><ruby>登記<rt>とうき</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>を<ruby>求め<rt>もとめ</rt></ruby>る<ruby>訴え<rt>うったえ</rt></ruby>を<ruby>提起<rt>ていき</rt></ruby>した。これに<ruby>対し<rt>たいし</rt></ruby>てYは、<ruby>以下の<rt>いかの</rt></ruby><ruby>理由<rt>りゆう</rt></ruby>により<ruby>本件<rt>ほんけん</rt></ruby><ruby>各<rt>かく</rt></ruby><ruby>登記<rt>とうき</rt></ruby>は<ruby>実体<rt>じったい</rt></ruby><ruby>関係<rt>かんけい</rt></ruby>に<ruby>符合<rt>ふごう</rt></ruby>する<ruby>有効<rt>ゆうこう</rt></ruby>なものであると<ruby>主張<rt>しゅちょう</rt></ruby>した。（i） <ruby>本件<rt>ほんけん</rt></ruby><ruby>各<rt>かく</rt></ruby><ruby>登記<rt>とうき</rt></ruby>は、AまたはAより<ruby>一切<rt>いっさい</rt></ruby>の<ruby>権限<rt>けんげん</rt></ruby>を<ruby>与え<rt>あたえ</rt></ruby>られていたX（Aの<ruby>養子<rt>ようし</rt></ruby>・<ruby>被<rt>ひ</rt></ruby><ruby>上告<rt>じょうこく</rt></ruby><ruby>人<rt>にん</rt></ruby>）から<ruby>代理<rt>だいり</rt></ruby><ruby>権<rt>けん</rt></ruby>を<ruby>授与<rt>じゅよ</rt></ruby>されたBが、Yとの<ruby>間<rt>かん</rt></ruby>で、<ruby>本件<rt>ほんけん</rt></ruby><ruby>不動産<rt>ふどうさん</rt></ruby>につき<ruby>締結<rt>ていけつ</rt></ruby>した<ruby>譲渡<rt>じょうと</rt></ruby><ruby>担保<rt>たんぽ</rt></ruby><ruby>設定<rt>せってい</rt></ruby><ruby>契約<rt>けいやく</rt></ruby>」<ruby>抵当権<rt>ていとうけん</rt></ruby><ruby>設定<rt>せってい</rt></ruby><ruby>契約<rt>けいやく</rt></ruby>，<ruby>代物<rt>しろもの</rt></ruby><ruby>弁済<rt>べんさい</rt></ruby><ruby>予約<rt>よやく</rt></ruby><ruby>契約<rt>けいやく</rt></ruby>を<ruby>原因<rt>げんいん</rt></ruby>とするものである。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">2.本件の事実関係とそれに対する本判決の判示（ 本件の事実の概要は，以下のとおりである。A （原告・被控訴人）は，Y（被告・控訴人・上告人）に対して，A所有の不動産（本件不動産）につきのためにされた所有権移転登記，抵当権設定登記等はいずれも登記原因を欠き，実体上の権利関係に適合しないと主張して，これらの登記の抹消登記手続を求める訴えを提起した。これに対してYは，以下の理由により本件各登記は実体関係に符合する有効なものであると主張した。（i） 本件各登記は，AまたはAより一切の権限を与えられていたX（Aの養子・被上告人）から代理権を授与されたBが，Yとの間で，本件不動産につき締結した譲渡担保設定契約」抵当権設定契約，代物弁済予約契約を原因とするものである。</div>
+            </div>
+        </article>
+        <article id="card-7" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(7)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    （<ruby>日<rt>にち</rt></ruby>） かりに、Bが<ruby>上記<rt>じょうき</rt></ruby><ruby>各<rt>かく</rt></ruby><ruby>契約<rt>けいやく</rt></ruby>の<ruby>締結<rt>ていけつ</rt></ruby>について<ruby>代理<rt>だいり</rt></ruby><ruby>権<rt>けん</rt></ruby>を<ruby>有し<rt>ゆうし</rt></ruby>なかったとしても、AまたはAの<ruby>代理人<rt>だいりにん</rt></ruby>であるXは、BにAの<ruby>実印<rt>じついん</rt></ruby>および<ruby>本件<rt>ほんけん</rt></ruby><ruby>不動産<rt>ふどうさん</rt></ruby>の<ruby>権利<rt>けんり</rt></ruby><ruby>証<rt>しょう</rt></ruby>を<ruby>交付<rt>こうふ</rt></ruby>することにより、Bに<ruby>代理<rt>だいり</rt></ruby><ruby>権<rt>けん</rt></ruby>を<ruby>与え<rt>あたえ</rt></ruby>た<ruby>旨<rt>むね</rt></ruby>を<ruby>表示し<rt>ひょうじし</rt></ruby>た。（m） かりに、（i）（i）の<ruby>事実<rt>じじつ</rt></ruby>が<ruby>認め<rt>みとめ</rt></ruby>られないとしても、Aの<ruby>代理人<rt>だいりにん</rt></ruby>であるXは、Bに<ruby>対し<rt>たいし</rt></ruby>、A<ruby>所有<rt>しょゆう</rt></ruby>の<ruby>土地<rt>とち</rt></ruby>をC<ruby>株式会社<rt>かぶしきがいしゃ</rt></ruby>に<ruby>売り<rt>うり</rt></ruby><ruby>渡す<rt>わたす</rt></ruby><ruby>契約<rt>けいやく</rt></ruby>の<ruby>締結<rt>ていけつ</rt></ruby>およびその<ruby>所有権移転<rt>しょゆうけんいてん</rt></ruby><ruby>登記<rt>とうき</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>を<ruby>委任<rt>いにん</rt></ruby>していたところ、Bがその<ruby>権限<rt>けんげん</rt></ruby>を<ruby>超え<rt>こえ</rt></ruby>て（i）の<ruby>各<rt>かく</rt></ruby><ruby>契約<rt>けいやく</rt></ruby>を<ruby>締結<rt>ていけつ</rt></ruby>したものであるが、YにはBに<ruby>権限<rt>けんげん</rt></ruby>があると<ruby>言<rt>げん</rt></ruby>ずる<ruby>正当<rt>せいとう</rt></ruby>な<ruby>理由<rt>りゆう</rt></ruby>があった。<ruby>第一<rt>だいいち</rt></ruby><ruby>審<rt>しん</rt></ruby>はAの<ruby>請求<rt>せいきゅう</rt></ruby>を<ruby>認容<rt>にんよう</rt></ruby>し、これに<ruby>対し<rt>たいし</rt></ruby>てYが<ruby>控訴<rt>こうそ</rt></ruby>した。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">（日） かりに，Bが上記各契約の締結について代理権を有しなかったとしても，AまたはAの代理人であるXは，BにAの実印および本件不動産の権利証を交付することにより，Bに代理権を与えた旨を表示した。（m） かりに，（i）（i）の事実が認められないとしても，Aの代理人であるXは，Bに対し，A所有の土地をC株式会社に売り渡す契約の締結およびその所有権移転登記手続を委任していたところ，Bがその権限を超えて（i）の各契約を締結したものであるが，YにはBに権限があると言ずる正当な理由があった。第一審はAの請求を認容し，これに対してYが控訴した。</div>
+            </div>
+        </article>
+        <article id="card-8" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(8)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>原審<rt>げんしん</rt></ruby>の<ruby>口頭<rt>こうとう</rt></ruby><ruby>弁論<rt>べんろん</rt></ruby><ruby>終結<rt>しゅうけつ</rt></ruby><ruby>前<rt>まえ</rt></ruby>の<ruby>昭和<rt>しょうわ</rt></ruby>54<ruby>年<rt>ねん</rt></ruby>7<ruby>月<rt>がつ</rt></ruby>15<ruby>日<rt>にち</rt></ruby>に、Aが<ruby>死亡<rt>しぼう</rt></ruby>したが、<ruby>訴訟<rt>そしょう</rt></ruby><ruby>代理人<rt>だいりにん</rt></ruby>がいたため<ruby>訴訟<rt>そしょう</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>は<ruby>中断<rt>ちゅうだん</rt></ruby>せず、かつ、<ruby>訴訟<rt>そしょう</rt></ruby><ruby>承継<rt>しょうけい</rt></ruby>の<ruby>手続<rt>てつづき</rt></ruby>もとられなかったの。<ruby>原審<rt>げんしん</rt></ruby>は、Aを<ruby>当事者<rt>とうじしゃ</rt></ruby>としたまま、<ruby>同年<rt>どうねん</rt></ruby>10<ruby>月<rt>がつ</rt></ruby>30<ruby>日<rt>にち</rt></ruby>に<ruby>弁論<rt>べんろん</rt></ruby>を<ruby>終結<rt>しゅうけつ</rt></ruby>し、<ruby>判決<rt>はんけつ</rt></ruby><ruby>言渡<rt>いいわたし</rt></ruby><ruby>期日<rt>きじつ</rt></ruby>を<ruby>同年<rt>どうねん</rt></ruby>12<ruby>月<rt>がつ</rt></ruby>25<ruby>日<rt>にち</rt></ruby>と<ruby>指定し<rt>していし</rt></ruby>た。ところがYは、<ruby>同年<rt>どうねん</rt></ruby>11<ruby>月<rt>がつ</rt></ruby>7<ruby>日<rt>にち</rt></ruby>に、Aの<ruby>死亡<rt>しぼう</rt></ruby>を<ruby>知っ<rt>しっ</rt></ruby>たとして、<ruby>口頭<rt>こうとう</rt></ruby><ruby>弁論<rt>べんろん</rt></ruby><ruby>再開<rt>さいかい</rt></ruby><ruby>申請書<rt>しんせいしょ</rt></ruby>と<ruby>題す<rt>だいす</rt></ruby>る<ruby>書面<rt>しょめん</rt></ruby>を<ruby>原審<rt>げんしん</rt></ruby>に<ruby>提出<rt>ていしゅつ</rt></ruby>し、<ruby>同月<rt>どうげつ</rt></ruby>14<ruby>日<rt>にち</rt></ruby>には、Aが<ruby>死亡<rt>しぼう</rt></ruby>したことを<ruby>証す<rt>しょうす</rt></ruby>る<ruby>戸籍謄本<rt>こせきとうほん</rt></ruby>を<ruby>添付<rt>てんぷ</rt></ruby>した<ruby>口頭<rt>こうとう</rt></ruby><ruby>弁論<rt>べんろん</rt></ruby><ruby>再開<rt>さいかい</rt></ruby><ruby>申立書<rt>もうしたてしょ</rt></ruby>およびXはAの<ruby>死亡<rt>しぼう</rt></ruby>により<ruby>同人<rt>どうじん</rt></ruby>の<ruby>権利<rt>けんり</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby><ruby>一切<rt>いっさい</rt></ruby>を<ruby>承継<rt>しょうけい</rt></ruby>したから<ruby>自己<rt>じこ</rt></ruby>ないしBの<ruby>行為<rt>こうい</rt></ruby>につき<ruby>責任<rt>せきにん</rt></ruby>を<ruby>負う<rt>おう</rt></ruby>べきである<ruby>旨<rt>むね</rt></ruby>を<ruby>記載し<rt>きさいし</rt></ruby>た<ruby>準備<rt>じゅんび</rt></ruby><ruby>書面<rt>しょめん</rt></ruby>を<ruby>提出<rt>ていしゅつ</rt></ruby>した。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">原審の口頭弁論終結前の昭和54年7月15日に，Aが死亡したが，訴訟代理人がいたため訴訟手続は中断せず，かつ，訴訟承継の手続もとられなかったの。原審は，Aを当事者としたまま，同年10月30日に弁論を終結し，判決言渡期日を同年12月25日と指定した。ところがYは，同年11月7日に，Aの死亡を知ったとして，口頭弁論再開申請書と題する書面を原審に提出し，同月14日には，Aが死亡したことを証する戸籍謄本を添付した口頭弁論再開申立書およびXはAの死亡により同人の権利義務一切を承継したから自己ないしBの行為につき責任を負うべきである旨を記載した準備書面を提出した。</div>
+            </div>
+        </article>
+        <article id="card-9" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(9)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    しかし<ruby>原審<rt>げんしん</rt></ruby>は、<ruby>口頭<rt>こうとう</rt></ruby><ruby>弁論<rt>べんろん</rt></ruby>を<ruby>再開<rt>さいかい</rt></ruby>せず、Yの（i）から（mi）の<ruby>抗弁<rt>こうべん</rt></ruby>をすべて<ruby>排斥<rt>はいせき</rt></ruby>して、Yの<ruby>控訴<rt>こうそ</rt></ruby>を<ruby>棄却<rt>ききゃく</rt></ruby>した。これに<ruby>対し<rt>たいし</rt></ruby>てYが<ruby>上告<rt>じょうこく</rt></ruby>した。（<ruby>本<rt>ほん</rt></ruby><ruby>判決<rt>はんけつ</rt></ruby>は、<ruby>本件<rt>ほんけん</rt></ruby>においては<ruby>以下の<rt>いかの</rt></ruby><ruby>事情<rt>じじょう</rt></ruby>が<ruby>認め<rt>みとめ</rt></ruby>られるとして、<ruby>原審<rt>げんしん</rt></ruby>としては、いったん<ruby>弁論<rt>べんろん</rt></ruby>を<ruby>終結<rt>しゅうけつ</rt></ruby>した<ruby>場合<rt>ばあい</rt></ruby>であっても<ruby>弁論<rt>べんろん</rt></ruby>を<ruby>再開<rt>さいかい</rt></ruby>して、Yに<ruby>対し<rt>たいし</rt></ruby>てYが<ruby>原審<rt>げんしん</rt></ruby>の<ruby>口頭<rt>こうとう</rt></ruby><ruby>弁論<rt>べんろん</rt></ruby><ruby>終結<rt>しゅうけつ</rt></ruby><ruby>前<rt>まえ</rt></ruby>に<ruby>主張<rt>しゅちょう</rt></ruby>することができなかった<ruby>事実<rt>じじつ</rt></ruby>を<ruby>主張<rt>しゅちょう</rt></ruby>する<ruby>機会<rt>きかい</rt></ruby>を<ruby>与え<rt>あたえ</rt></ruby>、これについて<ruby>審理<rt>しんり</rt></ruby>を<ruby>遂げ<rt>とげ</rt></ruby>る<ruby>義務<rt>ぎむ</rt></ruby>がある、とした。① Yは、A が<ruby>原審<rt>げんしん</rt></ruby>の<ruby>口頭<rt>こうとう</rt></ruby><ruby>弁論<rt>べんろん</rt></ruby><ruby>終結<rt>しゅうけつ</rt></ruby><ruby>前<rt>まえ</rt></ruby>に<ruby>死亡<rt>しぼう</rt></ruby>したことを<ruby>知らず<rt>しらず</rt></ruby>、かつ、<ruby>知ら<rt>しら</rt></ruby>なかったことにつき<ruby>責め<rt>せめ</rt></ruby>に<ruby>帰す<rt>かえす</rt></ruby>べき<ruby>事由<rt>じゆう</rt></ruby>がないことがうかがわれること。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">しかし原審は，口頭弁論を再開せず，Yの（i）から（mi）の抗弁をすべて排斥して，Yの控訴を棄却した。これに対してYが上告した。（本判決は，本件においては以下の事情が認められるとして，原審としては，いったん弁論を終結した場合であっても弁論を再開して，Yに対してYが原審の口頭弁論終結前に主張することができなかった事実を主張する機会を与え，これについて審理を遂げる義務がある，とした。① Yは，A が原審の口頭弁論終結前に死亡したことを知らず，かつ，知らなかったことにつき責めに帰すべき事由がないことがうかがわれること。</div>
+            </div>
+        </article>
+        <article id="card-10" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(10)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    ② Yが<ruby>弁論<rt>べんろん</rt></ruby><ruby>再開<rt>さいかい</rt></ruby>を<ruby>申請<rt>しんせい</rt></ruby>した<ruby>理由<rt>りゆう</rt></ruby>は、Aが<ruby>死亡<rt>しぼう</rt></ruby>しXがAを<ruby>相続<rt>そうぞく</rt></ruby>したことにより、Yが<ruby>原審<rt>げんしん</rt></ruby>において<ruby>主張<rt>しゅちょう</rt></ruby>した<ruby>前記<rt>ぜんき</rt></ruby>（i）の<ruby>表見<rt>ひょうけん</rt></ruby><ruby>代理<rt>だいり</rt></ruby>における<ruby>少なくとも<rt>すくなくとも</rt></ruby><ruby>一部<rt>いちぶ</rt></ruby>についての<ruby>授権<rt>じゅけん</rt></ruby>の<ruby>表示<rt>ひょうじ</rt></ruby>および<ruby>前記<rt>ぜんき</rt></ruby>（I）の<ruby>表見<rt>ひょうけん</rt></ruby><ruby>代理<rt>だいり</rt></ruby>における<ruby>基本<rt>きほん</rt></ruby><ruby>代理<rt>だいり</rt></ruby><ruby>権<rt>けん</rt></ruby>が<ruby>存在<rt>そんざい</rt></ruby>することになるというべきであるから、Yは<ruby>原審<rt>げんしん</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby>、<ruby>上記<rt>じょうき</rt></ruby><ruby>事実<rt>じじつ</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>いてBの<ruby>無権<rt>むけん</rt></ruby><ruby>代理<rt>だいり</rt></ruby><ruby>行為<rt>こうい</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>民法<rt>みんぽう</rt></ruby> 109<ruby>条<rt>じょう</rt></ruby>ないし 110<ruby>条<rt>じょう</rt></ruby>の<ruby>表見<rt>ひょうけん</rt></ruby><ruby>代理<rt>だいり</rt></ruby>の<ruby>成否<rt>せいひ</rt></ruby>について<ruby>更に<rt>さらに</rt></ruby><ruby>審理<rt>しんり</rt></ruby><ruby>判断<rt>はんだん</rt></ruby>を<ruby>求め<rt>もとめ</rt></ruby>る<ruby>必要<rt>ひつよう</rt></ruby>があるというものであり、このYの<ruby>主張<rt>しゅちょう</rt></ruby>は、<ruby>本件<rt>ほんけん</rt></ruby>において<ruby>判決<rt>はんけつ</rt></ruby>の<ruby>結果<rt>けっか</rt></ruby>に<ruby>影響<rt>えいきょう</rt></ruby>を<ruby>及ぼ<rt>およぼ</rt></ruby>す<ruby>可能性<rt>かのうせい</rt></ruby>のある<ruby>重要な<rt>じゅうような</rt></ruby><ruby>攻撃<rt>こうげき</rt></ruby><ruby>防禦<rt>ぼうぎょ</rt></ruby><ruby>方法<rt>ほうほう</rt></ruby>であること。③ Yが②の<ruby>主張<rt>しゅちょう</rt></ruby>を<ruby>提出<rt>ていしゅつ</rt></ruby>する<ruby>機会<rt>きかい</rt></ruby>を<ruby>与え<rt>あたえ</rt></ruby>られないまま、Y<ruby>敗訴<rt>はいそ</rt></ruby>の<ruby>判決<rt>はんけつ</rt></ruby>がされ、それが<ruby>確定し<rt>かくていし</rt></ruby>た<ruby>場合<rt>ばあい</rt></ruby>には、その<ruby>既判<rt>きはん</rt></ruby><ruby>力<rt>ちから</rt></ruby>により、Yは、<ruby>後<rt>のち</rt></ruby><ruby>訴<rt>そ</rt></ruby>において<ruby>上記<rt>じょうき</rt></ruby><ruby>事実<rt>じじつ</rt></ruby>を<ruby>主張<rt>しゅちょう</rt></ruby>してその<ruby>判断<rt>はんだん</rt></ruby>を<ruby>争う<rt>あらそう</rt></ruby>ことができなくなること。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">② Yが弁論再開を申請した理由は，Aが死亡しXがAを相続したことにより，Yが原審において主張した前記（i）の表見代理における少なくとも一部についての授権の表示および前記（I）の表見代理における基本代理権が存在することになるというべきであるから，Yは原審に対し，上記事実に基づいてBの無権代理行為に関する民法 109条ないし 110条の表見代理の成否について更に審理判断を求める必要があるというものであり，このYの主張は，本件において判決の結果に影響を及ぼす可能性のある重要な攻撃防禦方法であること。③ Yが②の主張を提出する機会を与えられないまま，Y敗訴の判決がされ，それが確定した場合には，その既判力により，Yは，後訴において上記事実を主張してその判断を争うことができなくなること。</div>
+            </div>
+        </article>
+        <article id="card-11" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(11)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    3.<ruby>本<rt>ほん</rt></ruby><ruby>判決<rt>はんけつ</rt></ruby>の<ruby>考え方<rt>かんがえかた</rt></ruby>（ <ruby>本<rt>ほん</rt></ruby><ruby>判決<rt>はんけつ</rt></ruby>は、<ruby>原審<rt>げんしん</rt></ruby>には<ruby>弁論<rt>べんろん</rt></ruby>を<ruby>再開<rt>さいかい</rt></ruby>する<ruby>義務<rt>ぎむ</rt></ruby>があることの<ruby>根拠<rt>こんきょ</rt></ruby>として「<ruby>民事訴訟<rt>みんじそしょう</rt></ruby>における<ruby>手続的<rt>てつづきてき</rt></ruby><ruby>正義<rt>せいぎ</rt></ruby>の<ruby>要求<rt>ようきゅう</rt></ruby>」を<ruby>挙げ<rt>あげ</rt></ruby>た。この<ruby>点<rt>てん</rt></ruby>については、<ruby>手続<rt>てつづき</rt></ruby><ruby>保障<rt>ほしょう</rt></ruby>を<ruby>重視<rt>じゅうし</rt></ruby>する<ruby>当時<rt>とうじ</rt></ruby>の<ruby>学説<rt>がくせつ</rt></ruby>に<ruby>照応<rt>しょうおう</rt></ruby>した<ruby>新しい<rt>あたらしい</rt></ruby><ruby>方向<rt>ほうこう</rt></ruby>を<ruby>示す<rt>しめす</rt></ruby>ものだとする<ruby>見解<rt>けんかい</rt></ruby>？）とそのようにいうことは<ruby>無理<rt>むり</rt></ruby>だとする<ruby>見解<rt>けんかい</rt></ruby>とがある。しかし、<ruby>本<rt>ほん</rt></ruby><ruby>判決<rt>はんけつ</rt></ruby>が<ruby>当事者<rt>とうじしゃ</rt></ruby>に<ruby>対する<rt>たいする</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>保障<rt>ほしょう</rt></ruby>に<ruby>配慮<rt>はいりょ</rt></ruby>していることについては、<ruby>争い<rt>あらそい</rt></ruby>はない。<ruby>本<rt>ほん</rt></ruby><ruby>判決<rt>はんけつ</rt></ruby>の<ruby>意義<rt>いぎ</rt></ruby>は、<ruby>当事者<rt>とうじしゃ</rt></ruby>に<ruby>対する<rt>たいする</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>保障<rt>ほしょう</rt></ruby>の<ruby>観点<rt>かんてん</rt></ruby>から、<ruby>裁判所<rt>さいばんしょ</rt></ruby>が<ruby>弁論<rt>べんろん</rt></ruby>の<ruby>再開<rt>さいかい</rt></ruby>を<ruby>義務付け<rt>ぎむづけ</rt></ruby>られる<ruby>場合<rt>ばあい</rt></ruby>があることを<ruby>明らか<rt>あきらか</rt></ruby>にし、その<ruby>判断基準<rt>はんだんきじゅん</rt></ruby>を<ruby>示し<rt>しめし</rt></ruby>たところにあるというのが、<ruby>一般的<rt>いっぱんてき</rt></ruby>な<ruby>理解<rt>りかい</rt></ruby>である。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">3.本判決の考え方（ 本判決は，原審には弁論を再開する義務があることの根拠として「民事訴訟における手続的正義の要求」を挙げた。この点については，手続保障を重視する当時の学説に照応した新しい方向を示すものだとする見解？）とそのようにいうことは無理だとする見解とがある。しかし，本判決が当事者に対する手続保障に配慮していることについては，争いはない。本判決の意義は，当事者に対する手続保障の観点から，裁判所が弁論の再開を義務付けられる場合があることを明らかにし，その判断基準を示したところにあるというのが，一般的な理解である。</div>
+            </div>
+        </article>
+        <article id="card-12" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(12)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    それでは<ruby>本<rt>ほん</rt></ruby><ruby>判決<rt>はんけつ</rt></ruby>は、Yにはどのような<ruby>手続<rt>てつづき</rt></ruby><ruby>上の<rt>うえの</rt></ruby><ruby>権利<rt>けんり</rt></ruby>が<ruby>保障<rt>ほしょう</rt></ruby>されるべきだと<ruby>考え<rt>かんがえ</rt></ruby>ていたのだろうか。<ruby>本<rt>ほん</rt></ruby><ruby>判決<rt>はんけつ</rt></ruby>が<ruby>指摘<rt>してき</rt></ruby>する<ruby>前記<rt>ぜんき</rt></ruby>2（②の<ruby>事情<rt>じじょう</rt></ruby>からは、Yには、<ruby>判決<rt>はんけつ</rt></ruby>の<ruby>結果<rt>けっか</rt></ruby>に<ruby>影響<rt>えいきょう</rt></ruby>を<ruby>及ぼ<rt>およぼ</rt></ruby>す<ruby>可能性<rt>かのうせい</rt></ruby>のある<ruby>重要な<rt>じゅうような</rt></ruby><ruby>攻撃<rt>こうげき</rt></ruby><ruby>防<rt>ぼう</rt></ruby><ruby>方法<rt>ほうほう</rt></ruby>を<ruby>提出<rt>ていしゅつ</rt></ruby>する<ruby>権利<rt>けんり</rt></ruby>があると<ruby>考え<rt>かんがえ</rt></ruby>ていたことがうかがわれる。しかし<ruby>当事者<rt>とうじしゃ</rt></ruby>は、いつまででも<ruby>攻撃<rt>こうげき</rt></ruby><ruby>防<rt>ぼう</rt></ruby><ruby>方法<rt>ほうほう</rt></ruby>を<ruby>提出<rt>ていしゅつ</rt></ruby>することができるわけではない。<ruby>現行<rt>げんこう</rt></ruby><ruby>民事訴訟法<rt>みんじそしょうほう</rt></ruby>の<ruby>下<rt>した</rt></ruby>では、<ruby>攻撃<rt>こうげき</rt></ruby><ruby>防<rt>ぼう</rt></ruby><ruby>方法<rt>ほうほう</rt></ruby>は、<ruby>訴訟<rt>そしょう</rt></ruby>の<ruby>進行状況<rt>しんこうじょうきょう</rt></ruby>に<ruby>応じ<rt>おうじ</rt></ruby><ruby>適切<rt>てきせつ</rt></ruby>な<ruby>時期<rt>じき</rt></ruby>に<ruby>提出<rt>ていしゅつ</rt></ruby>しなければならず（156<ruby>条<rt>じょう</rt></ruby>。<ruby>適時<rt>てきじ</rt></ruby><ruby>提出<rt>ていしゅつ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>），<ruby>当事者<rt>とうじしゃ</rt></ruby>が<ruby>故意<rt>こい</rt></ruby>または<ruby>重大な<rt>じゅうだいな</rt></ruby><ruby>過失<rt>かしつ</rt></ruby>によって<ruby>時機<rt>じき</rt></ruby>に<ruby>後れ<rt>うしれ</rt></ruby>て<ruby>提出<rt>ていしゅつ</rt></ruby>した<ruby>攻撃<rt>こうげき</rt></ruby><ruby>防御<rt>ぼうぎょ</rt></ruby><ruby>方法<rt>ほうほう</rt></ruby>は、そのために<ruby>訴訟<rt>そしょう</rt></ruby>の<ruby>完結<rt>かんけつ</rt></ruby>が<ruby>遅延<rt>ちえん</rt></ruby>すると<ruby>認め<rt>みとめ</rt></ruby>られれば、<ruby>裁判所<rt>さいばんしょ</rt></ruby>により<ruby>却下<rt>きゃっか</rt></ruby>される（157<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>）。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">それでは本判決は，Yにはどのような手続上の権利が保障されるべきだと考えていたのだろうか。本判決が指摘する前記2（②の事情からは，Yには，判決の結果に影響を及ぼす可能性のある重要な攻撃防方法を提出する権利があると考えていたことがうかがわれる。しかし当事者は，いつまででも攻撃防方法を提出することができるわけではない。現行民事訴訟法の下では，攻撃防方法は，訴訟の進行状況に応じ適切な時期に提出しなければならず（156条。適時提出主義），当事者が故意または重大な過失によって時機に後れて提出した攻撃防御方法は，そのために訴訟の完結が遅延すると認められれば，裁判所により却下される（157条1項）。</div>
+            </div>
+        </article>
+        <article id="card-13" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(13)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>本<rt>ほん</rt></ruby><ruby>判決<rt>はんけつ</rt></ruby><ruby>当時<rt>とうじ</rt></ruby>は、<ruby>攻撃<rt>こうげき</rt></ruby><ruby>防<rt>ぼう</rt></ruby><ruby>方法<rt>ほうほう</rt></ruby>は<ruby>口頭<rt>こうとう</rt></ruby><ruby>弁論<rt>べんろん</rt></ruby><ruby>終結<rt>しゅうけつ</rt></ruby>に<ruby>至る<rt>いたる</rt></ruby>まで<ruby>提出<rt>ていしゅつ</rt></ruby>できるとされていたが（<ruby>旧<rt>きゅう</rt></ruby><ruby>民訴<rt>みんそ</rt></ruby> 137<ruby>条<rt>じょう</rt></ruby>。<ruby>随時<rt>ずいじ</rt></ruby><ruby>提出<rt>ていしゅつ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>），<ruby>時機<rt>じき</rt></ruby>に<ruby>後れ<rt>うしれ</rt></ruby>た<ruby>攻撃<rt>こうげき</rt></ruby><ruby>防御<rt>ぼうぎょ</rt></ruby><ruby>方法<rt>ほうほう</rt></ruby>についての<ruby>扱い<rt>あつかい</rt></ruby>は、<ruby>現行法<rt>げんこうほう</rt></ruby>と<ruby>同様<rt>どうよう</rt></ruby>であった（<ruby>同法<rt>どうほう</rt></ruby>139<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>）。また、<ruby>本<rt>ほん</rt></ruby><ruby>判決<rt>はんけつ</rt></ruby>が<ruby>前記<rt>ぜんき</rt></ruby>2（③において<ruby>指摘<rt>してき</rt></ruby>しているように、<ruby>訴訟<rt>そしょう</rt></ruby>の<ruby>基準<rt>きじゅん</rt></ruby><ruby>時<rt>とき</rt></ruby>（<ruby>事実<rt>じじつ</rt></ruby><ruby>審<rt>しん</rt></ruby>の<ruby>口頭<rt>こうとう</rt></ruby><ruby>弁論<rt>べんろん</rt></ruby><ruby>終結<rt>しゅうけつ</rt></ruby><ruby>時<rt>とき</rt></ruby>）までに<ruby>提出<rt>ていしゅつ</rt></ruby>することができた<ruby>攻撃<rt>こうげき</rt></ruby><ruby>防御<rt>ぼうぎょ</rt></ruby><ruby>方法<rt>ほうほう</rt></ruby>を<ruby>基準<rt>きじゅん</rt></ruby><ruby>時<rt>とき</rt></ruby><ruby>後に<rt>のちに</rt></ruby><ruby>提出<rt>ていしゅつ</rt></ruby>して<ruby>前訴<rt>ぜんそ</rt></ruby><ruby>判決<rt>はんけつ</rt></ruby>の<ruby>既判<rt>きはん</rt></ruby><ruby>力<rt>ちから</rt></ruby>ある<ruby>判断<rt>はんだん</rt></ruby>を<ruby>争う<rt>あらそう</rt></ruby>ことはできない。このことは、<ruby>基準<rt>きじゅん</rt></ruby><ruby>時<rt>とき</rt></ruby>までに<ruby>提出<rt>ていしゅつ</rt></ruby>しなかったことについての<ruby>当事者<rt>とうじしゃ</rt></ruby>の<ruby>過失<rt>かしつ</rt></ruby>の<ruby>有無<rt>うむ</rt></ruby>を<ruby>問わ<rt>とわ</rt></ruby>ないとされている。（ <ruby>本件<rt>ほんけん</rt></ruby>では、<ruby>控訴審<rt>こうそしん</rt></ruby>の<ruby>口頭<rt>こうとう</rt></ruby><ruby>弁論<rt>べんろん</rt></ruby>がすでに<ruby>終結<rt>しゅうけつ</rt></ruby>されており、Yは<ruby>攻撃<rt>こうげき</rt></ruby><ruby>防<rt>ぼう</rt></ruby><ruby>方法<rt>ほうほう</rt></ruby>を<ruby>提出<rt>ていしゅつ</rt></ruby>する<ruby>権利<rt>けんり</rt></ruby>を<ruby>行使<rt>こうし</rt></ruby>することができない<ruby>状態<rt>じょうたい</rt></ruby>であった。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">本判決当時は，攻撃防方法は口頭弁論終結に至るまで提出できるとされていたが（旧民訴 137条。随時提出主義），時機に後れた攻撃防御方法についての扱いは，現行法と同様であった（同法139条1項）。また，本判決が前記2（③において指摘しているように，訴訟の基準時（事実審の口頭弁論終結時）までに提出することができた攻撃防御方法を基準時後に提出して前訴判決の既判力ある判断を争うことはできない。このことは，基準時までに提出しなかったことについての当事者の過失の有無を問わないとされている。（ 本件では，控訴審の口頭弁論がすでに終結されており，Yは攻撃防方法を提出する権利を行使することができない状態であった。</div>
+            </div>
+        </article>
+        <article id="card-14" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(14)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    しかし<ruby>最高裁<rt>さいこうさい</rt></ruby>は、このままY<ruby>敗訴<rt>はいそ</rt></ruby>の<ruby>原判決<rt>げんはんけつ</rt></ruby>を<ruby>確定さ<rt>かくていさ</rt></ruby>せるべきではない。と<ruby>考え<rt>かんがえ</rt></ruby>た。<ruby>本<rt>ほん</rt></ruby><ruby>判決<rt>はんけつ</rt></ruby>の<ruby>評釈<rt>ひょうしゃく</rt></ruby>は、この<ruby>結論<rt>けつろん</rt></ruby>を<ruby>導く<rt>みちびく</rt></ruby>うえで<ruby>重要な<rt>じゅうような</rt></ruby><ruby>要因<rt>よういん</rt></ruby>として、YがAの<ruby>死亡<rt>しぼう</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>く<ruby>防御<rt>ぼうぎょ</rt></ruby><ruby>方法<rt>ほうほう</rt></ruby>を<ruby>原審<rt>げんしん</rt></ruby>の<ruby>口頭<rt>こうとう</rt></ruby><ruby>弁論<rt>べんろん</rt></ruby><ruby>終結<rt>しゅうけつ</rt></ruby><ruby>前<rt>まえ</rt></ruby>に<ruby>主張<rt>しゅちょう</rt></ruby>しなかったことにつきYの<ruby>責め<rt>せめ</rt></ruby>に<ruby>帰す<rt>かえす</rt></ruby>べき<ruby>事由<rt>じゆう</rt></ruby>がなかったこと（<ruby>前記<rt>ぜんき</rt></ruby> 2（2①）を<ruby>指摘<rt>してき</rt></ruby>している”。Yに<ruby>帰責<rt>きせき</rt></ruby><ruby>事由<rt>じゆう</rt></ruby>がないといえるのはなぜか、<ruby>考え<rt>かんがえ</rt></ruby>てみよう。<ruby>訴訟<rt>そしょう</rt></ruby><ruby>係属<rt>けいぞく</rt></ruby><ruby>中に<rt>なかに</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby>が<ruby>死亡<rt>しぼう</rt></ruby>した<ruby>場合<rt>ばあい</rt></ruby>、<ruby>訴訟<rt>そしょう</rt></ruby><ruby>物<rt>もの</rt></ruby>たる<ruby>権利関係<rt>けんりかんけい</rt></ruby>が<ruby>一身<rt>いっしん</rt></ruby><ruby>専属<rt>せんぞく</rt></ruby><ruby>的な<rt>てきな</rt></ruby>ものでない<ruby>限り<rt>かぎり</rt></ruby><ruby>訴訟<rt>そしょう</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>は<ruby>中断<rt>ちゅうだん</rt></ruby>し、<ruby>相続人<rt>そうぞくにん</rt></ruby>がいれば、この<ruby>者<rt>もの</rt></ruby>が<ruby>新た<rt>あらた</rt></ruby>な<ruby>当事者<rt>とうじしゃ</rt></ruby>として<ruby>訴訟<rt>そしょう</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>を<ruby>受継<rt>じゅけい</rt></ruby>する（124<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>1<ruby>号<rt>ごう</rt></ruby>）。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">しかし最高裁は，このままY敗訴の原判決を確定させるべきではない。と考えた。本判決の評釈は，この結論を導くうえで重要な要因として，YがAの死亡に基づく防御方法を原審の口頭弁論終結前に主張しなかったことにつきYの責めに帰すべき事由がなかったこと（前記 2（2①）を指摘している”。Yに帰責事由がないといえるのはなぜか，考えてみよう。訴訟係属中に当事者が死亡した場合，訴訟物たる権利関係が一身専属的なものでない限り訴訟手続は中断し，相続人がいれば，この者が新たな当事者として訴訟手続を受継する（124条1項1号）。</div>
+            </div>
+        </article>
+        <article id="card-15" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(15)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>旧<rt>きゅう</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby>から<ruby>新<rt>しん</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby>への<ruby>変更<rt>へんこう</rt></ruby>は<ruby>旧日<rt>きゅうじつ</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby>の<ruby>死亡<rt>しぼう</rt></ruby>と<ruby>同時に<rt>どうじに</rt></ruby><ruby>行わ<rt>おこなわ</rt></ruby>れているが、この<ruby>時点<rt>じてん</rt></ruby>から<ruby>新<rt>しん</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby>が<ruby>訴訟<rt>そしょう</rt></ruby>を<ruby>追行<rt>ついこう</rt></ruby>することは<ruby>期待<rt>きたい</rt></ruby>できないので、いったん<ruby>訴訟<rt>そしょう</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>を<ruby>中断<rt>ちゅうだん</rt></ruby>し、<ruby>新<rt>しん</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby>の<ruby>受継<rt>じゅけい</rt></ruby>の<ruby>申立て<rt>もうしたて</rt></ruby>により、<ruby>手続<rt>てつづき</rt></ruby>を<ruby>再開<rt>さいかい</rt></ruby>することになっている。しかし、<ruby>旧<rt>きゅう</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby>に<ruby>訴訟<rt>そしょう</rt></ruby><ruby>代理人<rt>だいりにん</rt></ruby>がいる<ruby>場合<rt>ばあい</rt></ruby>には、<ruby>訴訟<rt>そしょう</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>は<ruby>中断<rt>ちゅうだん</rt></ruby>しない（<ruby>同条<rt>どうじょう</rt></ruby>2<ruby>項<rt>こう</rt></ruby>）。<ruby>訴訟<rt>そしょう</rt></ruby><ruby>代理人<rt>だいりにん</rt></ruby>の<ruby>訴訟<rt>そしょう</rt></ruby><ruby>代理<rt>だいり</rt></ruby><ruby>権<rt>けん</rt></ruby>は、<ruby>旧<rt>きゅう</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby>の<ruby>死亡<rt>しぼう</rt></ruby>によっても<ruby>消滅<rt>しょうめつ</rt></ruby>せず （58<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>1<ruby>号<rt>ごう</rt></ruby>），<ruby>訴訟<rt>そしょう</rt></ruby><ruby>代理人<rt>だいりにん</rt></ruby>は<ruby>新<rt>しん</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby>の<ruby>代理人<rt>だいりにん</rt></ruby>として<ruby>訴訟<rt>そしょう</rt></ruby>を<ruby>追行<rt>ついこう</rt></ruby>すると<ruby>解さ<rt>かいさ</rt></ruby>れているため！！），<ruby>訴訟<rt>そしょう</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>を<ruby>続行<rt>ぞっこう</rt></ruby>しても<ruby>新<rt>しん</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby>の<ruby>利益<rt>りえき</rt></ruby>は<ruby>損な<rt>そこな</rt></ruby>われないからである。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">旧当事者から新当事者への変更は旧日当事者の死亡と同時に行われているが，この時点から新当事者が訴訟を追行することは期待できないので，いったん訴訟手続を中断し，新当事者の受継の申立てにより，手続を再開することになっている。しかし，旧当事者に訴訟代理人がいる場合には，訴訟手続は中断しない（同条2項）。訴訟代理人の訴訟代理権は，旧当事者の死亡によっても消滅せず （58条1項1号），訴訟代理人は新当事者の代理人として訴訟を追行すると解されているため！！），訴訟手続を続行しても新当事者の利益は損なわれないからである。</div>
+            </div>
+        </article>
+        <article id="card-16" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(16)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>本件<rt>ほんけん</rt></ruby>でも、Aには<ruby>訴訟<rt>そしょう</rt></ruby><ruby>代理人<rt>だいりにん</rt></ruby>がいたため<ruby>訴訟<rt>そしょう</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>は<ruby>中断<rt>ちゅうだん</rt></ruby>しなかった。また、Aの<ruby>訴訟<rt>そしょう</rt></ruby><ruby>代理人<rt>だいりにん</rt></ruby>がA<ruby>死亡<rt>しぼう</rt></ruby>の<ruby>事実<rt>じじつ</rt></ruby>を<ruby>直ち<rt>ただち</rt></ruby>に<ruby>控訴<rt>こうそ</rt></ruby><ruby>裁判所<rt>さいばんしょ</rt></ruby>に<ruby>届け出<rt>とどけで</rt></ruby>ていれば、<ruby>裁判所<rt>さいばんしょ</rt></ruby>は、Aの<ruby>相続人<rt>そうぞくにん</rt></ruby>✕を<ruby>新<rt>しん</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby>として<ruby>扱っ<rt>あつかっ</rt></ruby>たであろうが、<ruby>本件<rt>ほんけん</rt></ruby>ではそうした<ruby>手続<rt>てつづき</rt></ruby>（<ruby>訴訟<rt>そしょう</rt></ruby><ruby>承継<rt>しょうけい</rt></ruby>）もとられていなかった。そのためにYは、<ruby>原審<rt>げんしん</rt></ruby>の<ruby>口頭<rt>こうとう</rt></ruby><ruby>弁論<rt>べんろん</rt></ruby><ruby>終結<rt>しゅうけつ</rt></ruby><ruby>前<rt>まえ</rt></ruby>にはAの<ruby>死亡<rt>しぼう</rt></ruby>を<ruby>知ら<rt>しら</rt></ruby>なかったのであり、<ruby>知ら<rt>しら</rt></ruby>なかったことにYの<ruby>責め<rt>せめ</rt></ruby>に<ruby>帰す<rt>かえす</rt></ruby>べき<ruby>事由<rt>じゆう</rt></ruby>もなかったと<ruby>考え<rt>かんがえ</rt></ruby>られる12。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">本件でも，Aには訴訟代理人がいたため訴訟手続は中断しなかった。また，Aの訴訟代理人がA死亡の事実を直ちに控訴裁判所に届け出ていれば，裁判所は，Aの相続人✕を新当事者として扱ったであろうが，本件ではそうした手続（訴訟承継）もとられていなかった。そのためにYは，原審の口頭弁論終結前にはAの死亡を知らなかったのであり，知らなかったことにYの責めに帰すべき事由もなかったと考えられる12。</div>
+            </div>
+        </article>
+        <section id="card-17" class="my-8 rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 shadow-md border border-indigo-900/80 transition-all duration-300">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="text-xl sm:text-2xl font-bold tracking-wide font-serif text-amber-300"><ruby>補充<rt>ほじゅう</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby>の<ruby>効力<rt>こうりょく</rt></ruby>と<ruby>再審<rt>さいしん</rt></ruby><ruby>事由<rt>じゆう</rt></ruby><ruby>一<rt>いち</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby>に<ruby>対する<rt>たいする</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>関与<rt>かんよ</rt></ruby>の<ruby>機会<rt>きかい</rt></ruby>の<ruby>保障<rt>ほしょう</rt></ruby>1． <ruby>訴状<rt>そじょう</rt></ruby>・<ruby>判決<rt>はんけつ</rt></ruby>の<ruby>送達<rt>そうたつ</rt></ruby>を<ruby>受ける<rt>うける</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby>の<ruby>権利<rt>けんり</rt></ruby><ruby>事<rt>こと</rt></ruby><ruby>者<rt>もの</rt></ruby>が<ruby>訴訟<rt>そしょう</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>に<ruby>関与<rt>かんよ</rt></ruby>し、<ruby>攻撃<rt>こうげき</rt></ruby><ruby>防<rt>ぼう</rt></ruby><ruby>方法<rt>ほうほう</rt></ruby>を<ruby>提出<rt>ていしゅつ</rt></ruby>する<ruby>権利<rt>けんり</rt></ruby>を<ruby>行使<rt>こうし</rt></ruby>するためには、みずからを<ruby>当事者<rt>とうじしゃ</rt></ruby>とする<ruby>訴訟<rt>そしょう</rt></ruby>が<ruby>係属<rt>けいぞく</rt></ruby>していることを<ruby>知り<rt>しり</rt></ruby>、<ruby>口頭<rt>こうとう</rt></ruby><ruby>弁論<rt>べんろん</rt></ruby>がいつ、どこで<ruby>開か<rt>ひらか</rt></ruby>れるのかを<ruby>知る<rt>しる</rt></ruby><ruby>必要<rt>ひつよう</rt></ruby>がある。</h2>
+                <button onclick="playCardText(17)" class="shrink-0 flex items-center space-x-1 bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-amber-400/40 transition-colors select-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    <span>朗讀標題</span>
+                </button>
+            </div>
+            <div class="text-base sm:text-lg font-medium text-indigo-200 font-sans">補充送達の効力と再審事由一当事者に対する手続関与の機会の保障1． 訴状・判決の送達を受ける当事者の権利事者が訴訟手続に関与し，攻撃防方法を提出する権利を行使するためには，みずからを当事者とする訴訟が係属していることを知り，口頭弁論がいつ，どこで開かれるのかを知る必要がある。</div>
+        </section>
+        <article id="card-18" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(18)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    また、<ruby>不利益<rt>ふりえき</rt></ruby>な<ruby>判決<rt>はんけつ</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>た<ruby>当事者<rt>とうじしゃ</rt></ruby>がその<ruby>判決<rt>はんけつ</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby>て<ruby>上訴<rt>じょうそ</rt></ruby>するためには、<ruby>判決<rt>はんけつ</rt></ruby>の<ruby>内容<rt>ないよう</rt></ruby>を<ruby>知る<rt>しる</rt></ruby><ruby>必要<rt>ひつよう</rt></ruby>がある。<ruby>被告<rt>ひこく</rt></ruby>が、<ruby>訴状<rt>そじょう</rt></ruby>の<ruby>送達<rt>そうたつ</rt></ruby>を<ruby>受ける<rt>うける</rt></ruby><ruby>権利<rt>けんり</rt></ruby>（138<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>）を<ruby>保障<rt>ほしょう</rt></ruby>され、<ruby>原告<rt>げんこく</rt></ruby>および<ruby>被告<rt>ひこく</rt></ruby>が、<ruby>期日<rt>きじつ</rt></ruby>の<ruby>呼出し<rt>よびだし</rt></ruby>を<ruby>送達<rt>そうたつ</rt></ruby>その<ruby>他の<rt>ほかの</rt></ruby><ruby>方法<rt>ほうほう</rt></ruby>で<ruby>受ける<rt>うける</rt></ruby><ruby>権利<rt>けんり</rt></ruby>（94<ruby>条<rt>じょう</rt></ruby>）および<ruby>判決<rt>はんけつ</rt></ruby>の<ruby>送達<rt>そうたつ</rt></ruby>を<ruby>受ける<rt>うける</rt></ruby><ruby>権利<rt>けんり</rt></ruby>（255<ruby>条<rt>じょう</rt></ruby>）を<ruby>保障<rt>ほしょう</rt></ruby>されているのは、<ruby>当事者<rt>とうじしゃ</rt></ruby>に<ruby>訴訟<rt>そしょう</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>に<ruby>関与<rt>かんよ</rt></ruby>する<ruby>機会<rt>きかい</rt></ruby>を<ruby>保障<rt>ほしょう</rt></ruby>する<ruby>必要<rt>ひつよう</rt></ruby>があるためである。<ruby>送達<rt>そうたつ</rt></ruby>がどのような<ruby>方法<rt>ほうほう</rt></ruby>で<ruby>行わ<rt>おこなわ</rt></ruby>れ、どのような<ruby>効果<rt>こうか</rt></ruby>を<ruby>持つ<rt>もつ</rt></ruby>かは、<ruby>当事者<rt>とうじしゃ</rt></ruby>の<ruby>手続<rt>てつづき</rt></ruby><ruby>保障<rt>ほしょう</rt></ruby>との<ruby>関係<rt>かんけい</rt></ruby>で<ruby>重要な<rt>じゅうような</rt></ruby><ruby>意義<rt>いぎ</rt></ruby>を<ruby>有し<rt>ゆうし</rt></ruby>ていることになる。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">また，不利益な判決を受けた当事者がその判決に対して上訴するためには，判決の内容を知る必要がある。被告が，訴状の送達を受ける権利（138条1項）を保障され，原告および被告が，期日の呼出しを送達その他の方法で受ける権利（94条）および判決の送達を受ける権利（255条）を保障されているのは，当事者に訴訟手続に関与する機会を保障する必要があるためである。送達がどのような方法で行われ，どのような効果を持つかは，当事者の手続保障との関係で重要な意義を有していることになる。</div>
+            </div>
+        </article>
+        <section id="card-19" class="my-8 rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 shadow-md border border-indigo-900/80 transition-all duration-300">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="text-xl sm:text-2xl font-bold tracking-wide font-serif text-amber-300">2．<ruby>送達<rt>そうたつ</rt></ruby>の<ruby>方法<rt>ほうほう</rt></ruby>・<ruby>効果<rt>こうか</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby>は、<ruby>原則<rt>げんそく</rt></ruby>として<ruby>交付<rt>こうふ</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby>の<ruby>方法<rt>ほうほう</rt></ruby>で<ruby>行わ<rt>おこなわ</rt></ruby>れる。</h2>
+                <button onclick="playCardText(19)" class="shrink-0 flex items-center space-x-1 bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-amber-400/40 transition-colors select-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    <span>朗讀標題</span>
+                </button>
+            </div>
+            <div class="text-base sm:text-lg font-medium text-indigo-200 font-sans">2．送達の方法・効果送達は，原則として交付送達の方法で行われる。</div>
+        </section>
+        <article id="card-20" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(20)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    これは、<ruby>訴状<rt>そじょう</rt></ruby>その<ruby>他の<rt>ほかの</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby>すべき<ruby>書類<rt>しょるい</rt></ruby>を<ruby>送達<rt>そうたつ</rt></ruby>を<ruby>受ける<rt>うける</rt></ruby>べき<ruby>者<rt>もの</rt></ruby>（<ruby>受<rt>じゅ</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby><ruby>者<rt>もの</rt></ruby>）に<ruby>現実<rt>げんじつ</rt></ruby>に<ruby>交付<rt>こうふ</rt></ruby>する<ruby>送達<rt>そうたつ</rt></ruby><ruby>方法<rt>ほうほう</rt></ruby>である（102<ruby>条<rt>じょう</rt></ruby>の。<ruby>送達<rt>そうたつ</rt></ruby><ruby>場所<rt>ばしょ</rt></ruby>は、<ruby>原則<rt>げんそく</rt></ruby>として<ruby>受<rt>じゅ</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby><ruby>者<rt>もの</rt></ruby>の<ruby>住所<rt>じゅうしょ</rt></ruby>、<ruby>居所<rt>いどころ</rt></ruby>、<ruby>営業所<rt>えいぎょうしょ</rt></ruby>または<ruby>事務所<rt>じむしょ</rt></ruby>であるが（103<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby><ruby>本文<rt>ほんぶん</rt></ruby>），これらの<ruby>場所<rt>ばしょ</rt></ruby>が<ruby>知れ<rt>しれ</rt></ruby>ないとき、またはこれらの<ruby>場所<rt>ばしょ</rt></ruby>において<ruby>送達<rt>そうたつ</rt></ruby>をするのに<ruby>支障<rt>ししょう</rt></ruby>があるときは、<ruby>受<rt>じゅ</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby><ruby>者<rt>もの</rt></ruby>の<ruby>就業<rt>しゅうぎょう</rt></ruby><ruby>場所<rt>ばしょ</rt></ruby>においてすることができる（<ruby>同条<rt>どうじょう</rt></ruby>2<ruby>項<rt>こう</rt></ruby>）。<ruby>就業<rt>しゅうぎょう</rt></ruby><ruby>場所以外<rt>ばしょいがい</rt></ruby>の<ruby>送達<rt>そうたつ</rt></ruby><ruby>場所<rt>ばしょ</rt></ruby>において<ruby>送達<rt>そうたつ</rt></ruby><ruby>実施<rt>じっし</rt></ruby><ruby>機関<rt>きかん</rt></ruby>が<ruby>受<rt>じゅ</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby><ruby>者<rt>もの</rt></ruby>に<ruby>出会<rt>であい</rt></ruby>わないときは、<ruby>使用人<rt>しようにん</rt></ruby>その<ruby>他の<rt>ほかの</rt></ruby><ruby>従業<rt>じゅうぎょう</rt></ruby><ruby>者<rt>もの</rt></ruby>または<ruby>同居者<rt>どうきょしゃ</rt></ruby>であって、<ruby>書類<rt>しょるい</rt></ruby>の<ruby>受領<rt>じゅりょう</rt></ruby>について<ruby>相当<rt>そうとう</rt></ruby>のわきまえのあるものに<ruby>書類<rt>しょるい</rt></ruby>を<ruby>交付<rt>こうふ</rt></ruby>することができる（106<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby><ruby>前段<rt>ぜんだん</rt></ruby>）。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">これは，訴状その他の送達すべき書類を送達を受けるべき者（受送達者）に現実に交付する送達方法である（102条の。送達場所は，原則として受送達者の住所，居所，営業所または事務所であるが（103条1項本文），これらの場所が知れないとき，またはこれらの場所において送達をするのに支障があるときは，受送達者の就業場所においてすることができる（同条2項）。就業場所以外の送達場所において送達実施機関が受送達者に出会わないときは，使用人その他の従業者または同居者であって，書類の受領について相当のわきまえのあるものに書類を交付することができる（106条1項前段）。</div>
+            </div>
+        </article>
+        <article id="card-21" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(21)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>就業<rt>しゅうぎょう</rt></ruby><ruby>場所<rt>ばしょ</rt></ruby>において<ruby>受<rt>じゅ</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby><ruby>者<rt>もの</rt></ruby>に<ruby>出会<rt>であい</rt></ruby>わない<ruby>場合<rt>ばあい</rt></ruby>において、<ruby>雇用<rt>こよう</rt></ruby><ruby>主<rt>しゅ</rt></ruby>またはその<ruby>法定代理人<rt>ほうていだいりにん</rt></ruby>もしくは<ruby>使用人<rt>しようにん</rt></ruby>その<ruby>他の<rt>ほかの</rt></ruby><ruby>従業<rt>じゅうぎょう</rt></ruby><ruby>者<rt>もの</rt></ruby>で、<ruby>書類<rt>しょるい</rt></ruby>の<ruby>受領<rt>じゅりょう</rt></ruby>について<ruby>相当<rt>そうとう</rt></ruby>のわきまえのあるものが<ruby>書類<rt>しょるい</rt></ruby>の<ruby>交付<rt>こうふ</rt></ruby>を<ruby>受ける<rt>うける</rt></ruby>ことを<ruby>拒ま<rt>こばま</rt></ruby>ないときにも、これらの<ruby>者<rt>もの</rt></ruby>に<ruby>書類<rt>しょるい</rt></ruby>を<ruby>交付<rt>こうふ</rt></ruby>することができる（<ruby>同条<rt>どうじょう</rt></ruby>2<ruby>項<rt>こう</rt></ruby>）。この<ruby>送達<rt>そうたつ</rt></ruby><ruby>方法<rt>ほうほう</rt></ruby>は、<ruby>補充<rt>ほじゅう</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby>と<ruby>呼ば<rt>よば</rt></ruby>れている。<ruby>交付<rt>こうふ</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby>の<ruby>効力<rt>こうりょく</rt></ruby>は、<ruby>書類<rt>しょるい</rt></ruby>が<ruby>受<rt>じゅ</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby><ruby>者<rt>もの</rt></ruby>に<ruby>交付<rt>こうふ</rt></ruby>されたときに<ruby>生じ<rt>しょうじ</rt></ruby>る。<ruby>補充<rt>ほじゅう</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby>の<ruby>場合<rt>ばあい</rt></ruby>は、<ruby>書類<rt>しょるい</rt></ruby>が<ruby>同居者<rt>どうきょしゃ</rt></ruby><ruby>等<rt>など</rt></ruby>に<ruby>交付<rt>こうふ</rt></ruby>されたときに、<ruby>受<rt>じゅ</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby><ruby>者<rt>もの</rt></ruby>に<ruby>対する<rt>たいする</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby>の<ruby>効力<rt>こうりょく</rt></ruby>が<ruby>生じ<rt>しょうじ</rt></ruby>る。<ruby>書類<rt>しょるい</rt></ruby>を<ruby>受領<rt>じゅりょう</rt></ruby>した<ruby>同居者<rt>どうきょしゃ</rt></ruby><ruby>等<rt>など</rt></ruby>は、<ruby>書類<rt>しょるい</rt></ruby>が<ruby>受<rt>じゅ</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby><ruby>者<rt>もの</rt></ruby>にとって<ruby>重要な<rt>じゅうような</rt></ruby>ものであることを<ruby>理解<rt>りかい</rt></ruby>しているので、<ruby>通常<rt>つうじょう</rt></ruby>は<ruby>書類<rt>しょるい</rt></ruby>を<ruby>受<rt>じゅ</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby><ruby>者<rt>もの</rt></ruby>に<ruby>交付<rt>こうふ</rt></ruby>する。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">就業場所において受送達者に出会わない場合において，雇用主またはその法定代理人もしくは使用人その他の従業者で，書類の受領について相当のわきまえのあるものが書類の交付を受けることを拒まないときにも，これらの者に書類を交付することができる（同条2項）。この送達方法は，補充送達と呼ばれている。交付送達の効力は，書類が受送達者に交付されたときに生じる。補充送達の場合は，書類が同居者等に交付されたときに，受送達者に対する送達の効力が生じる。書類を受領した同居者等は，書類が受送達者にとって重要なものであることを理解しているので，通常は書類を受送達者に交付する。</div>
+            </div>
+        </article>
+        <article id="card-22" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(22)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    しかし、<ruby>同居者<rt>どうきょしゃ</rt></ruby><ruby>等<rt>など</rt></ruby>が<ruby>受<rt>じゅ</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby><ruby>者<rt>もの</rt></ruby>と<ruby>対立関係<rt>たいりつかんけい</rt></ruby>にあるために、<ruby>受<rt>じゅ</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby><ruby>者<rt>もの</rt></ruby>に<ruby>書類<rt>しょるい</rt></ruby>を<ruby>交付<rt>こうふ</rt></ruby>しないこともある。このような<ruby>場合<rt>ばあい</rt></ruby>にも、<ruby>補充<rt>ほじゅう</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby>は<ruby>有効<rt>ゆうこう</rt></ruby>だろうか。<ruby>有効<rt>ゆうこう</rt></ruby>だとすると、<ruby>訴状<rt>そじょう</rt></ruby>や<ruby>判決<rt>はんけつ</rt></ruby>が<ruby>送達<rt>そうたつ</rt></ruby>された<ruby>事実<rt>じじつ</rt></ruby>を<ruby>知ら<rt>しら</rt></ruby>なかったために、<ruby>当事者<rt>とうじしゃ</rt></ruby>としての<ruby>権利<rt>けんり</rt></ruby>を<ruby>行使<rt>こうし</rt></ruby>することができず、<ruby>敗訴<rt>はいそ</rt></ruby><ruby>判決<rt>はんけつ</rt></ruby>が<ruby>確定し<rt>かくていし</rt></ruby>てしまった<ruby>受<rt>じゅ</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby><ruby>者<rt>もの</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby>ては、どのような<ruby>救済<rt>きゅうさい</rt></ruby>が<ruby>与え<rt>あたえ</rt></ruby>られるのだろうか。<ruby>以上<rt>いじょう</rt></ruby>の<ruby>問題<rt>もんだい</rt></ruby>を<ruby>扱っ<rt>あつかっ</rt></ruby>たのが、<ruby>最決<rt>さいけつ</rt></ruby><ruby>平成<rt>へいせい</rt></ruby> 19・3・20（<ruby>民集<rt>みんしゅう</rt></ruby>61<ruby>巻<rt>かん</rt></ruby>2<ruby>号<rt>ごう</rt></ruby>586<ruby>頁<rt>ぺーじ</rt></ruby>）［<ruby>前掲<rt>ぜんけい</rt></ruby><ruby>百選<rt>ひゃくせん</rt></ruby>5<ruby>版<rt>はん</rt></ruby>40<ruby>事件<rt>じけん</rt></ruby>］である。3.<ruby>最決<rt>さいけつ</rt></ruby><ruby>平成<rt>へいせい</rt></ruby>19・3・20の<ruby>事案<rt>じあん</rt></ruby><ruby>本件<rt>ほんけん</rt></ruby>は、XがYに<ruby>対し<rt>たいし</rt></ruby>て<ruby>提起<rt>ていき</rt></ruby>した<ruby>再審<rt>さいしん</rt></ruby>の<ruby>訴え<rt>うったえ</rt></ruby>（<ruby>本訴<rt>ほんそ</rt></ruby>）に<ruby>関す<rt>かんす</rt></ruby>るものである。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">しかし，同居者等が受送達者と対立関係にあるために，受送達者に書類を交付しないこともある。このような場合にも，補充送達は有効だろうか。有効だとすると，訴状や判決が送達された事実を知らなかったために，当事者としての権利を行使することができず，敗訴判決が確定してしまった受送達者に対しては，どのような救済が与えられるのだろうか。以上の問題を扱ったのが，最決平成 19・3・20（民集61巻2号586頁）［前掲百選5版40事件］である。3.最決平成19・3・20の事案本件は，XがYに対して提起した再審の訴え（本訴）に関するものである。</div>
+            </div>
+        </article>
+        <article id="card-23" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(23)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>再審<rt>さいしん</rt></ruby>の<ruby>訴え<rt>うったえ</rt></ruby>の<ruby>対象<rt>たいしょう</rt></ruby>となったのは、Yが、Aを<ruby>主<rt>しゅ</rt></ruby><ruby>債務者<rt>さいむしゃ</rt></ruby>とし、Xを<ruby>連帯保証人<rt>れんたいほしょうにん</rt></ruby>として<ruby>両名<rt>りょうめい</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby>て<ruby>提起<rt>ていき</rt></ruby>した<ruby>貸金<rt>かしきん</rt></ruby><ruby>返還<rt>へんかん</rt></ruby><ruby>請求<rt>せいきゅう</rt></ruby><ruby>訴訟<rt>そしょう</rt></ruby>（<ruby>前訴<rt>ぜんそ</rt></ruby>）におけるY<ruby>勝訴<rt>しょうそ</rt></ruby>の<ruby>確定<rt>かくてい</rt></ruby><ruby>判決<rt>はんけつ</rt></ruby>であり、この<ruby>判決<rt>はんけつ</rt></ruby>がされるまでには、<ruby>以下の<rt>いかの</rt></ruby><ruby>経緯<rt>けいい</rt></ruby>があった。AはXの<ruby>義父<rt>ぎふ</rt></ruby>であり、Xと<ruby>同居<rt>どうきょ</rt></ruby>していたため、Xに<ruby>対する<rt>たいする</rt></ruby><ruby>訴状<rt>そじょう</rt></ruby>および<ruby>第一回<rt>だいいっかい</rt></ruby><ruby>口頭<rt>こうとう</rt></ruby><ruby>弁論<rt>べんろん</rt></ruby><ruby>期日<rt>きじつ</rt></ruby>への<ruby>呼出<rt>よびだし</rt></ruby><ruby>状の<rt>じょうの</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby>は、Aに<ruby>書類<rt>しょるい</rt></ruby>を<ruby>交付<rt>こうふ</rt></ruby>する<ruby>補充<rt>ほじゅう</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby>の<ruby>方法<rt>ほうほう</rt></ruby>で<ruby>行わ<rt>おこなわ</rt></ruby>れた。しかし、Aは<ruby>書類<rt>しょるい</rt></ruby>を✕に<ruby>交付<rt>こうふ</rt></ruby>しなかった。それは、<ruby>本訴<rt>ほんそ</rt></ruby>におけるメの<ruby>主張<rt>しゅちょう</rt></ruby>によれば、Xが<ruby>連帯保証人<rt>れんたいほしょうにん</rt></ruby>になったのは、Xの<ruby>意思<rt>いし</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>くものではなく、AがXに<ruby>無断<rt>むだん</rt></ruby>でXの<ruby>印章<rt>いんしょう</rt></ruby>を<ruby>持ち出し<rt>もちだし</rt></ruby>て<ruby>連帯<rt>れんたい</rt></ruby><ruby>保証<rt>ほしょう</rt></ruby><ruby>契約<rt>けいやく</rt></ruby>を<ruby>締結<rt>ていけつ</rt></ruby>したことによる。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">再審の訴えの対象となったのは，Yが，Aを主債務者とし，Xを連帯保証人として両名に対して提起した貸金返還請求訴訟（前訴）におけるY勝訴の確定判決であり，この判決がされるまでには，以下の経緯があった。AはXの義父であり，Xと同居していたため，Xに対する訴状および第一回口頭弁論期日への呼出状の送達は，Aに書類を交付する補充送達の方法で行われた。しかし，Aは書類を✕に交付しなかった。それは，本訴におけるメの主張によれば，Xが連帯保証人になったのは，Xの意思に基づくものではなく，AがXに無断でXの印章を持ち出して連帯保証契約を締結したことによる。</div>
+            </div>
+        </article>
+        <article id="card-24" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(24)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    すなわちAは、Xを<ruby>受<rt>じゅ</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby><ruby>者<rt>もの</rt></ruby>とする<ruby>訴状<rt>そじょう</rt></ruby><ruby>等<rt>など</rt></ruby>をXに<ruby>交付<rt>こうふ</rt></ruby>すれば<ruby>上記<rt>じょうき</rt></ruby>の<ruby>事情<rt>じじょう</rt></ruby>をXに<ruby>知ら<rt>しら</rt></ruby>れてしまうので、<ruby>訴状<rt>そじょう</rt></ruby><ruby>等<rt>など</rt></ruby>をXに<ruby>交付<rt>こうふ</rt></ruby>しないことに<ruby>利益<rt>りえき</rt></ruby>を<ruby>有し<rt>ゆうし</rt></ruby>ていた。この<ruby>点<rt>てん</rt></ruby>において、AとXの<ruby>間に<rt>まに</rt></ruby>は<ruby>事実上<rt>じじつじょう</rt></ruby>の<ruby>利害関係<rt>りがいかんけい</rt></ruby>の<ruby>対立<rt>たいりつ</rt></ruby>があったといえる。<ruby>訴状<rt>そじょう</rt></ruby><ruby>等<rt>など</rt></ruby>を<ruby>交付<rt>こうふ</rt></ruby>されていないXは、<ruby>第一回<rt>だいいっかい</rt></ruby><ruby>口頭<rt>こうとう</rt></ruby><ruby>弁論<rt>べんろん</rt></ruby>に<ruby>欠席<rt>けっせき</rt></ruby>し、<ruby>答弁<rt>とうべん</rt></ruby><ruby>書<rt>かき</rt></ruby><ruby>等<rt>など</rt></ruby>も<ruby>提出<rt>ていしゅつ</rt></ruby>しなかったため、YのXに<ruby>対する<rt>たいする</rt></ruby><ruby>請求<rt>せいきゅう</rt></ruby>を<ruby>認容<rt>にんよう</rt></ruby>する<ruby>判決<rt>はんけつ</rt></ruby>（<ruby>第一<rt>だいいち</rt></ruby><ruby>審判<rt>しんぱん</rt></ruby><ruby>決<rt>けつ</rt></ruby>）が<ruby>言い渡さ<rt>いいわたさ</rt></ruby>れた。この<ruby>判決<rt>はんけつ</rt></ruby>については、<ruby>判決<rt>はんけつ</rt></ruby><ruby>書<rt>かき</rt></ruby>に<ruby>代わ<rt>かわ</rt></ruby>る<ruby>調書<rt>ちょうしょ</rt></ruby>（254<ruby>条<rt>じょう</rt></ruby>2<ruby>項<rt>こう</rt></ruby>）が<ruby>書留<rt>かきとめ</rt></ruby><ruby>郵便<rt>ゆうびん</rt></ruby><ruby>等<rt>など</rt></ruby>に<ruby>付す<rt>ふす</rt></ruby>る<ruby>送達<rt>そうたつ</rt></ruby>（107<ruby>条<rt>じょう</rt></ruby>）の<ruby>方法<rt>ほうほう</rt></ruby>でXに<ruby>送達<rt>そうたつ</rt></ruby>され、<ruby>送達<rt>そうたつ</rt></ruby>の<ruby>効力<rt>こうりょく</rt></ruby>が<ruby>生じ<rt>しょうじ</rt></ruby>ているが，<ruby>実際に<rt>じっさいに</rt></ruby>はX<ruby>不在<rt>ふざい</rt></ruby>のため<ruby>書類<rt>しょるい</rt></ruby>はXに<ruby>交付<rt>こうふ</rt></ruby>されなかった。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">すなわちAは，Xを受送達者とする訴状等をXに交付すれば上記の事情をXに知られてしまうので，訴状等をXに交付しないことに利益を有していた。この点において，AとXの間には事実上の利害関係の対立があったといえる。訴状等を交付されていないXは，第一回口頭弁論に欠席し，答弁書等も提出しなかったため，YのXに対する請求を認容する判決（第一審判決）が言い渡された。この判決については，判決書に代わる調書（254条2項）が書留郵便等に付する送達（107条）の方法でXに送達され，送達の効力が生じているが，実際にはX不在のため書類はXに交付されなかった。</div>
+            </div>
+        </article>
+        <article id="card-25" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(25)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    Y<ruby>勝訴<rt>しょうそ</rt></ruby>の<ruby>判決<rt>はんけつ</rt></ruby>がされたことを<ruby>知ら<rt>しら</rt></ruby>ないXからの<ruby>控訴<rt>こうそ</rt></ruby>はなく、この<ruby>判決<rt>はんけつ</rt></ruby>が<ruby>確定し<rt>かくていし</rt></ruby>た。Xは、Xに<ruby>対する<rt>たいする</rt></ruby><ruby>訴状<rt>そじょう</rt></ruby><ruby>等<rt>など</rt></ruby>の<ruby>補充<rt>ほじゅう</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby>は<ruby>無効<rt>むこう</rt></ruby>であり、Xに<ruby>訴訟<rt>そしょう</rt></ruby>に<ruby>関与<rt>かんよ</rt></ruby>する<ruby>機会<rt>きかい</rt></ruby>が<ruby>与え<rt>あたえ</rt></ruby>られないまま<ruby>前訴<rt>ぜんそ</rt></ruby><ruby>判決<rt>はんけつ</rt></ruby>がされたのであるから、<ruby>前訴<rt>ぜんそ</rt></ruby><ruby>判決<rt>はんけつ</rt></ruby>には338<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>3<ruby>号<rt>ごう</rt></ruby>の<ruby>再審<rt>さいしん</rt></ruby><ruby>事由<rt>じゆう</rt></ruby>（<ruby>以下<rt>いか</rt></ruby>「3<ruby>号<rt>ごう</rt></ruby><ruby>再審<rt>さいしん</rt></ruby><ruby>事由<rt>じゆう</rt></ruby>」という）があると<ruby>主張<rt>しゅちょう</rt></ruby>した。4.<ruby>本決定<rt>ほんけってい</rt></ruby>の<ruby>考え方<rt>かんがえかた</rt></ruby><ruby>本訴<rt>ほんそ</rt></ruby>の<ruby>第一<rt>だいいち</rt></ruby><ruby>審<rt>しん</rt></ruby>および<ruby>原審<rt>げんしん</rt></ruby>は、Xに<ruby>対する<rt>たいする</rt></ruby><ruby>訴状<rt>そじょう</rt></ruby><ruby>等<rt>など</rt></ruby>の<ruby>送達<rt>そうたつ</rt></ruby>は<ruby>補充<rt>ほじゅう</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby>として<ruby>有効<rt>ゆうこう</rt></ruby>であり、3<ruby>号<rt>ごう</rt></ruby><ruby>再審<rt>さいしん</rt></ruby><ruby>事由<rt>じゆう</rt></ruby>は<ruby>認め<rt>みとめ</rt></ruby>られないとして、Xの<ruby>再審<rt>さいしん</rt></ruby><ruby>請求<rt>せいきゅう</rt></ruby>を<ruby>棄却<rt>ききゃく</rt></ruby>すべきであるとした。これに<ruby>対し<rt>たいし</rt></ruby>て<ruby>本決定<rt>ほんけってい</rt></ruby>は、<ruby>以下の<rt>いかの</rt></ruby>ように<ruby>述べ<rt>のべ</rt></ruby>て、Xに<ruby>対する<rt>たいする</rt></ruby><ruby>訴状<rt>そじょう</rt></ruby><ruby>等<rt>など</rt></ruby>の<ruby>送達<rt>そうたつ</rt></ruby>は<ruby>補充<rt>ほじゅう</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby>として<ruby>有効<rt>ゆうこう</rt></ruby>であるけれども、3<ruby>号<rt>ごう</rt></ruby><ruby>再審<rt>さいしん</rt></ruby><ruby>事由<rt>じゆう</rt></ruby>が<ruby>認め<rt>みとめ</rt></ruby>られるとした。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">Y勝訴の判決がされたことを知らないXからの控訴はなく，この判決が確定した。Xは，Xに対する訴状等の補充送達は無効であり，Xに訴訟に関与する機会が与えられないまま前訴判決がされたのであるから，前訴判決には338条1項3号の再審事由（以下「3号再審事由」という）があると主張した。4.本裁定の考え方本訴の第一審および原審は，Xに対する訴状等の送達は補充送達として有効であり，3号再審事由は認められないとして，Xの再審請求を棄却すべきであるとした。これに対して本裁定は，以下のように述べて，Xに対する訴状等の送達は補充送達として有効であるけれども，3号再審事由が認められるとした。</div>
+            </div>
+        </article>
+        <article id="card-26" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(26)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    「<ruby>本件<rt>ほんけん</rt></ruby><ruby>訴状<rt>そじょう</rt></ruby><ruby>等<rt>など</rt></ruby>の<ruby>送達<rt>そうたつ</rt></ruby>が<ruby>補充<rt>ほじゅう</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby>として<ruby>有効<rt>ゆうこう</rt></ruby>であるからといって、<ruby>直ち<rt>ただち</rt></ruby>に<ruby>民訴<rt>みんそ</rt></ruby><ruby>法<rt>ほう</rt></ruby> 338<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>3<ruby>号<rt>ごう</rt></ruby>の<ruby>再審<rt>さいしん</rt></ruby><ruby>事由<rt>じゆう</rt></ruby>の<ruby>存在<rt>そんざい</rt></ruby>が<ruby>否定<rt>ひてい</rt></ruby>されることにはならない。<ruby>同<rt>どう</rt></ruby><ruby>事由<rt>じゆう</rt></ruby>の<ruby>存否<rt>そんぴ</rt></ruby>は、<ruby>当事者<rt>とうじしゃ</rt></ruby>に<ruby>保障<rt>ほしょう</rt></ruby>されるべき<ruby>手続<rt>てつづき</rt></ruby><ruby>関与<rt>かんよ</rt></ruby>の<ruby>機会<rt>きかい</rt></ruby>が<ruby>与え<rt>あたえ</rt></ruby>られていたか<ruby>否か<rt>いなか</rt></ruby>の<ruby>観点<rt>かんてん</rt></ruby>から<ruby>改め<rt>あらため</rt></ruby>て<ruby>判断<rt>はんだん</rt></ruby>されなければならない。」「<ruby>受<rt>じゅ</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby><ruby>者<rt>もの</rt></ruby>あての<ruby>訴訟<rt>そしょう</rt></ruby><ruby>関係書類<rt>かんけいしょるい</rt></ruby>の<ruby>交付<rt>こうふ</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>た<ruby>同居者<rt>どうきょしゃ</rt></ruby><ruby>等<rt>など</rt></ruby>と<ruby>受<rt>じゅ</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby><ruby>者<rt>もの</rt></ruby>との<ruby>間に<rt>まに</rt></ruby>、その<ruby>訴訟<rt>そしょう</rt></ruby>に<ruby>関し<rt>かんし</rt></ruby>て<ruby>事実上<rt>じじつじょう</rt></ruby>の<ruby>利害関係<rt>りがいかんけい</rt></ruby>の<ruby>対立<rt>たいりつ</rt></ruby>があるため、<ruby>同居者<rt>どうきょしゃ</rt></ruby><ruby>等か<rt>ひとしか</rt></ruby>ら<ruby>受<rt>じゅ</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby><ruby>者<rt>もの</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby>て<ruby>訴訟<rt>そしょう</rt></ruby><ruby>関係書類<rt>かんけいしょるい</rt></ruby>が<ruby>速やか<rt>すみやか</rt></ruby>に<ruby>交付<rt>こうふ</rt></ruby>されることを<ruby>期待す<rt>きたいす</rt></ruby>ることができない<ruby>場合<rt>ばあい</rt></ruby>において、<ruby>実際に<rt>じっさいに</rt></ruby>もその<ruby>交付<rt>こうふ</rt></ruby>がされなかったときは、<ruby>受<rt>じゅ</rt></ruby><ruby>送達<rt>そうたつ</rt></ruby><ruby>者<rt>もの</rt></ruby>は、その<ruby>訴訟<rt>そしょう</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>に<ruby>関与<rt>かんよ</rt></ruby>する<ruby>機会<rt>きかい</rt></ruby>を<ruby>与え<rt>あたえ</rt></ruby>られたことにならないというべきである。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">「本件訴状等の送達が補充送達として有効であるからといって，直ちに民訴法 338条1項3号の再審事由の存在が否定されることにはならない。同事由の存否は，当事者に保障されるべき手続関与の機会が与えられていたか否かの観点から改めて判断されなければならない。」「受送達者あての訴訟関係書類の交付を受けた同居者等と受送達者との間に，その訴訟に関して事実上の利害関係の対立があるため，同居者等から受送達者に対して訴訟関係書類が速やかに交付されることを期待することができない場合において，実際にもその交付がされなかったときは，受送達者は，その訴訟手続に関与する機会を与えられたことにならないというべきである。</div>
+            </div>
+        </article>
+        <article id="card-27" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(27)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    」3<ruby>号<rt>ごう</rt></ruby><ruby>再審<rt>さいしん</rt></ruby><ruby>事由<rt>じゆう</rt></ruby>は、<ruby>確定<rt>かくてい</rt></ruby><ruby>判決<rt>はんけつ</rt></ruby>が<ruby>無権<rt>むけん</rt></ruby><ruby>代理人<rt>だいりにん</rt></ruby>の<ruby>訴訟<rt>そしょう</rt></ruby><ruby>行為<rt>こうい</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>いてなされた<ruby>場合<rt>ばあい</rt></ruby>を<ruby>想定<rt>そうてい</rt></ruby>したものであるが、<ruby>判例<rt>はんれい</rt></ruby>（<ruby>大判<rt>おおばん</rt></ruby><ruby>昭和<rt>しょうわ</rt></ruby>10・10・28 <ruby>民集<rt>みんしゅう</rt></ruby>14<ruby>巻<rt>かん</rt></ruby>1785<ruby>頁<rt>ぺーじ</rt></ruby>［<ruby>前掲<rt>ぜんけい</rt></ruby><ruby>百選<rt>ひゃくせん</rt></ruby>5<ruby>版<rt>はん</rt></ruby>5<ruby>事件<rt>じけん</rt></ruby>］）は、<ruby>氏名<rt>しめい</rt></ruby><ruby>冒用<rt>ぼうよう</rt></ruby><ruby>訴訟<rt>そしょう</rt></ruby>において<ruby>他人<rt>たにん</rt></ruby>に<ruby>名前<rt>なまえ</rt></ruby>を<ruby>使わ<rt>つかわ</rt></ruby>れた<ruby>本人<rt>ほんにん</rt></ruby>が<ruby>再審<rt>さいしん</rt></ruby>の<ruby>訴え<rt>うったえ</rt></ruby>を<ruby>提起<rt>ていき</rt></ruby>した<ruby>場合<rt>ばあい</rt></ruby>にも3<ruby>号<rt>ごう</rt></ruby><ruby>再審<rt>さいしん</rt></ruby><ruby>事由<rt>じゆう</rt></ruby>を<ruby>認め<rt>みとめ</rt></ruby>ている。<ruby>下線<rt>かせん</rt></ruby>を<ruby>付し<rt>ふし</rt></ruby>た<ruby>部分<rt>ぶぶん</rt></ruby>は、より<ruby>一般的<rt>いっぱんてき</rt></ruby>に、<ruby>当事者<rt>とうじしゃ</rt></ruby>とされた<ruby>者<rt>もの</rt></ruby>が<ruby>訴訟<rt>そしょう</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>に<ruby>関与<rt>かんよ</rt></ruby>する<ruby>機会<rt>きかい</rt></ruby>を<ruby>与え<rt>あたえ</rt></ruby>られないまま<ruby>判決<rt>はんけつ</rt></ruby>が<ruby>言い渡さ<rt>いいわたさ</rt></ruby>れ<ruby>確定し<rt>かくていし</rt></ruby>た<ruby>場合<rt>ばあい</rt></ruby>には、その<ruby>者<rt>もの</rt></ruby>に3<ruby>号<rt>ごう</rt></ruby><ruby>再審<rt>さいしん</rt></ruby><ruby>事由<rt>じゆう</rt></ruby>が<ruby>認め<rt>みとめ</rt></ruby>られることを<ruby>明らか<rt>あきらか</rt></ruby>にしたものである。<ruby>判決<rt>はんけつ</rt></ruby>の<ruby>成立過程<rt>せいりつかてい</rt></ruby>において<ruby>当事者<rt>とうじしゃ</rt></ruby>に<ruby>対する<rt>たいする</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>保障<rt>ほしょう</rt></ruby>を<ruby>欠い<rt>かい</rt></ruby>たならば、<ruby>当該<rt>とうがい</rt></ruby><ruby>判決<rt>はんけつ</rt></ruby>の<ruby>既判<rt>きはん</rt></ruby><ruby>力<rt>ちから</rt></ruby>を<ruby>当事者<rt>とうじしゃ</rt></ruby>に<ruby>及ぼ<rt>およぼ</rt></ruby>すことは<ruby>正当化<rt>せいとうか</rt></ruby>されないことを<ruby>言明<rt>げんめい</rt></ruby>したものといえよう。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">」3号再審事由は，確定判決が無権代理人の訴訟行為に基づいてなされた場合を想定したものであるが，判例（大判昭和10・10・28 民集14巻1785頁［前掲百選5版5事件］）は，氏名冒用訴訟において他人に名前を使われた本人が再審の訴えを提起した場合にも3号再審事由を認めている。下線を付した部分は，より一般的に，当事者とされた者が訴訟手続に関与する機会を与えられないまま判決が言い渡され確定した場合には，その者に3号再審事由が認められることを明らかにしたものである。判決の成立過程において当事者に対する手続保障を欠いたならば，当該判決の既判力を当事者に及ぼすことは正当化されないことを言明したものといえよう。</div>
+            </div>
+        </article>
+        <article id="card-28" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(28)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>結び<rt>むすび</rt></ruby>「<ruby>手続<rt>てつづき</rt></ruby><ruby>保障<rt>ほしょう</rt></ruby>がない<ruby>当事者<rt>とうじしゃ</rt></ruby>に<ruby>判決<rt>はんけつ</rt></ruby>の<ruby>効力<rt>こうりょく</rt></ruby>を<ruby>及ぼ<rt>およぼ</rt></ruby>してはならない」という<ruby>命題<rt>めいだい</rt></ruby>は、いまでは「<ruby>裁判<rt>さいばん</rt></ruby>は<ruby>適正<rt>てきせい</rt></ruby>・<ruby>公平<rt>こうへい</rt></ruby>でなければならない」という<ruby>命題<rt>めいだい</rt></ruby>と<ruby>同様<rt>どうよう</rt></ruby>に、<ruby>疑う<rt>うたがう</rt></ruby><ruby>余地<rt>よち</rt></ruby>のないものであろう。しかし、たんに<ruby>手続<rt>てつづき</rt></ruby><ruby>保障<rt>ほしょう</rt></ruby>があるとかないとかいうだけでは<ruby>意味<rt>いみ</rt></ruby>がない。<ruby>当事者<rt>とうじしゃ</rt></ruby>は<ruby>訴訟<rt>そしょう</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>においてどのような<ruby>権利<rt>けんり</rt></ruby>を<ruby>保障<rt>ほしょう</rt></ruby>されなければならないか、<ruby>現行<rt>げんこう</rt></ruby><ruby>民事訴訟法<rt>みんじそしょうほう</rt></ruby>の<ruby>解釈<rt>かいしゃく</rt></ruby>として、<ruby>当事者<rt>とうじしゃ</rt></ruby>にはどのような<ruby>権利<rt>けんり</rt></ruby>が<ruby>保障<rt>ほしょう</rt></ruby>されているのかを、<ruby>具体的<rt>ぐたいてき</rt></ruby>な<ruby>事案<rt>じあん</rt></ruby>に<ruby>即し<rt>そくし</rt></ruby>て<ruby>論証<rt>ろんしょう</rt></ruby>する<ruby>必要<rt>ひつよう</rt></ruby>がある。<ruby>本稿<rt>ほんこう</rt></ruby>での<ruby>検討<rt>けんとう</rt></ruby>が<ruby>読者<rt>どくしゃ</rt></ruby>の<ruby>参考<rt>さんこう</rt></ruby>になれば<ruby>幸い<rt>さいわい</rt></ruby>である。（はせべ・ゆきこ） <ruby>血<rt>ち</rt></ruby>
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">結び「手続保障がない当事者に判決の効力を及ぼしてはならない」という命題は，いまでは「裁判は適正・公平でなければならない」という命題と同様に，疑う余地のないものであろう。しかし，たんに手続保障があるとかないとかいうだけでは意味がない。当事者は訴訟手続においてどのような権利を保障されなければならないか，現行民事訴訟法の解釈として，当事者にはどのような権利が保障されているのかを，具体的な事案に即して論証する必要がある。本稿での検討が読者の参考になれば幸いである。（はせべ・ゆきこ） 血</div>
+            </div>
+        </article>
+                </main>
+
+                <!-- Footer -->
+                <footer class="bg-slate-900 border-t border-slate-800 py-6 px-6 rounded-xl text-center text-xs text-slate-400">
+                    <p>民事訴訟法2023 — 左右對照朗讀與翻譯版</p>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Audio Control Bar -->
+    <div class="fixed bottom-4 right-4 sm:right-8 w-11/12 max-w-xl bg-slate-900/95 backdrop-blur text-white px-5 py-3.5 rounded-2xl shadow-2xl border border-slate-700/80 flex items-center justify-between z-50">
+        <div class="flex items-center space-x-3">
+            <button id="btn-play-all" onclick="togglePlayAll()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold p-2.5 rounded-xl transition-colors shadow-md flex items-center justify-center">
+                <svg id="icon-play" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <svg id="icon-pause" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </button>
+            <button onclick="stopSpeech()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold p-2.5 rounded-xl border border-slate-700 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"></path></svg>
+            </button>
+            <div class="text-xs sm:text-sm">
+                <div id="tts-status" class="font-medium text-slate-200">準備朗讀</div>
+                <div id="tts-detail" class="text-slate-400 text-xs truncate max-w-[150px] sm:max-w-[200px]">點擊按鈕開啟日文語音朗讀</div>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-2">
+            <label class="text-xs text-slate-400 select-none hidden sm:inline">語速</label>
+            <select id="select-rate" onchange="changeRate()" class="bg-slate-800 text-xs text-slate-200 border border-slate-700 rounded-lg px-2 py-1.5 focus:outline-none focus:border-indigo-500">
+                <option value="0.75">0.75x</option>
+                <option value="1.0" selected>1.0x (標準)</option>
+                <option value="1.25">1.25x</option>
+                <option value="1.5">1.5x</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Speech Synthesis & PDF Zoom JavaScript -->
+    <script>
+        let synth = window.speechSynthesis;
+        let currentUtterance = null;
+        let playQueue = [];
+        let currentCardIndex = -1;
+        let isPlayingAll = false;
+        let speechRate = 1.0;
+        let japaneseVoice = null;
+        let currentPdfZoom = 1.0;
+        let pdfBaseSrc = '民事訴訟法2023.pdf';
+
+        function setPdfZoom(scaleFactor) {
+            currentPdfZoom = scaleFactor;
+            applyPdfZoom();
+        }
+
+        function zoomPdf(ratio) {
+            currentPdfZoom = Math.max(0.5, Math.min(3.0, currentPdfZoom * ratio));
+            applyPdfZoom();
+        }
+
+        function resetPdfZoom() {
+            currentPdfZoom = 1.0;
+            applyPdfZoom();
+        }
+
+        function applyPdfZoom() {
+            const zoomPercent = Math.round(currentPdfZoom * 100);
+            document.getElementById('pdf-zoom-val').textContent = zoomPercent + '%';
+            const iframe = document.getElementById('pdf-frame');
+            
+            // Apply PDF Open Parameters
+            iframe.src = pdfBaseSrc + '#zoom=' + zoomPercent + '&view=FitH';
+            
+            // Apply CSS Scaling for smooth visual enhancement
+            iframe.style.transform = 'scale(' + currentPdfZoom + ')';
+            iframe.style.width = (100 / currentPdfZoom) + '%';
+            iframe.style.height = (100 / currentPdfZoom) + '%';
+        }
+
+        function togglePdfPanel() {
+            const pdfPanel = document.getElementById('pdf-panel');
+            const contentPanel = document.getElementById('content-panel');
+            if (pdfPanel.classList.contains('hidden')) {
+                pdfPanel.classList.remove('hidden');
+                contentPanel.className = 'w-full lg:w-1/2 h-1/2 lg:h-full bg-slate-950 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 pb-32 transition-all duration-300';
+            } else {
+                pdfPanel.classList.add('hidden');
+                contentPanel.className = 'w-full lg:w-full h-full bg-slate-950 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 pb-32 transition-all duration-300';
+            }
+        }
+
+        function loadVoices() {
+            let voices = synth.getVoices();
+            japaneseVoice = voices.find(v => v.lang === 'ja-JP' || v.lang.startsWith('ja')) || null;
+        }
+
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = loadVoices;
+        }
+        loadVoices();
+
+        function getCleanText(cardId) {
+            const cardEl = document.getElementById('card-' + cardId);
+            if (!cardEl) return '';
+            
+            let targetEl = cardEl.querySelector('.jp-text-content') || cardEl.querySelector('h2') || cardEl;
+            const clone = targetEl.cloneNode(true);
+            
+            const rts = clone.querySelectorAll('rt');
+            rts.forEach(rt => rt.remove());
+            
+            let text = clone.textContent || '';
+            text = text.replace(/\(\d+\)/g, '').replace(/朗讀本段|朗讀標題/g, '').trim();
+            return text;
+        }
+
+        function highlightCard(index) {
+            document.querySelectorAll('.playing-card').forEach(el => el.classList.remove('playing-card'));
+            if (index >= 0) {
+                const el = document.getElementById('card-' + index);
+                if (el) {
+                    el.classList.add('playing-card');
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        }
+
+        function updateUIState(playing) {
+            const iconPlay = document.getElementById('icon-play');
+            const iconPause = document.getElementById('icon-pause');
+            const statusEl = document.getElementById('tts-status');
+            
+            if (playing) {
+                iconPlay.classList.add('hidden');
+                iconPause.classList.remove('hidden');
+                statusEl.textContent = '朗讀中...';
+            } else {
+                iconPlay.classList.remove('hidden');
+                iconPause.classList.add('hidden');
+                statusEl.textContent = '已暫停 / 準備就緒';
+            }
+        }
+
+        function playCardText(index) {
+            stopSpeech();
+            isPlayingAll = false;
+            currentCardIndex = index;
+            const text = getCleanText(index);
+            if (!text) return;
+            
+            speakText(text, index, () => {
+                highlightCard(-1);
+                updateUIState(false);
+                document.getElementById('tts-detail').textContent = '朗讀完成';
+            });
+        }
+
+        function speakText(text, cardIndex, onEndCallback) {
+            if (synth.speaking) synth.cancel();
+            
+            highlightCard(cardIndex);
+            updateUIState(true);
+            document.getElementById('tts-detail').textContent = text.substring(0, 30) + '...';
+            
+            currentUtterance = new SpeechSynthesisUtterance(text);
+            currentUtterance.lang = 'ja-JP';
+            if (japaneseVoice) currentUtterance.voice = japaneseVoice;
+            currentUtterance.rate = speechRate;
+            
+            currentUtterance.onend = function() {
+                if (onEndCallback) onEndCallback();
+            };
+            
+            currentUtterance.onerror = function(e) {
+                console.error('Speech synthesis error:', e);
+                highlightCard(-1);
+                updateUIState(false);
+            };
+            
+            synth.speak(currentUtterance);
+        }
+
+        function togglePlayAll() {
+            if (synth.speaking && isPlayingAll) {
+                if (synth.paused) {
+                    synth.resume();
+                    updateUIState(true);
+                } else {
+                    synth.pause();
+                    updateUIState(false);
+                }
+                return;
+            }
+            
+            stopSpeech();
+            isPlayingAll = true;
+            let totalCards = document.querySelectorAll('[id^="card-"]').length;
+            let queue = [];
+            for (let i = 0; i < totalCards; i++) {
+                queue.push(i);
+            }
+            
+            playNextInQueue(queue);
+        }
+
+        function playNextInQueue(queue) {
+            if (!isPlayingAll || queue.length === 0) {
+                isPlayingAll = false;
+                highlightCard(-1);
+                updateUIState(false);
+                document.getElementById('tts-detail').textContent = '全文朗讀完畢';
+                return;
+            }
+            
+            let nextIndex = queue.shift();
+            currentCardIndex = nextIndex;
+            const text = getCleanText(nextIndex);
+            
+            if (!text) {
+                playNextInQueue(queue);
+                return;
+            }
+            
+            speakText(text, nextIndex, () => {
+                if (isPlayingAll) playNextInQueue(queue);
+            });
+        }
+
+        function stopSpeech() {
+            isPlayingAll = false;
+            if (synth.speaking || synth.paused) {
+                synth.cancel();
+            }
+            highlightCard(-1);
+            updateUIState(false);
+            document.getElementById('tts-detail').textContent = '已停止朗讀';
+        }
+
+        function changeRate() {
+            const select = document.getElementById('select-rate');
+            speechRate = parseFloat(select.value);
+            if (synth.speaking && currentCardIndex >= 0) {
+                let wasPlayingAll = isPlayingAll;
+                let cardToResume = currentCardIndex;
+                stopSpeech();
+                if (wasPlayingAll) {
+                    isPlayingAll = true;
+                    let totalCards = document.querySelectorAll('[id^="card-"]').length;
+                    let queue = [];
+                    for (let i = cardToResume; i < totalCards; i++) queue.push(i);
+                    playNextInQueue(queue);
+                } else {
+                    playCardText(cardToResume);
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

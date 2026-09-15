@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>05プラットフォームと民事法 - 左右對照朗讀與翻譯版</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #0f172a;
+            color: #1e293b;
+        }
+
+        .font-serif {
+            font-family: 'Noto Serif JP', "MS Mincho", serif;
+        }
+
+        .font-sans {
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+
+        .jp-col {
+            font-size: 1.05rem;
+            line-height: 3.1;
+            letter-spacing: 0.02em;
+            word-break: break-word;
+            color: #0f172a;
+        }
+
+        ruby {
+            ruby-position: over;
+            display: inline-ruby;
+        }
+
+        rt {
+            font-size: 0.52em;
+            color: #475569;
+            letter-spacing: 0.01em;
+            font-weight: normal;
+            line-height: 1.0;
+            user-select: none;
+        }
+
+        u {
+            text-decoration: none;
+            border-bottom: 2px solid #ef4444;
+            padding-bottom: 2px;
+        }
+
+        .zh-col {
+            font-size: 1.0rem;
+            line-height: 1.75;
+        }
+
+        .playing-card {
+            box-shadow: 0 0 0 3px #6366f1, 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+            background-color: #f5f3ff !important;
+        }
+    </style>
+</head>
+
+<body class="h-screen overflow-hidden flex flex-col bg-slate-950">
+    <!-- Top Fixed Header -->
+    <header class="h-14 bg-slate-950 text-white px-4 sm:px-6 border-b border-slate-800 shrink-0 flex items-center justify-between shadow-md z-40">
+        <div class="flex items-center space-x-3 truncate">
+            <a href="index.html" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 hover:text-white px-3 py-1.5 rounded-lg text-xs font-semibold border border-slate-700 transition-colors flex items-center space-x-1 shrink-0 select-none">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                <span>總覽</span>
+            </a>
+            <h1 class="text-sm sm:text-base font-bold truncate font-serif text-slate-100">
+                05プラットフォームと民事法
+            </h1>
+        </div>
+        <div class="flex items-center space-x-2 shrink-0">
+            <button onclick="togglePdfPanel()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors flex items-center space-x-1 select-none">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                <span id="toggle-pdf-text">隱藏/顯示 原文PDF</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Split View Container (Height = 100vh - 3.5rem) -->
+    <div class="flex-1 flex flex-col lg:flex-row w-full overflow-hidden h-[calc(100vh-3.5rem)]">
+        <!-- Left Panel: Fixed Original PDF Viewer with Zoom Controls -->
+        <div id="pdf-panel" class="w-full lg:w-1/2 h-1/2 lg:h-full bg-slate-900 border-r border-slate-800 flex flex-col shrink-0">
+            <!-- PDF Zoom & Control Bar -->
+            <div class="bg-slate-950 px-3 py-2 border-b border-slate-800 flex items-center justify-between text-xs shrink-0 select-none">
+                <span class="text-slate-400 font-semibold flex items-center">
+                    <svg class="w-3.5 h-3.5 mr-1 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    PDF 縮放控制
+                </span>
+                <div class="flex items-center space-x-1.5">
+                    <button onclick="zoomPdf(0.9)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-2 py-0.5 rounded border border-slate-700 transition-colors" title="縮小">-</button>
+                    <span id="pdf-zoom-val" class="font-mono text-indigo-300 w-12 text-center">100%</span>
+                    <button onclick="zoomPdf(1.1)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-2 py-0.5 rounded border border-slate-700 transition-colors" title="放大">+</button>
+                    <button onclick="setPdfZoom(1.25)" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 px-2 py-0.5 rounded border border-slate-700 transition-colors">1.25x</button>
+                    <button onclick="setPdfZoom(1.5)" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 px-2 py-0.5 rounded border border-slate-700 transition-colors">1.5x</button>
+                    <button onclick="setPdfZoom(2.0)" class="bg-slate-800 hover:bg-slate-700 text-amber-300 px-2 py-0.5 rounded border border-slate-700 transition-colors">2.0x</button>
+                    <button onclick="resetPdfZoom()" class="bg-slate-800 hover:bg-slate-700 text-slate-400 px-2 py-0.5 rounded border border-slate-700 transition-colors">重置</button>
+                </div>
+            </div>
+            <!-- PDF Iframe Container -->
+            <div id="pdf-container" class="flex-1 w-full h-full overflow-auto bg-slate-900 p-2 relative">
+                <iframe id="pdf-frame" src="05プラットフォームと民事法.pdf" class="w-full h-full rounded-xl bg-white shadow-inner border border-slate-700 transition-transform origin-top-left"></iframe>
+            </div>
+        </div>
+
+        <!-- Right Panel: Independently Scrolling Translated Content & Audio Reader -->
+        <div id="content-panel" class="w-full lg:w-1/2 h-1/2 lg:h-full bg-slate-950 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 pb-32 transition-all duration-300">
+            <div class="max-w-3xl mx-auto space-y-4">
+                <!-- Banner Card -->
+                <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 rounded-2xl shadow-xl border border-indigo-900">
+                    <span class="inline-block bg-indigo-500/20 text-indigo-300 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider mb-2 border border-indigo-400/30">
+                        法學日文左右對照朗讀版
+                    </span>
+                    <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-white mb-2 font-serif">
+                        05プラットフォームと民事法
+                    </h2>
+                    <p class="text-indigo-200 text-sm sm:text-base font-medium mb-3">
+                        ——05プラットフォームと民事法 法學論文對照解析 <span class="text-indigo-300/80 text-xs font-normal">（05プラットフォームと民事法 法律專題解析）</span>
+                    </p>
+                    <div class="text-xs text-slate-300 pt-3 border-t border-indigo-900/80">
+                        <span class="font-semibold text-indigo-300">作者：</span>日本法學研究會 / Legal Research Group
+                    </div>
+                </div>
+
+                <!-- Main Paragraphs -->
+                <main class="space-y-4">
+
+        <article id="card-0" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(0)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    SPECIAL FEATUREプラットフォーム<ruby>事業者<rt>じぎょうしゃ</rt></ruby>の<ruby>民事<rt>みんじ</rt></ruby><ruby>責任<rt>せきにん</rt></ruby><ruby>一橋大学<rt>ひとつばしだいがく</rt></ruby><ruby>准教授<rt>じゅんきょうじゅ</rt></ruby><ruby>小峯<rt>こみね</rt></ruby><ruby>庸平<rt>ようへい</rt></ruby>KOMINE Yohei↓<ruby>取引<rt>とりひき</rt></ruby><ruby>型<rt>かた</rt></ruby>プラットフォームにおける<ruby>売主<rt>うりぬし</rt></ruby>の<ruby>債務<rt>さいむ</rt></ruby><ruby>不履行<rt>ふりこう</rt></ruby>1.デジタルプラットフォームの<ruby>構造<rt>こうぞう</rt></ruby>デジタルプラットフォーム （DPF）とは、ユーザー<ruby>同士<rt>どうし</rt></ruby>を<ruby>結び<rt>むすび</rt></ruby><ruby>付ける<rt>つける</rt></ruby><ruby>基盤<rt>きばん</rt></ruby>となるシステムや、このようなシステムを<ruby>提供<rt>ていきょう</rt></ruby>するサービスのことを<ruby>指し<rt>さし</rt></ruby>、<ruby>主に<rt>おもに</rt></ruby>インターネット<ruby>上で<rt>うえで</rt></ruby><ruby>行わ<rt>おこなわ</rt></ruby>れる。ここには<ruby>様々な<rt>さまざまな</rt></ruby>ものが<ruby>含ま<rt>ふくま</rt></ruby>れ、SNSのように、<ruby>情報<rt>じょうほう</rt></ruby>の<ruby>交換<rt>こうかん</rt></ruby>が<ruby>行わ<rt>おこなわ</rt></ruby>れるもの（<ruby>情報<rt>じょうほう</rt></ruby><ruby>型<rt>かた</rt></ruby>）もあれば、ユーザー<ruby>同士<rt>どうし</rt></ruby>がDPF <ruby>上で<rt>うえで</rt></ruby><ruby>商品<rt>しょうひん</rt></ruby>や<ruby>役務<rt>えきむ</rt></ruby>の<ruby>取引<rt>とりひき</rt></ruby>を<ruby>行う<rt>おこなう</rt></ruby>もの（<ruby>取引<rt>とりひき</rt></ruby><ruby>型<rt>かた</rt></ruby>）もあるり。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">SPECIAL FEATUREプラットフォーム事業者の民事責任一橋大学准教授小峯庸平KOMINE Yohei↓交易型プラットフォームにおける売主の債務不履行1.數位平台 (Digital Platform)の構造數位平台 (Digital Platform) （DPF）とは，ユーザー同士を結び付ける基盤となるシステムや，このようなシステムを提供するサービスのことを指し，主にインターネット上で行われる。ここには様々なものが含まれ，SNSのように，情報の交換が行われるもの（情報型）もあれば，ユーザー同士がDPF 上で商品や役務の交易を行うもの（交易型）もあるり。</div>
+            </div>
+        </article>
+        <article id="card-1" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(1)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    このうち、<ruby>取引<rt>とりひき</rt></ruby><ruby>型<rt>かた</rt></ruby>DPFの<ruby>代表例<rt>だいひょうれい</rt></ruby>として<ruby>挙げ<rt>あげ</rt></ruby>られるのが、Amazonやメルカリといった、<ruby>商品<rt>しょうひん</rt></ruby>の<ruby>売買<rt>ばいばい</rt></ruby>を<ruby>行う<rt>おこなう</rt></ruby>ものである。このような<ruby>取引<rt>とりひき</rt></ruby><ruby>型<rt>かた</rt></ruby>DPFにおいては、<ruby>売主<rt>うりぬし</rt></ruby>と<ruby>買主<rt>かいぬし</rt></ruby>との<ruby>取引<rt>とりひき</rt></ruby>にDPF を<ruby>提供<rt>ていきょう</rt></ruby>する<ruby>事業者<rt>じぎょうしゃ</rt></ruby>（<ruby>以下<rt>いか</rt></ruby>「DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>」とする）がかかわることになる。このようなサービスにおいては、<ruby>取引<rt>とりひき</rt></ruby>が<ruby>成立<rt>せいりつ</rt></ruby>するまでの<ruby>間に<rt>まに</rt></ruby>、<ruby>潜在的<rt>せんざいてき</rt></ruby>な<ruby>売主<rt>うりぬし</rt></ruby>の<ruby>出品<rt>しゅっぴん</rt></ruby>と、<ruby>潜在的<rt>せんざいてき</rt></ruby>な<ruby>買主<rt>かいぬし</rt></ruby>の<ruby>注文<rt>ちゅうもん</rt></ruby>とが、DPF <ruby>上で<rt>うえで</rt></ruby><ruby>結び<rt>むすび</rt></ruby><ruby>付け<rt>つけ</rt></ruby>られることになる。また、<ruby>取引<rt>とりひき</rt></ruby><ruby>成立後<rt>せいりつご</rt></ruby>においても、<ruby>取引内容<rt>とりひきないよう</rt></ruby>の<ruby>実現<rt>じつげん</rt></ruby>のためにDPFが<ruby>役割<rt>やくわり</rt></ruby>を<ruby>果た<rt>はた</rt></ruby>す。すなわち、<ruby>代金<rt>だいきん</rt></ruby>の<ruby>決済<rt>けっさい</rt></ruby>や<ruby>商品<rt>しょうひん</rt></ruby>の<ruby>配送<rt>はいそう</rt></ruby>もまた。DPFのサービスを<ruby>用いて<rt>もちいて</rt></ruby><ruby>行わ<rt>おこなわ</rt></ruby>れることがある。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">このうち，交易型DPFの代表例として挙げられるのが，Amazonやメルカリといった，商品の売買を行うものである。このような交易型DPFにおいては，売主と買主との交易にDPF を提供する事業者（以下「DPF 事業者」とする）がかかわることになる。このようなサービスにおいては，交易が成立するまでの間に，潜在的な売主の出品と，潜在的な買主の注文とが，DPF 上で結び付けられることになる。また，交易成立後においても，交易内容の実現のためにDPFが役割を果たす。すなわち，代金の決済や商品の配送もまた。DPFのサービスを用いて行われることがある。</div>
+            </div>
+        </article>
+        <article id="card-2" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(2)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    このような<ruby>取引<rt>とりひき</rt></ruby>の<ruby>過程<rt>かてい</rt></ruby>には、3つの<ruby>契約<rt>けいやく</rt></ruby>が<ruby>存在<rt>そんざい</rt></ruby>する。<ruby>第一<rt>だいいち</rt></ruby>に、<ruby>売主<rt>うりぬし</rt></ruby>と<ruby>買主<rt>かいぬし</rt></ruby>との<ruby>間に<rt>まに</rt></ruby><ruby>売買契約<rt>ばいばいけいやく</rt></ruby>が<ruby>存在<rt>そんざい</rt></ruby>する。すなわち、<ruby>商品<rt>しょうひん</rt></ruby>を<ruby>提供<rt>ていきょう</rt></ruby>する<ruby>者<rt>もの</rt></ruby>は<ruby>売主<rt>うりぬし</rt></ruby>として<ruby>商品<rt>しょうひん</rt></ruby>を<ruby>買主<rt>かいぬし</rt></ruby>に<ruby>引き渡す<rt>ひきわたす</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>を<ruby>負い<rt>おい</rt></ruby>。<ruby>注文<rt>ちゅうもん</rt></ruby><ruby>者<rt>もの</rt></ruby>は<ruby>買主<rt>かいぬし</rt></ruby>として<ruby>代金<rt>だいきん</rt></ruby>を<ruby>支払う<rt>しはらう</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>を<ruby>負う<rt>おう</rt></ruby>3。これとは<ruby>別に<rt>べつに</rt></ruby>、<ruby>売主<rt>うりぬし</rt></ruby>と<ruby>買主<rt>かいぬし</rt></ruby>、それぞれの<ruby>利用者<rt>りようしゃ</rt></ruby>が、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>との<ruby>間<rt>かん</rt></ruby>で、DPF <ruby>利用<rt>りよう</rt></ruby><ruby>契約<rt>けいやく</rt></ruby>を<ruby>結ん<rt>むすん</rt></ruby>でいる。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">このような交易の過程には，3つの契約が存在する。第一に，売主と買主との間に売買契約が存在する。すなわち，商品を提供する者は売主として商品を買主に引き渡す義務を負い。注文者は買主として代金を支払う義務を負う3。これとは別に，売主と買主，それぞれの利用者が，DPF 事業者との間で，DPF 利用契約を結んでいる。</div>
+            </div>
+        </article>
+        <section id="card-3" class="my-8 rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 shadow-md border border-indigo-900/80 transition-all duration-300">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="text-xl sm:text-2xl font-bold tracking-wide font-serif text-amber-300">2．<ruby>売主<rt>うりぬし</rt></ruby>の<ruby>義務<rt>ぎむ</rt></ruby><ruby>違反<rt>いはん</rt></ruby>とDPF<ruby>事業者<rt>じぎょうしゃ</rt></ruby>ここで<ruby>問題<rt>もんだい</rt></ruby>となるのが、<ruby>取引<rt>とりひき</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby>となる<ruby>売主<rt>うりぬし</rt></ruby>と<ruby>買主<rt>かいぬし</rt></ruby>との<ruby>間の<rt>まの</rt></ruby><ruby>紛争<rt>ふんそう</rt></ruby>に<ruby>起因<rt>きいん</rt></ruby>して、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>がどのような<ruby>責任<rt>せきにん</rt></ruby>を<ruby>負う<rt>おう</rt></ruby>ことになるのか、という<ruby>点<rt>てん</rt></ruby>である。</h2>
+                <button onclick="playCardText(3)" class="shrink-0 flex items-center space-x-1 bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-amber-400/40 transition-colors select-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    <span>朗讀標題</span>
+                </button>
+            </div>
+            <div class="text-base sm:text-lg font-medium text-indigo-200 font-sans">2．売主の義務違反とDPF事業者ここで問題となるのが，交易当事者となる売主と買主との間の紛争に起因して，DPF 事業者がどのような責任を負うことになるのか，という点である。</div>
+        </section>
+        <article id="card-4" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(4)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    ここでは、<ruby>提供者<rt>ていきょうしゃ</rt></ruby>と<ruby>利用者<rt>りようしゃ</rt></ruby>との<ruby>間<rt>かん</rt></ruby>で<ruby>取引<rt>とりひき</rt></ruby><ruby>上の<rt>うえの</rt></ruby>トラブルが<ruby>生じ<rt>しょうじ</rt></ruby>た<ruby>場合<rt>ばあい</rt></ruby>に、どのように<ruby>解決<rt>かいけつ</rt></ruby>するかが<ruby>問題<rt>もんだい</rt></ruby>となる。<ruby>多く<rt>おおく</rt></ruby>の<ruby>場合<rt>ばあい</rt></ruby>、<ruby>契約<rt>けいやく</rt></ruby><ruby>成立以前<rt>せいりついぜん</rt></ruby>の<ruby>段階<rt>だんかい</rt></ruby>でDPF を<ruby>通じ<rt>つうじ</rt></ruby>た<ruby>決済<rt>けっさい</rt></ruby>が<ruby>行わ<rt>おこなわ</rt></ruby>れ、<ruby>代金<rt>だいきん</rt></ruby>の<ruby>支払<rt>しはらい</rt></ruby>について<ruby>問題<rt>もんだい</rt></ruby>が<ruby>生じ<rt>しょうじ</rt></ruby>ることは<ruby>少ない<rt>すくない</rt></ruby>ので、トラブルの<ruby>多く<rt>おおく</rt></ruby>は、<ruby>売主<rt>うりぬし</rt></ruby>の<ruby>義務<rt>ぎむ</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>るものである。ここには、そもそも<ruby>商品<rt>しょうひん</rt></ruby>が<ruby>発送<rt>はっそう</rt></ruby>されない （<ruby>履行<rt>りこう</rt></ruby><ruby>遅滞<rt>ちたい</rt></ruby>）<ruby>場合<rt>ばあい</rt></ruby>の<ruby>他<rt>ほか</rt></ruby>、<ruby>購入<rt>こうにゅう</rt></ruby>した<ruby>商品<rt>しょうひん</rt></ruby>に<ruby>不具合<rt>ふぐあい</rt></ruby>があった<ruby>場合<rt>ばあい</rt></ruby>（<ruby>契約<rt>けいやく</rt></ruby><ruby>不適合<rt>ふてきごう</rt></ruby>）なども<ruby>含ま<rt>ふくま</rt></ruby>れる。<ruby>売主<rt>うりぬし</rt></ruby>と<ruby>買主<rt>かいぬし</rt></ruby>の<ruby>間<rt>かん</rt></ruby>で<ruby>結ば<rt>むすば</rt></ruby>れた<ruby>売買契約<rt>ばいばいけいやく</rt></ruby>は、この<ruby>二者<rt>にしゃ</rt></ruby>を<ruby>当事者<rt>とうじしゃ</rt></ruby>とするもので、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>は<ruby>当事者<rt>とうじしゃ</rt></ruby>ではない。そのため、<ruby>契約<rt>けいやく</rt></ruby>の<ruby>相対<rt>そうたい</rt></ruby><ruby>効<rt>こう</rt></ruby>の<ruby>考え方<rt>かんがえかた</rt></ruby>によれば、<ruby>売主<rt>うりぬし</rt></ruby>の<ruby>債務<rt>さいむ</rt></ruby><ruby>不履行<rt>ふりこう</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>いて、<ruby>買主<rt>かいぬし</rt></ruby>がDPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>に<ruby>責任追及<rt>せきにんついきゅう</rt></ruby>することはできないことになる5。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">ここでは，提供者と利用者との間で交易上のトラブルが生じた場合に，どのように解決するかが問題となる。多くの場合，契約成立以前の段階でDPF を通じた決済が行われ，代金の支払について問題が生じることは少ないので，トラブルの多くは，売主の義務に関するものである。ここには，そもそも商品が発送されない （履行遅滞）場合の他，購入した商品に不具合があった場合（契約不適合）なども含まれる。売主と買主の間で結ばれた売買契約は，この二者を当事者とするもので，DPF 事業者は当事者ではない。そのため，契約の相対効の考え方によれば，売主の債務不履行に基づいて，買主がDPF 事業者に責任追及することはできないことになる5。</div>
+            </div>
+        </article>
+        <article id="card-5" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(5)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>正<rt>せい</rt></ruby><ruby>取引<rt>とりひき</rt></ruby><ruby>当事者間<rt>とうじしゃかん</rt></ruby>での<ruby>紛争<rt>ふんそう</rt></ruby><ruby>解決<rt>かいけつ</rt></ruby>の<ruby>限界<rt>げんかい</rt></ruby>1.<ruby>契約<rt>けいやく</rt></ruby><ruby>当事者間<rt>とうじしゃかん</rt></ruby>での<ruby>紛争<rt>ふんそう</rt></ruby><ruby>解決<rt>かいけつ</rt></ruby><ruby>上の<rt>うえの</rt></ruby><ruby>障害<rt>しょうがい</rt></ruby><ruby>取引<rt>とりひき</rt></ruby><ruby>型<rt>かた</rt></ruby>DPF <ruby>上で<rt>うえで</rt></ruby>の<ruby>取引<rt>とりひき</rt></ruby>においては、<ruby>取引<rt>とりひき</rt></ruby>の<ruby>当事者<rt>とうじしゃ</rt></ruby>は、DPF <ruby>上で<rt>うえで</rt></ruby>のみ<ruby>接点<rt>せってん</rt></ruby>を<ruby>持つ<rt>もつ</rt></ruby>ことがほとんどである。そのため、<ruby>売主<rt>うりぬし</rt></ruby>の<ruby>債務<rt>さいむ</rt></ruby><ruby>不履行<rt>ふりこう</rt></ruby>に<ruby>際し<rt>さいし</rt></ruby>て、<ruby>買主<rt>かいぬし</rt></ruby>が<ruby>責任追及<rt>せきにんついきゅう</rt></ruby>をしようとする<ruby>場合<rt>ばあい</rt></ruby>、DPF <ruby>上の<rt>うえの</rt></ruby><ruby>情報<rt>じょうほう</rt></ruby>を<ruby>頼り<rt>たより</rt></ruby>に、<ruby>自ら<rt>みずから</rt></ruby><ruby>紛争<rt>ふんそう</rt></ruby><ruby>解決<rt>かいけつ</rt></ruby>を<ruby>行わ<rt>おこなわ</rt></ruby>なければならない。DPF <ruby>上の<rt>うえの</rt></ruby>メッセージ<ruby>機能<rt>きのう</rt></ruby>を<ruby>用いて<rt>もちいて</rt></ruby><ruby>売主<rt>うりぬし</rt></ruby>と<ruby>連絡<rt>れんらく</rt></ruby>を<ruby>取る<rt>とる</rt></ruby>ことにより、<ruby>当事者間<rt>とうじしゃかん</rt></ruby>で<ruby>紛争<rt>ふんそう</rt></ruby>を<ruby>解決<rt>かいけつ</rt></ruby>できればよいが、<ruby>解決<rt>かいけつ</rt></ruby>しない<ruby>場合<rt>ばあい</rt></ruby>には<ruby>法的<rt>ほうてき</rt></ruby>な<ruby>紛争<rt>ふんそう</rt></ruby><ruby>解決<rt>かいけつ</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>によることになる。また、<ruby>売主<rt>うりぬし</rt></ruby>のDPF <ruby>上の<rt>うえの</rt></ruby>アカウントが<ruby>削除<rt>さくじょ</rt></ruby>されてしまえば、<ruby>買主<rt>かいぬし</rt></ruby>と<ruby>売主<rt>うりぬし</rt></ruby>との<ruby>接点<rt>せってん</rt></ruby>は<ruby>失わ<rt>うしなわ</rt></ruby>れてしまい、DPF<ruby>外<rt>そと</rt></ruby>での<ruby>紛争<rt>ふんそう</rt></ruby><ruby>解決<rt>かいけつ</rt></ruby>が<ruby>求め<rt>もとめ</rt></ruby>られることになる。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">正交易当事者間での紛争解決の限界1.契約当事者間での紛争解決上の障害交易型DPF 上での交易においては，交易の当事者は，DPF 上でのみ接点を持つことがほとんどである。そのため，売主の債務不履行に際して，買主が責任追及をしようとする場合，DPF 上の情報を頼りに，自ら紛争解決を行わなければならない。DPF 上のメッセージ機能を用いて売主と連絡を取ることにより，当事者間で紛争を解決できればよいが，解決しない場合には法的な紛争解決手続によることになる。また，売主のDPF 上のアカウントが削除されてしまえば，買主と売主との接点は失われてしまい，DPF外での紛争解決が求められることになる。</div>
+            </div>
+        </article>
+        <article id="card-6" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(6)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    DPF <ruby>上で<rt>うえで</rt></ruby><ruby>売主<rt>うりぬし</rt></ruby>となる<ruby>者<rt>もの</rt></ruby>が<ruby>業<rt>ぎょう</rt></ruby>として<ruby>販売<rt>はんばい</rt></ruby>を<ruby>行う<rt>おこなう</rt></ruby><ruby>場合<rt>ばあい</rt></ruby>には、<ruby>特定<rt>とくてい</rt></ruby><ruby>商取引<rt>しょうとりひき</rt></ruby><ruby>法<rt>ほう</rt></ruby><ruby>上の<rt>うえの</rt></ruby><ruby>通販<rt>つうはん</rt></ruby><ruby>売<rt>ばい</rt></ruby>に<ruby>該当<rt>がいとう</rt></ruby>し、<ruby>売主<rt>うりぬし</rt></ruby>の<ruby>名称<rt>めいしょう</rt></ruby>、<ruby>住所<rt>じゅうしょ</rt></ruby>、<ruby>電話番号<rt>でんわばんごう</rt></ruby>の<ruby>表示<rt>ひょうじ</rt></ruby>が<ruby>義務付け<rt>ぎむづけ</rt></ruby>られる（<ruby>特定<rt>とくてい</rt></ruby><ruby>商取引<rt>しょうとりひき</rt></ruby> 11<ruby>条<rt>じょう</rt></ruby>6<ruby>号<rt>ごう</rt></ruby>）が、<ruby>業<rt>ぎょう</rt></ruby>としてではなく<ruby>販売<rt>はんばい</rt></ruby>する<ruby>場合<rt>ばあい</rt></ruby>にはこれらの<ruby>表示義務<rt>ひょうじぎむ</rt></ruby>はなく、<ruby>売主<rt>うりぬし</rt></ruby>が<ruby>匿名<rt>とくめい</rt></ruby>のまま<ruby>取引<rt>とりひき</rt></ruby>が<ruby>行わ<rt>おこなわ</rt></ruby>れることもある。これらの<ruby>情報<rt>じょうほう</rt></ruby>がなければ、<ruby>訴訟<rt>そしょう</rt></ruby>を<ruby>起こ<rt>おこ</rt></ruby>すことはできない。また、<ruby>実<rt>み</rt></ruby><ruby>店舗<rt>てんぽ</rt></ruby>を<ruby>国内<rt>こくない</rt></ruby>に<ruby>置く<rt>おく</rt></ruby><ruby>事業者<rt>じぎょうしゃ</rt></ruby>に<ruby>比べ<rt>くらべ</rt></ruby>て、DPF <ruby>上で<rt>うえで</rt></ruby>は、<ruby>海外<rt>かいがい</rt></ruby>の<ruby>売主<rt>うりぬし</rt></ruby>との<ruby>取引<rt>とりひき</rt></ruby>が<ruby>行わ<rt>おこなわ</rt></ruby>れることも<ruby>多く<rt>おおく</rt></ruby>、このことも、<ruby>売主<rt>うりぬし</rt></ruby>の<ruby>責任追及<rt>せきにんついきゅう</rt></ruby>を<ruby>困難<rt>こんなん</rt></ruby>にする<ruby>要素<rt>ようそ</rt></ruby>となる。さらに、<ruby>売主<rt>うりぬし</rt></ruby>が<ruby>個人<rt>こじん</rt></ruby>である<ruby>場合<rt>ばあい</rt></ruby>や、<ruby>零細<rt>れいさい</rt></ruby><ruby>事業者<rt>じぎょうしゃ</rt></ruby>である<ruby>場合<rt>ばあい</rt></ruby>には、<ruby>法的<rt>ほうてき</rt></ruby><ruby>紛争<rt>ふんそう</rt></ruby><ruby>解決<rt>かいけつ</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>に<ruby>頼る<rt>たよる</rt></ruby>ことができたとしても、<ruby>売主<rt>うりぬし</rt></ruby><ruby>自身<rt>じしん</rt></ruby>の<ruby>資力<rt>しりょく</rt></ruby>が<ruby>不足<rt>ふそく</rt></ruby>しているために、<ruby>現実<rt>げんじつ</rt></ruby>には<ruby>買主<rt>かいぬし</rt></ruby>の<ruby>損害<rt>そんがい</rt></ruby>が<ruby>回復<rt>かいふく</rt></ruby>しないケースも<ruby>想定<rt>そうてい</rt></ruby>される。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">DPF 上で売主となる者が業として販売を行う場合には，特定商交易法上の通販売に該当し，売主の名称，住所，電話番号の表示が義務付けられる（特定商交易 11条6号）が，業としてではなく販売する場合にはこれらの表示義務はなく，売主が匿名のまま交易が行われることもある。これらの情報がなければ，訴訟を起こすことはできない。また，実店舗を国内に置く事業者に比べて，DPF 上では，海外の売主との交易が行われることも多く，このことも，売主の責任追及を困難にする要素となる。さらに，売主が個人である場合や，零細事業者である場合には，法的紛争解決手続に頼ることができたとしても，売主自身の資力が不足しているために，現実には買主の損害が回復しないケースも想定される。</div>
+            </div>
+        </article>
+        <section id="card-7" class="my-8 rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 shadow-md border border-indigo-900/80 transition-all duration-300">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="text-xl sm:text-2xl font-bold tracking-wide font-serif text-amber-300">2．<ruby>立法<rt>りっぽう</rt></ruby>による<ruby>解決<rt>かいけつ</rt></ruby>の<ruby>試み<rt>こころみ</rt></ruby><ruby>契約<rt>けいやく</rt></ruby><ruby>当事者間<rt>とうじしゃかん</rt></ruby>での<ruby>紛争<rt>ふんそう</rt></ruby><ruby>解決<rt>かいけつ</rt></ruby>における<ruby>障害<rt>しょうがい</rt></ruby>を<ruby>取り除く<rt>とりのぞく</rt></ruby><ruby>試み<rt>こころみ</rt></ruby>は、<ruby>立法<rt>りっぽう</rt></ruby><ruby>上<rt>うえ</rt></ruby>も<ruby>行わ<rt>おこなわ</rt></ruby>れている。</h2>
+                <button onclick="playCardText(7)" class="shrink-0 flex items-center space-x-1 bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-amber-400/40 transition-colors select-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    <span>朗讀標題</span>
+                </button>
+            </div>
+            <div class="text-base sm:text-lg font-medium text-indigo-200 font-sans">2．立法による解決の試み契約当事者間での紛争解決における障害を取り除く試みは，立法上も行われている。</div>
+        </section>
+        <article id="card-8" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(8)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>近年<rt>きんねん</rt></ruby>、<ruby>取引<rt>とりひき</rt></ruby><ruby>型<rt>かた</rt></ruby>プラットフォームを<ruby>対象<rt>たいしょう</rt></ruby>とする<ruby>法律<rt>ほうりつ</rt></ruby>として、「<ruby>特定<rt>とくてい</rt></ruby>デジタルプラットフォームの<ruby>透明性<rt>とうめいせい</rt></ruby><ruby>及び<rt>および</rt></ruby><ruby>公正<rt>こうせい</rt></ruby><ruby>性<rt>せい</rt></ruby>の<ruby>向上<rt>こうじょう</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>法律<rt>ほうりつ</rt></ruby>」（<ruby>令和<rt>れいわ</rt></ruby>2<ruby>年<rt>ねん</rt></ruby><ruby>法律<rt>ほうりつ</rt></ruby><ruby>第<rt>だい</rt></ruby> 38<ruby>号<rt>ごう</rt></ruby>）と「<ruby>取引<rt>とりひき</rt></ruby>デジタルプラットフォームを<ruby>利用<rt>りよう</rt></ruby>する<ruby>消費者<rt>しょうひしゃ</rt></ruby>の<ruby>利益<rt>りえき</rt></ruby>の<ruby>保護<rt>ほご</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>法律<rt>ほうりつ</rt></ruby>」（<ruby>令和<rt>れいわ</rt></ruby>3<ruby>年<rt>ねん</rt></ruby><ruby>法律<rt>ほうりつ</rt></ruby><ruby>第<rt>だい</rt></ruby>32<ruby>号<rt>ごう</rt></ruby>、<ruby>以下<rt>いか</rt></ruby>「DPF<ruby>消費者保護<rt>しょうひしゃほご</rt></ruby><ruby>法<rt>ほう</rt></ruby>」とする）が<ruby>定め<rt>さだめ</rt></ruby>られている。<ruby>前者<rt>ぜんしゃ</rt></ruby>はプラットフォーム<ruby>自体<rt>じたい</rt></ruby>の<ruby>運営<rt>うんえい</rt></ruby>の<ruby>適正化<rt>てきせいか</rt></ruby>にかかわるものであり、<ruby>利用者<rt>りようしゃ</rt></ruby><ruby>同士<rt>どうし</rt></ruby>の<ruby>紛争<rt>ふんそう</rt></ruby>を<ruby>直接<rt>ちょくせつ</rt></ruby>の<ruby>対象<rt>たいしょう</rt></ruby>とはしないため、ここでは<ruby>後者<rt>こうしゃ</rt></ruby>について<ruby>紹介<rt>しょうかい</rt></ruby>しよう。DPF <ruby>消費者保護<rt>しょうひしゃほご</rt></ruby><ruby>法<rt>ほう</rt></ruby>は、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby>、<ruby>以下の<rt>いかの</rt></ruby>ことを<ruby>定め<rt>さだめ</rt></ruby>る。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">近年，交易型プラットフォームを対象とする法律として，「特定數位平台 (Digital Platform)の透明性及び公正性の向上に関する法律」（令和2年法律第 38号）と「交易數位平台 (Digital Platform)を利用する消費者の利益の保護に関する法律」（令和3年法律第32号，以下「DPF消費者保護法」とする）が定められている。前者はプラットフォーム自体の運営の適正化にかかわるものであり，利用者同士の紛争を直接の対象とはしないため，ここでは後者について紹介しよう。DPF 消費者保護法は，DPF 事業者に対し，以下のことを定める。</div>
+            </div>
+        </article>
+        <article id="card-9" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(9)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>第一<rt>だいいち</rt></ruby>に、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>は、<ruby>消費者<rt>しょうひしゃ</rt></ruby>が<ruby>販売<rt>はんばい</rt></ruby><ruby>業者<rt>ぎょうしゃ</rt></ruby><ruby>等<rt>など</rt></ruby>と<ruby>円滑<rt>えんかつ</rt></ruby>に<ruby>連絡<rt>れんらく</rt></ruby>することができるようにするための<ruby>措置<rt>そち</rt></ruby>や、<ruby>表示<rt>ひょうじ</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>苦情<rt>くじょう</rt></ruby>に<ruby>係る<rt>かかる</rt></ruby><ruby>事情<rt>じじょう</rt></ruby>の<ruby>調査<rt>ちょうさ</rt></ruby>その<ruby>他の<rt>ほかの</rt></ruby><ruby>必要<rt>ひつよう</rt></ruby>な<ruby>措置<rt>そち</rt></ruby>をとり、<ruby>販売<rt>はんばい</rt></ruby><ruby>業者<rt>ぎょうしゃ</rt></ruby><ruby>等<rt>など</rt></ruby>の<ruby>特定<rt>とくてい</rt></ruby>に<ruby>資す<rt>しす</rt></ruby>る<ruby>情報<rt>じょうほう</rt></ruby>の<ruby>提供<rt>ていきょう</rt></ruby>を<ruby>求め<rt>もとめ</rt></ruby>なければならない （DPF<ruby>消費者保護<rt>しょうひしゃほご</rt></ruby><ruby>法<rt>ほう</rt></ruby>3<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>）。<ruby>第二<rt>だいに</rt></ruby>に、<ruby>内閣総理大臣<rt>ないかくそうりだいじん</rt></ruby>は、DPF <ruby>上で<rt>うえで</rt></ruby><ruby>不適正<rt>ふてきせい</rt></ruby>な<ruby>表示<rt>ひょうじ</rt></ruby>のがされている<ruby>場合<rt>ばあい</rt></ruby>に、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby>て<ruby>出品<rt>しゅっぴん</rt></ruby>の<ruby>停止<rt>ていし</rt></ruby>・<ruby>削除<rt>さくじょ</rt></ruby>など<ruby>必要<rt>ひつよう</rt></ruby>な<ruby>措置<rt>そち</rt></ruby>をとるよう<ruby>要請<rt>ようせい</rt></ruby>することができる（<ruby>同法<rt>どうほう</rt></ruby>4<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>）。<ruby>第三<rt>だいさん</rt></ruby>に、<ruby>消費者<rt>しょうひしゃ</rt></ruby>は DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby>て、<ruby>販売<rt>はんばい</rt></ruby><ruby>業者<rt>ぎょうしゃ</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>情報<rt>じょうほう</rt></ruby>の<ruby>開示<rt>かいじ</rt></ruby>を<ruby>請求<rt>せいきゅう</rt></ruby>することができる（<ruby>同法<rt>どうほう</rt></ruby>5<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>）。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">第一に，DPF 事業者は，消費者が販売業者等と円滑に連絡することができるようにするための措置や，表示に関する苦情に係る事情の調査その他の必要な措置をとり，販売業者等の特定に資する情報の提供を求めなければならない （DPF消費者保護法3条1項）。第二に，内閣総理大臣は，DPF 上で不適正な表示のがされている場合に，DPF 事業者に対して出品の停止・削除など必要な措置をとるよう要請することができる（同法4条1項）。第三に，消費者は DPF 事業者に対して，販売業者に関する情報の開示を請求することができる（同法5条1項）。</div>
+            </div>
+        </article>
+        <article id="card-10" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(10)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>一見<rt>いっけん</rt></ruby>すると、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>は、<ruby>販売<rt>はんばい</rt></ruby><ruby>業者<rt>ぎょうしゃ</rt></ruby>を<ruby>特定<rt>とくてい</rt></ruby>できるようにしなければならず、<ruby>取引<rt>とりひき</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby>となる<ruby>消費者<rt>しょうひしゃ</rt></ruby>と<ruby>販売<rt>はんばい</rt></ruby><ruby>業者<rt>ぎょうしゃ</rt></ruby>が<ruby>円滑<rt>えんかつ</rt></ruby>に<ruby>連絡<rt>れんらく</rt></ruby>を<ruby>取る<rt>とる</rt></ruby>ことができるよう<ruby>取り計ら<rt>とりはから</rt></ruby>い、<ruby>販売<rt>はんばい</rt></ruby><ruby>事業者<rt>じぎょうしゃ</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>情報<rt>じょうほう</rt></ruby>を<ruby>消費者<rt>しょうひしゃ</rt></ruby>に<ruby>開示<rt>かいじ</rt></ruby>しなければならないため，<ruby>取引<rt>とりひき</rt></ruby><ruby>当事者間<rt>とうじしゃかん</rt></ruby>の<ruby>紛争<rt>ふんそう</rt></ruby>の<ruby>解決<rt>かいけつ</rt></ruby>に<ruby>向け<rt>むけ</rt></ruby>た<ruby>障害<rt>しょうがい</rt></ruby>を<ruby>除去<rt>じょきょ</rt></ruby>しうる<ruby>法律<rt>ほうりつ</rt></ruby>にみえる。しかし、ここには<ruby>様々な<rt>さまざまな</rt></ruby><ruby>留保<rt>りゅうほ</rt></ruby>が<ruby>付く<rt>つく</rt></ruby>。<ruby>第一<rt>だいいち</rt></ruby>に、DPF<ruby>消費者保護<rt>しょうひしゃほご</rt></ruby><ruby>法<rt>ほう</rt></ruby>の<ruby>適用対象<rt>てきようたいしょう</rt></ruby>は、その<ruby>名称<rt>めいしょう</rt></ruby>が<ruby>示す<rt>しめす</rt></ruby><ruby>通り<rt>とうり</rt></ruby>、<ruby>取引<rt>とりひき</rt></ruby><ruby>型<rt>かた</rt></ruby>DPFのうち、<ruby>販売<rt>はんばい</rt></ruby><ruby>業者<rt>ぎょうしゃ</rt></ruby>と<ruby>消費者<rt>しょうひしゃ</rt></ruby>が<ruby>取引<rt>とりひき</rt></ruby>するタイプのものに<ruby>限ら<rt>かぎら</rt></ruby>れている（<ruby>同法<rt>どうほう</rt></ruby>2<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>・4<ruby>項<rt>こう</rt></ruby>）。メルカリのように、<ruby>売る<rt>うる</rt></ruby><ruby>側<rt>がわ</rt></ruby>が<ruby>業<rt>ぎょう</rt></ruby>として<ruby>売買<rt>ばいばい</rt></ruby>を<ruby>行う<rt>おこなう</rt></ruby>わけではないような<ruby>取引<rt>とりひき</rt></ruby>は、<ruby>適用<rt>てきよう</rt></ruby>の<ruby>対象外<rt>たいしょうがい</rt></ruby>となる？
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">一見すると，DPF 事業者は，販売業者を特定できるようにしなければならず，交易当事者となる消費者と販売業者が円滑に連絡を取ることができるよう取り計らい，販売事業者に関する情報を消費者に開示しなければならないため，交易当事者間の紛争の解決に向けた障害を除去しうる法律にみえる。しかし，ここには様々な留保が付く。第一に，DPF消費者保護法の適用対象は，その名称が示す通り，交易型DPFのうち，販売業者と消費者が交易するタイプのものに限られている（同法2条1項・4項）。メルカリのように，売る側が業として売買を行うわけではないような交易は，適用の対象外となる？</div>
+            </div>
+        </article>
+        <article id="card-11" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(11)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    。<ruby>第二<rt>だいに</rt></ruby>に、ここまでに<ruby>掲げ<rt>かかげ</rt></ruby>た<ruby>規定<rt>きてい</rt></ruby>のうち、トラブルに<ruby>遭っ<rt>あっ</rt></ruby>た<ruby>買主<rt>かいぬし</rt></ruby>の<ruby>民事的<rt>みんじてき</rt></ruby>な<ruby>救済<rt>きゅうさい</rt></ruby>に<ruby>役立つ<rt>やくたつ</rt></ruby>ものは、<ruby>限ら<rt>かぎら</rt></ruby>れている。<ruby>同法<rt>どうほう</rt></ruby>3<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>の<ruby>義務<rt>ぎむ</rt></ruby>は<ruby>努力義務<rt>どりょくぎむ</rt></ruby>であり（3<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby><ruby>柱<rt>はしら</rt></ruby><ruby>書<rt>かき</rt></ruby>は「<ruby>努め<rt>つとめ</rt></ruby>なければならない」と<ruby>結ば<rt>むすば</rt></ruby>れている），これらの<ruby>措置<rt>そち</rt></ruby>がとられていないことは<ruby>直ち<rt>ただち</rt></ruby>に<ruby>法規<rt>ほうき</rt></ruby><ruby>違反<rt>いはん</rt></ruby>になるわけではない。また、<ruby>同項<rt>どうこう</rt></ruby>の<ruby>義務<rt>ぎむ</rt></ruby>は<ruby>民事<rt>みんじ</rt></ruby><ruby>上の<rt>うえの</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>ではないと<ruby>理解<rt>りかい</rt></ruby>されており、<ruby>仮に<rt>かりに</rt></ruby>この<ruby>努力義務<rt>どりょくぎむ</rt></ruby>に<ruby>違反<rt>いはん</rt></ruby>すると<ruby>評価<rt>ひょうか</rt></ruby>されたとしても、<ruby>消費者<rt>しょうひしゃ</rt></ruby>との<ruby>民事<rt>みんじ</rt></ruby><ruby>上の<rt>うえの</rt></ruby><ruby>関係<rt>かんけい</rt></ruby>で<ruby>直接<rt>ちょくせつ</rt></ruby><ruby>意味<rt>いみ</rt></ruby>を<ruby>持つ<rt>もつ</rt></ruby>わけではない8。<ruby>同法<rt>どうほう</rt></ruby>4<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>の<ruby>義務<rt>ぎむ</rt></ruby>は、<ruby>内閣総理大臣<rt>ないかくそうりだいじん</rt></ruby>が<ruby>求め<rt>もとめ</rt></ruby>ることができるものであり、<ruby>確かに<rt>たしかに</rt></ruby><ruby>取引<rt>とりひき</rt></ruby><ruby>当事者間<rt>とうじしゃかん</rt></ruby>の<ruby>紛争<rt>ふんそう</rt></ruby>を<ruby>未然<rt>みぜん</rt></ruby>に<ruby>防ぐ<rt>ふせぐ</rt></ruby>ことを<ruby>目的<rt>もくてき</rt></ruby>とするものであるが、<ruby>紛争<rt>ふんそう</rt></ruby>が<ruby>発生<rt>はっせい</rt></ruby>した<ruby>後に<rt>のちに</rt></ruby><ruby>消費者<rt>しょうひしゃ</rt></ruby>の<ruby>救済<rt>きゅうさい</rt></ruby>に<ruby>資す<rt>しす</rt></ruby>るものではない。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">。第二に，ここまでに掲げた規定のうち，トラブルに遭った買主の民事的な救済に役立つものは，限られている。同法3条1項の義務は努力義務であり（3条1項柱書は「努めなければならない」と結ばれている），これらの措置がとられていないことは直ちに法規違反になるわけではない。また，同項の義務は民事上の義務ではないと理解されており，仮にこの努力義務に違反すると評価されたとしても，消費者との民事上の関係で直接意味を持つわけではない8。同法4条1項の義務は，内閣総理大臣が求めることができるものであり，確かに交易当事者間の紛争を未然に防ぐことを目的とするものであるが，紛争が発生した後に消費者の救済に資するものではない。</div>
+            </div>
+        </article>
+        <article id="card-12" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(12)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>民事<rt>みんじ</rt></ruby><ruby>上の<rt>うえの</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>としてDPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>に<ruby>課さ<rt>かさ</rt></ruby>れているのは、<ruby>同法<rt>どうほう</rt></ruby>5<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>に<ruby>定め<rt>さだめ</rt></ruby>られた<ruby>開示<rt>かいじ</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>のみであるりが、DPF<ruby>事業者<rt>じぎょうしゃ</rt></ruby>が<ruby>販売<rt>はんばい</rt></ruby><ruby>業者<rt>ぎょうしゃ</rt></ruby><ruby>等<rt>など</rt></ruby>の<ruby>氏名<rt>しめい</rt></ruby><ruby>又は<rt>または</rt></ruby><ruby>名称<rt>めいしょう</rt></ruby>、<ruby>住所<rt>じゅうしょ</rt></ruby>など、「<ruby>債権<rt>さいけん</rt></ruby>の<ruby>行使<rt>こうし</rt></ruby>に<ruby>必要<rt>ひつよう</rt></ruby>な」<ruby>情報<rt>じょうほう</rt></ruby>を<ruby>保有<rt>ほゆう</rt></ruby>していない<ruby>場合<rt>ばあい</rt></ruby>には、<ruby>結局<rt>けっきょく</rt></ruby><ruby>空振り<rt>からぶり</rt></ruby>に<ruby>終わ<rt>おわ</rt></ruby>ってしまう 。このように、<ruby>限ら<rt>かぎら</rt></ruby>れた<ruby>保護<rt>ほご</rt></ruby>しか<ruby>与え<rt>あたえ</rt></ruby>られないのは、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>が「<ruby>場<rt>ば</rt></ruby>」の<ruby>提供者<rt>ていきょうしゃ</rt></ruby>にとどまり、<ruby>取引<rt>とりひき</rt></ruby>の<ruby>当事者<rt>とうじしゃ</rt></ruby>はあくまで<ruby>取引<rt>とりひき</rt></ruby><ruby>型<rt>かた</rt></ruby> DPF の<ruby>利用者<rt>りようしゃ</rt></ruby><ruby>同士<rt>どうし</rt></ruby>であるという<ruby>構造<rt>こうぞう</rt></ruby>に<ruby>由来<rt>ゆらい</rt></ruby>していると<ruby>考え<rt>かんがえ</rt></ruby>られる。すなわち、<ruby>取引<rt>とりひき</rt></ruby>の<ruby>当事者<rt>とうじしゃ</rt></ruby>はあくまで<ruby>利用者<rt>りようしゃ</rt></ruby><ruby>同士<rt>どうし</rt></ruby>であり、<ruby>紛争<rt>ふんそう</rt></ruby><ruby>解決<rt>かいけつ</rt></ruby>は<ruby>契約<rt>けいやく</rt></ruby><ruby>当事者間<rt>とうじしゃかん</rt></ruby>で<ruby>行わ<rt>おこなわ</rt></ruby>れるものであるから、この<ruby>契約<rt>けいやく</rt></ruby>の<ruby>当事者<rt>とうじしゃ</rt></ruby>ではないDPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>は、<ruby>法的<rt>ほうてき</rt></ruby><ruby>紛争<rt>ふんそう</rt></ruby><ruby>解決<rt>かいけつ</rt></ruby>に<ruby>必要<rt>ひつよう</rt></ruby>な<ruby>情報<rt>じょうほう</rt></ruby>を（<ruby>保有<rt>ほゆう</rt></ruby>している<ruby>場合<rt>ばあい</rt></ruby>に）<ruby>開示<rt>かいじ</rt></ruby>すれば<ruby>十分<rt>じゅうぶん</rt></ruby>だ、ということになる。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">民事上の義務としてDPF 事業者に課されているのは，同法5条1項に定められた開示義務のみであるりが，DPF事業者が販売業者等の氏名又は名称，住所など，「債権の行使に必要な」情報を保有していない場合には，結局空振りに終わってしまう 。このように，限られた保護しか与えられないのは，DPF 事業者が「場」の提供者にとどまり，交易の当事者はあくまで交易型 DPF の利用者同士であるという構造に由来していると考えられる。すなわち，交易の当事者はあくまで利用者同士であり，紛争解決は契約当事者間で行われるものであるから，この契約の当事者ではないDPF 事業者は，法的紛争解決に必要な情報を（保有している場合に）開示すれば十分だ，ということになる。</div>
+            </div>
+        </article>
+        <article id="card-13" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(13)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    しかし、このような<ruby>考え方<rt>かんがえかた</rt></ruby>には、<ruby>批判<rt>ひはん</rt></ruby>が<ruby>多い<rt>おおい</rt></ruby>.。その<ruby>論拠<rt>ろんきょ</rt></ruby>として、<ruby>取引<rt>とりひき</rt></ruby><ruby>型<rt>かた</rt></ruby>PDFにおけるDPF<ruby>事業者<rt>じぎょうしゃ</rt></ruby>の<ruby>役割<rt>やくわり</rt></ruby>が、<ruby>単に<rt>たんに</rt></ruby>「<ruby>場<rt>ば</rt></ruby>」の<ruby>提供<rt>ていきょう</rt></ruby>にとどまらないことが<ruby>挙げ<rt>あげ</rt></ruby>られる。プラットフォーム<ruby>事業者<rt>じぎょうしゃ</rt></ruby>の<ruby>役割<rt>やくわり</rt></ruby>とその<ruby>民事<rt>みんじ</rt></ruby><ruby>責任<rt>せきにん</rt></ruby>1.<ruby>取引<rt>とりひき</rt></ruby><ruby>型<rt>かた</rt></ruby>DPFにおけるDPF<ruby>事業者<rt>じぎょうしゃ</rt></ruby>の<ruby>役割<rt>やくわり</rt></ruby><ruby>取引<rt>とりひき</rt></ruby><ruby>型<rt>かた</rt></ruby>DPFにおいて、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>の<ruby>立場<rt>たちば</rt></ruby>は「<ruby>場<rt>ば</rt></ruby>」を<ruby>提供<rt>ていきょう</rt></ruby>するのみにとどまらないことが<ruby>指摘<rt>してき</rt></ruby>されている。DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>の<ruby>責任<rt>せきにん</rt></ruby>を<ruby>基礎付け<rt>きそづけ</rt></ruby>る、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>の<ruby>役割<rt>やくわり</rt></ruby>として、<ruby>以下の<rt>いかの</rt></ruby><ruby>四<rt>し</rt></ruby><ruby>点<rt>てん</rt></ruby>を<ruby>挙げ<rt>あげ</rt></ruby>ることができる。<ruby>第一<rt>だいいち</rt></ruby>に、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>は、<ruby>利用者<rt>りようしゃ</rt></ruby>がDPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>に<ruby>提供<rt>ていきょう</rt></ruby>した<ruby>膨大<rt>ぼうだい</rt></ruby>な<ruby>情報<rt>じょうほう</rt></ruby>を<ruby>保管<rt>ほかん</rt></ruby>し、<ruby>保管<rt>ほかん</rt></ruby>された<ruby>利用者<rt>りようしゃ</rt></ruby>の<ruby>情報<rt>じょうほう</rt></ruby>を<ruby>利活用<rt>りかつよう</rt></ruby>してより<ruby>積極的に<rt>せっきょくてきに</rt></ruby><ruby>利用者<rt>りようしゃ</rt></ruby><ruby>間の<rt>まの</rt></ruby><ruby>取引<rt>とりひき</rt></ruby>が<ruby>成立<rt>せいりつ</rt></ruby>するようにしている。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">しかし，このような考え方には，批判が多い.。その論拠として，交易型PDFにおけるDPF事業者の役割が，単に「場」の提供にとどまらないことが挙げられる。プラットフォーム事業者の役割とその民事責任1.交易型DPFにおけるDPF事業者の役割交易型DPFにおいて，DPF 事業者の立場は「場」を提供するのみにとどまらないことが指摘されている。DPF 事業者の責任を基礎付ける，DPF 事業者の役割として，以下の四点を挙げることができる。第一に，DPF 事業者は，利用者がDPF 事業者に提供した膨大な情報を保管し，保管された利用者の情報を利活用してより積極的に利用者間の交易が成立するようにしている。</div>
+            </div>
+        </article>
+        <article id="card-14" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(14)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    つまり、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>の<ruby>役割<rt>やくわり</rt></ruby>は、<ruby>単に<rt>たんに</rt></ruby><ruby>一方<rt>いっぽう</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby>から<ruby>受け取っ<rt>うけとっ</rt></ruby>た<ruby>情報<rt>じょうほう</rt></ruby>を<ruby>他方<rt>たほう</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby>に<ruby>伝え<rt>つたえ</rt></ruby>る<ruby>伝達手段<rt>でんたつしゅだん</rt></ruby>を<ruby>提供<rt>ていきょう</rt></ruby>しているのみならず、<ruby>潜在的<rt>せんざいてき</rt></ruby><ruby>売主<rt>うりぬし</rt></ruby>から<ruby>提供<rt>ていきょう</rt></ruby>された<ruby>情報<rt>じょうほう</rt></ruby>を、<ruby>取引<rt>とりひき</rt></ruby><ruby>成立<rt>せいりつ</rt></ruby>の<ruby>見込み<rt>みこみ</rt></ruby>が<ruby>高い<rt>たかい</rt></ruby><ruby>方法<rt>ほうほう</rt></ruby>で<ruby>潜在的<rt>せんざいてき</rt></ruby><ruby>買主<rt>かいぬし</rt></ruby>に<ruby>提供<rt>ていきょう</rt></ruby>している 。<ruby>具体的<rt>ぐたいてき</rt></ruby>には、あるキーワードで<ruby>検索<rt>けんさく</rt></ruby>を<ruby>行った<rt>いった</rt></ruby><ruby>潜在的<rt>せんざいてき</rt></ruby><ruby>買主<rt>かいぬし</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby>て、<ruby>取引<rt>とりひき</rt></ruby><ruby>型<rt>かた</rt></ruby> DPF <ruby>上に<rt>うえに</rt></ruby>どのような<ruby>順番<rt>じゅんばん</rt></ruby>で<ruby>表示す<rt>ひょうじす</rt></ruby>るかを、（もちろん<ruby>手作業<rt>てさぎょう</rt></ruby>ではなく）<ruby>独自<rt>どくじ</rt></ruby>のアルゴリズムに<ruby>基づ<rt>もとづ</rt></ruby>いて<ruby>決定<rt>けってい</rt></ruby>し、<ruby>取引<rt>とりひき</rt></ruby><ruby>成立<rt>せいりつ</rt></ruby>につながりやすい<ruby>順<rt>じゅん</rt></ruby>で<ruby>表示し<rt>ひょうじし</rt></ruby>ている。<ruby>第二<rt>だいに</rt></ruby>に、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>は、<ruby>利用者<rt>りようしゃ</rt></ruby><ruby>間<rt>かん</rt></ruby>で<ruby>成立<rt>せいりつ</rt></ruby>した<ruby>取引<rt>とりひき</rt></ruby>から<ruby>手数料<rt>てすうりょう</rt></ruby>による<ruby>収入<rt>しゅうにゅう</rt></ruby>を<ruby>得る<rt>える</rt></ruby>ことが<ruby>多い<rt>おおい</rt></ruby>。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">つまり，DPF 事業者の役割は，単に一方当事者から受け取った情報を他方当事者に伝える伝達手段を提供しているのみならず，潜在的売主から提供された情報を，交易成立の見込みが高い方法で潜在的買主に提供している 。具体的には，あるキーワードで検索を行った潜在的買主に対して，交易型 DPF 上にどのような順番で表示するかを，（もちろん手作業ではなく）独自のアルゴリズムに基づいて裁定し，交易成立につながりやすい順で表示している。第二に，DPF 事業者は，利用者間で成立した交易から手数料による収入を得ることが多い。</div>
+            </div>
+        </article>
+        <article id="card-15" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(15)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    このことから、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby><ruby>自身<rt>じしん</rt></ruby>が、<ruby>利用者<rt>りようしゃ</rt></ruby><ruby>間<rt>かん</rt></ruby>での<ruby>取引<rt>とりひき</rt></ruby>の<ruby>成立<rt>せいりつ</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>き<ruby>経済的利益<rt>けいざいてきりえき</rt></ruby>を<ruby>享受<rt>きょうじゅ</rt></ruby>する<ruby>立場<rt>たちば</rt></ruby>にある（いわゆる<ruby>報償<rt>ほうしょう</rt></ruby><ruby>責任<rt>せきにん</rt></ruby>）。<ruby>第三<rt>だいさん</rt></ruby>に、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>は、<ruby>潜在的<rt>せんざいてき</rt></ruby><ruby>売主<rt>うりぬし</rt></ruby>に<ruby>対する<rt>たいする</rt></ruby><ruby>利用<rt>りよう</rt></ruby><ruby>規約<rt>きやく</rt></ruby>において、<ruby>不適正<rt>ふてきせい</rt></ruby>な<ruby>出品<rt>しゅっぴん</rt></ruby>に<ruby>対する<rt>たいする</rt></ruby><ruby>制裁<rt>せいさい</rt></ruby>として、アカウント<ruby>停止<rt>ていし</rt></ruby>などの<ruby>措置<rt>そち</rt></ruby>をとることができることを<ruby>定め<rt>さだめ</rt></ruby>ている。このように、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>が、<ruby>潜在的<rt>せんざいてき</rt></ruby><ruby>買主<rt>かいぬし</rt></ruby>の<ruby>権利<rt>けんり</rt></ruby><ruby>保護<rt>ほご</rt></ruby>のための<ruby>権限<rt>けんげん</rt></ruby>を<ruby>利用<rt>りよう</rt></ruby><ruby>規約<rt>きやく</rt></ruby>に<ruby>定め<rt>さだめ</rt></ruby>ていることは、<ruby>潜在的<rt>せんざいてき</rt></ruby><ruby>買主<rt>かいぬし</rt></ruby>にとってみれば、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>が<ruby>潜在的<rt>せんざいてき</rt></ruby><ruby>売主<rt>うりぬし</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby>て<ruby>適切<rt>てきせつ</rt></ruby>に<ruby>権限<rt>けんげん</rt></ruby>を<ruby>行使<rt>こうし</rt></ruby>し、<ruby>適切<rt>てきせつ</rt></ruby>な<ruby>取引<rt>とりひき</rt></ruby><ruby>環境<rt>かんきょう</rt></ruby>を<ruby>保持<rt>ほじ</rt></ruby>しているという<ruby>頼<rt>らい</rt></ruby>を<ruby>惹起<rt>じゃっき</rt></ruby>するものである。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">このことから，DPF 事業者自身が，利用者間での交易の成立に基づき経済的利益を享受する立場にある（いわゆる報償責任）。第三に，DPF 事業者は，潜在的売主に対する利用規約において，不適正な出品に対する制裁として，アカウント停止などの措置をとることができることを定めている。このように，DPF 事業者が，潜在的買主の権利保護のための権限を利用規約に定めていることは，潜在的買主にとってみれば，DPF 事業者が潜在的売主に対して適切に権限を行使し，適切な交易環境を保持しているという頼を惹起するものである。</div>
+            </div>
+        </article>
+        <article id="card-16" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(16)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>第四<rt>だいよん</rt></ruby>に、そもそも、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>はDPFというシステムを<ruby>構築<rt>こうちく</rt></ruby>することによって<ruby>利用者<rt>りようしゃ</rt></ruby>の<ruby>利便性<rt>りべんせい</rt></ruby>を<ruby>向上<rt>こうじょう</rt></ruby>させる<ruby>一方<rt>いっぽう</rt></ruby>で、<ruby>新た<rt>あらた</rt></ruby>な<ruby>危険<rt>きけん</rt></ruby>を<ruby>生み出し<rt>うみだし</rt></ruby>ている（いわゆる<ruby>危険<rt>きけん</rt></ruby><ruby>責任<rt>せきにん</rt></ruby>）。つまり、<ruby>非<rt>ひ</rt></ruby><ruby>対面<rt>たいめん</rt></ruby><ruby>取引<rt>とりひき</rt></ruby><ruby>機会<rt>きかい</rt></ruby>の<ruby>増大<rt>ぞうだい</rt></ruby>により、<ruby>悪質<rt>あくしつ</rt></ruby>な<ruby>販売<rt>はんばい</rt></ruby><ruby>業者<rt>ぎょうしゃ</rt></ruby>が<ruby>紛れ<rt>まぎれ</rt></ruby><ruby>込む<rt>こむ</rt></ruby><ruby>潜在的<rt>せんざいてき</rt></ruby>な<ruby>可能性<rt>かのうせい</rt></ruby>は<ruby>高く<rt>たかく</rt></ruby>なり、<ruby>販売<rt>はんばい</rt></ruby><ruby>業者<rt>ぎょうしゃ</rt></ruby>の<ruby>名称<rt>めいしょう</rt></ruby>や<ruby>連絡先<rt>れんらくさき</rt></ruby><ruby>等<rt>など</rt></ruby>が<ruby>表示さ<rt>ひょうじさ</rt></ruby>れていても、それが<ruby>正しい<rt>ただしい</rt></ruby>ものかを<ruby>確認す<rt>かくにんす</rt></ruby>ることは<ruby>容易<rt>ようい</rt></ruby>ではない。このように、<ruby>取引<rt>とりひき</rt></ruby><ruby>型<rt>かた</rt></ruby>DPF というシステムの<ruby>構築<rt>こうちく</rt></ruby>は、<ruby>利用者<rt>りようしゃ</rt></ruby>を<ruby>新た<rt>あらた</rt></ruby>な<ruby>取引<rt>とりひき</rt></ruby>リスクにさらす<ruby>危険<rt>きけん</rt></ruby>を<ruby>伴っ<rt>ともなっ</rt></ruby>ている。<ruby>一方<rt>いっぽう</rt></ruby>で、これらの<ruby>役割<rt>やくわり</rt></ruby>を<ruby>根拠<rt>こんきょ</rt></ruby>として、<ruby>取引<rt>とりひき</rt></ruby><ruby>型<rt>かた</rt></ruby>DPF <ruby>上で<rt>うえで</rt></ruby>の<ruby>売主<rt>うりぬし</rt></ruby>の<ruby>債務<rt>さいむ</rt></ruby><ruby>不履行<rt>ふりこう</rt></ruby><ruby>行為<rt>こうい</rt></ruby>について、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>にもこれにかかわる<ruby>何らか<rt>なんらか</rt></ruby>の<ruby>義務<rt>ぎむ</rt></ruby><ruby>違反<rt>いはん</rt></ruby>を<ruby>見出し<rt>みだし</rt></ruby>、<ruby>責任<rt>せきにん</rt></ruby>を<ruby>課す<rt>かす</rt></ruby><ruby>学説<rt>がくせつ</rt></ruby>が<ruby>多く<rt>おおく</rt></ruby><ruby>主張<rt>しゅちょう</rt></ruby>され、DPF <ruby>消費者保護<rt>しょうひしゃほご</rt></ruby><ruby>法<rt>ほう</rt></ruby>の<ruby>消極的<rt>しょうきょくてき</rt></ruby>な<ruby>態度<rt>たいど</rt></ruby>に<ruby>対する<rt>たいする</rt></ruby><ruby>批判<rt>ひはん</rt></ruby>として<ruby>現れ<rt>あらわれ</rt></ruby>る。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">第四に，そもそも，DPF 事業者はDPFというシステムを構築することによって利用者の利便性を向上させる一方で，新たな危険を生み出している（いわゆる危険責任）。つまり，非対面交易機会の増大により，悪質な販売業者が紛れ込む潜在的な可能性は高くなり，販売業者の名称や連絡先等が表示されていても，それが正しいものかを確認することは容易ではない。このように，交易型DPF というシステムの構築は，利用者を新たな交易リスクにさらす危険を伴っている。一方で，これらの役割を根拠として，交易型DPF 上での売主の債務不履行行為について，DPF 事業者にもこれにかかわる何らかの義務違反を見出し，責任を課す学説が多く主張され，DPF 消費者保護法の消極的な態度に対する批判として現れる。</div>
+            </div>
+        </article>
+        <article id="card-17" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(17)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    これらの<ruby>学説<rt>がくせつ</rt></ruby>は、<ruby>売主<rt>うりぬし</rt></ruby>が<ruby>販売<rt>はんばい</rt></ruby><ruby>業者<rt>ぎょうしゃ</rt></ruby>ではない<ruby>場合<rt>ばあい</rt></ruby>に DPF<ruby>消費者保護<rt>しょうひしゃほご</rt></ruby><ruby>法<rt>ほう</rt></ruby>や<ruby>特定<rt>とくてい</rt></ruby><ruby>商取引<rt>しょうとりひき</rt></ruby><ruby>法<rt>ほう</rt></ruby>の<ruby>保護<rt>ほご</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>られないこと、<ruby>売主<rt>うりぬし</rt></ruby>が<ruby>個人<rt>こじん</rt></ruby>である<ruby>場合<rt>ばあい</rt></ruby>や<ruby>中小<rt>ちゅうしょう</rt></ruby><ruby>規模<rt>きぼ</rt></ruby>の<ruby>事業者<rt>じぎょうしゃ</rt></ruby>である<ruby>場合<rt>ばあい</rt></ruby>に<ruby>賠償<rt>ばいしょう</rt></ruby>の<ruby>原資<rt>げんし</rt></ruby>を<ruby>持た<rt>もた</rt></ruby>ない<ruby>場合<rt>ばあい</rt></ruby>があることなどについて、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby><ruby>自身<rt>じしん</rt></ruby>を<ruby>責任<rt>せきにん</rt></ruby><ruby>主体<rt>しゅたい</rt></ruby>とすることで<ruby>買主<rt>かいぬし</rt></ruby>の<ruby>保護<rt>ほご</rt></ruby>を<ruby>図る<rt>はかる</rt></ruby>ものだと<ruby>評価<rt>ひょうか</rt></ruby>することができる。<ruby>他方<rt>たほう</rt></ruby>で、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>の<ruby>責任<rt>せきにん</rt></ruby>を<ruby>無限定<rt>むげんてい</rt></ruby>に<ruby>高度化<rt>こうどか</rt></ruby>することは、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>の<ruby>事業<rt>じぎょう</rt></ruby><ruby>運営<rt>うんえい</rt></ruby>コストを<ruby>増大<rt>ぞうだい</rt></ruby>させることにつながり、<ruby>結果<rt>けっか</rt></ruby>として、DPF <ruby>利用者<rt>りようしゃ</rt></ruby>の<ruby>負担<rt>ふたん</rt></ruby>に<ruby>跳ね<rt>はね</rt></ruby><ruby>返り<rt>かえり</rt></ruby>、<ruby>社会的<rt>しゃかいてき</rt></ruby>な<ruby>利便性<rt>りべんせい</rt></ruby>と<ruby>有用性<rt>ゆうようせい</rt></ruby>を<ruby>損な<rt>そこな</rt></ruby>うことになりかねない。このような<ruby>両者<rt>りょうしゃ</rt></ruby>の<ruby>利害<rt>りがい</rt></ruby>の<ruby>調整<rt>ちょうせい</rt></ruby>を<ruby>模索<rt>もさく</rt></ruby>すべく、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>の<ruby>責任<rt>せきにん</rt></ruby>は、その<ruby>法律<rt>ほうりつ</rt></ruby><ruby>構成<rt>こうせい</rt></ruby>と、<ruby>責任<rt>せきにん</rt></ruby>を<ruby>基礎付け<rt>きそづけ</rt></ruby>る<ruby>義務<rt>ぎむ</rt></ruby>の<ruby>具体的内容<rt>ぐたいてきないよう</rt></ruby>の<ruby>二面<rt>にめん</rt></ruby>から<ruby>議論<rt>ぎろん</rt></ruby>されている。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">これらの学説は，売主が販売業者ではない場合に DPF消費者保護法や特定商交易法の保護を受けられないこと，売主が個人である場合や中小規模の事業者である場合に賠償の原資を持たない場合があることなどについて，DPF 事業者自身を責任主体とすることで買主の保護を図るものだと評価することができる。他方で，DPF 事業者の責任を無限定に高度化することは，DPF 事業者の事業運営コストを増大させることにつながり，結果として，DPF 利用者の負担に跳ね返り，社会的な利便性と有用性を損なうことになりかねない。このような両者の利害の調整を模索すべく，DPF 事業者の責任は，その法律構成と，責任を基礎付ける義務の具体的内容の二面から議論されている。</div>
+            </div>
+        </article>
+        <article id="card-18" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(18)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    2.<ruby>責任<rt>せきにん</rt></ruby>を<ruby>基礎付け<rt>きそづけ</rt></ruby>る<ruby>法律<rt>ほうりつ</rt></ruby><ruby>構成<rt>こうせい</rt></ruby><ruby>取引<rt>とりひき</rt></ruby><ruby>型<rt>かた</rt></ruby> DPF <ruby>上で<rt>うえで</rt></ruby><ruby>購入<rt>こうにゅう</rt></ruby>した<ruby>商品<rt>しょうひん</rt></ruby>に<ruby>契約<rt>けいやく</rt></ruby><ruby>不適合<rt>ふてきごう</rt></ruby>があった<ruby>場合<rt>ばあい</rt></ruby>、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>の<ruby>責任<rt>せきにん</rt></ruby>を<ruby>基礎付け<rt>きそづけ</rt></ruby>る<ruby>法律<rt>ほうりつ</rt></ruby><ruby>構成<rt>こうせい</rt></ruby>を<ruby>考え<rt>かんがえ</rt></ruby>るにあたっては、<ruby>二つ<rt>ふたつ</rt></ruby>の<ruby>点<rt>てん</rt></ruby>が<ruby>前提<rt>ぜんてい</rt></ruby>になる。<ruby>第一<rt>だいいち</rt></ruby>に、<ruby>既に<rt>すでに</rt></ruby><ruby>説明し<rt>せつめいし</rt></ruby>た<ruby>通り<rt>とうり</rt></ruby>、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>は<ruby>利用者<rt>りようしゃ</rt></ruby>との<ruby>間<rt>かん</rt></ruby>で<ruby>利用<rt>りよう</rt></ruby><ruby>契約<rt>けいやく</rt></ruby>を<ruby>結ん<rt>むすん</rt></ruby>でいる。<ruby>第二<rt>だいに</rt></ruby>に、DPF <ruby>利用<rt>りよう</rt></ruby><ruby>契約<rt>けいやく</rt></ruby>において<ruby>参照<rt>さんしょう</rt></ruby>される<ruby>規約<rt>きやく</rt></ruby>の<ruby>中に<rt>なかに</rt></ruby>は、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>の<ruby>責任<rt>せきにん</rt></ruby>を<ruby>減免<rt>げんめん</rt></ruby>する<ruby>条項<rt>じょうこう</rt></ruby>（「<ruby>責任<rt>せきにん</rt></ruby><ruby>減免<rt>げんめん</rt></ruby><ruby>条項<rt>じょうこう</rt></ruby>」とする）が<ruby>置か<rt>おか</rt></ruby>れることが<ruby>多い<rt>おおい</rt></ruby>。したがって、<ruby>利用<rt>りよう</rt></ruby><ruby>契約上<rt>けいやくじょう</rt></ruby>の<ruby>義務<rt>ぎむ</rt></ruby>として<ruby>何らか<rt>なんらか</rt></ruby>の<ruby>措置<rt>そち</rt></ruby>をとる<ruby>義務<rt>ぎむ</rt></ruby>を<ruby>課し<rt>かし</rt></ruby>、その<ruby>違反<rt>いはん</rt></ruby>を<ruby>問う<rt>とう</rt></ruby>だけでは、<ruby>直ち<rt>ただち</rt></ruby>にはDPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>の<ruby>責任<rt>せきにん</rt></ruby>を<ruby>肯定<rt>こうてい</rt></ruby>できないことになる。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">2.責任を基礎付ける法律構成交易型 DPF 上で購入した商品に契約不適合があった場合，DPF 事業者の責任を基礎付ける法律構成を考えるにあたっては，二つの点が前提になる。第一に，既に説明した通り，DPF 事業者は利用者との間で利用契約を結んでいる。第二に，DPF 利用契約において参照される規約の中には，DPF 事業者の責任を減免する条項（「責任減免条項」とする）が置かれることが多い。したがって，利用契約上の義務として何らかの措置をとる義務を課し，その違反を問うだけでは，直ちにはDPF 事業者の責任を肯定できないことになる。</div>
+            </div>
+        </article>
+        <article id="card-19" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(19)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>義務<rt>ぎむ</rt></ruby>の<ruby>法律<rt>ほうりつ</rt></ruby><ruby>構成<rt>こうせい</rt></ruby>について、<ruby>責任<rt>せきにん</rt></ruby><ruby>減免<rt>げんめん</rt></ruby><ruby>条項<rt>じょうこう</rt></ruby>との<ruby>関係<rt>かんけい</rt></ruby>に<ruby>着<rt>ちゃく</rt></ruby><ruby>日<rt>にち</rt></ruby>すると、<ruby>以下の<rt>いかの</rt></ruby><ruby>通り<rt>とうり</rt></ruby>に<ruby>整理<rt>せいり</rt></ruby>される。<ruby>第一<rt>だいいち</rt></ruby>に、あらゆるプラットフォームについて<ruby>責任<rt>せきにん</rt></ruby><ruby>減免<rt>げんめん</rt></ruby><ruby>条項<rt>じょうこう</rt></ruby>を<ruby>一律<rt>いちりつ</rt></ruby>に<ruby>不当<rt>ふとう</rt></ruby><ruby>条項<rt>じょうこう</rt></ruby>とすることは、<ruby>契約<rt>けいやく</rt></ruby>を<ruby>通じ<rt>つうじ</rt></ruby>てシステムの<ruby>内容<rt>ないよう</rt></ruby>をアレンジする<ruby>当事者<rt>とうじしゃ</rt></ruby>の<ruby>自由<rt>じゆう</rt></ruby>を<ruby>侵害<rt>しんがい</rt></ruby>するが、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby><ruby>自身<rt>じしん</rt></ruby>が、<ruby>商品<rt>しょうひん</rt></ruby>の<ruby>保証<rt>ほしょう</rt></ruby>、<ruby>代金<rt>だいきん</rt></ruby><ruby>決済<rt>けっさい</rt></ruby>の<ruby>代行<rt>だいこう</rt></ruby>、<ruby>紛争<rt>ふんそう</rt></ruby><ruby>時の<rt>ときの</rt></ruby><ruby>仲介<rt>ちゅうかい</rt></ruby>などまでを<ruby>現に<rt>げんに</rt></ruby><ruby>行って<rt>いって</rt></ruby>いたり、<ruby>行う<rt>おこなう</rt></ruby>ことを<ruby>謳っ<rt>うたっ</rt></ruby>ている<ruby>場合<rt>ばあい</rt></ruby>には、<ruby>矛盾<rt>むじゅん</rt></ruby><ruby>行為<rt>こうい</rt></ruby><ruby>禁止<rt>きんし</rt></ruby><ruby>原則<rt>げんそく</rt></ruby><ruby>又は<rt>または</rt></ruby><ruby>一貫性<rt>いっかんせい</rt></ruby><ruby>原則<rt>げんそく</rt></ruby>により、<ruby>責任<rt>せきにん</rt></ruby><ruby>減免<rt>げんめん</rt></ruby><ruby>条項<rt>じょうこう</rt></ruby>を<ruby>主張<rt>しゅちょう</rt></ruby>することが<ruby>許さ<rt>ゆるさ</rt></ruby>れなくなるとの<ruby>考え方<rt>かんがえかた</rt></ruby>がある。<ruby>第二<rt>だいに</rt></ruby>に、<ruby>多数<rt>たすう</rt></ruby><ruby>当事者間<rt>とうじしゃかん</rt></ruby><ruby>契約<rt>けいやく</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>考え方<rt>かんがえかた</rt></ruby>を<ruby>応用<rt>おうよう</rt></ruby>して、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>と<ruby>利用者<rt>りようしゃ</rt></ruby>のDPF <ruby>利用<rt>りよう</rt></ruby><ruby>契約<rt>けいやく</rt></ruby>や、<ruby>利用者<rt>りようしゃ</rt></ruby><ruby>間の<rt>まの</rt></ruby><ruby>契約<rt>けいやく</rt></ruby>とは<ruby>別に<rt>べつに</rt></ruby>、<ruby>取引<rt>とりひき</rt></ruby><ruby>全体<rt>ぜんたい</rt></ruby>を<ruby>形成<rt>けいせい</rt></ruby>することについての<ruby>全<rt>ぜん</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby>による<ruby>包括的<rt>ほうかつてき</rt></ruby><ruby>合意<rt>ごうい</rt></ruby>を<ruby>観念す<rt>かんねんす</rt></ruby>る<ruby>考え方<rt>かんがえかた</rt></ruby>がある21。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">義務の法律構成について，責任減免条項との関係に着日すると，以下の通りに整理される。第一に，あらゆるプラットフォームについて責任減免条項を一律に不当条項とすることは，契約を通じてシステムの内容をアレンジする当事者の自由を侵害するが，DPF 事業者自身が，商品の保証，代金決済の代行，紛争時の仲介などまでを現に行っていたり，行うことを謳っている場合には，矛盾行為禁止原則又は一貫性原則により，責任減免条項を主張することが許されなくなるとの考え方がある。第二に，多数当事者間契約に関する考え方を応用して，DPF 事業者と利用者のDPF 利用契約や，利用者間の契約とは別に，交易全体を形成することについての全当事者による包括的合意を観念する考え方がある21。</div>
+            </div>
+        </article>
+        <article id="card-20" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(20)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    このような<ruby>包括的<rt>ほうかつてき</rt></ruby><ruby>合意<rt>ごうい</rt></ruby>は、DPF <ruby>利用<rt>りよう</rt></ruby><ruby>契約<rt>けいやく</rt></ruby>とは<ruby>別個<rt>べっこ</rt></ruby>のものであり、<ruby>責任<rt>せきにん</rt></ruby><ruby>減免<rt>げんめん</rt></ruby><ruby>条項<rt>じょうこう</rt></ruby>の<ruby>対象<rt>たいしょう</rt></ruby>となることなくDPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>の<ruby>責任<rt>せきにん</rt></ruby>を<ruby>基礎付け<rt>きそづけ</rt></ruby>ることができる。<ruby>第三<rt>だいさん</rt></ruby>に、<ruby>責任<rt>せきにん</rt></ruby><ruby>減免<rt>げんめん</rt></ruby><ruby>条項<rt>じょうこう</rt></ruby>の<ruby>存在<rt>そんざい</rt></ruby>にもかかわらず<ruby>責任<rt>せきにん</rt></ruby>を<ruby>肯定<rt>こうてい</rt></ruby>する<ruby>根拠<rt>こんきょ</rt></ruby>として、<ruby>不当<rt>ふとう</rt></ruby><ruby>条項<rt>じょうこう</rt></ruby><ruby>規制<rt>きせい</rt></ruby>を<ruby>挙げ<rt>あげ</rt></ruby>るものがある。<ruby>民法<rt>みんぽう</rt></ruby>548<ruby>条<rt>じょう</rt></ruby>の2<ruby>第<rt>だい</rt></ruby>2<ruby>項<rt>こう</rt></ruby>が<ruby>定め<rt>さだめ</rt></ruby>る<ruby>定型<rt>ていけい</rt></ruby><ruby>約款<rt>やっかん</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>不当<rt>ふとう</rt></ruby><ruby>条項<rt>じょうこう</rt></ruby><ruby>規制<rt>きせい</rt></ruby>を<ruby>挙げ<rt>あげ</rt></ruby>る<ruby>考え方<rt>かんがえかた</rt></ruby>と、これに<ruby>併せ<rt>あわせ</rt></ruby>て<ruby>消費者<rt>しょうひしゃ</rt></ruby><ruby>契約法<rt>けいやくほう</rt></ruby> 10<ruby>条<rt>じょう</rt></ruby>を<ruby>挙げ<rt>あげ</rt></ruby>るものがある。これらの<ruby>考え方<rt>かんがえかた</rt></ruby>の<ruby>場合<rt>ばあい</rt></ruby>、<ruby>信義<rt>のぶよし</rt></ruby><ruby>則<rt>のり</rt></ruby>に<ruby>反し<rt>はんし</rt></ruby>て「<ruby>相手方<rt>あいてかた</rt></ruby>の<ruby>利益<rt>りえき</rt></ruby>を<ruby>一方的<rt>いっぽうてき</rt></ruby>に<ruby>害す<rt>がいす</rt></ruby>る」といえるかを<ruby>考え<rt>かんがえ</rt></ruby>るにあたり、デフォルトルールとしての<ruby>義務<rt>ぎむ</rt></ruby>の<ruby>根拠<rt>こんきょ</rt></ruby>を<ruby>考慮す<rt>こうりょす</rt></ruby>ることになり、ドイツ<ruby>契約法<rt>けいやくほう</rt></ruby>におけるネット<ruby>契約<rt>けいやく</rt></ruby><ruby>論<rt>ろん</rt></ruby>を<ruby>参照<rt>さんしょう</rt></ruby>し、DPF <ruby>利用<rt>りよう</rt></ruby><ruby>契約<rt>けいやく</rt></ruby>と<ruby>利用者<rt>りようしゃ</rt></ruby><ruby>間<rt>かん</rt></ruby><ruby>契約<rt>けいやく</rt></ruby>とが<ruby>結び<rt>むすび</rt></ruby><ruby>付い<rt>つい</rt></ruby>た<ruby>契約<rt>けいやく</rt></ruby><ruby>結合<rt>けつごう</rt></ruby>としてのネットワークを<ruby>見出し<rt>みだし</rt></ruby>、このネットワークの<ruby>最適化<rt>さいてきか</rt></ruby>のために<ruby>各<rt>かく</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby>が<ruby>負う<rt>おう</rt></ruby><ruby>忠実<rt>ちゅうじつ</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>の<ruby>一<rt>いち</rt></ruby><ruby>内容<rt>ないよう</rt></ruby>として、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>が<ruby>高度<rt>こうど</rt></ruby>の<ruby>情報提供<rt>じょうほうていきょう</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>を<ruby>負う<rt>おう</rt></ruby><ruby>考え方<rt>かんがえかた</rt></ruby>や24,DPF<ruby>利用<rt>りよう</rt></ruby><ruby>契約<rt>けいやく</rt></ruby>を<ruby>準<rt>じゅん</rt></ruby><ruby>委任<rt>いにん</rt></ruby><ruby>契約<rt>けいやく</rt></ruby>と<ruby>法性<rt>ほっしょう</rt></ruby><ruby>決定<rt>けってい</rt></ruby>して、<ruby>取引<rt>とりひき</rt></ruby><ruby>全体<rt>ぜんたい</rt></ruby>の<ruby>構造<rt>こうぞう</rt></ruby>を<ruby>考慮し<rt>こうりょし</rt></ruby>ながらその<ruby>善管<rt>ぜんかん</rt></ruby><ruby>注意<rt>ちゅうい</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>の<ruby>内容<rt>ないよう</rt></ruby>を<ruby>画定<rt>かくてい</rt></ruby>する<ruby>考え方<rt>かんがえかた</rt></ruby>が<ruby>示さ<rt>しめさ</rt></ruby>れている25。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">このような包括的合意は，DPF 利用契約とは別個のものであり，責任減免条項の対象となることなくDPF 事業者の責任を基礎付けることができる。第三に，責任減免条項の存在にもかかわらず責任を肯定する根拠として，不当条項規制を挙げるものがある。民法548条の2第2項が定める定型約款に関する不当条項規制を挙げる考え方と，これに併せて消費者契約法 10条を挙げるものがある。これらの考え方の場合，信義則に反して「相手方の利益を一方的に害する」といえるかを考えるにあたり，デフォルトルールとしての義務の根拠を考慮することになり，ドイツ契約法におけるネット契約論を参照し，DPF 利用契約と利用者間契約とが結び付いた契約結合としてのネットワークを見出し，このネットワークの最適化のために各当事者が負う忠実義務の一内容として，DPF 事業者が高度の情報提供義務を負う考え方や24,DPF利用契約を準委任契約と法性裁定して，交易全体の構造を考慮しながらその善良管理人注意義務の内容を画定する考え方が示されている25。</div>
+            </div>
+        </article>
+        <article id="card-21" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(21)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>裁判<rt>さいばん</rt></ruby><ruby>例に<rt>れいに</rt></ruby>おいては、これまで、オークションサイト<ruby>上で<rt>うえで</rt></ruby><ruby>詐欺<rt>さぎ</rt></ruby>に<ruby>遭っ<rt>あっ</rt></ruby>た<ruby>者<rt>もの</rt></ruby>が、オークションサイト<ruby>運営者<rt>うんえいしゃ</rt></ruby>に<ruby>損害賠償<rt>そんがいばいしょう</rt></ruby>を<ruby>求め<rt>もとめ</rt></ruby>た<ruby>事案<rt>じあん</rt></ruby>において、<ruby>利用<rt>りよう</rt></ruby><ruby>契約上<rt>けいやくじょう</rt></ruby>の<ruby>義則<rt>よしのり</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>いて<ruby>運営者<rt>うんえいしゃ</rt></ruby>に「<ruby>欠陥<rt>けっかん</rt></ruby>のないシステムを<ruby>構築<rt>こうちく</rt></ruby>して<ruby>本件<rt>ほんけん</rt></ruby>サービスを<ruby>提供<rt>ていきょう</rt></ruby>すべき<ruby>義務<rt>ぎむ</rt></ruby>」があることが<ruby>認め<rt>みとめ</rt></ruby>られ20，Amazonにおいて、ある<ruby>出品<rt>しゅっぴん</rt></ruby><ruby>者<rt>もの</rt></ruby>の<ruby>出品<rt>しゅっぴん</rt></ruby>ページに<ruby>他の<rt>ほかの</rt></ruby><ruby>出品<rt>しゅっぴん</rt></ruby><ruby>者<rt>もの</rt></ruby>によって<ruby>他の<rt>ほかの</rt></ruby><ruby>偽造<rt>ぎぞう</rt></ruby><ruby>品<rt>ひん</rt></ruby>が<ruby>相乗り<rt>あいのり</rt></ruby><ruby>出品<rt>しゅっぴん</rt></ruby>（ある<ruby>出品<rt>しゅっぴん</rt></ruby><ruby>者<rt>もの</rt></ruby>のページに、<ruby>同一<rt>どういつ</rt></ruby>の<ruby>商品<rt>しょうひん</rt></ruby>を<ruby>出品<rt>しゅっぴん</rt></ruby>する<ruby>他の<rt>ほかの</rt></ruby><ruby>出品<rt>しゅっぴん</rt></ruby><ruby>者<rt>もの</rt></ruby>が<ruby>自ら<rt>みずから</rt></ruby>の<ruby>出品<rt>しゅっぴん</rt></ruby>を<ruby>関連付け<rt>かんれんづけ</rt></ruby>て<ruby>表示さ<rt>ひょうじさ</rt></ruby>せる<ruby>仕組み<rt>しくみ</rt></ruby>）された<ruby>事案<rt>じあん</rt></ruby>において、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>が<ruby>契約上<rt>けいやくじょう</rt></ruby>の<ruby>義務<rt>ぎむ</rt></ruby>として「<ruby>出品<rt>しゅっぴん</rt></ruby><ruby>者<rt>もの</rt></ruby>の<ruby>適正<rt>てきせい</rt></ruby>な<ruby>販売機<rt>はんばいき</rt></ruby><ruby>会を<rt>あを</rt></ruby><ruby>確保<rt>かくほ</rt></ruby>するために、これを<ruby>阻害<rt>そがい</rt></ruby>する<ruby>不正<rt>ふせい</rt></ruby>な<ruby>出品<rt>しゅっぴん</rt></ruby>を<ruby>監視<rt>かんし</rt></ruby>し、<ruby>取り締まる<rt>とりしまる</rt></ruby>など、<ruby>不正行為<rt>ふせいこうい</rt></ruby>への<ruby>対応<rt>たいおう</rt></ruby>を<ruby>行う<rt>おこなう</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>」を<ruby>負う<rt>おう</rt></ruby>ことが<ruby>認め<rt>みとめ</rt></ruby>られた。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">裁判例においては，これまで，オークションサイト上で詐欺に遭った者が，オークションサイト運営者に損害賠償を求めた事案において，利用契約上の義則に基づいて運営者に「欠陥のないシステムを構築して本件サービスを提供すべき義務」があることが認められ20，Amazonにおいて，ある出品者の出品ページに他の出品者によって他の偽造品が相乗り出品（ある出品者のページに，同一の商品を出品する他の出品者が自らの出品を関連付けて表示させる仕組み）された事案において，DPF 事業者が契約上の義務として「出品者の適正な販売機会を確保するために，これを阻害する不正な出品を監視し，取り締まるなど，不正行為への対応を行う義務」を負うことが認められた。</div>
+            </div>
+        </article>
+        <article id="card-22" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(22)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>前者<rt>ぜんしゃ</rt></ruby>は、オークションサイト<ruby>運営者<rt>うんえいしゃ</rt></ruby>に<ruby>義務<rt>ぎむ</rt></ruby><ruby>違反<rt>いはん</rt></ruby>が<ruby>認め<rt>みとめ</rt></ruby>られなかったため、<ruby>責任<rt>せきにん</rt></ruby><ruby>減免<rt>げんめん</rt></ruby><ruby>条項<rt>じょうこう</rt></ruby>との<ruby>関係<rt>かんけい</rt></ruby>は<ruby>判断<rt>はんだん</rt></ruby>されていないが、<ruby>後者<rt>こうしゃ</rt></ruby>は、<ruby>民法<rt>みんぽう</rt></ruby>548<ruby>条<rt>じょう</rt></ruby>の2<ruby>第<rt>だい</rt></ruby>2<ruby>項<rt>こう</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>いて、<ruby>責任<rt>せきにん</rt></ruby>の<ruby>全部<rt>ぜんぶ</rt></ruby><ruby>免除<rt>めんじょ</rt></ruby>を<ruby>定め<rt>さだめ</rt></ruby>ていた<ruby>規約<rt>きやく</rt></ruby>を<ruby>一部<rt>いちぶ</rt></ruby><ruby>無効<rt>むこう</rt></ruby>として、<ruby>故意<rt>こい</rt></ruby><ruby>又は<rt>または</rt></ruby><ruby>重過失<rt>じゅうかしつ</rt></ruby>の<ruby>場合<rt>ばあい</rt></ruby>にはDPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>が<ruby>責任<rt>せきにん</rt></ruby>を<ruby>負う<rt>おう</rt></ruby>べきことを<ruby>認め<rt>みとめ</rt></ruby>た。3.プラットフォーム<ruby>事業者<rt>じぎょうしゃ</rt></ruby>がとるべき<ruby>措置<rt>そち</rt></ruby><ruby>以上<rt>いじょう</rt></ruby>のような<ruby>責任<rt>せきにん</rt></ruby>の<ruby>法律<rt>ほうりつ</rt></ruby><ruby>構成<rt>こうせい</rt></ruby>にかかわらず、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>の<ruby>責任<rt>せきにん</rt></ruby>の<ruby>範囲<rt>はんい</rt></ruby>は、<ruby>責任<rt>せきにん</rt></ruby><ruby>減免<rt>げんめん</rt></ruby><ruby>条項<rt>じょうこう</rt></ruby>をどの<ruby>範囲<rt>はんい</rt></ruby>で<ruby>無効<rt>むこう</rt></ruby>とするのかという<ruby>観点<rt>かんてん</rt></ruby>に<ruby>加え<rt>くわえ</rt></ruby>て、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>に<ruby>具体的<rt>ぐたいてき</rt></ruby>にどのような<ruby>措置<rt>そち</rt></ruby>をとることが<ruby>義務付け<rt>ぎむづけ</rt></ruby>られるかによって<ruby>画定<rt>かくてい</rt></ruby>される。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">前者は，オークションサイト運営者に義務違反が認められなかったため，責任減免条項との関係は判断されていないが，後者は，民法548条の2第2項に基づいて，責任の全部免除を定めていた規約を一部無効として，故意又は重過失の場合にはDPF 事業者が責任を負うべきことを認めた。3.プラットフォーム事業者がとるべき措置以上のような責任の法律構成にかかわらず，DPF 事業者の責任の範囲は，責任減免条項をどの範囲で無効とするのかという観点に加えて，DPF 事業者に具体的にどのような措置をとることが義務付けられるかによって画定される。</div>
+            </div>
+        </article>
+        <article id="card-23" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(23)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>学説<rt>がくせつ</rt></ruby>においては、EU<ruby>法<rt>ほう</rt></ruby>におけるDSAやELI<ruby>準則<rt>じゅんそく</rt></ruby>を<ruby>参照<rt>さんしょう</rt></ruby>しながら、<ruby>利用者<rt>りようしゃ</rt></ruby>の<ruby>申立て<rt>もうしたて</rt></ruby>に<ruby>応じ<rt>おうじ</rt></ruby>て<ruby>迅速<rt>じんそく</rt></ruby>に<ruby>問題<rt>もんだい</rt></ruby>のある<ruby>出品<rt>しゅっぴん</rt></ruby>を<ruby>停止<rt>ていし</rt></ruby>するなどの<ruby>措置<rt>そち</rt></ruby>をとる<ruby>義務<rt>ぎむ</rt></ruby>（「ノーティス・テイクダウン」と<ruby>呼ば<rt>よば</rt></ruby>れる）よりは<ruby>重い<rt>おもい</rt></ruby>が、<ruby>一般的<rt>いっぱんてき</rt></ruby><ruby>監視<rt>かんし</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>までは<ruby>求め<rt>もとめ</rt></ruby>ないとする<ruby>考え方<rt>かんがえかた</rt></ruby>や、<ruby>同じ<rt>おなじ</rt></ruby>く<ruby>一般的<rt>いっぱんてき</rt></ruby>な<ruby>監視<rt>かんし</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>までは<ruby>負わ<rt>おわ</rt></ruby>ないが、<ruby>違法<rt>いほう</rt></ruby>コンテンツ・<ruby>虚<rt>きょ</rt></ruby><ruby>情報<rt>じょうほう</rt></ruby>である<ruby>場合<rt>ばあい</rt></ruby>には、これを<ruby>利用者<rt>りようしゃ</rt></ruby>に<ruby>提供<rt>ていきょう</rt></ruby>しないようにする<ruby>善管<rt>ぜんかん</rt></ruby><ruby>注意<rt>ちゅうい</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>を<ruby>負う<rt>おう</rt></ruby>との<ruby>考え方<rt>かんがえかた</rt></ruby>が<ruby>示さ<rt>しめさ</rt></ruby>れている。<ruby>裁判<rt>さいばん</rt></ruby><ruby>例に<rt>れいに</rt></ruby>おいては、<ruby>前掲<rt>ぜんけい</rt></ruby><ruby>平成<rt>へいせい</rt></ruby>20<ruby>年名<rt>としな</rt></ruby><ruby>古屋<rt>ふるや</rt></ruby><ruby>地判<rt>ちはん</rt></ruby>では、<ruby>注意喚起<rt>ちゅういかんき</rt></ruby><ruby>措置<rt>そち</rt></ruby>をとることが<ruby>義務付け<rt>ぎむづけ</rt></ruby>られた<ruby>結果<rt>けっか</rt></ruby>、<ruby>相応<rt>そうおう</rt></ruby>の<ruby>注意喚起<rt>ちゅういかんき</rt></ruby><ruby>措置<rt>そち</rt></ruby>がとられていたとして、<ruby>義務<rt>ぎむ</rt></ruby><ruby>違反<rt>いはん</rt></ruby>が<ruby>否定<rt>ひてい</rt></ruby>されている。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">学説においては，EU法におけるDSAやELI準則を参照しながら，利用者の申立てに応じて迅速に問題のある出品を停止するなどの措置をとる義務（「ノーティス・テイクダウン」と呼ばれる）よりは重いが，一般的監視義務までは求めないとする考え方や，同じく一般的な監視義務までは負わないが，違法コンテンツ・虚情報である場合には，これを利用者に提供しないようにする善良管理人注意義務を負うとの考え方が示されている。裁判例においては，前掲平成20年名古屋地判では，注意喚起措置をとることが義務付けられた結果，相応の注意喚起措置がとられていたとして，義務違反が否定されている。</div>
+            </div>
+        </article>
+        <article id="card-24" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(24)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    これに<ruby>対し<rt>たいし</rt></ruby>て、<ruby>取引<rt>とりひき</rt></ruby><ruby>型<rt>かた</rt></ruby>DPF <ruby>上で<rt>うえで</rt></ruby>モバイルバッテリーを<ruby>購入<rt>こうにゅう</rt></ruby>したところ、これが<ruby>発火<rt>はっか</rt></ruby>したために、<ruby>買主<rt>かいぬし</rt></ruby>がDPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>に<ruby>損害<rt>そんがい</rt></ruby>の<ruby>賠償<rt>ばいしょう</rt></ruby>を<ruby>求め<rt>もとめ</rt></ruby>た<ruby>事案<rt>じあん</rt></ruby>においては、<ruby>買主<rt>かいぬし</rt></ruby>が<ruby>主張<rt>しゅちょう</rt></ruby>した<ruby>一般的<rt>いっぱんてき</rt></ruby><ruby>出品<rt>しゅっぴん</rt></ruby><ruby>審査<rt>しんさ</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>の<ruby>存在<rt>そんざい</rt></ruby>そのものが<ruby>否定<rt>ひてい</rt></ruby>されている。<ruby>主張<rt>しゅちょう</rt></ruby><ruby>立証<rt>りっしょう</rt></ruby>の<ruby>不備<rt>ふび</rt></ruby>などから、この<ruby>裁判<rt>さいばん</rt></ruby><ruby>例の<rt>れいの</rt></ruby><ruby>意義<rt>いぎ</rt></ruby>を<ruby>限定<rt>げんてい</rt></ruby>する<ruby>見解<rt>けんかい</rt></ruby>が<ruby>多い<rt>おおい</rt></ruby>.が、<ruby>運営<rt>うんえい</rt></ruby>コストの<ruby>観点<rt>かんてん</rt></ruby>から<ruby>一般的<rt>いっぱんてき</rt></ruby><ruby>監視<rt>かんし</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>を<ruby>否定<rt>ひてい</rt></ruby>する<ruby>点<rt>てん</rt></ruby>は<ruby>学説<rt>がくせつ</rt></ruby>の<ruby>動向<rt>どうこう</rt></ruby>と<ruby>一致<rt>いっち</rt></ruby>する<ruby>点<rt>てん</rt></ruby>である。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">これに対して，交易型DPF 上でモバイルバッテリーを購入したところ，これが発火したために，買主がDPF 事業者に損害の賠償を求めた事案においては，買主が主張した一般的出品審査義務の存在そのものが否定されている。主張立証の不備などから，この裁判例の意義を限定する見解が多い.が，運営コストの観点から一般的監視義務を否定する点は学説の動向と一致する点である。</div>
+            </div>
+        </article>
+        <section id="card-25" class="my-8 rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 shadow-md border border-indigo-900/80 transition-all duration-300">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="text-xl sm:text-2xl font-bold tracking-wide font-serif text-amber-300">・おわりに<ruby>取引<rt>とりひき</rt></ruby><ruby>型<rt>かた</rt></ruby>DPFにおいて、<ruby>契約<rt>けいやく</rt></ruby>の<ruby>相対<rt>そうたい</rt></ruby><ruby>効<rt>こう</rt></ruby>の<ruby>原則<rt>げんそく</rt></ruby>からは、<ruby>利用者<rt>りようしゃ</rt></ruby><ruby>同士<rt>どうし</rt></ruby>の<ruby>契約上<rt>けいやくじょう</rt></ruby>の<ruby>紛争<rt>ふんそう</rt></ruby>について、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>が<ruby>責任<rt>せきにん</rt></ruby>を<ruby>負う<rt>おう</rt></ruby>ことがないという<ruby>結論<rt>けつろん</rt></ruby>が<ruby>導か<rt>みちびか</rt></ruby>れることになる。</h2>
+                <button onclick="playCardText(25)" class="shrink-0 flex items-center space-x-1 bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-amber-400/40 transition-colors select-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    <span>朗讀標題</span>
+                </button>
+            </div>
+            <div class="text-base sm:text-lg font-medium text-indigo-200 font-sans">・おわりに交易型DPFにおいて，契約の相対効の原則からは，利用者同士の契約上の紛争について，DPF 事業者が責任を負うことがないという結論が導かれることになる。</div>
+        </section>
+        <article id="card-26" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(26)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    しかし、<ruby>当事者間<rt>とうじしゃかん</rt></ruby>での<ruby>紛争<rt>ふんそう</rt></ruby><ruby>解決<rt>かいけつ</rt></ruby>により<ruby>買主<rt>かいぬし</rt></ruby>の<ruby>損害<rt>そんがい</rt></ruby>を<ruby>回復<rt>かいふく</rt></ruby>するには<ruby>限界<rt>げんかい</rt></ruby>があることや、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>が<ruby>取引<rt>とりひき</rt></ruby><ruby>型<rt>かた</rt></ruby> DPF のシステムの<ruby>中<rt>なか</rt></ruby>で<ruby>不可欠<rt>ふかけつ</rt></ruby>な<ruby>役割<rt>やくわり</rt></ruby>を<ruby>担っ<rt>になっ</rt></ruby>ていることを<ruby>考慮す<rt>こうりょす</rt></ruby>ると、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>にも<ruby>損害<rt>そんがい</rt></ruby>を<ruby>分担<rt>ぶんたん</rt></ruby>させるのが<ruby>公平<rt>こうへい</rt></ruby>である。そこで、DPF <ruby>事業者<rt>じぎょうしゃ</rt></ruby>とDPF<ruby>利用者<rt>りようしゃ</rt></ruby>の<ruby>利害<rt>りがい</rt></ruby>の<ruby>調整<rt>ちょうせい</rt></ruby>を<ruby>図る<rt>はかる</rt></ruby>べく、<ruby>責任<rt>せきにん</rt></ruby>の<ruby>範囲<rt>はんい</rt></ruby>が<ruby>画定<rt>かくてい</rt></ruby>されることになる。<ruby>多数<rt>たすう</rt></ruby><ruby>当事者間<rt>とうじしゃかん</rt></ruby><ruby>約<rt>やく</rt></ruby>における<ruby>包括的<rt>ほうかつてき</rt></ruby><ruby>合意<rt>ごうい</rt></ruby>や、ネット<ruby>契約<rt>けいやく</rt></ruby><ruby>論<rt>ろん</rt></ruby>、<ruby>契約上<rt>けいやくじょう</rt></ruby>の<ruby>付随<rt>ふずい</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>や<ruby>義則<rt>よしのり</rt></ruby><ruby>上の<rt>うえの</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>といった<ruby>様々な<rt>さまざまな</rt></ruby><ruby>法律<rt>ほうりつ</rt></ruby><ruby>構成<rt>こうせい</rt></ruby>によって、その<ruby>責任<rt>せきにん</rt></ruby><ruby>負担<rt>ふたん</rt></ruby>の<ruby>根拠<rt>こんきょ</rt></ruby>を<ruby>基礎付け<rt>きそづけ</rt></ruby>る<ruby>議論<rt>ぎろん</rt></ruby>が<ruby>行わ<rt>おこなわ</rt></ruby>れている。<ruby>具体的<rt>ぐたいてき</rt></ruby>な<ruby>義務<rt>ぎむ</rt></ruby>の<ruby>水準<rt>すいじゅん</rt></ruby>の<ruby>確定<rt>かくてい</rt></ruby>にあたっては、<ruby>具体的<rt>ぐたいてき</rt></ruby>な<ruby>紛争<rt>ふんそう</rt></ruby>の<ruby>解決<rt>かいけつ</rt></ruby>をめぐる<ruby>当事者<rt>とうじしゃ</rt></ruby>の<ruby>主張<rt>しゅちょう</rt></ruby>の<ruby>応酬<rt>おうしゅう</rt></ruby>や<ruby>裁判<rt>さいばん</rt></ruby><ruby>例の<rt>れいの</rt></ruby><ruby>蓄積<rt>ちくせき</rt></ruby>が<ruby>待た<rt>また</rt></ruby>れるところである。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">しかし，当事者間での紛争解決により買主の損害を回復するには限界があることや，DPF 事業者が交易型 DPF のシステムの中で不可欠な役割を担っていることを考慮すると，DPF 事業者にも損害を分担させるのが公平である。そこで，DPF 事業者とDPF利用者の利害の調整を図るべく，責任の範囲が画定されることになる。多数当事者間約における包括的合意や，ネット契約論，契約上の付随義務や義則上の義務といった様々な法律構成によって，その責任負担の根拠を基礎付ける議論が行われている。具体的な義務の水準の確定にあたっては，具体的な紛争の解決をめぐる当事者の主張の応酬や裁判例の蓄積が待たれるところである。</div>
+            </div>
+        </article>
+        <article id="card-27" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(27)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    （こみね・ようへい） <ruby>血<rt>ち</rt></ruby>
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">（こみね・ようへい） 血</div>
+            </div>
+        </article>
+                </main>
+
+                <!-- Footer -->
+                <footer class="bg-slate-900 border-t border-slate-800 py-6 px-6 rounded-xl text-center text-xs text-slate-400">
+                    <p>05プラットフォームと民事法 — 左右對照朗讀與翻譯版</p>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Audio Control Bar -->
+    <div class="fixed bottom-4 right-4 sm:right-8 w-11/12 max-w-xl bg-slate-900/95 backdrop-blur text-white px-5 py-3.5 rounded-2xl shadow-2xl border border-slate-700/80 flex items-center justify-between z-50">
+        <div class="flex items-center space-x-3">
+            <button id="btn-play-all" onclick="togglePlayAll()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold p-2.5 rounded-xl transition-colors shadow-md flex items-center justify-center">
+                <svg id="icon-play" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <svg id="icon-pause" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </button>
+            <button onclick="stopSpeech()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold p-2.5 rounded-xl border border-slate-700 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"></path></svg>
+            </button>
+            <div class="text-xs sm:text-sm">
+                <div id="tts-status" class="font-medium text-slate-200">準備朗讀</div>
+                <div id="tts-detail" class="text-slate-400 text-xs truncate max-w-[150px] sm:max-w-[200px]">點擊按鈕開啟日文語音朗讀</div>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-2">
+            <label class="text-xs text-slate-400 select-none hidden sm:inline">語速</label>
+            <select id="select-rate" onchange="changeRate()" class="bg-slate-800 text-xs text-slate-200 border border-slate-700 rounded-lg px-2 py-1.5 focus:outline-none focus:border-indigo-500">
+                <option value="0.75">0.75x</option>
+                <option value="1.0" selected>1.0x (標準)</option>
+                <option value="1.25">1.25x</option>
+                <option value="1.5">1.5x</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Speech Synthesis & PDF Zoom JavaScript -->
+    <script>
+        let synth = window.speechSynthesis;
+        let currentUtterance = null;
+        let playQueue = [];
+        let currentCardIndex = -1;
+        let isPlayingAll = false;
+        let speechRate = 1.0;
+        let japaneseVoice = null;
+        let currentPdfZoom = 1.0;
+        let pdfBaseSrc = '05プラットフォームと民事法.pdf';
+
+        function setPdfZoom(scaleFactor) {
+            currentPdfZoom = scaleFactor;
+            applyPdfZoom();
+        }
+
+        function zoomPdf(ratio) {
+            currentPdfZoom = Math.max(0.5, Math.min(3.0, currentPdfZoom * ratio));
+            applyPdfZoom();
+        }
+
+        function resetPdfZoom() {
+            currentPdfZoom = 1.0;
+            applyPdfZoom();
+        }
+
+        function applyPdfZoom() {
+            const zoomPercent = Math.round(currentPdfZoom * 100);
+            document.getElementById('pdf-zoom-val').textContent = zoomPercent + '%';
+            const iframe = document.getElementById('pdf-frame');
+            
+            // Apply PDF Open Parameters
+            iframe.src = pdfBaseSrc + '#zoom=' + zoomPercent + '&view=FitH';
+            
+            // Apply CSS Scaling for smooth visual enhancement
+            iframe.style.transform = 'scale(' + currentPdfZoom + ')';
+            iframe.style.width = (100 / currentPdfZoom) + '%';
+            iframe.style.height = (100 / currentPdfZoom) + '%';
+        }
+
+        function togglePdfPanel() {
+            const pdfPanel = document.getElementById('pdf-panel');
+            const contentPanel = document.getElementById('content-panel');
+            if (pdfPanel.classList.contains('hidden')) {
+                pdfPanel.classList.remove('hidden');
+                contentPanel.className = 'w-full lg:w-1/2 h-1/2 lg:h-full bg-slate-950 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 pb-32 transition-all duration-300';
+            } else {
+                pdfPanel.classList.add('hidden');
+                contentPanel.className = 'w-full lg:w-full h-full bg-slate-950 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 pb-32 transition-all duration-300';
+            }
+        }
+
+        function loadVoices() {
+            let voices = synth.getVoices();
+            japaneseVoice = voices.find(v => v.lang === 'ja-JP' || v.lang.startsWith('ja')) || null;
+        }
+
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = loadVoices;
+        }
+        loadVoices();
+
+        function getCleanText(cardId) {
+            const cardEl = document.getElementById('card-' + cardId);
+            if (!cardEl) return '';
+            
+            let targetEl = cardEl.querySelector('.jp-text-content') || cardEl.querySelector('h2') || cardEl;
+            const clone = targetEl.cloneNode(true);
+            
+            const rts = clone.querySelectorAll('rt');
+            rts.forEach(rt => rt.remove());
+            
+            let text = clone.textContent || '';
+            text = text.replace(/\(\d+\)/g, '').replace(/朗讀本段|朗讀標題/g, '').trim();
+            return text;
+        }
+
+        function highlightCard(index) {
+            document.querySelectorAll('.playing-card').forEach(el => el.classList.remove('playing-card'));
+            if (index >= 0) {
+                const el = document.getElementById('card-' + index);
+                if (el) {
+                    el.classList.add('playing-card');
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        }
+
+        function updateUIState(playing) {
+            const iconPlay = document.getElementById('icon-play');
+            const iconPause = document.getElementById('icon-pause');
+            const statusEl = document.getElementById('tts-status');
+            
+            if (playing) {
+                iconPlay.classList.add('hidden');
+                iconPause.classList.remove('hidden');
+                statusEl.textContent = '朗讀中...';
+            } else {
+                iconPlay.classList.remove('hidden');
+                iconPause.classList.add('hidden');
+                statusEl.textContent = '已暫停 / 準備就緒';
+            }
+        }
+
+        function playCardText(index) {
+            stopSpeech();
+            isPlayingAll = false;
+            currentCardIndex = index;
+            const text = getCleanText(index);
+            if (!text) return;
+            
+            speakText(text, index, () => {
+                highlightCard(-1);
+                updateUIState(false);
+                document.getElementById('tts-detail').textContent = '朗讀完成';
+            });
+        }
+
+        function speakText(text, cardIndex, onEndCallback) {
+            if (synth.speaking) synth.cancel();
+            
+            highlightCard(cardIndex);
+            updateUIState(true);
+            document.getElementById('tts-detail').textContent = text.substring(0, 30) + '...';
+            
+            currentUtterance = new SpeechSynthesisUtterance(text);
+            currentUtterance.lang = 'ja-JP';
+            if (japaneseVoice) currentUtterance.voice = japaneseVoice;
+            currentUtterance.rate = speechRate;
+            
+            currentUtterance.onend = function() {
+                if (onEndCallback) onEndCallback();
+            };
+            
+            currentUtterance.onerror = function(e) {
+                console.error('Speech synthesis error:', e);
+                highlightCard(-1);
+                updateUIState(false);
+            };
+            
+            synth.speak(currentUtterance);
+        }
+
+        function togglePlayAll() {
+            if (synth.speaking && isPlayingAll) {
+                if (synth.paused) {
+                    synth.resume();
+                    updateUIState(true);
+                } else {
+                    synth.pause();
+                    updateUIState(false);
+                }
+                return;
+            }
+            
+            stopSpeech();
+            isPlayingAll = true;
+            let totalCards = document.querySelectorAll('[id^="card-"]').length;
+            let queue = [];
+            for (let i = 0; i < totalCards; i++) {
+                queue.push(i);
+            }
+            
+            playNextInQueue(queue);
+        }
+
+        function playNextInQueue(queue) {
+            if (!isPlayingAll || queue.length === 0) {
+                isPlayingAll = false;
+                highlightCard(-1);
+                updateUIState(false);
+                document.getElementById('tts-detail').textContent = '全文朗讀完畢';
+                return;
+            }
+            
+            let nextIndex = queue.shift();
+            currentCardIndex = nextIndex;
+            const text = getCleanText(nextIndex);
+            
+            if (!text) {
+                playNextInQueue(queue);
+                return;
+            }
+            
+            speakText(text, nextIndex, () => {
+                if (isPlayingAll) playNextInQueue(queue);
+            });
+        }
+
+        function stopSpeech() {
+            isPlayingAll = false;
+            if (synth.speaking || synth.paused) {
+                synth.cancel();
+            }
+            highlightCard(-1);
+            updateUIState(false);
+            document.getElementById('tts-detail').textContent = '已停止朗讀';
+        }
+
+        function changeRate() {
+            const select = document.getElementById('select-rate');
+            speechRate = parseFloat(select.value);
+            if (synth.speaking && currentCardIndex >= 0) {
+                let wasPlayingAll = isPlayingAll;
+                let cardToResume = currentCardIndex;
+                stopSpeech();
+                if (wasPlayingAll) {
+                    isPlayingAll = true;
+                    let totalCards = document.querySelectorAll('[id^="card-"]').length;
+                    let queue = [];
+                    for (let i = cardToResume; i < totalCards; i++) queue.push(i);
+                    playNextInQueue(queue);
+                } else {
+                    playCardText(cardToResume);
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

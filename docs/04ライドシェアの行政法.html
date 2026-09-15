@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>04ライドシェアの行政法 - 左右對照朗讀與翻譯版</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #0f172a;
+            color: #1e293b;
+        }
+
+        .font-serif {
+            font-family: 'Noto Serif JP', "MS Mincho", serif;
+        }
+
+        .font-sans {
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+
+        .jp-col {
+            font-size: 1.05rem;
+            line-height: 3.1;
+            letter-spacing: 0.02em;
+            word-break: break-word;
+            color: #0f172a;
+        }
+
+        ruby {
+            ruby-position: over;
+            display: inline-ruby;
+        }
+
+        rt {
+            font-size: 0.52em;
+            color: #475569;
+            letter-spacing: 0.01em;
+            font-weight: normal;
+            line-height: 1.0;
+            user-select: none;
+        }
+
+        u {
+            text-decoration: none;
+            border-bottom: 2px solid #ef4444;
+            padding-bottom: 2px;
+        }
+
+        .zh-col {
+            font-size: 1.0rem;
+            line-height: 1.75;
+        }
+
+        .playing-card {
+            box-shadow: 0 0 0 3px #6366f1, 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+            background-color: #f5f3ff !important;
+        }
+    </style>
+</head>
+
+<body class="h-screen overflow-hidden flex flex-col bg-slate-950">
+    <!-- Top Fixed Header -->
+    <header class="h-14 bg-slate-950 text-white px-4 sm:px-6 border-b border-slate-800 shrink-0 flex items-center justify-between shadow-md z-40">
+        <div class="flex items-center space-x-3 truncate">
+            <a href="index.html" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 hover:text-white px-3 py-1.5 rounded-lg text-xs font-semibold border border-slate-700 transition-colors flex items-center space-x-1 shrink-0 select-none">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                <span>總覽</span>
+            </a>
+            <h1 class="text-sm sm:text-base font-bold truncate font-serif text-slate-100">
+                04ライドシェアの行政法
+            </h1>
+        </div>
+        <div class="flex items-center space-x-2 shrink-0">
+            <button onclick="togglePdfPanel()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors flex items-center space-x-1 select-none">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                <span id="toggle-pdf-text">隱藏/顯示 原文PDF</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Split View Container (Height = 100vh - 3.5rem) -->
+    <div class="flex-1 flex flex-col lg:flex-row w-full overflow-hidden h-[calc(100vh-3.5rem)]">
+        <!-- Left Panel: Fixed Original PDF Viewer with Zoom Controls -->
+        <div id="pdf-panel" class="w-full lg:w-1/2 h-1/2 lg:h-full bg-slate-900 border-r border-slate-800 flex flex-col shrink-0">
+            <!-- PDF Zoom & Control Bar -->
+            <div class="bg-slate-950 px-3 py-2 border-b border-slate-800 flex items-center justify-between text-xs shrink-0 select-none">
+                <span class="text-slate-400 font-semibold flex items-center">
+                    <svg class="w-3.5 h-3.5 mr-1 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    PDF 縮放控制
+                </span>
+                <div class="flex items-center space-x-1.5">
+                    <button onclick="zoomPdf(0.9)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-2 py-0.5 rounded border border-slate-700 transition-colors" title="縮小">-</button>
+                    <span id="pdf-zoom-val" class="font-mono text-indigo-300 w-12 text-center">100%</span>
+                    <button onclick="zoomPdf(1.1)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-2 py-0.5 rounded border border-slate-700 transition-colors" title="放大">+</button>
+                    <button onclick="setPdfZoom(1.25)" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 px-2 py-0.5 rounded border border-slate-700 transition-colors">1.25x</button>
+                    <button onclick="setPdfZoom(1.5)" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 px-2 py-0.5 rounded border border-slate-700 transition-colors">1.5x</button>
+                    <button onclick="setPdfZoom(2.0)" class="bg-slate-800 hover:bg-slate-700 text-amber-300 px-2 py-0.5 rounded border border-slate-700 transition-colors">2.0x</button>
+                    <button onclick="resetPdfZoom()" class="bg-slate-800 hover:bg-slate-700 text-slate-400 px-2 py-0.5 rounded border border-slate-700 transition-colors">重置</button>
+                </div>
+            </div>
+            <!-- PDF Iframe Container -->
+            <div id="pdf-container" class="flex-1 w-full h-full overflow-auto bg-slate-900 p-2 relative">
+                <iframe id="pdf-frame" src="04ライドシェアの行政法.pdf" class="w-full h-full rounded-xl bg-white shadow-inner border border-slate-700 transition-transform origin-top-left"></iframe>
+            </div>
+        </div>
+
+        <!-- Right Panel: Independently Scrolling Translated Content & Audio Reader -->
+        <div id="content-panel" class="w-full lg:w-1/2 h-1/2 lg:h-full bg-slate-950 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 pb-32 transition-all duration-300">
+            <div class="max-w-3xl mx-auto space-y-4">
+                <!-- Banner Card -->
+                <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 rounded-2xl shadow-xl border border-indigo-900">
+                    <span class="inline-block bg-indigo-500/20 text-indigo-300 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider mb-2 border border-indigo-400/30">
+                        法學日文左右對照朗讀版
+                    </span>
+                    <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-white mb-2 font-serif">
+                        04ライドシェアの行政法
+                    </h2>
+                    <p class="text-indigo-200 text-sm sm:text-base font-medium mb-3">
+                        ——04ライドシェアの行政法 法學論文對照解析 <span class="text-indigo-300/80 text-xs font-normal">（04ライドシェアの行政法 法律專題解析）</span>
+                    </p>
+                    <div class="text-xs text-slate-300 pt-3 border-t border-indigo-900/80">
+                        <span class="font-semibold text-indigo-300">作者：</span>日本法學研究會 / Legal Research Group
+                    </div>
+                </div>
+
+                <!-- Main Paragraphs -->
+                <main class="space-y-4">
+
+        <article id="card-0" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(0)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    SPECIAL FEATUREライドシェアの<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>法<rt>ほう</rt></ruby><ruby>駒澤<rt>こまざわ</rt></ruby><ruby>大学准教授<rt>だいがくじゅんきょうじゅ</rt></ruby><ruby>高田<rt>たかだ</rt></ruby><ruby>実<rt>み</rt></ruby><ruby>宗<rt>しゅう</rt></ruby>TAKADA Sanemuneカレの<ruby>名前<rt>なまえ</rt></ruby>はユキチ。サタデーナイトに<ruby>役立つ<rt>やくたつ</rt></ruby><ruby>存在<rt>そんざい</rt></ruby>だった。ディスコ<ruby>帰り<rt>かえり</rt></ruby>のギロッポンでは、シータクが<ruby>捕ま<rt>つかま</rt></ruby>らない。<ruby>万札<rt>まんさつ</rt></ruby>みせてシータク<ruby>止める<rt>やめる</rt></ruby>。それがバブルだ。<ruby>就職戦線異状<rt>しゅうしょくせんせんいじょう</rt></ruby>なし。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">SPECIAL FEATURE網約車 / 共享出行 (Ride-sharing)の行政法駒澤大学准教授高田実宗TAKADA Sanemuneカレの名前はユキチ。サタデーナイトに役立つ存在だった。ディスコ帰りのギロッポンでは，シータクが捕まらない。万札みせてシータク止める。それがバブルだ。就職戦線異状なし。</div>
+            </div>
+        </article>
+        <section id="card-1" class="my-8 rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 shadow-md border border-indigo-900/80 transition-all duration-300">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="text-xl sm:text-2xl font-bold tracking-wide font-serif text-amber-300">はじめにその<ruby>需要<rt>じゅよう</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby>て、<ruby>供給<rt>きょうきゅう</rt></ruby>が<ruby>足り<rt>たり</rt></ruby>ないわけだから、タクシーが<ruby>捕ま<rt>つかま</rt></ruby>りにくいという<ruby>状況<rt>じょうきょう</rt></ruby>が<ruby>生じ<rt>しょうじ</rt></ruby>る。</h2>
+                <button onclick="playCardText(1)" class="shrink-0 flex items-center space-x-1 bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-amber-400/40 transition-colors select-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    <span>朗讀標題</span>
+                </button>
+            </div>
+            <div class="text-base sm:text-lg font-medium text-indigo-200 font-sans">はじめにその需要に対して，供給が足りないわけだから，計程車が捕まりにくいという状況が生じる。</div>
+        </section>
+        <article id="card-2" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(2)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    したがって、その<ruby>供給<rt>きょうきゅう</rt></ruby>を<ruby>増やせ<rt>ふやせ</rt></ruby>ば、こうした<ruby>課題<rt>かだい</rt></ruby>は<ruby>解決<rt>かいけつ</rt></ruby>するはずである。もっとも、タクシーの<ruby>界隈<rt>かいわい</rt></ruby>には、<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>法<rt>ほう</rt></ruby><ruby>上の<rt>うえの</rt></ruby><ruby>足枷<rt>あしかせ</rt></ruby>があって、それを<ruby>柔軟に<rt>じゅうなんに</rt></ruby><ruby>増やす<rt>ふやす</rt></ruby>ことはできない。そこで、<ruby>注目<rt>ちゅうもく</rt></ruby>されているのがライドシェアであり、わが<ruby>国<rt>くに</rt></ruby>で<ruby>令和<rt>れいわ</rt></ruby>6<ruby>年<rt>ねん</rt></ruby>4<ruby>月<rt>がつ</rt></ruby>に<ruby>解禁<rt>かいきん</rt></ruby>されたのが「<ruby>日本版<rt>にほんばん</rt></ruby>ライドシェア」である。この「<ruby>日本版<rt>にほんばん</rt></ruby>ライドシェア」によって、<ruby>都市部<rt>としぶ</rt></ruby>のタクシー<ruby>不足<rt>ふそく</rt></ruby>を<ruby>補う<rt>おぎなう</rt></ruby>。それが<ruby>政治<rt>せいじ</rt></ruby>の<ruby>目論見<rt>もくろみ</rt></ruby>であるい。<ruby>他方<rt>たほう</rt></ruby>、<ruby>人口<rt>じんこう</rt></ruby><ruby>減少<rt>げんしょう</rt></ruby>が<ruby>進む<rt>すすむ</rt></ruby><ruby>地方<rt>ちほう</rt></ruby>では、<ruby>鉄道<rt>てつどう</rt></ruby>やバスの<ruby>減便<rt>げんびん</rt></ruby>・<ruby>廃止<rt>はいし</rt></ruby>によって、<ruby>交通<rt>こうつう</rt></ruby><ruby>空白<rt>くうはく</rt></ruby><ruby>地<rt>ち</rt></ruby>が<ruby>生じ<rt>しょうじ</rt></ruby>ている。<ruby>車<rt>くるま</rt></ruby>の<ruby>運転<rt>うんてん</rt></ruby>ができない<ruby>人<rt>にん</rt></ruby>は、タクシーを<ruby>頼り<rt>たより</rt></ruby>にする。もっとも、<ruby>需要<rt>じゅよう</rt></ruby>が<ruby>少なけ<rt>すくなけ</rt></ruby>れば、タクシーの<ruby>経営<rt>けいえい</rt></ruby>は<ruby>成り立た<rt>なりたた</rt></ruby>ないため、そもそもタクシーが<ruby>殆ど<rt>ほとんど</rt></ruby><ruby>営業<rt>えいぎょう</rt></ruby>していない<ruby>地域<rt>ちいき</rt></ruby>もある。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">したがって，その供給を増やせば，こうした課題は解決するはずである。もっとも，計程車の界隈には，行政法上の足枷があって，それを柔軟に増やすことはできない。そこで，注目されているのが網約車 / 共享出行 (Ride-sharing)であり，わが国で令和6年4月に解禁されたのが「日本版網約車 / 共享出行 (Ride-sharing)」である。この「日本版網約車 / 共享出行 (Ride-sharing)」によって，都市部の計程車不足を補う。それが政治の目論見であるい。他方，人口減少が進む地方では，鉄道やバスの減便・廃止によって，交通空白地が生じている。車の運転ができない人は，計程車を頼りにする。もっとも，需要が少なければ，計程車の経営は成り立たないため，そもそも計程車が殆ど営業していない地域もある。</div>
+            </div>
+        </article>
+        <article id="card-3" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(3)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    ここにもタクシーを<ruby>呼び<rt>よび</rt></ruby>にくいという<ruby>状況<rt>じょうきょう</rt></ruby>が<ruby>存在<rt>そんざい</rt></ruby>し、ライドシェアの<ruby>出番<rt>でばん</rt></ruby>がある。こうしたライドシェアは「<ruby>公共<rt>こうきょう</rt></ruby>ライドシェア」と<ruby>呼ば<rt>よば</rt></ruby>れ、「<ruby>日本版<rt>にほんばん</rt></ruby>ライドシェア」が<ruby>解禁<rt>かいきん</rt></ruby>される<ruby>以前<rt>いぜん</rt></ruby>から<ruby>認め<rt>みとめ</rt></ruby>られてきた。ところで、そもそもライドシェアとは<ruby>何か<rt>なにか</rt></ruby>。その<ruby>用語<rt>ようご</rt></ruby>の<ruby>定義<rt>ていぎ</rt></ruby>は<ruby>曖<rt>あい</rt></ruby><ruby>味<rt>あじ</rt></ruby>であり3，<ruby>条文<rt>じょうぶん</rt></ruby><ruby>上に<rt>うえに</rt></ruby>「ライドシェア」という<ruby>文言<rt>もんごん</rt></ruby>は<ruby>見当た<rt>みあた</rt></ruby>らない。<ruby>海外<rt>かいがい</rt></ruby>におけるライドシェアは、その<ruby>形態<rt>けいたい</rt></ruby>が<ruby>一様<rt>いちよう</rt></ruby>でなく、それは<ruby>幅広い<rt>はばひろい</rt></ruby><ruby>意味<rt>いみ</rt></ruby>を<ruby>有す<rt>ゆうす</rt></ruby>るが、わが<ruby>国<rt>くに</rt></ruby>で<ruby>認め<rt>みとめ</rt></ruby>られるようになった<ruby>有償<rt>ゆうしょう</rt></ruby>のライドシェアは、<ruby>道路<rt>どうろ</rt></ruby><ruby>運送<rt>うんそう</rt></ruby><ruby>法<rt>ほう</rt></ruby> 78<ruby>条<rt>じょう</rt></ruby>2<ruby>号<rt>ごう</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>く<ruby>場合<rt>ばあい</rt></ruby>と<ruby>同法<rt>どうほう</rt></ruby>78<ruby>条<rt>じょう</rt></ruby>3<ruby>号<rt>ごう</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>く<ruby>場合<rt>ばあい</rt></ruby>に<ruby>限ら<rt>かぎら</rt></ruby>れる5。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">ここにも計程車を呼びにくいという状況が存在し，網約車 / 共享出行 (Ride-sharing)の出番がある。こうした網約車 / 共享出行 (Ride-sharing)は「公共網約車 / 共享出行 (Ride-sharing)」と呼ばれ，「日本版網約車 / 共享出行 (Ride-sharing)」が解禁される以前から認められてきた。ところで，そもそも網約車 / 共享出行 (Ride-sharing)とは何か。その用語の定義は曖味であり3，条文上に「網約車 / 共享出行 (Ride-sharing)」という文言は見当たらない。海外における網約車 / 共享出行 (Ride-sharing)は，その形態が一様でなく，それは幅広い意味を有するが，わが国で認められるようになった有償の網約車 / 共享出行 (Ride-sharing)は，道路運送法 78条2号に基づく場合と同法78条3号に基づく場合に限られる5。</div>
+            </div>
+        </article>
+        <article id="card-4" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(4)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    とにかく、<ruby>自動車<rt>じどうしゃ</rt></ruby>を<ruby>用いた<rt>もちいた</rt></ruby>ヒトの<ruby>運送<rt>うんそう</rt></ruby>には、<ruby>適法<rt>てきほう</rt></ruby>な<ruby>形態<rt>けいたい</rt></ruby>と<ruby>違法<rt>いほう</rt></ruby>な<ruby>形態<rt>けいたい</rt></ruby>とがあり、わが<ruby>国<rt>くに</rt></ruby>では<ruby>認め<rt>みとめ</rt></ruby>られていない<ruby>違法<rt>いほう</rt></ruby>なライドシェアも<ruby>存在<rt>そんざい</rt></ruby>する。<ruby>巷<rt>ちまた</rt></ruby>では，<ruby>道路<rt>どうろ</rt></ruby><ruby>運送<rt>うんそう</rt></ruby><ruby>法<rt>ほう</rt></ruby> 78<ruby>条<rt>じょう</rt></ruby>2<ruby>号<rt>ごう</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>く<ruby>場合<rt>ばあい</rt></ruby>を「<ruby>公共<rt>こうきょう</rt></ruby>ライドシェア」，<ruby>同法<rt>どうほう</rt></ruby> 78<ruby>条<rt>じょう</rt></ruby>3<ruby>号<rt>ごう</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>く<ruby>場合<rt>ばあい</rt></ruby>を「<ruby>日本版<rt>にほんばん</rt></ruby>ライドシェア」と<ruby>呼ん<rt>よん</rt></ruby>でいるが、どちらも<ruby>法律上<rt>ほうりつじょう</rt></ruby>の<ruby>名称<rt>めいしょう</rt></ruby>ではない。ライドシェアの<ruby>更な<rt>さらな</rt></ruby>る<ruby>推進<rt>すいしん</rt></ruby>には<ruby>賛否両論<rt>さんぴりょうろん</rt></ruby>が<ruby>唱え<rt>となえ</rt></ruby>られており、どちらかの<ruby>見解<rt>けんかい</rt></ruby>に<ruby>本稿<rt>ほんこう</rt></ruby>が<ruby>立つ<rt>たつ</rt></ruby>わけではないものの，「ライドシェア」という<ruby>語<rt>ご</rt></ruby>が<ruby>持つ<rt>もつ</rt></ruby>イメージが、その<ruby>議論<rt>ぎろん</rt></ruby>の<ruby>本質<rt>ほんしつ</rt></ruby>に<ruby>対する<rt>たいする</rt></ruby><ruby>理解<rt>りかい</rt></ruby>を<ruby>妨げ<rt>さまたげ</rt></ruby>ているようにすら<ruby>思わ<rt>おもわ</rt></ruby>れる。カタカナ<ruby>言葉<rt>ことば</rt></ruby>に<ruby>用心<rt>ようじん</rt></ruby>。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">とにかく，自動車を用いたヒトの運送には，適法な形態と違法な形態とがあり，わが国では認められていない違法な網約車 / 共享出行 (Ride-sharing)も存在する。巷では，道路運送法 78条2号に基づく場合を「公共網約車 / 共享出行 (Ride-sharing)」，同法 78条3号に基づく場合を「日本版網約車 / 共享出行 (Ride-sharing)」と呼んでいるが，どちらも法律上の名称ではない。網約車 / 共享出行 (Ride-sharing)の更なる推進には賛否両論が唱えられており，どちらかの見解に本稿が立つわけではないものの，「網約車 / 共享出行 (Ride-sharing)」という語が持つイメージが，その議論の本質に対する理解を妨げているようにすら思われる。カタカナ言葉に用心。</div>
+            </div>
+        </article>
+        <article id="card-5" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(5)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>以下<rt>いか</rt></ruby>、<ruby>関連す<rt>かんれんす</rt></ruby>る<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>法<rt>ほう</rt></ruby>ネタを<ruby>織り<rt>おり</rt></ruby><ruby>交ぜ<rt>まぜ</rt></ruby>ながら、タクシーに<ruby>対する<rt>たいする</rt></ruby><ruby>規制<rt>きせい</rt></ruby>を<ruby>取り上げ<rt>とりあげ</rt></ruby>た（II）<ruby>後<rt>のち</rt></ruby>わが<ruby>国<rt>くに</rt></ruby>のライドシェア<ruby>事情<rt>じじょう</rt></ruby>を<ruby>紹介<rt>しょうかい</rt></ruby>する（<ruby>皿<rt>さら</rt></ruby>）。<ruby>無味乾燥<rt>むみかんそう</rt></ruby>な<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>法<rt>ほう</rt></ruby>も、<ruby>実社会<rt>じっしゃかい</rt></ruby>における<ruby>政治<rt>せいじ</rt></ruby><ruby>経済<rt>けいざい</rt></ruby>の<ruby>動向<rt>どうこう</rt></ruby>と<ruby>深く<rt>ふかく</rt></ruby><ruby>結び<rt>むすび</rt></ruby><ruby>付い<rt>つい</rt></ruby>ており、ライドシェアという<ruby>具体例<rt>ぐたいれい</rt></ruby>を<ruby>素材<rt>そざい</rt></ruby>に<ruby>眺め<rt>ながめ</rt></ruby>れば、その<ruby>色彩<rt>しきさい</rt></ruby>の<ruby>豊か<rt>ゆたか</rt></ruby>さが<ruby>目に<rt>めに</rt></ruby><ruby>映る<rt>うつる</rt></ruby>はずだ。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">以下，関連する行政法ネタを織り交ぜながら，計程車に対する規制を取り上げた（II）後わが国の網約車 / 共享出行 (Ride-sharing)事情を紹介する（皿）。無味乾燥な行政法も，実社会における政治経済の動向と深く結び付いており，網約車 / 共享出行 (Ride-sharing)という具体例を素材に眺めれば，その色彩の豊かさが目に映るはずだ。</div>
+            </div>
+        </article>
+        <section id="card-6" class="my-8 rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 shadow-md border border-indigo-900/80 transition-all duration-300">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="text-xl sm:text-2xl font-bold tracking-wide font-serif text-amber-300">レタクシーに<ruby>対する<rt>たいする</rt></ruby><ruby>規制<rt>きせい</rt></ruby>1．タクシー<ruby>事業<rt>じぎょう</rt></ruby>に<ruby>対する<rt>たいする</rt></ruby><ruby>規制<rt>きせい</rt></ruby>タクシー<ruby>事業<rt>じぎょう</rt></ruby>など<ruby>一般<rt>いっぱん</rt></ruby><ruby>旅客<rt>りょきゃく</rt></ruby><ruby>自動車<rt>じどうしゃ</rt></ruby><ruby>運送<rt>うんそう</rt></ruby><ruby>事業<rt>じぎょう</rt></ruby>6を<ruby>営も<rt>いとなも</rt></ruby>うとする<ruby>者<rt>もの</rt></ruby>は、<ruby>国土<rt>こくど</rt></ruby><ruby>交通<rt>こうつう</rt></ruby><ruby>大臣<rt>だいじん</rt></ruby>の<ruby>許可<rt>きょか</rt></ruby>を<ruby>得な<rt>えな</rt></ruby>ければならず（<ruby>道<rt>みち</rt></ruby><ruby>運<rt>うん</rt></ruby>4<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>），<ruby>原則<rt>げんそく</rt></ruby>として、<ruby>自家用車<rt>じかようしゃ</rt></ruby>による<ruby>有償<rt>ゆうしょう</rt></ruby>での<ruby>運送<rt>うんそう</rt></ruby>は<ruby>禁止<rt>きんし</rt></ruby>されている（<ruby>道<rt>みち</rt></ruby><ruby>運<rt>うん</rt></ruby> 78<ruby>条<rt>じょう</rt></ruby>）。</h2>
+                <button onclick="playCardText(6)" class="shrink-0 flex items-center space-x-1 bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-amber-400/40 transition-colors select-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    <span>朗讀標題</span>
+                </button>
+            </div>
+            <div class="text-base sm:text-lg font-medium text-indigo-200 font-sans">レ計程車に対する規制1．計程車事業に対する規制計程車事業など一般旅客自動車運送事業6を営もうとする者は，国土交通大臣の許可を得なければならず（道運4条1項），原則として，自家用車による有償での運送は禁止されている（道運 78条）。</div>
+        </section>
+        <article id="card-7" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(7)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    ちなみに、<ruby>最高裁判所<rt>さいこうさいばんしょ</rt></ruby>は、<ruby>白<rt>しろ</rt></ruby>タク<ruby>営業<rt>えいぎょう</rt></ruby><ruby>事件<rt>じけん</rt></ruby>で，こうした<ruby>道路<rt>どうろ</rt></ruby><ruby>運送<rt>うんそう</rt></ruby><ruby>法<rt>ほう</rt></ruby><ruby>上の<rt>うえの</rt></ruby><ruby>規制<rt>きせい</rt></ruby>が<ruby>憲法<rt>けんぽう</rt></ruby>22<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>に<ruby>違反<rt>いはん</rt></ruby>しないとし、その<ruby>合憲<rt>ごうけん</rt></ruby><ruby>性<rt>せい</rt></ruby>を<ruby>認め<rt>みとめ</rt></ruby>ている？。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">ちなみに，最高法院は，白タク営業事件で，こうした道路運送法上の規制が憲法22条1項に違反しないとし，その合憲性を認めている？。</div>
+            </div>
+        </article>
+        <article id="card-8" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(8)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>脱線<rt>だっせん</rt></ruby>：ナンバーいろいろどんな<ruby>色<rt>いろ</rt></ruby>が<ruby>好き<rt>すき</rt></ruby>？
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">脱線：ナンバーいろいろどんな色が好き？</div>
+            </div>
+        </article>
+        <article id="card-9" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(9)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>白<rt>しろ</rt></ruby>、<ruby>緑<rt>みどり</rt></ruby>、<ruby>黄<rt>き</rt></ruby>、<ruby>黒<rt>くろ</rt></ruby>、<ruby>青<rt>あお</rt></ruby>。<ruby>自動車<rt>じどうしゃ</rt></ruby>のナンバープレートを<ruby>見て<rt>みて</rt></ruby>ほしい。<ruby>自家用<rt>じかよう</rt></ruby>の<ruby>普通自動車<rt>ふつうじどうしゃ</rt></ruby>は<ruby>白<rt>しろ</rt></ruby>、<ruby>事業<rt>じぎょう</rt></ruby><ruby>用<rt>よう</rt></ruby>の<ruby>普通自動車<rt>ふつうじどうしゃ</rt></ruby>は<ruby>緑<rt>みどり</rt></ruby>、<ruby>自家用<rt>じかよう</rt></ruby>の<ruby>軽自動車<rt>けいじどうしゃ</rt></ruby>は<ruby>黄<rt>き</rt></ruby>，<ruby>事業<rt>じぎょう</rt></ruby><ruby>用<rt>よう</rt></ruby>の<ruby>軽自動車<rt>けいじどうしゃ</rt></ruby>は<ruby>黒そ<rt>ぐろそ</rt></ruby>して<ruby>外交官<rt>がいこうかん</rt></ruby>の<ruby>自動車<rt>じどうしゃ</rt></ruby>は<ruby>青<rt>あお</rt></ruby>のナンバープレートを<ruby>付け<rt>つけ</rt></ruby>ている。<ruby>道路<rt>どうろ</rt></ruby><ruby>運送<rt>うんそう</rt></ruby><ruby>法<rt>ほう</rt></ruby><ruby>上の<rt>うえの</rt></ruby><ruby>許可<rt>きょか</rt></ruby>を<ruby>得た<rt>えた</rt></ruby><ruby>普通自動車<rt>ふつうじどうしゃ</rt></ruby>は<ruby>緑<rt>みどり</rt></ruby>のナンバープレートを<ruby>付け<rt>つけ</rt></ruby>ている<ruby>一方<rt>いっぽう</rt></ruby>、そうでない<ruby>普通自動車<rt>ふつうじどうしゃ</rt></ruby>は<ruby>白<rt>しろ</rt></ruby>のナンバープレートを<ruby>付け<rt>つけ</rt></ruby>ているため、<ruby>無許可<rt>むきょか</rt></ruby>の<ruby>違法<rt>いほう</rt></ruby>なタクシーを<ruby>白<rt>しろ</rt></ruby>タクと<ruby>呼ん<rt>よん</rt></ruby>でいる。ちなみに、<ruby>原動機付<rt>げんどうきつき</rt></ruby><ruby>自転車<rt>じてんしゃ</rt></ruby>のナンバープレートには、<ruby>白<rt>しろ</rt></ruby>、<ruby>黄<rt>き</rt></ruby>，<ruby>桃<rt>もも</rt></ruby>，<ruby>水色<rt>みずいろ</rt></ruby>があり、これは<ruby>地方税<rt>ちほうぜい</rt></ruby><ruby>法<rt>ほう</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>く<ruby>軽自動車税<rt>けいじどうしゃぜい</rt></ruby>が<ruby>関係<rt>かんけい</rt></ruby>しており、<ruby>正式名称<rt>せいしきめいしょう</rt></ruby>を<ruby>課税<rt>かぜい</rt></ruby><ruby>標識<rt>ひょうしき</rt></ruby>という。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">白，緑，黄，黒，青。自動車のナンバープレートを見てほしい。自家用の普通自動車は白，事業用の普通自動車は緑，自家用の軽自動車は黄，事業用の軽自動車は黒そして外交官の自動車は青のナンバープレートを付けている。道路運送法上の許可を得た普通自動車は緑のナンバープレートを付けている一方，そうでない普通自動車は白のナンバープレートを付けているため，無許可の違法な計程車を白タクと呼んでいる。ちなみに，原動機付自転車のナンバープレートには，白，黄，桃，水色があり，これは地方税法に基づく軽自動車税が関係しており，正式名称を課税標識という。</div>
+            </div>
+        </article>
+        <article id="card-10" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(10)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>二輪<rt>にりん</rt></ruby>か<ruby>三輪<rt>みわ</rt></ruby><ruby>以上<rt>いじょう</rt></ruby>か、エンジンの<ruby>総排気量<rt>そうはいきりょう</rt></ruby>またはモーターの<ruby>定格出力<rt>ていかくしゅつりょく</rt></ruby>の<ruby>大きさ<rt>おおきさ</rt></ruby>によって、その<ruby>色<rt>いろ</rt></ruby>は<ruby>異なる<rt>ことなる</rt></ruby>8。<ruby>無許可<rt>むきょか</rt></ruby>でタクシー<ruby>事業<rt>じぎょう</rt></ruby>を<ruby>営ん<rt>いとなん</rt></ruby>だ<ruby>者<rt>もの</rt></ruby>は、3<ruby>年<rt>ねん</rt></ruby><ruby>以下の<rt>いかの</rt></ruby><ruby>拘禁<rt>こうきん</rt></ruby><ruby>刑<rt>けい</rt></ruby>または 300<ruby>万円<rt>まんえん</rt></ruby><ruby>以下の<rt>いかの</rt></ruby><ruby>罰金<rt>ばっきん</rt></ruby>に<ruby>処せ<rt>しょせ</rt></ruby>られ、<ruby>両者<rt>りょうしゃ</rt></ruby>が<ruby>併科<rt>へいか</rt></ruby>されることもある（<ruby>道<rt>みち</rt></ruby><ruby>運<rt>うん</rt></ruby>96<ruby>条<rt>じょう</rt></ruby>1<ruby>号<rt>ごう</rt></ruby>）。<ruby>自家用車<rt>じかようしゃ</rt></ruby>による<ruby>有償<rt>ゆうしょう</rt></ruby><ruby>運送<rt>うんそう</rt></ruby>をした<ruby>者<rt>もの</rt></ruby>は、1<ruby>年<rt>ねん</rt></ruby><ruby>以下の<rt>いかの</rt></ruby><ruby>拘禁<rt>こうきん</rt></ruby><ruby>刑<rt>けい</rt></ruby>または 150<ruby>万円<rt>まんえん</rt></ruby><ruby>以下の<rt>いかの</rt></ruby><ruby>罰金<rt>ばっきん</rt></ruby>に<ruby>処せ<rt>しょせ</rt></ruby>られ、<ruby>両者<rt>りょうしゃ</rt></ruby>が<ruby>併科<rt>へいか</rt></ruby>されることもある（<ruby>道<rt>みち</rt></ruby><ruby>運<rt>うん</rt></ruby> 97<ruby>条<rt>じょう</rt></ruby>1<ruby>号<rt>ごう</rt></ruby>）。このように、<ruby>違法<rt>いほう</rt></ruby>な<ruby>白<rt>しろ</rt></ruby>タクには<ruby>罰則<rt>ばっそく</rt></ruby>が<ruby>設け<rt>もうけ</rt></ruby>られており、そうした<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>刑罰<rt>けいばつ</rt></ruby>によって、その<ruby>実効性<rt>じっこうせい</rt></ruby>を<ruby>確保<rt>かくほ</rt></ruby>しようとしているわけである。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">二輪か三輪以上か，エンジンの総排気量またはモーターの定格出力の大きさによって，その色は異なる8。無許可で計程車事業を営んだ者は，3年以下の拘禁刑または 300万円以下の罰金に処せられ，両者が併科されることもある（道運96条1号）。自家用車による有償運送をした者は，1年以下の拘禁刑または 150万円以下の罰金に処せられ，両者が併科されることもある（道運 97条1号）。このように，違法な白タクには罰則が設けられており，そうした行政刑罰によって，その実効性を確保しようとしているわけである。</div>
+            </div>
+        </article>
+        <article id="card-11" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(11)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>脱線<rt>だっせん</rt></ruby>：<ruby>白<rt>しろ</rt></ruby>タクの<ruby>運賃<rt>うんちん</rt></ruby><ruby>白<rt>しろ</rt></ruby>タクは<ruby>道路<rt>どうろ</rt></ruby><ruby>運送<rt>うんそう</rt></ruby><ruby>法<rt>ほう</rt></ruby>に<ruby>反す<rt>はんす</rt></ruby>る<ruby>違法<rt>いほう</rt></ruby>なタクシーであり、<ruby>刑事罰<rt>けいじばつ</rt></ruby>の<ruby>対象<rt>たいしょう</rt></ruby>である。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">脱線：白タクの運賃白タクは道路運送法に反する違法な計程車であり，刑事罰の対象である。</div>
+            </div>
+        </article>
+        <article id="card-12" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(12)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    では、<ruby>白<rt>しろ</rt></ruby>タクに<ruby>乗っ<rt>じょうっ</rt></ruby>た<ruby>場合<rt>ばあい</rt></ruby>の<ruby>運賃<rt>うんちん</rt></ruby>は<ruby>支払う<rt>しはらう</rt></ruby><ruby>必要<rt>ひつよう</rt></ruby>があるのか。<ruby>白<rt>しろ</rt></ruby>タクは<ruby>道路<rt>どうろ</rt></ruby><ruby>運送<rt>うんそう</rt></ruby><ruby>法<rt>ほう</rt></ruby>に<ruby>反し<rt>はんし</rt></ruby><ruby>違法<rt>いほう</rt></ruby>ではあるものの、その<ruby>運送契約<rt>うんそうけいやく</rt></ruby>が<ruby>必ずしも<rt>かならずしも</rt></ruby><ruby>無効<rt>むこう</rt></ruby>になるというわけではない。<ruby>道路<rt>どうろ</rt></ruby><ruby>運送<rt>うんそう</rt></ruby><ruby>法<rt>ほう</rt></ruby>の<ruby>規定<rt>きてい</rt></ruby>は<ruby>取締<rt>とりしまり</rt></ruby><ruby>規定<rt>きてい</rt></ruby>であり、それに<ruby>違反<rt>いはん</rt></ruby>しても<ruby>運送契約<rt>うんそうけいやく</rt></ruby>の<ruby>効力<rt>こうりょく</rt></ruby>には<ruby>影響<rt>えいきょう</rt></ruby>を<ruby>与え<rt>あたえ</rt></ruby>ないり。ただし、その<ruby>違反行為<rt>いはんこうい</rt></ruby>が<ruby>公序良俗<rt>こうじょりょうぞく</rt></ruby>に<ruby>反す<rt>はんす</rt></ruby>る<ruby>場合<rt>ばあい</rt></ruby>，<ruby>運送契約<rt>うんそうけいやく</rt></ruby>は<ruby>民法<rt>みんぽう</rt></ruby> 90<ruby>条<rt>じょう</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>き<ruby>無効<rt>むこう</rt></ruby>となる。したがって、<ruby>白<rt>しろ</rt></ruby>タクが<ruby>公序良俗<rt>こうじょりょうぞく</rt></ruby>に<ruby>反す<rt>はんす</rt></ruby>る<ruby>場合<rt>ばあい</rt></ruby>でない<ruby>限り<rt>かぎり</rt></ruby>、<ruby>運送契約<rt>うんそうけいやく</rt></ruby>は<ruby>有効<rt>ゆうこう</rt></ruby>であるから、その<ruby>運賃<rt>うんちん</rt></ruby>は<ruby>支払う<rt>しはらう</rt></ruby><ruby>必要<rt>ひつよう</rt></ruby>がある。タクシーの<ruby>需要<rt>じゅよう</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby>、その<ruby>供給<rt>きょうきゅう</rt></ruby>が<ruby>不均衡<rt>ふきんこう</rt></ruby>とならない<ruby>場合<rt>ばあい</rt></ruby>に<ruby>限っ<rt>かぎっ</rt></ruby>て、タクシー<ruby>事業<rt>じぎょう</rt></ruby>への<ruby>新規参入<rt>しんきさんにゅう</rt></ruby>は<ruby>認め<rt>みとめ</rt></ruby>られていたが、<ruby>平成<rt>へいせい</rt></ruby>12<ruby>年<rt>ねん</rt></ruby>の<ruby>道路<rt>どうろ</rt></ruby><ruby>運送<rt>うんそう</rt></ruby><ruby>法改正<rt>ほうかいせい</rt></ruby> により、<ruby>平成<rt>へいせい</rt></ruby>14<ruby>年<rt>ねん</rt></ruby>から<ruby>免許制<rt>めんきょせい</rt></ruby>が<ruby>許可制<rt>きょかせい</rt></ruby>へと<ruby>改め<rt>あらため</rt></ruby>られ，そうした<ruby>需給<rt>じゅきゅう</rt></ruby><ruby>調整<rt>ちょうせい</rt></ruby>の<ruby>規制<rt>きせい</rt></ruby>は<ruby>廃止<rt>はいし</rt></ruby>された（<ruby>道<rt>みち</rt></ruby><ruby>運<rt>うん</rt></ruby>6<ruby>条<rt>じょう</rt></ruby>）。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">では，白タクに乗った場合の運賃は支払う必要があるのか。白タクは道路運送法に反し違法ではあるものの，その運送契約が必ずしも無効になるというわけではない。道路運送法の規定は取締規定であり，それに違反しても運送契約の効力には影響を与えないり。ただし，その違反行為が公序良俗に反する場合，運送契約は民法 90条に基づき無効となる。したがって，白タクが公序良俗に反する場合でない限り，運送契約は有効であるから，その運賃は支払う必要がある。計程車の需要に対し，その供給が不均衡とならない場合に限って，計程車事業への新規参入は認められていたが，平成12年の道路運送法改正 により，平成14年から免許制が許可制へと改められ，そうした需給調整の規制は廃止された（道運6条）。</div>
+            </div>
+        </article>
+        <article id="card-13" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(13)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    かつ、<ruby>既存<rt>きぞん</rt></ruby>の<ruby>事業者<rt>じぎょうしゃ</rt></ruby>がタクシーの<ruby>台数<rt>だいすう</rt></ruby>を<ruby>増やす<rt>ふやす</rt></ruby><ruby>場合<rt>ばあい</rt></ruby>、それは<ruby>認可制<rt>にんかせい</rt></ruby>であったが、<ruby>事前<rt>じぜん</rt></ruby><ruby>届出制<rt>とどけでせい</rt></ruby>へと<ruby>改め<rt>あらため</rt></ruby>られた（<ruby>道<rt>みち</rt></ruby><ruby>運<rt>うん</rt></ruby>15<ruby>条<rt>じょう</rt></ruby>3<ruby>項<rt>こう</rt></ruby>）。これが<ruby>規制緩和<rt>きせいかんわ</rt></ruby>であり、<ruby>政治<rt>せいじ</rt></ruby>により<ruby>主導<rt>しゅどう</rt></ruby>された。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">かつ，既存の事業者が計程車の台数を増やす場合，それは認可制であったが，事前届出制へと改められた（道運15条3項）。これが規制緩和であり，政治により主導された。</div>
+            </div>
+        </article>
+        <article id="card-14" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(14)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>脱線<rt>だっせん</rt></ruby>：<ruby>規制緩和<rt>きせいかんわ</rt></ruby>と<ruby>赤字<rt>あかじ</rt></ruby><ruby>路線<rt>ろせん</rt></ruby><ruby>道路<rt>どうろ</rt></ruby><ruby>運送<rt>うんそう</rt></ruby><ruby>法<rt>ほう</rt></ruby>の<ruby>改正<rt>かいせい</rt></ruby>に<ruby>先立ち<rt>さきだち</rt></ruby>、<ruby>鉄道事業<rt>てつどうじぎょう</rt></ruby><ruby>法<rt>ほう</rt></ruby>は，<ruby>平成<rt>へいせい</rt></ruby>11<ruby>年<rt>ねん</rt></ruby>の<ruby>改正<rt>かいせい</rt></ruby>で，<ruby>鉄道事業<rt>てつどうじぎょう</rt></ruby>への<ruby>新規参入<rt>しんきさんにゅう</rt></ruby>について、<ruby>免許制<rt>めんきょせい</rt></ruby>から<ruby>需給<rt>じゅきゅう</rt></ruby><ruby>調整<rt>ちょうせい</rt></ruby><ruby>規制<rt>きせい</rt></ruby>のない<ruby>許可制<rt>きょかせい</rt></ruby>へと<ruby>変更<rt>へんこう</rt></ruby>する<ruby>一方<rt>いっぽう</rt></ruby>、その<ruby>退出<rt>たいしゅつ</rt></ruby><ruby>規制<rt>きせい</rt></ruby>を<ruby>許可制<rt>きょかせい</rt></ruby>から<ruby>事前<rt>じぜん</rt></ruby><ruby>届出制<rt>とどけでせい</rt></ruby>へと<ruby>改め<rt>あらため</rt></ruby>た。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">脱線：規制緩和と赤字路線道路運送法の改正に先立ち，鉄道事業法は，平成11年の改正で，鉄道事業への新規参入について，免許制から需給調整規制のない許可制へと変更する一方，その退出規制を許可制から事前届出制へと改めた。</div>
+            </div>
+        </article>
+        <article id="card-15" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(15)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>道路<rt>どうろ</rt></ruby><ruby>運送<rt>うんそう</rt></ruby><ruby>法<rt>ほう</rt></ruby>も、<ruby>平成<rt>へいせい</rt></ruby>12<ruby>年<rt>ねん</rt></ruby>の<ruby>改正<rt>かいせい</rt></ruby>で、バス<ruby>事業<rt>じぎょう</rt></ruby>やタクシー<ruby>事業<rt>じぎょう</rt></ruby>の<ruby>退出<rt>たいしゅつ</rt></ruby><ruby>規制<rt>きせい</rt></ruby>を<ruby>許可制<rt>きょかせい</rt></ruby>から<ruby>届出制<rt>とどけでせい</rt></ruby>へと<ruby>改め<rt>あらため</rt></ruby>た。こうした<ruby>規制緩和<rt>きせいかんわ</rt></ruby>によって、<ruby>交通<rt>こうつう</rt></ruby><ruby>事業<rt>じぎょう</rt></ruby>への<ruby>参入<rt>さんにゅう</rt></ruby>および<ruby>退出<rt>たいしゅつ</rt></ruby>が<ruby>各<rt>かく</rt></ruby><ruby>事業者<rt>じぎょうしゃ</rt></ruby>の<ruby>判断<rt>はんだん</rt></ruby>に<ruby>委ね<rt>ゆだね</rt></ruby>られたため、<ruby>法律上<rt>ほうりつじょう</rt></ruby>は、<ruby>赤字<rt>あかじ</rt></ruby><ruby>路線<rt>ろせん</rt></ruby>の<ruby>廃止<rt>はいし</rt></ruby>が<ruby>従来<rt>じゅうらい</rt></ruby><ruby>図<rt>ず</rt></ruby>1 <ruby>車両数<rt>しゃりょうすう</rt></ruby><ruby>合計<rt>ごうけい</rt></ruby>と<ruby>輸送人員<rt>ゆそうじんいん</rt></ruby>300,000<ruby>台<rt>だい</rt></ruby>13,500<ruby>百万人<rt>ひゃくまんにん</rt></ruby>-3,000<ruby>百万人<rt>ひゃくまんにん</rt></ruby>250,000<ruby>台<rt>だい</rt></ruby>-2,500<ruby>百万人<rt>ひゃくまんにん</rt></ruby>200,000<ruby>台<rt>だい</rt></ruby>2,000<ruby>百万人<rt>ひゃくまんにん</rt></ruby>150,000<ruby>台<rt>だい</rt></ruby>1,500<ruby>百万人<rt>ひゃくまんにん</rt></ruby>100,000<ruby>台<rt>だい</rt></ruby>1,000<ruby>百万人<rt>ひゃくまんにん</rt></ruby>50,000<ruby>台<rt>だい</rt></ruby>500<ruby>百万人<rt>ひゃくまんにん</rt></ruby>0<ruby>百万人<rt>ひゃくまんにん</rt></ruby>0<ruby>台<rt>だい</rt></ruby><ruby>出典<rt>しゅってん</rt></ruby>：<ruby>国土<rt>こくど</rt></ruby><ruby>交通<rt>こうつう</rt></ruby><ruby>省<rt>しょう</rt></ruby>ホームページ「<ruby>数字<rt>すうじ</rt></ruby>でみる<ruby>自動車<rt>じどうしゃ</rt></ruby>2025 ハイヤー・タクシーの<ruby>車両数<rt>しゃりょうすう</rt></ruby><ruby>及び<rt>および</rt></ruby><ruby>輸送人員<rt>ゆそうじんいん</rt></ruby>」＜https://www.mlit.go.jp/idosha/content/001894856.pdf）（<ruby>最終<rt>さいしゅう</rt></ruby><ruby>閲覧<rt>えつらん</rt></ruby>2026<ruby>年<rt>ねん</rt></ruby>2<ruby>月<rt>がつ</rt></ruby>18<ruby>日<rt>にち</rt></ruby>）をもとに<ruby>筆者<rt>ひっしゃ</rt></ruby><ruby>作成<rt>さくせい</rt></ruby>。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">道路運送法も，平成12年の改正で，バス事業や計程車事業の退出規制を許可制から届出制へと改めた。こうした規制緩和によって，交通事業への参入および退出が各事業者の判断に委ねられたため，法律上は，赤字路線の廃止が従来図1 車両数合計と輸送人員300,000台13,500百万人-3,000百万人250,000台-2,500百万人200,000台2,000百万人150,000台1,500百万人100,000台1,000百万人50,000台500百万人0百万人0台出典：国土交通省ホームページ「数字でみる自動車2025 ハイヤー・計程車の車両数及び輸送人員」＜https://www.mlit.go.jp/idosha/content/001894856.pdf）（最終閲覧2026年2月18日）をもとに筆者作成。</div>
+            </div>
+        </article>
+        <article id="card-16" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(16)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    よりも<ruby>容易<rt>ようい</rt></ruby>となった。<ruby>路線<rt>ろせん</rt></ruby>バスが<ruby>撤退<rt>てったい</rt></ruby>すると<ruby>交通<rt>こうつう</rt></ruby><ruby>空白<rt>くうはく</rt></ruby><ruby>地<rt>ち</rt></ruby>が<ruby>生じ<rt>しょうじ</rt></ruby>，そこで<ruby>自治体<rt>じちたい</rt></ruby>が<ruby>運行<rt>うんこう</rt></ruby>するようになった<ruby>代替<rt>だいたい</rt></ruby>バスが「<ruby>公共<rt>こうきょう</rt></ruby>ライドシェア」へと<ruby>繋が<rt>つなが</rt></ruby>っていく 。その<ruby>需要<rt>じゅよう</rt></ruby>が<ruby>減退<rt>げんたい</rt></ruby>した<ruby>場合<rt>ばあい</rt></ruby>、<ruby>供給<rt>きょうきゅう</rt></ruby>を<ruby>減ら<rt>へら</rt></ruby>して<ruby>調整<rt>ちょうせい</rt></ruby>するのが<ruby>市場<rt>しじょう</rt></ruby><ruby>判断<rt>はんだん</rt></ruby>の<ruby>通例<rt>つうれい</rt></ruby>であるように<ruby>思わ<rt>おもわ</rt></ruby>れるが、タクシーの<ruby>場合<rt>ばあい</rt></ruby>は<ruby>異なる<rt>ことなる</rt></ruby><ruby>事態<rt>じたい</rt></ruby>が<ruby>生じ<rt>しょうじ</rt></ruby>た。すなわち、<ruby>上記<rt>じょうき</rt></ruby>の<ruby>規制緩和<rt>きせいかんわ</rt></ruby><ruby>後<rt>のち</rt></ruby>、タクシーの<ruby>需要<rt>じゅよう</rt></ruby>が<ruby>停滞<rt>ていたい</rt></ruby>もしくは<ruby>減少傾向<rt>げんしょうけいこう</rt></ruby>であったにもかかわらず、タクシーの<ruby>台数<rt>だいすう</rt></ruby>は<ruby>増加<rt>ぞうか</rt></ruby>した。1<ruby>台<rt>だい</rt></ruby><ruby>当たり<rt>あたり</rt></ruby>の<ruby>収益<rt>しゅうえき</rt></ruby>が<ruby>減少<rt>げんしょう</rt></ruby>する<ruby>既存<rt>きぞん</rt></ruby>の<ruby>事業者<rt>じぎょうしゃ</rt></ruby>は、その<ruby>増車<rt>ぞうしゃ</rt></ruby>によって<ruby>事業<rt>じぎょう</rt></ruby><ruby>全体<rt>ぜんたい</rt></ruby>の<ruby>売り上げ<rt>うりあげ</rt></ruby><ruby>確保<rt>かくほ</rt></ruby>を<ruby>狙っ<rt>ねらっ</rt></ruby>たわけである。<ruby>歩合<rt>ぶあい</rt></ruby><ruby>制<rt>せい</rt></ruby>が<ruby>主流<rt>しゅりゅう</rt></ruby>のタクシー<ruby>業界<rt>ぎょうかい</rt></ruby>において、その<ruby>供給過剰<rt>きょうきゅうかじょう</rt></ruby>は、<ruby>同じ<rt>おなじ</rt></ruby><ruby>時間<rt>じかん</rt></ruby>で1<ruby>台<rt>だい</rt></ruby>あたりが<ruby>稼ぐ<rt>かせぐ</rt></ruby><ruby>収益<rt>しゅうえき</rt></ruby>の<ruby>低下<rt>ていか</rt></ruby>を<ruby>招き<rt>まねき</rt></ruby>、それが<ruby>運転手<rt>うんてんしゅ</rt></ruby>の<ruby>賃金<rt>ちんぎん</rt></ruby><ruby>低下<rt>ていか</rt></ruby>を<ruby>招く<rt>まねく</rt></ruby>とともに、<ruby>長時間<rt>ちょうじかん</rt></ruby><ruby>労働<rt>ろうどう</rt></ruby>を<ruby>誘発<rt>ゆうはつ</rt></ruby>し、<ruby>安全性<rt>あんぜんせい</rt></ruby>への<ruby>懸念<rt>けねん</rt></ruby>が<ruby>問題<rt>もんだい</rt></ruby>となった。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">よりも容易となった。路線バスが撤退すると交通空白地が生じ，そこで自治体が運行するようになった代替バスが「公共網約車 / 共享出行 (Ride-sharing)」へと繋がっていく 。その需要が減退した場合，供給を減らして調整するのが市場判断の通例であるように思われるが，計程車の場合は異なる事態が生じた。すなわち，上記の規制緩和後，計程車の需要が停滞もしくは減少傾向であったにもかかわらず，計程車の台数は増加した。1台当たりの収益が減少する既存の事業者は，その増車によって事業全体の売り上げ確保を狙ったわけである。歩合制が主流の計程車業界において，その供給過剰は，同じ時間で1台あたりが稼ぐ収益の低下を招き，それが運転手の賃金低下を招くとともに，長時間労働を誘発し，安全性への懸念が問題となった。</div>
+            </div>
+        </article>
+        <article id="card-17" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(17)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    そこで、リーマンショック<ruby>後の<rt>のちの</rt></ruby><ruby>平成<rt>へいせい</rt></ruby>21<ruby>年<rt>ねん</rt></ruby>に<ruby>道路<rt>どうろ</rt></ruby><ruby>運送<rt>うんそう</rt></ruby><ruby>法<rt>ほう</rt></ruby>の<ruby>特例<rt>とくれい</rt></ruby>を<ruby>定め<rt>さだめ</rt></ruby>る<ruby>特別措置法<rt>とくべつそちほう</rt></ruby>（<ruby>以下<rt>いか</rt></ruby>、<ruby>特措<rt>とくそ</rt></ruby><ruby>法<rt>ほう</rt></ruby>）が<ruby>制定<rt>せいてい</rt></ruby>され、<ruby>平成<rt>へいせい</rt></ruby>25<ruby>年<rt>ねん</rt></ruby>の<ruby>議員<rt>ぎいん</rt></ruby><ruby>立法<rt>りっぽう</rt></ruby>による<ruby>改正<rt>かいせい</rt></ruby>を<ruby>経て<rt>へて</rt></ruby>、<ruby>都市部<rt>としぶ</rt></ruby>では<ruby>次の<rt>つぎの</rt></ruby>ような<ruby>需<rt>じゅ</rt></ruby><ruby>図<rt>ず</rt></ruby>2 タクシー<ruby>運転者<rt>うんてんしゃ</rt></ruby><ruby>数<rt>かず</rt></ruby>の<ruby>推移<rt>すいい</rt></ruby>500,000400,000300,000200.000100,0000.<ruby>平平<rt>へいへい</rt></ruby><ruby>平町<rt>たいらまち</rt></ruby><ruby>平平<rt>へいへい</rt></ruby><ruby>平平<rt>へいへい</rt></ruby><ruby>町<rt>まち</rt></ruby><ruby>平<rt>たいら</rt></ruby><ruby>千<rt>せん</rt></ruby><ruby>平町<rt>たいらまち</rt></ruby><ruby>平平<rt>へいへい</rt></ruby><ruby>千<rt>せん</rt></ruby><ruby>平平<rt>へいへい</rt></ruby><ruby>令<rt>れい</rt></ruby><ruby>令<rt>れい</rt></ruby>44<ruby>年度<rt>ねんど</rt></ruby><ruby>出典<rt>しゅってん</rt></ruby>：<ruby>国土<rt>こくど</rt></ruby><ruby>交通<rt>こうつう</rt></ruby><ruby>省<rt>しょう</rt></ruby>ホームページ「<ruby>数字<rt>すうじ</rt></ruby>でみる<ruby>自動車<rt>じどうしゃ</rt></ruby>2025 タクシー<ruby>事業<rt>じぎょう</rt></ruby>の<ruby>運転者<rt>うんてんしゃ</rt></ruby><ruby>数<rt>かず</rt></ruby>の<ruby>推移<rt>すいい</rt></ruby>」＜https://www.mlit.go.jp/jidosha/content/001894858.pdf）（<ruby>最終<rt>さいしゅう</rt></ruby><ruby>問<rt>とん</rt></ruby><ruby>覧<rt>らん</rt></ruby>2026<ruby>年<rt>ねん</rt></ruby>2<ruby>月<rt>がつ</rt></ruby>18<ruby>日<rt>にち</rt></ruby>）をもとに<ruby>筆者<rt>ひっしゃ</rt></ruby><ruby>作成<rt>さくせい</rt></ruby>。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">そこで，リーマンショック後の平成21年に道路運送法の特例を定める特別措置法（以下，特措法）が制定され，平成25年の議員立法による改正を経て，都市部では次のような需図2 計程車運転者数の推移500,000400,000300,000200.000100,0000.平平平町平平平平町平千平町平平千平平令令44年度出典：国土交通省ホームページ「数字でみる自動車2025 計程車事業の運転者数の推移」＜https://www.mlit.go.jp/jidosha/content/001894858.pdf）（最終問覧2026年2月18日）をもとに筆者作成。</div>
+            </div>
+        </article>
+        <article id="card-18" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(18)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>給<rt>きゅう</rt></ruby><ruby>調整<rt>ちょうせい</rt></ruby>の<ruby>規制<rt>きせい</rt></ruby>が<ruby>行わ<rt>おこなわ</rt></ruby>れている。すなわち、<ruby>現行<rt>げんこう</rt></ruby>の<ruby>特措<rt>とくそ</rt></ruby><ruby>法<rt>ほう</rt></ruby>は、タクシー<ruby>事業<rt>じぎょう</rt></ruby>が<ruby>供給過剰<rt>きょうきゅうかじょう</rt></ruby>であると<ruby>認め<rt>みとめ</rt></ruby>られる<ruby>地域<rt>ちいき</rt></ruby>を<ruby>特定地域<rt>とくていちいき</rt></ruby>に<ruby>指定し<rt>していし</rt></ruby>（<ruby>特措<rt>とくそ</rt></ruby><ruby>法<rt>ほう</rt></ruby>3<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>），<ruby>新規参入<rt>しんきさんにゅう</rt></ruby>および<ruby>増車<rt>ぞうしゃ</rt></ruby>を<ruby>禁止<rt>きんし</rt></ruby>する（<ruby>特措<rt>とくそ</rt></ruby><ruby>法<rt>ほう</rt></ruby> 14<ruby>条<rt>じょう</rt></ruby>の2・14<ruby>条<rt>じょう</rt></ruby>の。<ruby>供給過剰<rt>きょうきゅうかじょう</rt></ruby>になるおそれがあると<ruby>認め<rt>みとめ</rt></ruby>られる<ruby>地域<rt>ちいき</rt></ruby>は、<ruby>準<rt>じゅん</rt></ruby><ruby>特定地域<rt>とくていちいき</rt></ruby>に<ruby>指定さ<rt>していさ</rt></ruby>れ（<ruby>特措<rt>とくそ</rt></ruby><ruby>法<rt>ほう</rt></ruby>3<ruby>条<rt>じょう</rt></ruby>の2<ruby>第<rt>だい</rt></ruby>1<ruby>項<rt>こう</rt></ruby>）、その<ruby>新規参入<rt>しんきさんにゅう</rt></ruby>は<ruby>許可制<rt>きょかせい</rt></ruby>であるが、<ruby>増車<rt>ぞうしゃ</rt></ruby>は<ruby>認可制<rt>にんかせい</rt></ruby>とする（<ruby>特措<rt>とくそ</rt></ruby><ruby>法<rt>ほう</rt></ruby> 15<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>）。そして、<ruby>新規参入<rt>しんきさんにゅう</rt></ruby>によってタクシー<ruby>事業<rt>じぎょう</rt></ruby>が<ruby>供給過剰<rt>きょうきゅうかじょう</rt></ruby>となる<ruby>場合<rt>ばあい</rt></ruby>、それは<ruby>許可<rt>きょか</rt></ruby>されず（<ruby>特措<rt>とくそ</rt></ruby><ruby>法<rt>ほう</rt></ruby> 14<ruby>条<rt>じょう</rt></ruby>の4<ruby>第<rt>だい</rt></ruby>1<ruby>項<rt>こう</rt></ruby>），<ruby>増車<rt>ぞうしゃ</rt></ruby>によって<ruby>供給過剰<rt>きょうきゅうかじょう</rt></ruby>となる<ruby>場合<rt>ばあい</rt></ruby>、その<ruby>認可<rt>にんか</rt></ruby>はなされない（<ruby>特措<rt>とくそ</rt></ruby><ruby>法<rt>ほう</rt></ruby>15<ruby>条<rt>じょう</rt></ruby>の2<ruby>第<rt>だい</rt></ruby>1<ruby>項<rt>こう</rt></ruby>）。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">給調整の規制が行われている。すなわち，現行の特措法は，計程車事業が供給過剰であると認められる地域を特定地域に指定し（特措法3条1項），新規参入および増車を禁止する（特措法 14条の2・14条の。供給過剰になるおそれがあると認められる地域は，準特定地域に指定され（特措法3条の2第1項），その新規参入は許可制であるが，増車は認可制とする（特措法 15条1項）。そして，新規参入によって計程車事業が供給過剰となる場合，それは許可されず（特措法 14条の4第1項），増車によって供給過剰となる場合，その認可はなされない（特措法15条の2第1項）。</div>
+            </div>
+        </article>
+        <article id="card-19" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(19)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    ところで、<ruby>以上<rt>いじょう</rt></ruby>のような<ruby>供給過剰<rt>きょうきゅうかじょう</rt></ruby>に<ruby>対する<rt>たいする</rt></ruby><ruby>抑制策<rt>よくせいさく</rt></ruby>および<ruby>高齢化<rt>こうれいか</rt></ruby>に<ruby>伴う<rt>ともなう</rt></ruby><ruby>退職<rt>たいしょく</rt></ruby>もあって、タクシーの<ruby>運転手<rt>うんてんしゅ</rt></ruby>は<ruby>減少<rt>げんしょう</rt></ruby>し、さらに、コロナ<ruby>禍<rt>か</rt></ruby>における<ruby>需要<rt>じゅよう</rt></ruby>の<ruby>減退<rt>げんたい</rt></ruby>に<ruby>伴い<rt>ともない</rt></ruby>、その<ruby>歩合<rt>ぶあい</rt></ruby><ruby>制<rt>せい</rt></ruby>の<ruby>賃金<rt>ちんぎん</rt></ruby>が<ruby>低下<rt>ていか</rt></ruby>したため、タクシー<ruby>運転手<rt>うんてんしゅ</rt></ruby>からの<ruby>転退<rt>てんたい</rt></ruby><ruby>職<rt>しょく</rt></ruby>が<ruby>一気<rt>いっき</rt></ruby>に<ruby>進ん<rt>すすん</rt></ruby>だ。<ruby>他方<rt>たほう</rt></ruby>、コロナ<ruby>禍<rt>か</rt></ruby>の<ruby>後<rt>のち</rt></ruby>、<ruby>訪日<rt>ほうにち</rt></ruby><ruby>外国人<rt>がいこくじん</rt></ruby>を<ruby>含め<rt>ふくめ</rt></ruby>た<ruby>需要<rt>じゅよう</rt></ruby>が<ruby>急<rt>きゅう</rt></ruby><ruby>回復<rt>かいふく</rt></ruby>したにもかかわらず、タクシー<ruby>運転手<rt>うんてんしゅ</rt></ruby>の<ruby>数<rt>かず</rt></ruby>が<ruby>十分<rt>じゅうぶん</rt></ruby>に<ruby>増え<rt>ふえ</rt></ruby>ておらず、それが<ruby>昨今<rt>さっこん</rt></ruby>のタクシー<ruby>不足<rt>ふそく</rt></ruby>を<ruby>招い<rt>まねい</rt></ruby>ている。<ruby>以下<rt>いか</rt></ruby>、タクシー<ruby>運転手<rt>うんてんしゅ</rt></ruby>になるための<ruby>要件<rt>ようけん</rt></ruby>を<ruby>見て<rt>みて</rt></ruby>みよう。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">ところで，以上のような供給過剰に対する抑制策および高齢化に伴う退職もあって，計程車の運転手は減少し，さらに，コロナ禍における需要の減退に伴い，その歩合制の賃金が低下したため，計程車運転手からの転退職が一気に進んだ。他方，コロナ禍の後，訪日外国人を含めた需要が急回復したにもかかわらず，計程車運転手の数が十分に増えておらず，それが昨今の計程車不足を招いている。以下，計程車運転手になるための要件を見てみよう。</div>
+            </div>
+        </article>
+        <section id="card-20" class="my-8 rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 shadow-md border border-indigo-900/80 transition-all duration-300">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="text-xl sm:text-2xl font-bold tracking-wide font-serif text-amber-300">2．タクシー<ruby>運転手<rt>うんてんしゅ</rt></ruby>になる<ruby>要件<rt>ようけん</rt></ruby>タクシーの<ruby>運転手<rt>うんてんしゅ</rt></ruby>になるためには、<ruby>第二種<rt>だいにしゅ</rt></ruby><ruby>免許<rt>めんきょ</rt></ruby>を<ruby>取得<rt>しゅとく</rt></ruby>しなければならない（<ruby>道交<rt>どうこう</rt></ruby> 86<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>）。</h2>
+                <button onclick="playCardText(20)" class="shrink-0 flex items-center space-x-1 bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-amber-400/40 transition-colors select-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    <span>朗讀標題</span>
+                </button>
+            </div>
+            <div class="text-base sm:text-lg font-medium text-indigo-200 font-sans">2．計程車運転手になる要件計程車の運転手になるためには，第二種免許を取得しなければならない（道交 86条1項）。</div>
+        </section>
+        <article id="card-21" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(21)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    18<ruby>歳<rt>とし</rt></ruby>から<ruby>普通自動車<rt>ふつうじどうしゃ</rt></ruby>の<ruby>運転免許<rt>うんてんめんきょ</rt></ruby>を<ruby>取得<rt>しゅとく</rt></ruby>することはできる（<ruby>道交<rt>どうこう</rt></ruby> 88<ruby>条<rt>じょう</rt></ruby>1<ruby>号<rt>ごう</rt></ruby>）が、それは<ruby>第一種<rt>だいいっしゅ</rt></ruby><ruby>免許<rt>めんきょ</rt></ruby>の<ruby>話<rt>はなし</rt></ruby>であって、その<ruby>運転免許<rt>うんてんめんきょ</rt></ruby>ではタクシーを<ruby>運転<rt>うんてん</rt></ruby>することができない。<ruby>第二種<rt>だいにしゅ</rt></ruby><ruby>免許<rt>めんきょ</rt></ruby>の<ruby>試験<rt>しけん</rt></ruby>を<ruby>受験<rt>じゅけん</rt></ruby>するためには、<ruby>原則<rt>げんそく</rt></ruby>として、21<ruby>歳<rt>とし</rt></ruby><ruby>以上<rt>いじょう</rt></ruby>であり、かつ、<ruby>通算<rt>つうさん</rt></ruby>3<ruby>年以上<rt>ねんいじょう</rt></ruby>の<ruby>免許<rt>めんきょ</rt></ruby><ruby>保有<rt>ほゆう</rt></ruby><ruby>歴<rt>れき</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>となっている（<ruby>道交<rt>どうこう</rt></ruby>96<ruby>条<rt>じょう</rt></ruby>5<ruby>項<rt>こう</rt></ruby>1<ruby>号<rt>ごう</rt></ruby>）。このように、<ruby>第二種<rt>だいにしゅ</rt></ruby><ruby>免許<rt>めんきょ</rt></ruby>を<ruby>取得<rt>しゅとく</rt></ruby>するためのハードルは、<ruby>第一種<rt>だいいっしゅ</rt></ruby><ruby>免許<rt>めんきょ</rt></ruby>を<ruby>取得<rt>しゅとく</rt></ruby>する<ruby>場合<rt>ばあい</rt></ruby>よりも<ruby>高い<rt>たかい</rt></ruby>。もっとも、<ruby>道路交通法<rt>どうろこうつうほう</rt></ruby>は、<ruby>令和<rt>れいわ</rt></ruby>2<ruby>年<rt>ねん</rt></ruby>の<ruby>改正<rt>かいせい</rt></ruby>で、この<ruby>原則<rt>げんそく</rt></ruby>に<ruby>次の<rt>つぎの</rt></ruby>ような<ruby>例外<rt>れいがい</rt></ruby>を<ruby>設け<rt>もうけ</rt></ruby>た。すなわち、<ruby>特別<rt>とくべつ</rt></ruby>な<ruby>教習<rt>きょうしゅう</rt></ruby>を<ruby>修了<rt>しゅうりょう</rt></ruby>すれば、<ruby>満<rt>まん</rt></ruby>19<ruby>歳<rt>とし</rt></ruby><ruby>以上<rt>いじょう</rt></ruby>かつ<ruby>免許<rt>めんきょ</rt></ruby><ruby>保有<rt>ほゆう</rt></ruby><ruby>歴<rt>れき</rt></ruby>が<ruby>通算<rt>つうさん</rt></ruby>1<ruby>年以上<rt>ねんいじょう</rt></ruby>でも、<ruby>第二種<rt>だいにしゅ</rt></ruby><ruby>免許<rt>めんきょ</rt></ruby>の<ruby>試験<rt>しけん</rt></ruby>を<ruby>受験<rt>じゅけん</rt></ruby>することができる。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">18歳から普通自動車の運転免許を取得することはできる（道交 88条1号）が，それは第一種免許の話であって，その運転免許では計程車を運転することができない。第二種免許の試験を受験するためには，原則として，21歳以上であり，かつ，通算3年以上の免許保有歴が必要となっている（道交96条5項1号）。このように，第二種免許を取得するためのハードルは，第一種免許を取得する場合よりも高い。もっとも，道路交通法は，令和2年の改正で，この原則に次のような例外を設けた。すなわち，特別な教習を修了すれば，満19歳以上かつ免許保有歴が通算1年以上でも，第二種免許の試験を受験することができる。</div>
+            </div>
+        </article>
+        <article id="card-22" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(22)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    こうした<ruby>規制緩和<rt>きせいかんわ</rt></ruby>は、<ruby>少子<rt>しょうし</rt></ruby><ruby>化<rt>か</rt></ruby><ruby>等<rt>など</rt></ruby>に<ruby>伴う<rt>ともなう</rt></ruby><ruby>運転手<rt>うんてんしゅ</rt></ruby><ruby>不足<rt>ふそく</rt></ruby>の<ruby>深刻化<rt>しんこくか</rt></ruby>を<ruby>背景<rt>はいけい</rt></ruby>とし、<ruby>大型免許<rt>おおがためんきょ</rt></ruby>や<ruby>中型免許<rt>ちゅうがためんきょ</rt></ruby>についても、その<ruby>要件<rt>ようけん</rt></ruby>が<ruby>同様<rt>どうよう</rt></ruby>に<ruby>緩和<rt>かんわ</rt></ruby>されている 。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">こうした規制緩和は，少子化等に伴う運転手不足の深刻化を背景とし，大型免許や中型免許についても，その要件が同様に緩和されている 。</div>
+            </div>
+        </article>
+        <article id="card-23" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(23)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>脱線<rt>だっせん</rt></ruby>：ゴールド<ruby>免許<rt>めんきょ</rt></ruby><ruby>無事故<rt>むじこ</rt></ruby>・<ruby>無違反<rt>むいはん</rt></ruby>を<ruby>続け<rt>つづけ</rt></ruby>ると<ruby>免許証<rt>めんきょしょう</rt></ruby>に「<ruby>優良<rt>ゆうりょう</rt></ruby>」との<ruby>記載<rt>きさい</rt></ruby>がなされ、<ruby>何年何月何日<rt>なんねんなんがつなんにち</rt></ruby>まで<ruby>有効<rt>ゆうこう</rt></ruby>という<ruby>文字<rt>もじ</rt></ruby>の<ruby>背景<rt>はいけい</rt></ruby>が<ruby>金色<rt>きんいろ</rt></ruby>になる。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">脱線：ゴールド免許無事故・無違反を続けると免許証に「優良」との記載がなされ，何年何月何日まで有効という文字の背景が金色になる。</div>
+            </div>
+        </article>
+        <article id="card-24" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(24)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    これがゴールド<ruby>免許<rt>めんきょ</rt></ruby>である。<ruby>運転免許<rt>うんてんめんきょ</rt></ruby>の<ruby>新規取得者<rt>しんきしゅとくしゃ</rt></ruby>は、この<ruby>色<rt>いろ</rt></ruby>がグリーンであり、それが<ruby>免許<rt>めんきょ</rt></ruby>の<ruby>更新<rt>こうしん</rt></ruby><ruby>後に<rt>のちに</rt></ruby>はブルーとなり、さらに<ruby>無事故<rt>むじこ</rt></ruby>・<ruby>無違反<rt>むいはん</rt></ruby>を<ruby>続け<rt>つづけ</rt></ruby>るとゴールドとなる。もっとも、そもそも<ruby>運転<rt>うんてん</rt></ruby>しなければ<ruby>必然的<rt>ひつぜんてき</rt></ruby>に<ruby>無事故<rt>むじこ</rt></ruby>・<ruby>無違反<rt>むいはん</rt></ruby>となるため、ゴールド<ruby>免許<rt>めんきょ</rt></ruby>を<ruby>持っ<rt>もっ</rt></ruby>ている<ruby>人<rt>にん</rt></ruby>の<ruby>運転<rt>うんてん</rt></ruby>が<ruby>上手<rt>じょうず</rt></ruby>とは<ruby>限ら<rt>かぎら</rt></ruby>ず、ペーパードライバーの<ruby>免許証<rt>めんきょしょう</rt></ruby>はゴールド<ruby>免許<rt>めんきょ</rt></ruby>の<ruby>可能性<rt>かのうせい</rt></ruby>が<ruby>高い<rt>たかい</rt></ruby>。ゴールド<ruby>免許<rt>めんきょ</rt></ruby>を<ruby>持っ<rt>もっ</rt></ruby>ていたとしても、<ruby>第二種<rt>だいにしゅ</rt></ruby><ruby>免許<rt>めんきょ</rt></ruby>を<ruby>取得<rt>しゅとく</rt></ruby>していなければ、タクシーの<ruby>運転手<rt>うんてんしゅ</rt></ruby>にはなれない。ちなみに、<ruby>更新時<rt>こうしんじ</rt></ruby>に「<ruby>優良<rt>ゆうりょう</rt></ruby>」の<ruby>記載<rt>きさい</rt></ruby>がないブルーの<ruby>免許証<rt>めんきょしょう</rt></ruby>を<ruby>交付<rt>こうふ</rt></ruby>された<ruby>原告<rt>げんこく</rt></ruby>が、ゴールド<ruby>免許<rt>めんきょ</rt></ruby>の<ruby>交付<rt>こうふ</rt></ruby>を<ruby>求め<rt>もとめ</rt></ruby>て<ruby>提起<rt>ていき</rt></ruby>した<ruby>行政訴訟<rt>ぎょうせいそしょう</rt></ruby>において、<ruby>処分<rt>しょぶん</rt></ruby><ruby>性<rt>せい</rt></ruby>、<ruby>原告<rt>げんこく</rt></ruby><ruby>適格<rt>てきかく</rt></ruby>、<ruby>狭義<rt>きょうぎ</rt></ruby>の<ruby>訴え<rt>うったえ</rt></ruby>の<ruby>利益<rt>りえき</rt></ruby>といった<ruby>訴訟<rt>そしょう</rt></ruby><ruby>要件<rt>ようけん</rt></ruby>に<ruby>係る<rt>かかる</rt></ruby><ruby>論点<rt>ろんてん</rt></ruby>が<ruby>争<rt>そう</rt></ruby>われたことがある 。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">これがゴールド免許である。運転免許の新規取得者は，この色がグリーンであり，それが免許の更新後にはブルーとなり，さらに無事故・無違反を続けるとゴールドとなる。もっとも，そもそも運転しなければ必然的に無事故・無違反となるため，ゴールド免許を持っている人の運転が上手とは限らず，ペーパードライバーの免許証はゴールド免許の可能性が高い。ゴールド免許を持っていたとしても，第二種免許を取得していなければ，計程車の運転手にはなれない。ちなみに，更新時に「優良」の記載がないブルーの免許証を交付された原告が，ゴールド免許の交付を求めて提起した行政訴訟において，処分性，原告適格，狭義の訴えの利益といった訴訟要件に係る論点が争われたことがある 。</div>
+            </div>
+        </article>
+        <article id="card-25" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(25)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>第二種<rt>だいにしゅ</rt></ruby><ruby>免許<rt>めんきょ</rt></ruby>を<ruby>取得<rt>しゅとく</rt></ruby>した<ruby>者<rt>もの</rt></ruby>は、<ruby>国土<rt>こくど</rt></ruby><ruby>交通<rt>こうつう</rt></ruby><ruby>大臣<rt>だいじん</rt></ruby>による<ruby>登録<rt>とうろく</rt></ruby>を<ruby>受ける<rt>うける</rt></ruby>と、<ruby>運転手<rt>うんてんしゅ</rt></ruby>としてタクシーに<ruby>乗務<rt>じょうむ</rt></ruby>することができ （タクシー<ruby>業務<rt>ぎょうむ</rt></ruby><ruby>適正化<rt>てきせいか</rt></ruby><ruby>特別措置法<rt>とくべつそちほう</rt></ruby>3<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>），この<ruby>登録<rt>とうろく</rt></ruby>を<ruby>受ける<rt>うける</rt></ruby>ためには、<ruby>一定<rt>いってい</rt></ruby>の<ruby>講習<rt>こうしゅう</rt></ruby>を<ruby>修了<rt>しゅうりょう</rt></ruby>しなければならない（<ruby>同<rt>どう</rt></ruby>7<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>3<ruby>号<rt>ごう</rt></ruby>）。さらに、<ruby>大都市<rt>だいとし</rt></ruby>では、<ruby>上記<rt>じょうき</rt></ruby>の<ruby>登録<rt>とうろく</rt></ruby>を<ruby>受ける<rt>うける</rt></ruby>ため、<ruby>輸送<rt>ゆそう</rt></ruby>の<ruby>安全<rt>あんぜん</rt></ruby><ruby>及び<rt>および</rt></ruby><ruby>利用者<rt>りようしゃ</rt></ruby>の<ruby>利便<rt>りべん</rt></ruby>の<ruby>確保<rt>かくほ</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>試験<rt>しけん</rt></ruby>（<ruby>同<rt>どう</rt></ruby> 48<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>）に<ruby>合格<rt>ごうかく</rt></ruby>する<ruby>必要<rt>ひつよう</rt></ruby>がある（<ruby>同<rt>どう</rt></ruby>7<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>4<ruby>号<rt>ごう</rt></ruby>）。もっとも、<ruby>従来<rt>じゅうらい</rt></ruby>は、その<ruby>地理<rt>ちり</rt></ruby><ruby>科<rt>か</rt></ruby><ruby>日<rt>にち</rt></ruby>の<ruby>試験<rt>しけん</rt></ruby>に<ruby>合格<rt>ごうかく</rt></ruby>することが<ruby>容易<rt>ようい</rt></ruby>でなく、タクシー<ruby>運転手<rt>うんてんしゅ</rt></ruby>になるための<ruby>大き<rt>おおき</rt></ruby>な<ruby>関門<rt>かんもん</rt></ruby>となっていたようであるが，<ruby>和<rt>わ</rt></ruby>6<ruby>年<rt>ねん</rt></ruby>の<ruby>省令<rt>しょうれい</rt></ruby><ruby>改正<rt>かいせい</rt></ruby>により、この<ruby>地理<rt>ちり</rt></ruby><ruby>科目<rt>かもく</rt></ruby>の<ruby>試験<rt>しけん</rt></ruby>が<ruby>廃止<rt>はいし</rt></ruby>され、<ruby>法令<rt>ほうれい</rt></ruby>、<ruby>安全<rt>あんぜん</rt></ruby>および<ruby>接遇<rt>せつぐう</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>試験<rt>しけん</rt></ruby>のみとなった （タクシー<ruby>業務<rt>ぎょうむ</rt></ruby><ruby>適正化<rt>てきせいか</rt></ruby><ruby>特別措置法<rt>とくべつそちほう</rt></ruby><ruby>施行規則<rt>しこうきそく</rt></ruby> 39<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>）。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">第二種免許を取得した者は，国土交通大臣による登録を受けると，運転手として計程車に乗務することができ （計程車業務適正化特別措置法3条1項），この登録を受けるためには，一定の講習を修了しなければならない（同7条1項3号）。さらに，大都市では，上記の登録を受けるため，輸送の安全及び利用者の利便の確保に関する試験（同 48条1項）に合格する必要がある（同7条1項4号）。もっとも，従来は，その地理科日の試験に合格することが容易でなく，計程車運転手になるための大きな関門となっていたようであるが，和6年の省令改正により，この地理科目の試験が廃止され，法令，安全および接遇に関する試験のみとなった （計程車業務適正化特別措置法施行規則 39条1項）。</div>
+            </div>
+        </article>
+        <article id="card-26" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(26)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    この<ruby>他<rt>ほか</rt></ruby>、<ruby>令和<rt>れいわ</rt></ruby>6<ruby>年<rt>ねん</rt></ruby>の<ruby>省令<rt>しょうれい</rt></ruby><ruby>改正<rt>かいせい</rt></ruby>で、タクシー<ruby>運転手<rt>うんてんしゅ</rt></ruby>の<ruby>初任<rt>しょにん</rt></ruby><ruby>研修<rt>けんしゅう</rt></ruby>について、その10<ruby>日間<rt>にちかん</rt></ruby><ruby>以上<rt>いじょう</rt></ruby>とする<ruby>期間<rt>きかん</rt></ruby><ruby>要件<rt>ようけん</rt></ruby>が<ruby>廃止<rt>はいし</rt></ruby>された（<ruby>旅客<rt>りょきゃく</rt></ruby><ruby>自動車<rt>じどうしゃ</rt></ruby><ruby>運送<rt>うんそう</rt></ruby><ruby>事業<rt>じぎょう</rt></ruby><ruby>運輸<rt>うんゆ</rt></ruby><ruby>規則<rt>きそく</rt></ruby>36<ruby>条<rt>じょう</rt></ruby>2<ruby>項<rt>こう</rt></ruby>）。このように、タクシー<ruby>運転手<rt>うんてんしゅ</rt></ruby>になるための<ruby>要件<rt>ようけん</rt></ruby>が<ruby>緩和<rt>かんわ</rt></ruby>されている。わが<ruby>国<rt>くに</rt></ruby>のライドシェア<ruby>事情<rt>じじょう</rt></ruby>1. <ruby>公共<rt>こうきょう</rt></ruby>ライドシェア<ruby>第二種<rt>だいにしゅ</rt></ruby><ruby>免許<rt>めんきょ</rt></ruby>を<ruby>持た<rt>もた</rt></ruby>ない<ruby>者<rt>もの</rt></ruby>は、タクシーの<ruby>運転手<rt>うんてんしゅ</rt></ruby>になることはできないが、<ruby>第一種<rt>だいいっしゅ</rt></ruby><ruby>免許<rt>めんきょ</rt></ruby>でも<ruby>自家用車<rt>じかようしゃ</rt></ruby>ならば<ruby>運転<rt>うんてん</rt></ruby>できる。<ruby>自家用車<rt>じかようしゃ</rt></ruby>による<ruby>有償<rt>ゆうしょう</rt></ruby>での<ruby>運送<rt>うんそう</rt></ruby>は、<ruby>原則<rt>げんそく</rt></ruby>として、<ruby>禁止<rt>きんし</rt></ruby>されているが、<ruby>道路<rt>どうろ</rt></ruby><ruby>運送<rt>うんそう</rt></ruby><ruby>法<rt>ほう</rt></ruby>は，<ruby>平成<rt>へいせい</rt></ruby>18<ruby>年<rt>ねん</rt></ruby>の<ruby>改正<rt>かいせい</rt></ruby> で、<ruby>自家用<rt>じかよう</rt></ruby><ruby>有償<rt>ゆうしょう</rt></ruby><ruby>旅客<rt>りょきゃく</rt></ruby><ruby>運送<rt>うんそう</rt></ruby>の<ruby>制度<rt>せいど</rt></ruby>を<ruby>設け<rt>もうけ</rt></ruby>、その<ruby>例外<rt>れいがい</rt></ruby>を<ruby>認め<rt>みとめ</rt></ruby>るようになった（<ruby>道<rt>みち</rt></ruby><ruby>運<rt>うん</rt></ruby> 78<ruby>条<rt>じょう</rt></ruby>2<ruby>号<rt>ごう</rt></ruby>）。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">この他，令和6年の省令改正で，計程車運転手の初任研修について，その10日間以上とする期間要件が廃止された（旅客自動車運送事業運輸規則36条2項）。このように，計程車運転手になるための要件が緩和されている。わが国の網約車 / 共享出行 (Ride-sharing)事情1. 公共網約車 / 共享出行 (Ride-sharing)第二種免許を持たない者は，計程車の運転手になることはできないが，第一種免許でも自家用車ならば運転できる。自家用車による有償での運送は，原則として，禁止されているが，道路運送法は，平成18年の改正 で，自用車有償旅客運送の制度を設け，その例外を認めるようになった（道運 78条2号）。</div>
+            </div>
+        </article>
+        <article id="card-27" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(27)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    すなわち、<ruby>国土<rt>こくど</rt></ruby><ruby>交通<rt>こうつう</rt></ruby><ruby>大臣<rt>だいじん</rt></ruby>の<ruby>登録<rt>とうろく</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>た<ruby>市町村<rt>しちょうそん</rt></ruby>やNPO<ruby>法人等<rt>ほうじんなど</rt></ruby>は、<ruby>自家用車<rt>じかようしゃ</rt></ruby>で、<ruby>交通<rt>こうつう</rt></ruby><ruby>空白<rt>くうはく</rt></ruby><ruby>地<rt>ち</rt></ruby>における<ruby>地域住民<rt>ちいきじゅうみん</rt></ruby>の<ruby>有償<rt>ゆうしょう</rt></ruby><ruby>運送<rt>うんそう</rt></ruby>および<ruby>福祉<rt>ふくし</rt></ruby><ruby>目的<rt>もくてき</rt></ruby>の<ruby>有償<rt>ゆうしょう</rt></ruby><ruby>運送<rt>うんそう</rt></ruby>を<ruby>行う<rt>おこなう</rt></ruby>ことができる。さらに、<ruby>国家戦略<rt>こっかせんりゃく</rt></ruby><ruby>特別<rt>とくべつ</rt></ruby><ruby>区域<rt>くいき</rt></ruby><ruby>法<rt>ほう</rt></ruby>は、<ruby>平成<rt>へいせい</rt></ruby>28<ruby>年<rt>ねん</rt></ruby>の<ruby>改正<rt>かいせい</rt></ruby>で、<ruby>特区<rt>とっく</rt></ruby>に<ruby>限定<rt>げんてい</rt></ruby>してではあるものの、その<ruby>有償<rt>ゆうしょう</rt></ruby><ruby>運送<rt>うんそう</rt></ruby>できる<ruby>対象<rt>たいしょう</rt></ruby>を<ruby>観光<rt>かんこう</rt></ruby><ruby>旅客<rt>りょきゃく</rt></ruby>にも<ruby>広げ<rt>ひろげ</rt></ruby>る<ruby>特例<rt>とくれい</rt></ruby>を<ruby>設け<rt>もうけ</rt></ruby>た。そして、その<ruby>後<rt>のち</rt></ruby>，<ruby>道路<rt>どうろ</rt></ruby><ruby>運送<rt>うんそう</rt></ruby><ruby>法<rt>ほう</rt></ruby>は、<ruby>和<rt>わ</rt></ruby>2<ruby>年<rt>ねん</rt></ruby>の<ruby>改正<rt>かいせい</rt></ruby>で、<ruby>観光<rt>かんこう</rt></ruby><ruby>旅客<rt>りょきゃく</rt></ruby>など<ruby>来訪者<rt>らいほうしゃ</rt></ruby>の<ruby>運送<rt>うんそう</rt></ruby>も<ruby>自家用<rt>じかよう</rt></ruby><ruby>有償<rt>ゆうしょう</rt></ruby><ruby>旅客<rt>りょきゃく</rt></ruby><ruby>運送<rt>うんそう</rt></ruby><ruby>制度<rt>せいど</rt></ruby>の<ruby>対象<rt>たいしょう</rt></ruby>に<ruby>含ま<rt>ふくま</rt></ruby>れることの<ruby>明文化<rt>めいぶんか</rt></ruby>を<ruby>図っ<rt>はかっ</rt></ruby>ており，<ruby>全国<rt>ぜんこく</rt></ruby>の<ruby>交通<rt>こうつう</rt></ruby><ruby>空白<rt>くうはく</rt></ruby><ruby>地<rt>ち</rt></ruby>において、<ruby>地域住民<rt>ちいきじゅうみん</rt></ruby>および<ruby>来訪者<rt>らいほうしゃ</rt></ruby>の<ruby>自家用車<rt>じかようしゃ</rt></ruby>による<ruby>有償<rt>ゆうしょう</rt></ruby><ruby>運送<rt>うんそう</rt></ruby>が<ruby>可能<rt>かのう</rt></ruby>となっている。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">すなわち，国土交通大臣の登録を受けた市町村やNPO法人等は，自家用車で，交通空白地における地域住民の有償運送および福祉目的の有償運送を行うことができる。さらに，国家戦略特別区域法は，平成28年の改正で，特区に限定してではあるものの，その有償運送できる対象を観光旅客にも広げる特例を設けた。そして，その後，道路運送法は，和2年の改正で，観光旅客など来訪者の運送も自用車有償旅客運送制度の対象に含まれることの明文化を図っており，全国の交通空白地において，地域住民および来訪者の自家用車による有償運送が可能となっている。</div>
+            </div>
+        </article>
+        <article id="card-28" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(28)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>以上<rt>いじょう</rt></ruby>の<ruby>道路<rt>どうろ</rt></ruby><ruby>運送<rt>うんそう</rt></ruby><ruby>法<rt>ほう</rt></ruby> 78<ruby>条<rt>じょう</rt></ruby>2<ruby>号<rt>ごう</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>く<ruby>自家用<rt>じかよう</rt></ruby><ruby>有償<rt>ゆうしょう</rt></ruby><ruby>旅客<rt>りょきゃく</rt></ruby><ruby>運送<rt>うんそう</rt></ruby>の<ruby>制度<rt>せいど</rt></ruby>が、「<ruby>公共<rt>こうきょう</rt></ruby>ライドシェア」と<ruby>呼ば<rt>よば</rt></ruby>れる<ruby>制度<rt>せいど</rt></ruby>であり、<ruby>第二種<rt>だいにしゅ</rt></ruby><ruby>免許<rt>めんきょ</rt></ruby>を<ruby>持た<rt>もた</rt></ruby>ない<ruby>者<rt>もの</rt></ruby>でも、<ruby>一定<rt>いってい</rt></ruby>の<ruby>講習<rt>こうしゅう</rt></ruby>を<ruby>修了<rt>しゅうりょう</rt></ruby>していれば、そうした<ruby>有償<rt>ゆうしょう</rt></ruby>での<ruby>旅客<rt>りょきゃく</rt></ruby><ruby>運送<rt>うんそう</rt></ruby>をすることができる（<ruby>道路<rt>どうろ</rt></ruby><ruby>運送<rt>うんそう</rt></ruby><ruby>法<rt>ほう</rt></ruby><ruby>施行規則<rt>しこうきそく</rt></ruby>51<ruby>条<rt>じょう</rt></ruby>の16<ruby>第<rt>だい</rt></ruby>1<ruby>項<rt>こう</rt></ruby>）。もっとも、こうした<ruby>公共<rt>こうきょう</rt></ruby>ライドシェアは、その<ruby>運営<rt>うんえい</rt></ruby><ruby>主体<rt>しゅたい</rt></ruby>が<ruby>市町村<rt>しちょうそん</rt></ruby>やNPO<ruby>法人等<rt>ほうじんなど</rt></ruby>に<ruby>限定<rt>げんてい</rt></ruby>されており、<ruby>株式会社<rt>かぶしきがいしゃ</rt></ruby>が<ruby>参入<rt>さんにゅう</rt></ruby>できないという<ruby>課題<rt>かだい</rt></ruby>が<ruby>指摘<rt>してき</rt></ruby>されてきた。そこで、<ruby>令和<rt>れいわ</rt></ruby>5<ruby>年<rt>ねん</rt></ruby>に<ruby>通達<rt>つうたつ</rt></ruby>が<ruby>改正<rt>かいせい</rt></ruby>され、<ruby>株式会社<rt>かぶしきがいしゃ</rt></ruby>の<ruby>参入<rt>さんにゅう</rt></ruby>も<ruby>認め<rt>みとめ</rt></ruby>られるようになり、たとえば、<ruby>交通<rt>こうつう</rt></ruby><ruby>空白<rt>くうはく</rt></ruby><ruby>地<rt>ち</rt></ruby>の<ruby>配送<rt>はいそう</rt></ruby><ruby>業者<rt>ぎょうしゃ</rt></ruby>による<ruby>旅客<rt>りょきゃく</rt></ruby><ruby>運送<rt>うんそう</rt></ruby>などが<ruby>期待さ<rt>きたいさ</rt></ruby>れている。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">以上の道路運送法 78条2号に基づく自用車有償旅客運送の制度が，「公共網約車 / 共享出行 (Ride-sharing)」と呼ばれる制度であり，第二種免許を持たない者でも，一定の講習を修了していれば，そうした有償での旅客運送をすることができる（道路運送法施行規則51条の16第1項）。もっとも，こうした公共網約車 / 共享出行 (Ride-sharing)は，その運営主体が市町村やNPO法人等に限定されており，株式会社が参入できないという課題が指摘されてきた。そこで，令和5年に通達が改正され，株式会社の参入も認められるようになり，たとえば，交通空白地の配送業者による旅客運送などが期待されている。</div>
+            </div>
+        </article>
+        <article id="card-29" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(29)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    なお、<ruby>旅客<rt>りょきゃく</rt></ruby>から<ruby>収受<rt>しゅうじゅ</rt></ruby>する<ruby>対価<rt>たいか</rt></ruby>は、<ruby>実費<rt>じっぴ</rt></ruby>の<ruby>範囲内<rt>はんいない</rt></ruby>でなければならず（<ruby>道<rt>みち</rt></ruby><ruby>運<rt>うん</rt></ruby>79<ruby>条<rt>じょう</rt></ruby>の8<ruby>第<rt>だい</rt></ruby>2<ruby>項<rt>こう</rt></ruby>），<ruby>和<rt>わ</rt></ruby>5<ruby>年<rt>ねん</rt></ruby>の<ruby>通達<rt>つうたつ</rt></ruby><ruby>改正<rt>かいせい</rt></ruby>で、その<ruby>対価<rt>たいか</rt></ruby>の<ruby>目安<rt>めやす</rt></ruby>がタクシー<ruby>運賃<rt>うんちん</rt></ruby>の<ruby>概ね<rt>おおむね</rt></ruby><ruby>半分<rt>はんぶん</rt></ruby>から<ruby>約<rt>やく</rt></ruby>8<ruby>割<rt>わり</rt></ruby>に<ruby>引き上げ<rt>ひきあげ</rt></ruby>られた。この<ruby>他<rt>ほか</rt></ruby>、<ruby>令和<rt>れいわ</rt></ruby>6<ruby>年<rt>ねん</rt></ruby>の<ruby>通達<rt>つうたつ</rt></ruby> により、<ruby>需要<rt>じゅよう</rt></ruby>に<ruby>応じ<rt>おうじ</rt></ruby>た<ruby>対価<rt>たいか</rt></ruby><ruby>額<rt>ひたい</rt></ruby>の<ruby>変動<rt>へんどう</rt></ruby>が<ruby>可能<rt>かのう</rt></ruby>となった。このように、<ruby>公共<rt>こうきょう</rt></ruby>ライドシェアのバージョンアップが<ruby>通達<rt>つうたつ</rt></ruby>に<ruby>沿って<rt>そって</rt></ruby><ruby>図ら<rt>はから</rt></ruby>れている39。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">なお，旅客から収受する対価は，実費の範囲内でなければならず（道運79条の8第2項），和5年の通達改正で，その対価の目安が計程車運賃の概ね半分から約8割に引き上げられた。この他，令和6年の通達 により，需要に応じた対価額の変動が可能となった。このように，公共網約車 / 共享出行 (Ride-sharing)のバージョンアップが通達に沿って図られている39。</div>
+            </div>
+        </article>
+        <section id="card-30" class="my-8 rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 shadow-md border border-indigo-900/80 transition-all duration-300">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="text-xl sm:text-2xl font-bold tracking-wide font-serif text-amber-300">2．<ruby>日本版<rt>にほんばん</rt></ruby>ライドシェアさて、<ruby>公共<rt>こうきょう</rt></ruby>の<ruby>福祉<rt>ふくし</rt></ruby>を<ruby>確保<rt>かくほ</rt></ruby>するためやむを<ruby>得な<rt>えな</rt></ruby>い<ruby>場合<rt>ばあい</rt></ruby>、<ruby>国土<rt>こくど</rt></ruby><ruby>交通<rt>こうつう</rt></ruby><ruby>大臣<rt>だいじん</rt></ruby>の<ruby>許可<rt>きょか</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>、<ruby>地域<rt>ちいき</rt></ruby>または<ruby>期間<rt>きかん</rt></ruby>を<ruby>限定<rt>げんてい</rt></ruby>すれば、<ruby>自家用車<rt>じかようしゃ</rt></ruby>での<ruby>有償<rt>ゆうしょう</rt></ruby><ruby>運送<rt>うんそう</rt></ruby>が<ruby>可能<rt>かのう</rt></ruby>であり（<ruby>道<rt>みち</rt></ruby><ruby>運<rt>うん</rt></ruby> 78<ruby>条<rt>じょう</rt></ruby>3<ruby>号<rt>ごう</rt></ruby>），この<ruby>許可<rt>きょか</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>て、<ruby>自家用車<rt>じかようしゃ</rt></ruby>を<ruby>用いた<rt>もちいた</rt></ruby><ruby>有償<rt>ゆうしょう</rt></ruby>の<ruby>幼稚園<rt>ようちえん</rt></ruby>バスなどが<ruby>運行<rt>うんこう</rt></ruby>されてきた。</h2>
+                <button onclick="playCardText(30)" class="shrink-0 flex items-center space-x-1 bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-amber-400/40 transition-colors select-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    <span>朗讀標題</span>
+                </button>
+            </div>
+            <div class="text-base sm:text-lg font-medium text-indigo-200 font-sans">2．日本版網約車 / 共享出行 (Ride-sharing)さて，公共の福祉を確保するためやむを得ない場合，国土交通大臣の許可を受け，地域または期間を限定すれば，自家用車での有償運送が可能であり（道運 78条3号），この許可を受けて，自家用車を用いた有償の幼稚園バスなどが運行されてきた。</div>
+        </section>
+        <article id="card-31" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(31)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>国土<rt>こくど</rt></ruby><ruby>交通<rt>こうつう</rt></ruby><ruby>省<rt>しょう</rt></ruby><ruby>物流<rt>ぶつりゅう</rt></ruby>・<ruby>自動車<rt>じどうしゃ</rt></ruby><ruby>局長<rt>きょくちょう</rt></ruby>は、<ruby>令和<rt>れいわ</rt></ruby>6<ruby>年<rt>ねん</rt></ruby>3<ruby>月<rt>がつ</rt></ruby>29<ruby>日<rt>にち</rt></ruby>、<ruby>各地方<rt>かくちほう</rt></ruby><ruby>運輸<rt>うんゆ</rt></ruby><ruby>局長<rt>きょくちょう</rt></ruby><ruby>等<rt>など</rt></ruby><ruby>宛て<rt>あて</rt></ruby>に<ruby>通達<rt>つうたつ</rt></ruby> を<ruby>発出<rt>はっしゅつ</rt></ruby>し、タクシーが<ruby>不足<rt>ふそく</rt></ruby>する<ruby>地域<rt>ちいき</rt></ruby>，<ruby>時期<rt>じき</rt></ruby>，<ruby>時間帯<rt>じかんたい</rt></ruby>において、<ruby>地域<rt>ちいき</rt></ruby>の<ruby>自家用車<rt>じかようしゃ</rt></ruby>や<ruby>一般<rt>いっぱん</rt></ruby>ドライバーを<ruby>活用<rt>かつよう</rt></ruby>して<ruby>行う<rt>おこなう</rt></ruby><ruby>有償<rt>ゆうしょう</rt></ruby><ruby>運送<rt>うんそう</rt></ruby>にも、<ruby>一定<rt>いってい</rt></ruby>の<ruby>要件<rt>ようけん</rt></ruby>を<ruby>満た<rt>みた</rt></ruby>せば、<ruby>上記<rt>じょうき</rt></ruby>の<ruby>許可<rt>きょか</rt></ruby>を<ruby>与え<rt>あたえ</rt></ruby>ることとした。こうした<ruby>道路<rt>どうろ</rt></ruby><ruby>運送<rt>うんそう</rt></ruby><ruby>法<rt>ほう</rt></ruby> 78<ruby>条<rt>じょう</rt></ruby>3<ruby>号<rt>ごう</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>く<ruby>自家用車<rt>じかようしゃ</rt></ruby><ruby>活用<rt>かつよう</rt></ruby><ruby>事業<rt>じぎょう</rt></ruby>が「<ruby>日本版<rt>にほんばん</rt></ruby>ライドシェア」と<ruby>呼ば<rt>よば</rt></ruby>れる<ruby>制度<rt>せいど</rt></ruby>であり、<ruby>令和<rt>れいわ</rt></ruby>6<ruby>年<rt>ねん</rt></ruby>4<ruby>月<rt>がつ</rt></ruby>から<ruby>運用<rt>うんよう</rt></ruby>が<ruby>始ま<rt>はじま</rt></ruby>っている。もっとも、その<ruby>通達<rt>つうたつ</rt></ruby>が<ruby>定め<rt>さだめ</rt></ruby>る<ruby>許可<rt>きょか</rt></ruby><ruby>基準<rt>きじゅん</rt></ruby>は<ruby>厳しく<rt>いかめしく</rt></ruby>、<ruby>道路<rt>どうろ</rt></ruby><ruby>運送<rt>うんそう</rt></ruby><ruby>法<rt>ほう</rt></ruby>4<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>く<ruby>一般<rt>いっぱん</rt></ruby><ruby>乗用<rt>じょうよう</rt></ruby><ruby>旅客<rt>りょきゃく</rt></ruby><ruby>自動車<rt>じどうしゃ</rt></ruby><ruby>運送<rt>うんそう</rt></ruby><ruby>事業<rt>じぎょう</rt></ruby>の<ruby>許可<rt>きょか</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>た<ruby>者<rt>もの</rt></ruby>でなければ、<ruby>道路<rt>どうろ</rt></ruby><ruby>運送<rt>うんそう</rt></ruby><ruby>法<rt>ほう</rt></ruby> 78<ruby>条<rt>じょう</rt></ruby>3<ruby>号<rt>ごう</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>く<ruby>自家用車<rt>じかようしゃ</rt></ruby><ruby>活用<rt>かつよう</rt></ruby><ruby>事業<rt>じぎょう</rt></ruby>の<ruby>許可<rt>きょか</rt></ruby>は<ruby>受け<rt>うけ</rt></ruby>られない。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">国土交通省物流・自動車局長は，令和6年3月29日，各地方運輸局長等宛てに通達 を発出し，計程車が不足する地域，時期，時間帯において，地域の自家用車や一般ドライバーを活用して行う有償運送にも，一定の要件を満たせば，上記の許可を与えることとした。こうした道路運送法 78条3号に基づく自家用車活用事業が「日本版網約車 / 共享出行 (Ride-sharing)」と呼ばれる制度であり，令和6年4月から運用が始まっている。もっとも，その通達が定める許可基準は厳しく，道路運送法4条1項に基づく一般乗用旅客自動車運送事業の許可を受けた者でなければ，道路運送法 78条3号に基づく自家用車活用事業の許可は受けられない。</div>
+            </div>
+        </article>
+        <article id="card-32" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(32)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    つまりは、<ruby>基本的<rt>きほんてき</rt></ruby>に、タクシー<ruby>会社<rt>かいしゃ</rt></ruby>しか、この<ruby>日本版<rt>にほんばん</rt></ruby>ライドシェアには<ruby>参入<rt>さんにゅう</rt></ruby>できない<ruby>仕組み<rt>しくみ</rt></ruby>となっている。<ruby>第一種<rt>だいいっしゅ</rt></ruby><ruby>免許<rt>めんきょ</rt></ruby>しか<ruby>持た<rt>もた</rt></ruby>ない<ruby>者<rt>もの</rt></ruby>は、タクシーの<ruby>運転手<rt>うんてんしゅ</rt></ruby>にはなることができないものの，タクシー<ruby>会社<rt>かいしゃ</rt></ruby>が<ruby>管理<rt>かんり</rt></ruby>する<ruby>自家用車<rt>じかようしゃ</rt></ruby>の<ruby>運転手<rt>うんてんしゅ</rt></ruby>にはなることができる。<ruby>第二種<rt>だいにしゅ</rt></ruby><ruby>免許<rt>めんきょ</rt></ruby>の<ruby>取得<rt>しゅとく</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>となるタクシー<ruby>運転手<rt>うんてんしゅ</rt></ruby>の<ruby>不足<rt>ふそく</rt></ruby>を<ruby>背景<rt>はいけい</rt></ruby>に、その<ruby>需要<rt>じゅよう</rt></ruby>にタクシーの<ruby>供給<rt>きょうきゅう</rt></ruby>が<ruby>足り<rt>たり</rt></ruby>ていない<ruby>地域<rt>ちいき</rt></ruby>、<ruby>時期<rt>じき</rt></ruby>，<ruby>時間帯<rt>じかんたい</rt></ruby>に<ruby>限っ<rt>かぎっ</rt></ruby>て、<ruby>第一種<rt>だいいっしゅ</rt></ruby><ruby>免許<rt>めんきょ</rt></ruby>しか<ruby>持た<rt>もた</rt></ruby>ない<ruby>者<rt>もの</rt></ruby>が、タクシー<ruby>会社<rt>かいしゃ</rt></ruby>が<ruby>管理<rt>かんり</rt></ruby>する<ruby>下<rt>した</rt></ruby>で、<ruby>自家用車<rt>じかようしゃ</rt></ruby>による<ruby>有償<rt>ゆうしょう</rt></ruby><ruby>運送<rt>うんそう</rt></ruby>を<ruby>行う<rt>おこなう</rt></ruby>。これが<ruby>日本版<rt>にほんばん</rt></ruby>ライドシェア」の<ruby>正体<rt>しょうたい</rt></ruby>であり、その<ruby>実質<rt>じっしつ</rt></ruby>はタクシー<ruby>事業者<rt>じぎょうしゃ</rt></ruby>に<ruby>対する<rt>たいする</rt></ruby><ruby>規制緩和<rt>きせいかんわ</rt></ruby>であるともいえよう 。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">つまりは，基本的に，計程車会社しか，この日本版網約車 / 共享出行 (Ride-sharing)には参入できない仕組みとなっている。第一種免許しか持たない者は，計程車の運転手にはなることができないものの，計程車会社が管理する自家用車の運転手にはなることができる。第二種免許の取得が必要となる計程車運転手の不足を背景に，その需要に計程車の供給が足りていない地域，時期，時間帯に限って，第一種免許しか持たない者が，計程車会社が管理する下で，自家用車による有償運送を行う。これが日本版網約車 / 共享出行 (Ride-sharing)」の正体であり，その実質は計程車事業者に対する規制緩和であるともいえよう 。</div>
+            </div>
+        </article>
+        <article id="card-33" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(33)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>先に<rt>さきに</rt></ruby><ruby>触れた<rt>ふれた</rt></ruby><ruby>公共<rt>こうきょう</rt></ruby>ライドシェアのバージョンアップと<ruby>同じ<rt>おなじ</rt></ruby>く、<ruby>日本版<rt>にほんばん</rt></ruby>ライドシェアの<ruby>解禁<rt>かいきん</rt></ruby>は、<ruby>法令<rt>ほうれい</rt></ruby>の<ruby>改正<rt>かいせい</rt></ruby>によって<ruby>実現<rt>じつげん</rt></ruby>したわけでなく、あくまで<ruby>国土<rt>こくど</rt></ruby><ruby>交通<rt>こうつう</rt></ruby><ruby>省<rt>しょう</rt></ruby><ruby>物流<rt>ぶつりゅう</rt></ruby>・<ruby>自動車<rt>じどうしゃ</rt></ruby><ruby>局長<rt>きょくちょう</rt></ruby>が<ruby>各地方<rt>かくちほう</rt></ruby><ruby>運輸<rt>うんゆ</rt></ruby><ruby>局長<rt>きょくちょう</rt></ruby><ruby>等<rt>など</rt></ruby><ruby>宛て<rt>あて</rt></ruby>に<ruby>発出<rt>はっしゅつ</rt></ruby>した<ruby>通達<rt>つうたつ</rt></ruby>を<ruby>契機<rt>けいき</rt></ruby>とする。すなわち、<ruby>日本版<rt>にほんばん</rt></ruby>ライドシェアについて、どのような<ruby>場合<rt>ばあい</rt></ruby>に<ruby>道路<rt>どうろ</rt></ruby><ruby>運送<rt>うんそう</rt></ruby><ruby>法<rt>ほう</rt></ruby> 78<ruby>条<rt>じょう</rt></ruby>3<ruby>号<rt>ごう</rt></ruby>の<ruby>許可<rt>きょか</rt></ruby>が<ruby>受け<rt>うけ</rt></ruby>られるのかという<ruby>審査基準<rt>しんさきじゅん</rt></ruby>を、<ruby>各地方<rt>かくちほう</rt></ruby><ruby>運輸<rt>うんゆ</rt></ruby><ruby>支局<rt>しきょく</rt></ruby><ruby>長<rt>ちょう</rt></ruby>が<ruby>通達<rt>つうたつ</rt></ruby>どおりに<ruby>定め<rt>さだめ</rt></ruby>、それを<ruby>公示<rt>こうじ</rt></ruby>している。こうした<ruby>通達<rt>つうたつ</rt></ruby>は、いわば<ruby>行政<rt>ぎょうせい</rt></ruby>の<ruby>内部<rt>ないぶ</rt></ruby><ruby>文書<rt>ぶんしょ</rt></ruby>であり、<ruby>通達<rt>つうたつ</rt></ruby>に<ruby>沿って<rt>そって</rt></ruby><ruby>行政<rt>ぎょうせい</rt></ruby><ruby>実務<rt>じつむ</rt></ruby>は<ruby>回っ<rt>まわっ</rt></ruby>ているものの，<ruby>通達<rt>つうたつ</rt></ruby>それ<ruby>自体<rt>じたい</rt></ruby>は<ruby>国民<rt>こくみん</rt></ruby>に<ruby>対する<rt>たいする</rt></ruby><ruby>法的拘束力<rt>ほうてきこうそくりょく</rt></ruby>を<ruby>持た<rt>もた</rt></ruby>ず、<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>法学<rt>ほうがく</rt></ruby><ruby>上<rt>うえ</rt></ruby>、<ruby>法規<rt>ほうき</rt></ruby><ruby>命令<rt>めいれい</rt></ruby>でなく、<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>規則<rt>きそく</rt></ruby>に<ruby>分類<rt>ぶんるい</rt></ruby>される。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">先に触れた公共網約車 / 共享出行 (Ride-sharing)のバージョンアップと同じく，日本版網約車 / 共享出行 (Ride-sharing)の解禁は，法令の改正によって実現したわけでなく，あくまで国土交通省物流・自動車局長が各地方運輸局長等宛てに発出した通達を契機とする。すなわち，日本版網約車 / 共享出行 (Ride-sharing)について，どのような場合に道路運送法 78条3号の許可が受けられるのかという審査基準を，各地方運輸支局長が通達どおりに定め，それを公示している。こうした通達は，いわば行政の内部文書であり，通達に沿って行政実務は回っているものの，通達それ自体は国民に対する法的拘束力を持たず，行政法学上，法規命令でなく，行政規則に分類される。</div>
+            </div>
+        </article>
+        <article id="card-34" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(34)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    こうしたインフォーマルな<ruby>手段<rt>しゅだん</rt></ruby>によって<ruby>法令<rt>ほうれい</rt></ruby><ruby>整備<rt>せいび</rt></ruby>の<ruby>欠<rt>けつ</rt></ruby><ruby>鉄<rt>てつ</rt></ruby>を<ruby>補っ<rt>おぎなっ</rt></ruby>ているわけだが、<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>法学<rt>ほうがく</rt></ruby>においては、<ruby>法律<rt>ほうりつ</rt></ruby>による<ruby>行政<rt>ぎょうせい</rt></ruby>の<ruby>原理<rt>げんり</rt></ruby>が<ruby>謳わ<rt>うたわ</rt></ruby>れている。しかし、<ruby>運輸行政<rt>うんゆぎょうせい</rt></ruby>の<ruby>実態<rt>じったい</rt></ruby>を<ruby>観察<rt>かんさつ</rt></ruby>すると、そうした<ruby>通達<rt>つうたつ</rt></ruby><ruby>行政<rt>ぎょうせい</rt></ruby>が<ruby>横行<rt>おうこう</rt></ruby>しているわけであり、それは<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>法学<rt>ほうがく</rt></ruby>の<ruby>建前<rt>たてまえ</rt></ruby>に<ruby>抵触<rt>ていしょく</rt></ruby>する<ruby>危険<rt>きけん</rt></ruby>を<ruby>孕む<rt>はらむ</rt></ruby>。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">こうしたインフォーマルな手段によって法令整備の欠鉄を補っているわけだが，行政法学においては，法律による行政の原理が謳われている。しかし，運輸行政の実態を観察すると，そうした通達行政が横行しているわけであり，それは行政法学の建前に抵触する危険を孕む。</div>
+            </div>
+        </article>
+        <section id="card-35" class="my-8 rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 shadow-md border border-indigo-900/80 transition-all duration-300">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="text-xl sm:text-2xl font-bold tracking-wide font-serif text-amber-300"><ruby>理想<rt>りそう</rt></ruby>と<ruby>現実<rt>げんじつ</rt></ruby>は<ruby>異なる<rt>ことなる</rt></ruby>・おわりに<ruby>一般人<rt>いっぱんじん</rt></ruby>が、<ruby>自家用車<rt>じかようしゃ</rt></ruby>および<ruby>自身<rt>じしん</rt></ruby>の<ruby>労働力<rt>ろうどうりょく</rt></ruby>を<ruby>活用<rt>かつよう</rt></ruby>して<ruby>運送<rt>うんそう</rt></ruby>サービスを<ruby>提供<rt>ていきょう</rt></ruby>し、その<ruby>利用者<rt>りようしゃ</rt></ruby>は、<ruby>自動車<rt>じどうしゃ</rt></ruby>というモノのみならず、<ruby>運転手<rt>うんてんしゅ</rt></ruby>というヒトをも<ruby>共有<rt>きょうゆう</rt></ruby>する。</h2>
+                <button onclick="playCardText(35)" class="shrink-0 flex items-center space-x-1 bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-amber-400/40 transition-colors select-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    <span>朗讀標題</span>
+                </button>
+            </div>
+            <div class="text-base sm:text-lg font-medium text-indigo-200 font-sans">理想と現実は異なる・おわりに一般人が，自家用車および自身の労働力を活用して運送サービスを提供し，その利用者は，自動車というモノのみならず，運転手というヒトをも共有する。</div>
+        </section>
+        <article id="card-36" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(36)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    こうしたライドシェアは、シェアリングエコノミー の<ruby>一種<rt>いっしゅ</rt></ruby>であるが、モノにもヒトにも<ruby>法律上<rt>ほうりつじょう</rt></ruby>の<ruby>規制<rt>きせい</rt></ruby>があり、その<ruby>規制緩和<rt>きせいかんわ</rt></ruby>が<ruby>論点<rt>ろんてん</rt></ruby>となってきた。この<ruby>議論<rt>ぎろん</rt></ruby>には<ruby>賛否両論<rt>さんぴりょうろん</rt></ruby>があって、<ruby>政治<rt>せいじ</rt></ruby>の<ruby>色<rt>いろ</rt></ruby>が<ruby>濃い<rt>こい</rt></ruby>。わが<ruby>国<rt>くに</rt></ruby>において、タクシー<ruby>事業<rt>じぎょう</rt></ruby>は<ruby>許可<rt>きょか</rt></ruby>を<ruby>得な<rt>えな</rt></ruby>ければ<ruby>行う<rt>おこなう</rt></ruby>ことができず、<ruby>自家用車<rt>じかようしゃ</rt></ruby>による<ruby>有償<rt>ゆうしょう</rt></ruby>での<ruby>旅客<rt>りょきゃく</rt></ruby><ruby>運送<rt>うんそう</rt></ruby>は<ruby>違法<rt>いほう</rt></ruby>というのが<ruby>原則<rt>げんそく</rt></ruby>であり、かつ，タクシーの<ruby>運転手<rt>うんてんしゅ</rt></ruby>には<ruby>第二種<rt>だいにしゅ</rt></ruby><ruby>免許<rt>めんきょ</rt></ruby>を<ruby>持つ<rt>もつ</rt></ruby><ruby>者<rt>もの</rt></ruby>しかなれない。もっとも、<ruby>昨今<rt>さっこん</rt></ruby>の<ruby>需要<rt>じゅよう</rt></ruby>に<ruby>対する<rt>たいする</rt></ruby><ruby>供給<rt>きょうきゅう</rt></ruby>の<ruby>不足<rt>ふそく</rt></ruby>を<ruby>踏ま<rt>ふま</rt></ruby>え、<ruby>一方<rt>いっぽう</rt></ruby>では、タクシー<ruby>運転手<rt>うんてんしゅ</rt></ruby>になるための<ruby>要件<rt>ようけん</rt></ruby>が<ruby>緩和<rt>かんわ</rt></ruby>され、<ruby>他方<rt>たほう</rt></ruby>では、<ruby>限定<rt>げんてい</rt></ruby>された<ruby>要件<rt>ようけん</rt></ruby>の<ruby>下<rt>した</rt></ruby>、<ruby>自家用車<rt>じかようしゃ</rt></ruby>による<ruby>有償<rt>ゆうしょう</rt></ruby><ruby>運送<rt>うんそう</rt></ruby>が<ruby>可能<rt>かのう</rt></ruby>となっており、その<ruby>運転手<rt>うんてんしゅ</rt></ruby>には<ruby>第二種<rt>だいにしゅ</rt></ruby><ruby>免許<rt>めんきょ</rt></ruby>を<ruby>持た<rt>もた</rt></ruby>ない<ruby>者<rt>もの</rt></ruby>もなることができる。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">こうした網約車 / 共享出行 (Ride-sharing)は，シェアリングエコノミー の一種であるが，モノにもヒトにも法律上の規制があり，その規制緩和が論点となってきた。この議論には賛否両論があって，政治の色が濃い。わが国において，計程車事業は許可を得なければ行うことができず，自家用車による有償での旅客運送は違法というのが原則であり，かつ，計程車の運転手には第二種免許を持つ者しかなれない。もっとも，昨今の需要に対する供給の不足を踏まえ，一方では，計程車運転手になるための要件が緩和され，他方では，限定された要件の下，自家用車による有償運送が可能となっており，その運転手には第二種免許を持たない者もなることができる。</div>
+            </div>
+        </article>
+        <article id="card-37" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(37)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>先の<rt>さきの</rt></ruby><ruby>原則<rt>げんそく</rt></ruby>に<ruby>例外<rt>れいがい</rt></ruby>を<ruby>認め<rt>みとめ</rt></ruby>る<ruby>後者<rt>こうしゃ</rt></ruby>が「<ruby>公共<rt>こうきょう</rt></ruby>ライドシェア」および「<ruby>日本版<rt>にほんばん</rt></ruby>ライドシェア」と<ruby>呼ば<rt>よば</rt></ruby>れる<ruby>制度<rt>せいど</rt></ruby>である。<ruby>原則<rt>げんそく</rt></ruby>には<ruby>例外<rt>れいがい</rt></ruby>があって、どの<ruby>程度<rt>ていど</rt></ruby>，その<ruby>例外<rt>れいがい</rt></ruby>を<ruby>認め<rt>みとめ</rt></ruby>るか、<ruby>白か<rt>しろか</rt></ruby><ruby>黒か<rt>くろか</rt></ruby>では<ruby>割り切れ<rt>わりきれ</rt></ruby>ないグレーなところに<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>法<rt>ほう</rt></ruby>の<ruby>醍醐味<rt>だいごみ</rt></ruby>があって、しかもグレーには<ruby>濃淡<rt>のうたん</rt></ruby>がある。ライドシェアをめぐる<ruby>議論<rt>ぎろん</rt></ruby>は、<ruby>薄い<rt>うすい</rt></ruby>グレーにするか<ruby>濃い<rt>こい</rt></ruby>グレーにするかの<ruby>綱引<rt>つなひき</rt></ruby>き<ruby>合戦<rt>かっせん</rt></ruby>の<ruby>様相<rt>ようそう</rt></ruby>を<ruby>見せ<rt>みせ</rt></ruby>ている。ちなみに、<ruby>自家用車<rt>じかようしゃ</rt></ruby>による<ruby>旅客<rt>りょきゃく</rt></ruby><ruby>運送<rt>うんそう</rt></ruby>が「<ruby>無償<rt>むしょう</rt></ruby>」であるならば、<ruby>許可<rt>きょか</rt></ruby>または<ruby>登録<rt>とうろく</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>ずに<ruby>可能<rt>かのう</rt></ruby>であり、<ruby>令和<rt>れいわ</rt></ruby>6<ruby>年<rt>ねん</rt></ruby>の<ruby>通達<rt>つうたつ</rt></ruby>によると、<ruby>社会通念上<rt>しゃかいつうねんじょう</rt></ruby><ruby>常識的<rt>じょうしきてき</rt></ruby>な<ruby>範囲<rt>はんい</rt></ruby>での「<ruby>謝礼<rt>しゃれい</rt></ruby>」は、<ruby>運送<rt>うんそう</rt></ruby>の<ruby>対価<rt>たいか</rt></ruby>ではなく、その<ruby>支払い<rt>しはらい</rt></ruby>があったとしても、「<ruby>有償<rt>ゆうしょう</rt></ruby>」での<ruby>運送<rt>うんそう</rt></ruby>とはならない。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">先の原則に例外を認める後者が「公共網約車 / 共享出行 (Ride-sharing)」および「日本版網約車 / 共享出行 (Ride-sharing)」と呼ばれる制度である。原則には例外があって，どの程度，その例外を認めるか，白か黒かでは割り切れないグレーなところに行政法の醍醐味があって，しかもグレーには濃淡がある。網約車 / 共享出行 (Ride-sharing)をめぐる議論は，薄いグレーにするか濃いグレーにするかの綱引き合戦の様相を見せている。ちなみに，自家用車による旅客運送が「無償」であるならば，許可または登録を受けずに可能であり，令和6年の通達によると，社会通念上常識的な範囲での「謝礼」は，運送の対価ではなく，その支払いがあったとしても，「有償」での運送とはならない。</div>
+            </div>
+        </article>
+        <article id="card-38" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(38)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    ややこしい。ユキチとの<ruby>思い出<rt>おもいで</rt></ruby>は<ruby>長い<rt>ながい</rt></ruby><ruby>不景気<rt>ふけいき</rt></ruby>。<ruby>別れ<rt>わかれ</rt></ruby>たのは<ruby>令和<rt>れいわ</rt></ruby>6<ruby>年<rt>ねん</rt></ruby>。<ruby>日経平均<rt>にっけいへいきん</rt></ruby>がバブルを<ruby>超え<rt>こえ</rt></ruby>た。なかなカタクシーも<ruby>捕ま<rt>つかま</rt></ruby>らない。タクシーはアプリで、キャッシュレス。<ruby>今<rt>いま</rt></ruby>カレのエーイチ、<ruby>価値<rt>かち</rt></ruby>は<ruby>低下<rt>ていか</rt></ruby><ruby>中<rt>なか</rt></ruby>。どんなに<ruby>不景気<rt>ふけいき</rt></ruby>だって<ruby>恋<rt>こい</rt></ruby>はインフレーション。（たかだ・さねむね） <ruby>血<rt>ち</rt></ruby>
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">ややこしい。ユキチとの思い出は長い不景気。別れたのは令和6年。日経平均がバブルを超えた。なかなカ計程車も捕まらない。計程車はアプリで，キャッシュレス。今カレのエーイチ，価値は低下中。どんなに不景気だって恋はインフレーション。（たかだ・さねむね） 血</div>
+            </div>
+        </article>
+                </main>
+
+                <!-- Footer -->
+                <footer class="bg-slate-900 border-t border-slate-800 py-6 px-6 rounded-xl text-center text-xs text-slate-400">
+                    <p>04ライドシェアの行政法 — 左右對照朗讀與翻譯版</p>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Audio Control Bar -->
+    <div class="fixed bottom-4 right-4 sm:right-8 w-11/12 max-w-xl bg-slate-900/95 backdrop-blur text-white px-5 py-3.5 rounded-2xl shadow-2xl border border-slate-700/80 flex items-center justify-between z-50">
+        <div class="flex items-center space-x-3">
+            <button id="btn-play-all" onclick="togglePlayAll()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold p-2.5 rounded-xl transition-colors shadow-md flex items-center justify-center">
+                <svg id="icon-play" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <svg id="icon-pause" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </button>
+            <button onclick="stopSpeech()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold p-2.5 rounded-xl border border-slate-700 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"></path></svg>
+            </button>
+            <div class="text-xs sm:text-sm">
+                <div id="tts-status" class="font-medium text-slate-200">準備朗讀</div>
+                <div id="tts-detail" class="text-slate-400 text-xs truncate max-w-[150px] sm:max-w-[200px]">點擊按鈕開啟日文語音朗讀</div>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-2">
+            <label class="text-xs text-slate-400 select-none hidden sm:inline">語速</label>
+            <select id="select-rate" onchange="changeRate()" class="bg-slate-800 text-xs text-slate-200 border border-slate-700 rounded-lg px-2 py-1.5 focus:outline-none focus:border-indigo-500">
+                <option value="0.75">0.75x</option>
+                <option value="1.0" selected>1.0x (標準)</option>
+                <option value="1.25">1.25x</option>
+                <option value="1.5">1.5x</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Speech Synthesis & PDF Zoom JavaScript -->
+    <script>
+        let synth = window.speechSynthesis;
+        let currentUtterance = null;
+        let playQueue = [];
+        let currentCardIndex = -1;
+        let isPlayingAll = false;
+        let speechRate = 1.0;
+        let japaneseVoice = null;
+        let currentPdfZoom = 1.0;
+        let pdfBaseSrc = '04ライドシェアの行政法.pdf';
+
+        function setPdfZoom(scaleFactor) {
+            currentPdfZoom = scaleFactor;
+            applyPdfZoom();
+        }
+
+        function zoomPdf(ratio) {
+            currentPdfZoom = Math.max(0.5, Math.min(3.0, currentPdfZoom * ratio));
+            applyPdfZoom();
+        }
+
+        function resetPdfZoom() {
+            currentPdfZoom = 1.0;
+            applyPdfZoom();
+        }
+
+        function applyPdfZoom() {
+            const zoomPercent = Math.round(currentPdfZoom * 100);
+            document.getElementById('pdf-zoom-val').textContent = zoomPercent + '%';
+            const iframe = document.getElementById('pdf-frame');
+            
+            // Apply PDF Open Parameters
+            iframe.src = pdfBaseSrc + '#zoom=' + zoomPercent + '&view=FitH';
+            
+            // Apply CSS Scaling for smooth visual enhancement
+            iframe.style.transform = 'scale(' + currentPdfZoom + ')';
+            iframe.style.width = (100 / currentPdfZoom) + '%';
+            iframe.style.height = (100 / currentPdfZoom) + '%';
+        }
+
+        function togglePdfPanel() {
+            const pdfPanel = document.getElementById('pdf-panel');
+            const contentPanel = document.getElementById('content-panel');
+            if (pdfPanel.classList.contains('hidden')) {
+                pdfPanel.classList.remove('hidden');
+                contentPanel.className = 'w-full lg:w-1/2 h-1/2 lg:h-full bg-slate-950 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 pb-32 transition-all duration-300';
+            } else {
+                pdfPanel.classList.add('hidden');
+                contentPanel.className = 'w-full lg:w-full h-full bg-slate-950 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 pb-32 transition-all duration-300';
+            }
+        }
+
+        function loadVoices() {
+            let voices = synth.getVoices();
+            japaneseVoice = voices.find(v => v.lang === 'ja-JP' || v.lang.startsWith('ja')) || null;
+        }
+
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = loadVoices;
+        }
+        loadVoices();
+
+        function getCleanText(cardId) {
+            const cardEl = document.getElementById('card-' + cardId);
+            if (!cardEl) return '';
+            
+            let targetEl = cardEl.querySelector('.jp-text-content') || cardEl.querySelector('h2') || cardEl;
+            const clone = targetEl.cloneNode(true);
+            
+            const rts = clone.querySelectorAll('rt');
+            rts.forEach(rt => rt.remove());
+            
+            let text = clone.textContent || '';
+            text = text.replace(/\(\d+\)/g, '').replace(/朗讀本段|朗讀標題/g, '').trim();
+            return text;
+        }
+
+        function highlightCard(index) {
+            document.querySelectorAll('.playing-card').forEach(el => el.classList.remove('playing-card'));
+            if (index >= 0) {
+                const el = document.getElementById('card-' + index);
+                if (el) {
+                    el.classList.add('playing-card');
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        }
+
+        function updateUIState(playing) {
+            const iconPlay = document.getElementById('icon-play');
+            const iconPause = document.getElementById('icon-pause');
+            const statusEl = document.getElementById('tts-status');
+            
+            if (playing) {
+                iconPlay.classList.add('hidden');
+                iconPause.classList.remove('hidden');
+                statusEl.textContent = '朗讀中...';
+            } else {
+                iconPlay.classList.remove('hidden');
+                iconPause.classList.add('hidden');
+                statusEl.textContent = '已暫停 / 準備就緒';
+            }
+        }
+
+        function playCardText(index) {
+            stopSpeech();
+            isPlayingAll = false;
+            currentCardIndex = index;
+            const text = getCleanText(index);
+            if (!text) return;
+            
+            speakText(text, index, () => {
+                highlightCard(-1);
+                updateUIState(false);
+                document.getElementById('tts-detail').textContent = '朗讀完成';
+            });
+        }
+
+        function speakText(text, cardIndex, onEndCallback) {
+            if (synth.speaking) synth.cancel();
+            
+            highlightCard(cardIndex);
+            updateUIState(true);
+            document.getElementById('tts-detail').textContent = text.substring(0, 30) + '...';
+            
+            currentUtterance = new SpeechSynthesisUtterance(text);
+            currentUtterance.lang = 'ja-JP';
+            if (japaneseVoice) currentUtterance.voice = japaneseVoice;
+            currentUtterance.rate = speechRate;
+            
+            currentUtterance.onend = function() {
+                if (onEndCallback) onEndCallback();
+            };
+            
+            currentUtterance.onerror = function(e) {
+                console.error('Speech synthesis error:', e);
+                highlightCard(-1);
+                updateUIState(false);
+            };
+            
+            synth.speak(currentUtterance);
+        }
+
+        function togglePlayAll() {
+            if (synth.speaking && isPlayingAll) {
+                if (synth.paused) {
+                    synth.resume();
+                    updateUIState(true);
+                } else {
+                    synth.pause();
+                    updateUIState(false);
+                }
+                return;
+            }
+            
+            stopSpeech();
+            isPlayingAll = true;
+            let totalCards = document.querySelectorAll('[id^="card-"]').length;
+            let queue = [];
+            for (let i = 0; i < totalCards; i++) {
+                queue.push(i);
+            }
+            
+            playNextInQueue(queue);
+        }
+
+        function playNextInQueue(queue) {
+            if (!isPlayingAll || queue.length === 0) {
+                isPlayingAll = false;
+                highlightCard(-1);
+                updateUIState(false);
+                document.getElementById('tts-detail').textContent = '全文朗讀完畢';
+                return;
+            }
+            
+            let nextIndex = queue.shift();
+            currentCardIndex = nextIndex;
+            const text = getCleanText(nextIndex);
+            
+            if (!text) {
+                playNextInQueue(queue);
+                return;
+            }
+            
+            speakText(text, nextIndex, () => {
+                if (isPlayingAll) playNextInQueue(queue);
+            });
+        }
+
+        function stopSpeech() {
+            isPlayingAll = false;
+            if (synth.speaking || synth.paused) {
+                synth.cancel();
+            }
+            highlightCard(-1);
+            updateUIState(false);
+            document.getElementById('tts-detail').textContent = '已停止朗讀';
+        }
+
+        function changeRate() {
+            const select = document.getElementById('select-rate');
+            speechRate = parseFloat(select.value);
+            if (synth.speaking && currentCardIndex >= 0) {
+                let wasPlayingAll = isPlayingAll;
+                let cardToResume = currentCardIndex;
+                stopSpeech();
+                if (wasPlayingAll) {
+                    isPlayingAll = true;
+                    let totalCards = document.querySelectorAll('[id^="card-"]').length;
+                    let queue = [];
+                    for (let i = cardToResume; i < totalCards; i++) queue.push(i);
+                    playNextInQueue(queue);
+                } else {
+                    playCardText(cardToResume);
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

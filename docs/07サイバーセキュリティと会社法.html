@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>07サイバーセキュリティと会社法 - 左右對照朗讀與翻譯版</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #0f172a;
+            color: #1e293b;
+        }
+
+        .font-serif {
+            font-family: 'Noto Serif JP', "MS Mincho", serif;
+        }
+
+        .font-sans {
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+
+        .jp-col {
+            font-size: 1.05rem;
+            line-height: 3.1;
+            letter-spacing: 0.02em;
+            word-break: break-word;
+            color: #0f172a;
+        }
+
+        ruby {
+            ruby-position: over;
+            display: inline-ruby;
+        }
+
+        rt {
+            font-size: 0.52em;
+            color: #475569;
+            letter-spacing: 0.01em;
+            font-weight: normal;
+            line-height: 1.0;
+            user-select: none;
+        }
+
+        u {
+            text-decoration: none;
+            border-bottom: 2px solid #ef4444;
+            padding-bottom: 2px;
+        }
+
+        .zh-col {
+            font-size: 1.0rem;
+            line-height: 1.75;
+        }
+
+        .playing-card {
+            box-shadow: 0 0 0 3px #6366f1, 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+            background-color: #f5f3ff !important;
+        }
+    </style>
+</head>
+
+<body class="h-screen overflow-hidden flex flex-col bg-slate-950">
+    <!-- Top Fixed Header -->
+    <header class="h-14 bg-slate-950 text-white px-4 sm:px-6 border-b border-slate-800 shrink-0 flex items-center justify-between shadow-md z-40">
+        <div class="flex items-center space-x-3 truncate">
+            <a href="index.html" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 hover:text-white px-3 py-1.5 rounded-lg text-xs font-semibold border border-slate-700 transition-colors flex items-center space-x-1 shrink-0 select-none">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                <span>總覽</span>
+            </a>
+            <h1 class="text-sm sm:text-base font-bold truncate font-serif text-slate-100">
+                07サイバーセキュリティと会社法
+            </h1>
+        </div>
+        <div class="flex items-center space-x-2 shrink-0">
+            <button onclick="togglePdfPanel()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors flex items-center space-x-1 select-none">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                <span id="toggle-pdf-text">隱藏/顯示 原文PDF</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Split View Container (Height = 100vh - 3.5rem) -->
+    <div class="flex-1 flex flex-col lg:flex-row w-full overflow-hidden h-[calc(100vh-3.5rem)]">
+        <!-- Left Panel: Fixed Original PDF Viewer with Zoom Controls -->
+        <div id="pdf-panel" class="w-full lg:w-1/2 h-1/2 lg:h-full bg-slate-900 border-r border-slate-800 flex flex-col shrink-0">
+            <!-- PDF Zoom & Control Bar -->
+            <div class="bg-slate-950 px-3 py-2 border-b border-slate-800 flex items-center justify-between text-xs shrink-0 select-none">
+                <span class="text-slate-400 font-semibold flex items-center">
+                    <svg class="w-3.5 h-3.5 mr-1 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    PDF 縮放控制
+                </span>
+                <div class="flex items-center space-x-1.5">
+                    <button onclick="zoomPdf(0.9)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-2 py-0.5 rounded border border-slate-700 transition-colors" title="縮小">-</button>
+                    <span id="pdf-zoom-val" class="font-mono text-indigo-300 w-12 text-center">100%</span>
+                    <button onclick="zoomPdf(1.1)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-2 py-0.5 rounded border border-slate-700 transition-colors" title="放大">+</button>
+                    <button onclick="setPdfZoom(1.25)" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 px-2 py-0.5 rounded border border-slate-700 transition-colors">1.25x</button>
+                    <button onclick="setPdfZoom(1.5)" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 px-2 py-0.5 rounded border border-slate-700 transition-colors">1.5x</button>
+                    <button onclick="setPdfZoom(2.0)" class="bg-slate-800 hover:bg-slate-700 text-amber-300 px-2 py-0.5 rounded border border-slate-700 transition-colors">2.0x</button>
+                    <button onclick="resetPdfZoom()" class="bg-slate-800 hover:bg-slate-700 text-slate-400 px-2 py-0.5 rounded border border-slate-700 transition-colors">重置</button>
+                </div>
+            </div>
+            <!-- PDF Iframe Container -->
+            <div id="pdf-container" class="flex-1 w-full h-full overflow-auto bg-slate-900 p-2 relative">
+                <iframe id="pdf-frame" src="07サイバーセキュリティと会社法.pdf" class="w-full h-full rounded-xl bg-white shadow-inner border border-slate-700 transition-transform origin-top-left"></iframe>
+            </div>
+        </div>
+
+        <!-- Right Panel: Independently Scrolling Translated Content & Audio Reader -->
+        <div id="content-panel" class="w-full lg:w-1/2 h-1/2 lg:h-full bg-slate-950 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 pb-32 transition-all duration-300">
+            <div class="max-w-3xl mx-auto space-y-4">
+                <!-- Banner Card -->
+                <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 rounded-2xl shadow-xl border border-indigo-900">
+                    <span class="inline-block bg-indigo-500/20 text-indigo-300 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider mb-2 border border-indigo-400/30">
+                        法學日文左右對照朗讀版
+                    </span>
+                    <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-white mb-2 font-serif">
+                        07サイバーセキュリティと会社法
+                    </h2>
+                    <p class="text-indigo-200 text-sm sm:text-base font-medium mb-3">
+                        ——07サイバーセキュリティと会社法 法學論文對照解析 <span class="text-indigo-300/80 text-xs font-normal">（07サイバーセキュリティと会社法 法律專題解析）</span>
+                    </p>
+                    <div class="text-xs text-slate-300 pt-3 border-t border-indigo-900/80">
+                        <span class="font-semibold text-indigo-300">作者：</span>日本法學研究會 / Legal Research Group
+                    </div>
+                </div>
+
+                <!-- Main Paragraphs -->
+                <main class="space-y-4">
+
+        <article id="card-0" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(0)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    SPECIAL FEATUREサイバーセキュリティとガバナンス<ruby>弁護士<rt>べんごし</rt></ruby><ruby>松尾<rt>まつお</rt></ruby><ruby>剛<rt>つよし</rt></ruby><ruby>行<rt>ぎょう</rt></ruby>MATSUO Takayukiサイバー<ruby>攻撃<rt>こうげき</rt></ruby>が<ruby>会社<rt>かいしゃ</rt></ruby>の<ruby>経営<rt>けいえい</rt></ruby>↓を<ruby>揺る<rt>ゆる</rt></ruby>がす<ruby>時代<rt>じだい</rt></ruby>？2025<ruby>年<rt>ねん</rt></ruby>に<ruby>複数<rt>ふくすう</rt></ruby>の<ruby>大企業<rt>だいきぎょう</rt></ruby>がサイバー<ruby>攻撃<rt>こうげき</rt></ruby>の<ruby>被害<rt>ひがい</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>、<ruby>売上<rt>うりあげ</rt></ruby>の<ruby>減少<rt>げんしょう</rt></ruby><ruby>等<rt>など</rt></ruby>、<ruby>経営上<rt>けいえいじょう</rt></ruby><ruby>大き<rt>おおき</rt></ruby>な<ruby>打撃<rt>だげき</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>たことは<ruby>記憶<rt>きおく</rt></ruby>に<ruby>新しい<rt>あたらしい</rt></ruby>。2026<ruby>年<rt>ねん</rt></ruby>になってからも<ruby>情報<rt>じょうほう</rt></ruby>セキュリティインシデントのニュースが<ruby>相次<rt>あいつぎ</rt></ruby>いでいる。まさにサイバーセキュリティ（<ruby>情報<rt>じょうほう</rt></ruby>セキュリティ）は<ruby>会社<rt>かいしゃ</rt></ruby>やその<ruby>経営者<rt>けいえいしゃ</rt></ruby>にとっての<ruby>重要な<rt>じゅうような</rt></ruby><ruby>経営<rt>けいえい</rt></ruby><ruby>課題<rt>かだい</rt></ruby>である。<ruby>本稿<rt>ほんこう</rt></ruby>は、いわゆるランサム<ruby>攻撃<rt>こうげき</rt></ruby>（ランサムウェア<ruby>攻撃<rt>こうげき</rt></ruby>）と<ruby>呼ば<rt>よば</rt></ruby>れる、<ruby>重大な<rt>じゅうだいな</rt></ruby><ruby>被害<rt>ひがい</rt></ruby>を<ruby>与え<rt>あたえ</rt></ruby>て<ruby>話題<rt>わだい</rt></ruby>となっている<ruby>類型<rt>るいけい</rt></ruby>のサイバー<ruby>攻撃<rt>こうげき</rt></ruby>を<ruby>念頭<rt>ねんとう</rt></ruby>に、まず、サイバーセキュリティについて<ruby>簡単<rt>かんたん</rt></ruby>に<ruby>説明し<rt>せつめいし</rt></ruby>ていく（II）。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">SPECIAL FEATURE網路安全 (Cybersecurity)とガバナンス弁護士松尾剛行MATSUO Takayukiサイバー攻撃が会社の経営↓を揺るがす時代？2025年に複数の大企業がサイバー攻撃の被害を受け，売上の減少等，経営上大きな打撃を受けたことは記憶に新しい。2026年になってからも情報セキュリティインシデントのニュースが相次いでいる。まさに網路安全 (Cybersecurity)（情報セキュリティ）は会社やその経営者にとっての重要な経営課題である。本稿は，いわゆるランサム攻撃（ランサムウェア攻撃）と呼ばれる，重大な被害を与えて話題となっている類型のサイバー攻撃を念頭に，まず，網路安全 (Cybersecurity)について簡単に説明していく（II）。</div>
+            </div>
+        </article>
+        <article id="card-1" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(1)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    その<ruby>上で<rt>うえで</rt></ruby>、<ruby>会社<rt>かいしゃ</rt></ruby>のガバナンスとの<ruby>関係<rt>かんけい</rt></ruby>を<ruby>踏ま<rt>ふま</rt></ruby>えた<ruby>経営者<rt>けいえいしゃ</rt></ruby>としてサイバーセキュリティリスクに<ruby>対し<rt>たいし</rt></ruby>て<ruby>行う<rt>おこなう</rt></ruby>べき<ruby>対応<rt>たいおう</rt></ruby>について<ruby>述べ<rt>のべ</rt></ruby>る（I）。<ruby>本稿<rt>ほんこう</rt></ruby>を<ruby>通じ<rt>つうじ</rt></ruby>て、サイバーセキュリティという<ruby>視点<rt>してん</rt></ruby>から、<ruby>会社<rt>かいしゃ</rt></ruby><ruby>法<rt>ほう</rt></ruby>の<ruby>基本的<rt>きほんてき</rt></ruby>な<ruby>考え方<rt>かんがえかた</rt></ruby>、<ruby>特に<rt>とくに</rt></ruby><ruby>経営者<rt>けいえいしゃ</rt></ruby>（<ruby>取締役<rt>とりしまりやく</rt></ruby>）に<ruby>対し<rt>たいし</rt></ruby>てどのような<ruby>規律<rt>きりつ</rt></ruby>づけをしているのかを<ruby>具体的<rt>ぐたいてき</rt></ruby>に<ruby>理解<rt>りかい</rt></ruby>し、<ruby>会社<rt>かいしゃ</rt></ruby><ruby>法<rt>ほう</rt></ruby>に<ruby>入門<rt>にゅうもん</rt></ruby>していただきたい2。ランサム<ruby>攻撃<rt>こうげき</rt></ruby>を<ruby>念頭<rt>ねんとう</rt></ruby>に<ruby>置く<rt>おく</rt></ruby>1サイバー<ruby>攻撃<rt>こうげき</rt></ruby>とサイバーセキュリティ（<ruby>情報<rt>じょうほう</rt></ruby>セキュリティ）1.ランサム<ruby>攻撃<rt>こうげき</rt></ruby>とはランサム<ruby>攻撃<rt>こうげき</rt></ruby>は、ランサムウェアと<ruby>呼ば<rt>よば</rt></ruby>れる<ruby>不正<rt>ふせい</rt></ruby>プログラムを<ruby>使用し<rt>しようし</rt></ruby>、<ruby>攻撃先<rt>こうげきさき</rt></ruby>の<ruby>端末上<rt>たんまつじょう</rt></ruby>のデータを<ruby>暗号化<rt>あんごうか</rt></ruby>する<ruby>等し<rt>ひとし</rt></ruby>て、その<ruby>復旧<rt>ふっきゅう</rt></ruby>と<ruby>引換<rt>ひきかえ</rt></ruby>えに（<ruby>身代金<rt>みのしろきん</rt></ruby>として）<ruby>金銭<rt>きんせん</rt></ruby>を<ruby>脅し<rt>おどし</rt></ruby><ruby>取ろ<rt>とろ</rt></ruby>うとするサイバー<ruby>攻撃<rt>こうげき</rt></ruby>のことである3。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">その上で，会社のガバナンスとの関係を踏まえた経営者として網路安全 (Cybersecurity)リスクに対して行うべき対応について述べる（I）。本稿を通じて，網路安全 (Cybersecurity)という視点から，公司法の基本的な考え方，特に経営者（董事）に対してどのような規律づけをしているのかを具体的に理解し，公司法に入門していただきたい2。ランサム攻撃を念頭に置く1サイバー攻撃と網路安全 (Cybersecurity)（情報セキュリティ）1.ランサム攻撃とはランサム攻撃は，ランサムウェアと呼ばれる不正プログラムを使用し，攻撃先の端末上のデータを暗号化する等して，その復旧と引換えに（身代金として）金銭を脅し取ろうとするサイバー攻撃のことである3。</div>
+            </div>
+        </article>
+        <article id="card-2" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(2)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    ランサム（Ransom）とは<ruby>身代金<rt>みのしろきん</rt></ruby>の<ruby>意味<rt>いみ</rt></ruby>で、いわば「データを<ruby>戻し<rt>もどし</rt></ruby>てほしければ、<ruby>身代金<rt>みのしろきん</rt></ruby>を<ruby>払え<rt>はらえ</rt></ruby>！」と<ruby>脅迫<rt>きょうはく</rt></ruby>するのである。このような<ruby>犯罪行為<rt>はんざいこうい</rt></ruby>は、<ruby>企業経営者<rt>きぎょうけいえいしゃ</rt></ruby>が、<ruby>早期<rt>そうき</rt></ruby>にデータを<ruby>復旧<rt>ふっきゅう</rt></ruby>することができない<ruby>場合<rt>ばあい</rt></ruby>に<ruby>発生<rt>はっせい</rt></ruby>する<ruby>損害<rt>そんがい</rt></ruby>と<ruby>天<rt>てん</rt></ruby>にかけて、この\<ruby>身代金<rt>みのしろきん</rt></ruby>を<ruby>支払う<rt>しはらう</rt></ruby>ことを<ruby>期待し<rt>きたいし</rt></ruby>て<ruby>行わ<rt>おこなわ</rt></ruby>れる。ランサム<ruby>攻撃<rt>こうげき</rt></ruby>の<ruby>被害<rt>ひがい</rt></ruby><ruby>件数<rt>けんすう</rt></ruby>は、<ruby>令和<rt>れいわ</rt></ruby>5<ruby>年<rt>ねん</rt></ruby>が197<ruby>件<rt>けん</rt></ruby>、<ruby>令和<rt>れいわ</rt></ruby>6<ruby>年<rt>ねん</rt></ruby>が222<ruby>件<rt>けん</rt></ruby>、<ruby>令和<rt>れいわ</rt></ruby>7<ruby>年<rt>ねん</rt></ruby>が226<ruby>件<rt>けん</rt></ruby>と<ruby>増加傾向<rt>ぞうかけいこう</rt></ruby>にある。ある<ruby>従業員<rt>じゅうぎょういん</rt></ruby> 500<ruby>名<rt>めい</rt></ruby><ruby>以上<rt>いじょう</rt></ruby>の<ruby>日本国内<rt>にほんこくない</rt></ruby>の<ruby>組織<rt>そしき</rt></ruby>へのアンケート<ruby>調査<rt>ちょうさ</rt></ruby>の<ruby>結果<rt>けっか</rt></ruby>によれば、40%の<ruby>組織<rt>そしき</rt></ruby>が<ruby>過去<rt>かこ</rt></ruby>3<ruby>年<rt>ねん</rt></ruby><ruby>以内<rt>いない</rt></ruby>にランサム<ruby>攻撃<rt>こうげき</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>ており、ランサム<ruby>攻撃<rt>こうげき</rt></ruby>による<ruby>被害<rt>ひがい</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>た<ruby>組織<rt>そしき</rt></ruby>における<ruby>過去<rt>かこ</rt></ruby>3<ruby>年間<rt>ねんかん</rt></ruby>のサイバー<ruby>攻撃<rt>こうげき</rt></ruby>による<ruby>被害額<rt>ひがいがく</rt></ruby>の<ruby>平均<rt>へいきん</rt></ruby>は<ruby>約<rt>やく</rt></ruby>2.2<ruby>億円<rt>おくえん</rt></ruby>であったというの。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">ランサム（Ransom）とは身代金の意味で，いわば「データを戻してほしければ，身代金を払え！」と脅迫するのである。このような犯罪行為は，企業経営者が，早期にデータを復旧することができない場合に発生する損害と天にかけて，この\身代金を支払うことを期待して行われる。ランサム攻撃の被害件数は，令和5年が197件，令和6年が222件，令和7年が226件と増加傾向にある。ある従業員 500名以上の日本国内の組織へのアンケート調査の結果によれば，40%の組織が過去3年以内にランサム攻撃を受けており，ランサム攻撃による被害を受けた組織における過去3年間のサイバー攻撃による被害額の平均は約2.2億円であったというの。</div>
+            </div>
+        </article>
+        <article id="card-3" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(3)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    2.<ruby>情報<rt>じょうほう</rt></ruby>セキュリティとはこのようなランサム<ruby>攻撃<rt>こうげき</rt></ruby>を<ruby>含む<rt>ふくむ</rt></ruby>サイバー<ruby>攻撃<rt>こうげき</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby><ruby>無防備<rt>むぼうび</rt></ruby>なままでは、<ruby>会社<rt>かいしゃ</rt></ruby>の<ruby>財産<rt>ざいさん</rt></ruby>を<ruby>守る<rt>まもる</rt></ruby>ことができない。また、<ruby>顧客<rt>こきゃく</rt></ruby>がその<ruby>会社<rt>かいしゃ</rt></ruby>を<ruby>言<rt>げん</rt></ruby>じて<ruby>預け<rt>あずけ</rt></ruby>た<ruby>個人情報<rt>こじんじょうほう</rt></ruby><ruby>等<rt>など</rt></ruby>が<ruby>漏洩<rt>ろうえい</rt></ruby>することで<ruby>頼<rt>らい</rt></ruby>を<ruby>裏切る<rt>うらぎる</rt></ruby>ことになる。そこで<ruby>会社<rt>かいしゃ</rt></ruby>としては、<ruby>被害<rt>ひがい</rt></ruby><ruby>等<rt>など</rt></ruby>を<ruby>回避<rt>かいひ</rt></ruby>するための<ruby>措置<rt>そち</rt></ruby>を<ruby>講じ<rt>こうじ</rt></ruby>、<ruby>適切<rt>てきせつ</rt></ruby>に<ruby>管理<rt>かんり</rt></ruby>して、<ruby>安全<rt>あんぜん</rt></ruby>な<ruby>状態<rt>じょうたい</rt></ruby>を<ruby>維持し<rt>いじし</rt></ruby>なければならない。それが<ruby>情報<rt>じょうほう</rt></ruby>セキュリティである”。<ruby>情報<rt>じょうほう</rt></ruby>セキュリティの<ruby>具体的<rt>ぐたいてき</rt></ruby>な<ruby>内容<rt>ないよう</rt></ruby>としては、CIAと<ruby>呼ば<rt>よば</rt></ruby>れる、<ruby>情報<rt>じょうほう</rt></ruby>の①<ruby>機密性<rt>きみつせい</rt></ruby>（Confidentiality）， ②<ruby>完全性<rt>かんぜんせい</rt></ruby>（Integrity）<ruby>及び<rt>および</rt></ruby>③<ruby>可用性<rt>かようせい</rt></ruby>（Availability）の3<ruby>要素<rt>ようそ</rt></ruby>を<ruby>維持す<rt>いじす</rt></ruby>ることが<ruby>重視<rt>じゅうし</rt></ruby>されている。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">2.情報セキュリティとはこのようなランサム攻撃を含むサイバー攻撃に対し無防備なままでは，会社の財産を守ることができない。また，顧客がその会社を言じて預けた個人情報等が漏洩することで頼を裏切ることになる。そこで会社としては，被害等を回避するための措置を講じ，適切に管理して，安全な状態を維持しなければならない。それが情報セキュリティである”。情報セキュリティの具体的な内容としては，CIAと呼ばれる，情報の①機密性（Confidentiality）， ②完全性（Integrity）及び③可用性（Availability）の3要素を維持することが重視されている。</div>
+            </div>
+        </article>
+        <article id="card-4" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(4)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    ①<ruby>機密性<rt>きみつせい</rt></ruby>は、<ruby>情報<rt>じょうほう</rt></ruby>へのアクセスが<ruby>認め<rt>みとめ</rt></ruby>られた<ruby>者<rt>もの</rt></ruby>だけが、その<ruby>情報<rt>じょうほう</rt></ruby>にアクセスできる<ruby>状態<rt>じょうたい</rt></ruby>を<ruby>確保<rt>かくほ</rt></ruby>すること、②<ruby>完全性<rt>かんぜんせい</rt></ruby>は、<ruby>情報<rt>じょうほう</rt></ruby>の<ruby>破壊<rt>はかい</rt></ruby>、<ruby>改<rt>かい</rt></ruby>ざん、<ruby>消去<rt>しょうきょ</rt></ruby>がされないこと、③<ruby>可用性<rt>かようせい</rt></ruby>は、<ruby>情報<rt>じょうほう</rt></ruby>へのアクセスを<ruby>認め<rt>みとめ</rt></ruby>られた<ruby>者<rt>もの</rt></ruby>が、<ruby>必要<rt>ひつよう</rt></ruby>なときに、<ruby>中断<rt>ちゅうだん</rt></ruby>することなく、<ruby>情報<rt>じょうほう</rt></ruby><ruby>及び<rt>および</rt></ruby><ruby>関連<rt>かんれん</rt></ruby><ruby>資産<rt>しさん</rt></ruby>にアクセスできる<ruby>状態<rt>じょうたい</rt></ruby>を<ruby>確保<rt>かくほ</rt></ruby>することである。サイバー<ruby>攻撃<rt>こうげき</rt></ruby>によって、<ruby>第三者<rt>だいさんしゃ</rt></ruby>が<ruby>情報<rt>じょうほう</rt></ruby>にアクセスできてしまえば<ruby>機密性<rt>きみつせい</rt></ruby>が<ruby>害さ<rt>がいさ</rt></ruby>れ、<ruby>情報<rt>じょうほう</rt></ruby>の<ruby>破壊<rt>はかい</rt></ruby>、<ruby>改<rt>かい</rt></ruby>ざん、<ruby>消去<rt>しょうきょ</rt></ruby><ruby>等<rt>など</rt></ruby>がされれば<ruby>完全性<rt>かんぜんせい</rt></ruby>が<ruby>害さ<rt>がいさ</rt></ruby>れ、また、データに<ruby>対し<rt>たいし</rt></ruby>て<ruby>正常<rt>せいじょう</rt></ruby>にアクセスできなくなれば<ruby>可用性<rt>かようせい</rt></ruby>が<ruby>害さ<rt>がいさ</rt></ruby>れる（なお、<ruby>一つ<rt>ひとつ</rt></ruby>の<ruby>攻撃<rt>こうげき</rt></ruby>により、これらのうちの<ruby>複数<rt>ふくすう</rt></ruby>の<ruby>要素<rt>ようそ</rt></ruby>が<ruby>侵害<rt>しんがい</rt></ruby>されることがある。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">①機密性は，情報へのアクセスが認められた者だけが，その情報にアクセスできる状態を確保すること，②完全性は，情報の破壊，改ざん，消去がされないこと，③可用性は，情報へのアクセスを認められた者が，必要なときに，中断することなく，情報及び関連資産にアクセスできる状態を確保することである。サイバー攻撃によって，第三者が情報にアクセスできてしまえば機密性が害され，情報の破壊，改ざん，消去等がされれば完全性が害され，また，データに対して正常にアクセスできなくなれば可用性が害される（なお，一つの攻撃により，これらのうちの複数の要素が侵害されることがある。</div>
+            </div>
+        </article>
+        <article id="card-5" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(5)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>例えば<rt>たとえば</rt></ruby>、ランサム<ruby>攻撃<rt>こうげき</rt></ruby>によってデータが<ruby>暗号化<rt>あんごうか</rt></ruby>されて<ruby>使え<rt>つかえ</rt></ruby>なくなることで<ruby>可用性<rt>かようせい</rt></ruby>が<ruby>侵害<rt>しんがい</rt></ruby>され、<ruby>同時に<rt>どうじに</rt></ruby>、<ruby>該<rt>がい</rt></ruby><ruby>攻撃<rt>こうげき</rt></ruby>によって<ruby>情報<rt>じょうほう</rt></ruby>が<ruby>漏洩<rt>ろうえい</rt></ruby>することにより<ruby>機密性<rt>きみつせい</rt></ruby>が<ruby>侵害<rt>しんがい</rt></ruby>されることがある）。3.<ruby>企業<rt>きぎょう</rt></ruby>の<ruby>予防措置<rt>よぼうそち</rt></ruby><ruby>当然<rt>とうぜん</rt></ruby>のことながら、<ruby>企業<rt>きぎょう</rt></ruby>としては、サイバー<ruby>攻撃<rt>こうげき</rt></ruby>その<ruby>他の<rt>ほかの</rt></ruby><ruby>機密性<rt>きみつせい</rt></ruby>・<ruby>完全性<rt>かんぜんせい</rt></ruby>・<ruby>可用性<rt>かようせい</rt></ruby>が<ruby>害さ<rt>がいさ</rt></ruby>れるような<ruby>状況<rt>じょうきょう</rt></ruby>を<ruby>予防<rt>よぼう</rt></ruby>するための<ruby>措置<rt>そち</rt></ruby>を<ruby>講じ<rt>こうじ</rt></ruby>る。この<ruby>具体的内容<rt>ぐたいてきないよう</rt></ruby>については、<ruby>様々な<rt>さまざまな</rt></ruby>ガイドラインや<ruby>法令<rt>ほうれい</rt></ruby><ruby>等<rt>など</rt></ruby>が<ruby>規律<rt>きりつ</rt></ruby>するところ、<ruby>例えば<rt>たとえば</rt></ruby>、<ruby>個人情報<rt>こじんじょうほう</rt></ruby>の<ruby>安全<rt>あんぜん</rt></ruby><ruby>管理<rt>かんり</rt></ruby>のため、<ruby>個人情報<rt>こじんじょうほう</rt></ruby><ruby>保護<rt>ほご</rt></ruby><ruby>法<rt>ほう</rt></ruby> 23<ruby>条<rt>じょう</rt></ruby><ruby>及び<rt>および</rt></ruby>ガイドラインクは、<ruby>概ね<rt>おおむね</rt></ruby><ruby>以下の<rt>いかの</rt></ruby><ruby>表<rt>おもて</rt></ruby>のような<ruby>対応<rt>たいおう</rt></ruby>を<ruby>求め<rt>もとめ</rt></ruby>る10。<ruby>責任者<rt>せきにんしゃ</rt></ruby>や<ruby>従業員<rt>じゅうぎょういん</rt></ruby><ruby>等<rt>など</rt></ruby>の<ruby>役割<rt>やくわり</rt></ruby>を<ruby>明確化<rt>めいかくか</rt></ruby>する<ruby>等<rt>など</rt></ruby>の<ruby>体制<rt>たいせい</rt></ruby><ruby>整備<rt>せいび</rt></ruby>を<ruby>行い<rt>おこない</rt></ruby>，ルールを<ruby>定め<rt>さだめ</rt></ruby>てそれに<ruby>従って<rt>したがって</rt></ruby><ruby>個人情報<rt>こじんじょうほう</rt></ruby>を<ruby>取り扱い<rt>とりあつかい</rt></ruby>、どの<ruby>情報<rt>じょうほう</rt></ruby>を<ruby>誰が<rt>だれが</rt></ruby><ruby>取り扱う<rt>とりあつかう</rt></ruby>こ<ruby>組織的<rt>そしきてき</rt></ruby>とができるかを<ruby>明確化<rt>めいかくか</rt></ruby>する<ruby>等し<rt>ひとし</rt></ruby>て<ruby>取扱<rt>とりあつかい</rt></ruby><ruby>状況<rt>じょうきょう</rt></ruby>の<ruby>安全<rt>あんぜん</rt></ruby><ruby>管理<rt>かんり</rt></ruby><ruby>措置<rt>そち</rt></ruby><ruby>確認<rt>かくにん</rt></ruby>を<ruby>可能<rt>かのう</rt></ruby>とし、<ruby>漏洩<rt>ろうえい</rt></ruby><ruby>等<rt>など</rt></ruby>が<ruby>発生<rt>はっせい</rt></ruby>した<ruby>場合<rt>ばあい</rt></ruby>の<ruby>体制<rt>たいせい</rt></ruby>を<ruby>整備<rt>せいび</rt></ruby>し、<ruby>定期的<rt>ていきてき</rt></ruby>に<ruby>取扱<rt>とりあつかい</rt></ruby><ruby>状況<rt>じょうきょう</rt></ruby>を<ruby>確認し<rt>かくにんし</rt></ruby>て<ruby>体制<rt>たいせい</rt></ruby>を<ruby>見直す<rt>みなおす</rt></ruby><ruby>役職員<rt>やくしょくいん</rt></ruby><ruby>等<rt>など</rt></ruby>の<ruby>個人情報<rt>こじんじょうほう</rt></ruby>を<ruby>取り扱う<rt>とりあつかう</rt></ruby><ruby>者<rt>もの</rt></ruby>に<ruby>適正<rt>てきせい</rt></ruby>な<ruby>取<rt>しゅ</rt></ruby><ruby>人的<rt>じんてき</rt></ruby><ruby>安全<rt>あんぜん</rt></ruby><ruby>管理<rt>かんり</rt></ruby><ruby>措置<rt>そち</rt></ruby><ruby>扱い<rt>あつかい</rt></ruby>を<ruby>周知徹底<rt>しゅうちてってい</rt></ruby>し、<ruby>教育<rt>きょういく</rt></ruby>・<ruby>研修<rt>けんしゅう</rt></ruby>を<ruby>実施<rt>じっし</rt></ruby>する<ruby>個人情報<rt>こじんじょうほう</rt></ruby>を<ruby>取り扱う<rt>とりあつかう</rt></ruby><ruby>区域<rt>くいき</rt></ruby>を<ruby>定め<rt>さだめ</rt></ruby>、<ruby>入退室<rt>にゅうたいしつ</rt></ruby><ruby>管理<rt>かんり</rt></ruby><ruby>等<rt>など</rt></ruby>を<ruby>行う<rt>おこなう</rt></ruby>、<ruby>個人情報<rt>こじんじょうほう</rt></ruby>を<ruby>取り扱う<rt>とりあつかう</rt></ruby><ruby>機器<rt>きき</rt></ruby>や<ruby>個人情報<rt>こじんじょうほう</rt></ruby><ruby>物理的<rt>ぶつりてき</rt></ruby>が<ruby>保存<rt>ほぞん</rt></ruby>・<ruby>記載さ<rt>きさいさ</rt></ruby>れた<ruby>電子媒体<rt>でんしばいたい</rt></ruby>や<ruby>書類<rt>しょるい</rt></ruby>の<ruby>盗難<rt>とうなん</rt></ruby>を<ruby>安全<rt>あんぜん</rt></ruby><ruby>管理<rt>かんり</rt></ruby><ruby>措置<rt>そち</rt></ruby><ruby>防止<rt>ぼうし</rt></ruby>し、<ruby>電子媒体<rt>でんしばいたい</rt></ruby>や<ruby>書類<rt>しょるい</rt></ruby><ruby>持ち運び<rt>もちはこび</rt></ruby>の<ruby>際に<rt>さいに</rt></ruby>パスワード<ruby>等<rt>など</rt></ruby>で<ruby>保護<rt>ほご</rt></ruby>をし、<ruby>電子媒体<rt>でんしばいたい</rt></ruby>や<ruby>書類<rt>しょるい</rt></ruby>を<ruby>廃棄<rt>はいき</rt></ruby>する<ruby>際<rt>きわ</rt></ruby>は<ruby>安全<rt>あんぜん</rt></ruby>な<ruby>方法<rt>ほうほう</rt></ruby>で<ruby>廃棄<rt>はいき</rt></ruby>するアクセス<ruby>権限<rt>けんげん</rt></ruby>の<ruby>設定<rt>せってい</rt></ruby><ruby>及び<rt>および</rt></ruby><ruby>当該<rt>とうがい</rt></ruby><ruby>権限<rt>けんげん</rt></ruby><ruby>者<rt>もの</rt></ruby>のみがアクセスできるようなアクセス<ruby>制御<rt>せいぎょ</rt></ruby>を<ruby>行う<rt>おこなう</rt></ruby>，ID・パスワード<ruby>等<rt>など</rt></ruby>でアクセス<ruby>権限<rt>けんげん</rt></ruby><ruby>者<rt>もの</rt></ruby>を<ruby>認証<rt>にんしょう</rt></ruby>する、ファイ<ruby>技術的<rt>ぎじゅつてき</rt></ruby><ruby>安全<rt>あんぜん</rt></ruby><ruby>管理<rt>かんり</rt></ruby><ruby>措置<rt>そち</rt></ruby> アウォール、ウイルス<ruby>対策<rt>たいさく</rt></ruby>ソフトウェアの<ruby>導入<rt>どうにゅう</rt></ruby>しフトウェアの<ruby>最新<rt>さいしん</rt></ruby><ruby>化<rt>か</rt></ruby><ruby>等<rt>など</rt></ruby>により<ruby>外部<rt>がいぶ</rt></ruby>からの<ruby>不正<rt>ふせい</rt></ruby>アクセスを<ruby>防止<rt>ぼうし</rt></ruby>する、<ruby>暗号化<rt>あんごうか</rt></ruby><ruby>等<rt>など</rt></ruby>により<ruby>情報<rt>じょうほう</rt></ruby>システムの<ruby>利用<rt>りよう</rt></ruby>に<ruby>伴う<rt>ともなう</rt></ruby><ruby>漏洩<rt>ろうえい</rt></ruby><ruby>等<rt>など</rt></ruby>を<ruby>防ぐ<rt>ふせぐ</rt></ruby>ガイドラインに<ruby>基づ<rt>もとづ</rt></ruby>き<ruby>筆者<rt>ひっしゃ</rt></ruby><ruby>作成<rt>さくせい</rt></ruby>これはあくまでも<ruby>個人情報<rt>こじんじょうほう</rt></ruby><ruby>保護<rt>ほご</rt></ruby>の<ruby>観点<rt>かんてん</rt></ruby>から<ruby>求め<rt>もとめ</rt></ruby>られる<ruby>措置<rt>そち</rt></ruby>の<ruby>例示<rt>れいじ</rt></ruby>に<ruby>過ぎな<rt>すぎな</rt></ruby>いものの、<ruby>企業<rt>きぎょう</rt></ruby>として<ruby>講じ<rt>こうじ</rt></ruby>るべき<ruby>予防措置<rt>よぼうそち</rt></ruby>の<ruby>概要<rt>がいよう</rt></ruby>を<ruby>大<rt>だい</rt></ruby><ruby>掴み<rt>つかみ</rt></ruby>で<ruby>理解<rt>りかい</rt></ruby>するという<ruby>意味<rt>いみ</rt></ruby>では<ruby>有用<rt>ゆうよう</rt></ruby>と<ruby>思わ<rt>おもわ</rt></ruby>れる。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">例えば，ランサム攻撃によってデータが暗号化されて使えなくなることで可用性が侵害され，同時に，該攻撃によって情報が漏洩することにより機密性が侵害されることがある）。3.企業の予防措置当然のことながら，企業としては，サイバー攻撃その他の機密性・完全性・可用性が害されるような状況を予防するための措置を講じる。この具体的内容については，様々なガイドラインや法令等が規律するところ，例えば，個人情報の安全管理のため，個人情報保護法 23条及びガイドラインクは，概ね以下の表のような対応を求める10。責任者や従業員等の役割を明確化する等の体制整備を行い，ルールを定めてそれに従って個人情報を取り扱い，どの情報を誰が取り扱うこ組織的とができるかを明確化する等して取扱状況の安全管理措置確認を可能とし，漏洩等が発生した場合の体制を整備し，定期的に取扱状況を確認して体制を見直す役職員等の個人情報を取り扱う者に適正な取人的安全管理措置扱いを周知徹底し，教育・研修を実施する個人情報を取り扱う区域を定め，入退室管理等を行う，個人情報を取り扱う機器や個人情報物理的が保存・記載された電子媒体や書類の盗難を安全管理措置防止し，電子媒体や書類持ち運びの際にパスワード等で保護をし，電子媒体や書類を廃棄する際は安全な方法で廃棄するアクセス権限の設定及び当該権限者のみがアクセスできるようなアクセス制御を行う，ID・パスワード等でアクセス権限者を認証する，ファイ技術的安全管理措置 アウォール，ウイルス対策ソフトウェアの導入しフトウェアの最新化等により外部からの不正アクセスを防止する，暗号化等により情報システムの利用に伴う漏洩等を防ぐガイドラインに基づき筆者作成これはあくまでも個人情報保護の観点から求められる措置の例示に過ぎないものの，企業として講じるべき予防措置の概要を大掴みで理解するという意味では有用と思われる。</div>
+            </div>
+        </article>
+        <article id="card-6" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(6)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    4.<ruby>企業<rt>きぎょう</rt></ruby>の<ruby>事後<rt>じご</rt></ruby><ruby>対応<rt>たいおう</rt></ruby>このように<ruby>一定<rt>いってい</rt></ruby>の<ruby>予防措置<rt>よぼうそち</rt></ruby>を<ruby>講じ<rt>こうじ</rt></ruby>ていても、<ruby>様々な<rt>さまざまな</rt></ruby><ruby>理由<rt>りゆう</rt></ruby>で<ruby>情報<rt>じょうほう</rt></ruby>セキュリティ（<ruby>機密性<rt>きみつせい</rt></ruby>・<ruby>完全性<rt>かんぜんせい</rt></ruby>・<ruby>可用性<rt>かようせい</rt></ruby>）が<ruby>害さ<rt>がいさ</rt></ruby>れるような<ruby>状況<rt>じょうきょう</rt></ruby>（セキュリティインシデント）が<ruby>生じ<rt>しょうじ</rt></ruby>てしまうことがある。IPA （<ruby>独立<rt>どくりつ</rt></ruby><ruby>行政<rt>ぎょうせい</rt></ruby><ruby>法人<rt>ほうじん</rt></ruby><ruby>情報処理<rt>じょうほうしょり</rt></ruby><ruby>推進機構<rt>すいしんきこう</rt></ruby>）が<ruby>公表<rt>こうひょう</rt></ruby>する「<ruby>情報<rt>じょうほう</rt></ruby>セキュリティ 10<ruby>大<rt>だい</rt></ruby><ruby>脅威<rt>きょうい</rt></ruby> 2026」の<ruby>組織<rt>そしき</rt></ruby><ruby>向け<rt>むけ</rt></ruby><ruby>脅威<rt>きょうい</rt></ruby>を<ruby>上位<rt>じょうい</rt></ruby>5<ruby>位<rt>くらい</rt></ruby>まで<ruby>紹介<rt>しょうかい</rt></ruby>すると、ランサム<ruby>攻撃<rt>こうげき</rt></ruby>による<ruby>被害<rt>ひがい</rt></ruby>，サプライチェーンや<ruby>委託<rt>いたく</rt></ruby><ruby>先<rt>さき</rt></ruby>を<ruby>狙っ<rt>ねらっ</rt></ruby>た<ruby>攻撃<rt>こうげき</rt></ruby>、AIの<ruby>利用<rt>りよう</rt></ruby>をめぐるサイバーリスク、システムの<ruby>施<rt>し</rt></ruby><ruby>弱<rt>じゃく</rt></ruby><ruby>性<rt>せい</rt></ruby>を<ruby>悪用<rt>あくよう</rt></ruby>した<ruby>攻撃<rt>こうげき</rt></ruby>、<ruby>及び<rt>および</rt></ruby>、<ruby>機密情報<rt>きみつじょうほう</rt></ruby>を<ruby>狙っ<rt>ねらっ</rt></ruby>た<ruby>標的<rt>ひょうてき</rt></ruby><ruby>型<rt>かた</rt></ruby><ruby>攻撃<rt>こうげき</rt></ruby>であった。<ruby>例えば<rt>たとえば</rt></ruby>、<ruby>自社<rt>じしゃ</rt></ruby>がいくら<ruby>気を<rt>きを</rt></ruby>つけていても、<ruby>自社<rt>じしゃ</rt></ruby>の<ruby>取引先<rt>とりひきさき</rt></ruby>や、その<ruby>更な<rt>さらな</rt></ruby>る<ruby>取引先<rt>とりひきさき</rt></ruby>が<ruby>被害<rt>ひがい</rt></ruby>に<ruby>遭え<rt>あえ</rt></ruby>ば、<ruby>結果<rt>けっか</rt></ruby>として<ruby>自社<rt>じしゃ</rt></ruby>の<ruby>生産<rt>せいさん</rt></ruby>が<ruby>止ま<rt>とま</rt></ruby>るといった<ruby>被害<rt>ひがい</rt></ruby>が<ruby>発生<rt>はっせい</rt></ruby>してしまう。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">4.企業の事後対応このように一定の予防措置を講じていても，様々な理由で情報セキュリティ（機密性・完全性・可用性）が害されるような状況（セキュリティインシデント）が生じてしまうことがある。IPA （独立行政法人情報処理推進機構）が公表する「情報セキュリティ 10大脅威 2026」の組織向け脅威を上位5位まで紹介すると，ランサム攻撃による被害，サプライチェーンや委託先を狙った攻撃，AIの利用をめぐるサイバーリスク，システムの施弱性を悪用した攻撃，及び，機密情報を狙った標的型攻撃であった。例えば，自社がいくら気をつけていても，自社の交易先や，その更なる交易先が被害に遭えば，結果として自社の生産が止まるといった被害が発生してしまう。</div>
+            </div>
+        </article>
+        <article id="card-7" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(7)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    ランサム<ruby>攻撃<rt>こうげき</rt></ruby>、Al、<ruby>弱<rt>じゃく</rt></ruby><ruby>性<rt>せい</rt></ruby>の<ruby>悪用<rt>あくよう</rt></ruby>，<ruby>標的<rt>ひょうてき</rt></ruby><ruby>型<rt>かた</rt></ruby><ruby>攻撃<rt>こうげき</rt></ruby><ruby>等<rt>など</rt></ruby>の<ruby>巧妙<rt>こうみょう</rt></ruby>な<ruby>攻撃<rt>こうげき</rt></ruby>が、<ruby>自社<rt>じしゃ</rt></ruby>や<ruby>関係<rt>かんけい</rt></ruby><ruby>企業<rt>きぎょう</rt></ruby>における<ruby>一番<rt>いちばん</rt></ruby><ruby>弱い<rt>よわい</rt></ruby>ところを<ruby>突い<rt>つい</rt></ruby>て<ruby>行わ<rt>おこなわ</rt></ruby>れる<ruby>結果<rt>けっか</rt></ruby>、<ruby>各社<rt>かくしゃ</rt></ruby>の<ruby>予防措置<rt>よぼうそち</rt></ruby>にもかかわらず、<ruby>被害<rt>ひがい</rt></ruby>は<ruby>後<rt>のち</rt></ruby>をたたない。<ruby>不幸<rt>ふこう</rt></ruby>にして<ruby>攻撃<rt>こうげき</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>た<ruby>場合<rt>ばあい</rt></ruby>には、①<ruby>初期<rt>しょき</rt></ruby><ruby>対応<rt>たいおう</rt></ruby>→②<ruby>調査<rt>ちょうさ</rt></ruby>→③<ruby>再発<rt>さいはつ</rt></ruby><ruby>防止<rt>ぼうし</rt></ruby>という<ruby>手順<rt>てじゅん</rt></ruby>を<ruby>踏み<rt>ふみ</rt></ruby>ながら、<ruby>同時に<rt>どうじに</rt></ruby>④<ruby>対外<rt>たいがい</rt></ruby><ruby>対応<rt>たいおう</rt></ruby>をするべきとされる。つまり、<ruby>被害<rt>ひがい</rt></ruby>の<ruby>兆候<rt>ちょうこう</rt></ruby>をつかんだ<ruby>場合<rt>ばあい</rt></ruby>に、まずはそれ<ruby>以上<rt>いじょう</rt></ruby><ruby>被害<rt>ひがい</rt></ruby>を<ruby>拡大<rt>かくだい</rt></ruby>させないための<ruby>応急<rt>おうきゅう</rt></ruby><ruby>措置<rt>そち</rt></ruby>および、<ruby>初歩的<rt>しょほてき</rt></ruby>な<ruby>調査<rt>ちょうさ</rt></ruby>を<ruby>含む<rt>ふくむ</rt></ruby><ruby>本格<rt>ほんかく</rt></ruby><ruby>対応<rt>たいおう</rt></ruby>の<ruby>要否<rt>ようひ</rt></ruby>を<ruby>判断<rt>はんだん</rt></ruby>するための①<ruby>初期<rt>しょき</rt></ruby><ruby>対応<rt>たいおう</rt></ruby>を<ruby>行う<rt>おこなう</rt></ruby>。その<ruby>結果<rt>けっか</rt></ruby>として<ruby>本格的<rt>ほんかくてき</rt></ruby>なセキュリティインシデントとして<ruby>対応<rt>たいおう</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>だとなれば、IT、<ruby>広報<rt>こうほう</rt></ruby>。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">ランサム攻撃，Al，弱性の悪用，標的型攻撃等の巧妙な攻撃が，自社や関係企業における一番弱いところを突いて行われる結果，各社の予防措置にもかかわらず，被害は後をたたない。不幸にして攻撃を受けた場合には，①初期対応→②調査→③再発防止という手順を踏みながら，同時に④対外対応をするべきとされる。つまり，被害の兆候をつかんだ場合に，まずはそれ以上被害を拡大させないための応急措置および，初歩的な調査を含む本格対応の要否を判断するための①初期対応を行う。その結果として本格的なセキュリティインシデントとして対応が必要だとなれば，IT，広報。</div>
+            </div>
+        </article>
+        <article id="card-8" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(8)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    そして<ruby>法務<rt>ほうむ</rt></ruby><ruby>等<rt>など</rt></ruby>を<ruby>入れ<rt>いれ</rt></ruby>た<ruby>調査<rt>ちょうさ</rt></ruby>チームを<ruby>組成<rt>そせい</rt></ruby>し，②（<ruby>本格<rt>ほんかく</rt></ruby>）<ruby>調査<rt>ちょうさ</rt></ruby>を<ruby>実施<rt>じっし</rt></ruby>する。その<ruby>調査<rt>ちょうさ</rt></ruby>の<ruby>結果<rt>けっか</rt></ruby>を<ruby>踏ま<rt>ふま</rt></ruby>え、③<ruby>再発<rt>さいはつ</rt></ruby><ruby>防止策<rt>ぼうしさく</rt></ruby>を<ruby>講ず<rt>こうず</rt></ruby>るところ、この<ruby>一連<rt>いちれん</rt></ruby>の<ruby>過程<rt>かてい</rt></ruby>において、<ruby>例えば<rt>たとえば</rt></ruby><ruby>個人情報<rt>こじんじょうほう</rt></ruby><ruby>漏洩<rt>ろうえい</rt></ruby>であれば<ruby>被害者<rt>ひがいしゃ</rt></ruby>への<ruby>通知<rt>つうち</rt></ruby>や<ruby>公表<rt>こうひょう</rt></ruby>，<ruby>政府機関<rt>せいふきかん</rt></ruby>（<ruby>個人情報<rt>こじんじょうほう</rt></ruby><ruby>保護<rt>ほご</rt></ruby><ruby>委員会<rt>いいんかい</rt></ruby>）とのコミュニケーション<ruby>等<rt>など</rt></ruby>の④<ruby>対外<rt>たいがい</rt></ruby><ruby>対応<rt>たいおう</rt></ruby>を<ruby>実施<rt>じっし</rt></ruby>する。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">そして法務等を入れた調査チームを組成し，②（本格）調査を実施する。その調査の結果を踏まえ，③再発防止策を講ずるところ，この一連の過程において，例えば個人情報漏洩であれば被害者への通知や公表，政府機関（個人情報保護委員会）とのコミュニケーション等の④対外対応を実施する。</div>
+            </div>
+        </article>
+        <section id="card-9" class="my-8 rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 shadow-md border border-indigo-900/80 transition-all duration-300">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="text-xl sm:text-2xl font-bold tracking-wide font-serif text-amber-300">ランサム<ruby>攻撃<rt>こうげき</rt></ruby>を<ruby>念頭<rt>ねんとう</rt></ruby>に<ruby>置く<rt>おく</rt></ruby><ruby>山<rt>やま</rt></ruby>ディキムをキュウリに<ruby>会社<rt>かいしゃ</rt></ruby><ruby>法<rt>ほう</rt></ruby>1．サイバーセキュリティとガバナンス<ruby>経営者<rt>けいえいしゃ</rt></ruby>は、このように<ruby>重要な<rt>じゅうような</rt></ruby>サイバーセキュリティにどのように<ruby>向き<rt>むき</rt></ruby><ruby>合っ<rt>あっ</rt></ruby>ていくべきだろうか。</h2>
+                <button onclick="playCardText(9)" class="shrink-0 flex items-center space-x-1 bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-amber-400/40 transition-colors select-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    <span>朗讀標題</span>
+                </button>
+            </div>
+            <div class="text-base sm:text-lg font-medium text-indigo-200 font-sans">ランサム攻撃を念頭に置く山ディキムをキュウリに公司法1．網路安全 (Cybersecurity)とガバナンス経営者は，このように重要な網路安全 (Cybersecurity)にどのように向き合っていくべきだろうか。</div>
+        </section>
+        <article id="card-10" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(10)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    ここで、<ruby>企業<rt>きぎょう</rt></ruby>の<ruby>経営者<rt>けいえいしゃ</rt></ruby>にとって、ガバナンスが<ruby>重要<rt>じゅうよう</rt></ruby>とされていることを<ruby>指摘<rt>してき</rt></ruby>しておきたい。つまり、<ruby>企業<rt>きぎょう</rt></ruby>には<ruby>株主<rt>かぶぬし</rt></ruby>、<ruby>労働者<rt>ろうどうしゃ</rt></ruby>、<ruby>取引先<rt>とりひきさき</rt></ruby>（<ruby>銀行<rt>ぎんこう</rt></ruby><ruby>等<rt>など</rt></ruby>を<ruby>含む<rt>ふくむ</rt></ruby>），<ruby>消費者<rt>しょうひしゃ</rt></ruby>、<ruby>近隣住民<rt>きんりんじゅうみん</rt></ruby>、<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>等<rt>など</rt></ruby>の<ruby>様々な<rt>さまざまな</rt></ruby><ruby>利害関係者<rt>りがいかんけいしゃ</rt></ruby>（ステークホルダー）が<ruby>存在<rt>そんざい</rt></ruby>する。<ruby>経営者<rt>けいえいしゃ</rt></ruby>が、これらの<ruby>利害関係者<rt>りがいかんけいしゃ</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby>て<ruby>長期的<rt>ちょうきてき</rt></ruby>に<ruby>利益<rt>りえき</rt></ruby>を<ruby>還元<rt>かんげん</rt></ruby>し<ruby>続け<rt>つづけ</rt></ruby>る<ruby>形<rt>かたち</rt></ruby>で<ruby>経営<rt>けいえい</rt></ruby>を<ruby>行って<rt>いって</rt></ruby>こそ、<ruby>企業<rt>きぎょう</rt></ruby>が<ruby>持続的<rt>じぞくてき</rt></ruby>に<ruby>成長し<rt>せいちょうし</rt></ruby>、<ruby>繁栄<rt>はんえい</rt></ruby>する。そこで，ガバナンス、<ruby>即ち<rt>すなわち</rt></ruby>、<ruby>企業<rt>きぎょう</rt></ruby>が<ruby>法令<rt>ほうれい</rt></ruby>を<ruby>遵守<rt>じゅんしゅ</rt></ruby>して<ruby>経営<rt>けいえい</rt></ruby>を<ruby>行う<rt>おこなう</rt></ruby>こと（<ruby>適法<rt>てきほう</rt></ruby><ruby>性<rt>せい</rt></ruby>ガバナンスと<ruby>呼ば<rt>よば</rt></ruby>れる）と、<ruby>企業<rt>きぎょう</rt></ruby>が<ruby>生産性<rt>せいさんせい</rt></ruby>・<ruby>収益性<rt>しゅうえきせい</rt></ruby>を<ruby>維持<rt>いじ</rt></ruby>・<ruby>向上<rt>こうじょう</rt></ruby>させて<ruby>持続的<rt>じぞくてき</rt></ruby>に<ruby>成長<rt>せいちょう</rt></ruby>できるようにすること（<ruby>効率性<rt>こうりつせい</rt></ruby>ガバナンスと<ruby>呼ば<rt>よば</rt></ruby>れる）が<ruby>重要<rt>じゅうよう</rt></ruby>とされる1.。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">ここで，企業の経営者にとって，ガバナンスが重要とされていることを指摘しておきたい。つまり，企業には株主，労働者，交易先（銀行等を含む），消費者，近隣住民，行政等の様々な利害関係者（ステークホルダー）が存在する。経営者が，これらの利害関係者に対して長期的に利益を還元し続ける形で経営を行ってこそ，企業が持続的に成長し，繁栄する。そこで，ガバナンス，即ち，企業が法令を遵守して経営を行うこと（適法性ガバナンスと呼ばれる）と，企業が生産性・収益性を維持・向上させて持続的に成長できるようにすること（効率性ガバナンスと呼ばれる）が重要とされる1.。</div>
+            </div>
+        </article>
+        <article id="card-11" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(11)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    コーポレートガバナンス・コードは、コーボレートガバナンスを「<ruby>会社<rt>かいしゃ</rt></ruby>が、<ruby>株主<rt>かぶぬし</rt></ruby>をはじめ<ruby>顧客<rt>こきゃく</rt></ruby>・<ruby>従業員<rt>じゅうぎょういん</rt></ruby>・<ruby>地域社会<rt>ちいきしゃかい</rt></ruby><ruby>等<rt>など</rt></ruby>の<ruby>立場<rt>たちば</rt></ruby>を<ruby>踏ま<rt>ふま</rt></ruby>えた<ruby>上で<rt>うえで</rt></ruby>、<ruby>透明<rt>とうめい</rt></ruby>・<ruby>公正<rt>こうせい</rt></ruby>かつ<ruby>迅速<rt>じんそく</rt></ruby>・<ruby>果断<rt>かだん</rt></ruby>な<ruby>意思決定<rt>いしけってい</rt></ruby>を<ruby>行う<rt>おこなう</rt></ruby>ための<ruby>仕組み<rt>しくみ</rt></ruby>を<ruby>意味<rt>いみ</rt></ruby>する」（<ruby>同<rt>どう</rt></ruby>1<ruby>頁<rt>ぺーじ</rt></ruby>）とするところ、ここでいう<ruby>透明<rt>とうめい</rt></ruby>・<ruby>公正<rt>こうせい</rt></ruby>（<ruby>守り<rt>まもり</rt></ruby>のガバナンス）は<ruby>適法<rt>てきほう</rt></ruby><ruby>性<rt>せい</rt></ruby>ガバナンスと、<ruby>迅速<rt>じんそく</rt></ruby>・<ruby>果断<rt>かだん</rt></ruby>（<ruby>攻め<rt>せめ</rt></ruby>のガバナンス）は<ruby>効率性<rt>こうりつせい</rt></ruby>ガバナンスと、それぞれ<ruby>関係<rt>かんけい</rt></ruby>が<ruby>深い<rt>ふかい</rt></ruby>。そして、<ruby>情報<rt>じょうほう</rt></ruby>セキュリティリスクを<ruby>含む<rt>ふくむ</rt></ruby>リスクを<ruby>放置<rt>ほうち</rt></ruby>していれば、いつかそのリスクが<ruby>現実<rt>げんじつ</rt></ruby><ruby>化し<rt>かし</rt></ruby>て、<ruby>企業<rt>きぎょう</rt></ruby>の<ruby>存続<rt>そんぞく</rt></ruby>すらも<ruby>揺る<rt>ゆる</rt></ruby>がしかねない。<ruby>同<rt>どう</rt></ruby>コードは「<ruby>内部<rt>ないぶ</rt></ruby><ruby>統制<rt>とうせい</rt></ruby>や<ruby>先<rt>さき</rt></ruby>を<ruby>見越し<rt>みこし</rt></ruby>た<ruby>全社的<rt>ぜんしゃてき</rt></ruby>りスク<ruby>管理体制<rt>かんりたいせい</rt></ruby>の<ruby>整備<rt>せいび</rt></ruby>は、<ruby>適切<rt>てきせつ</rt></ruby>なコンプライアンスの<ruby>確保<rt>かくほ</rt></ruby>とリスクテイクの<ruby>裏付け<rt>うらづけ</rt></ruby>となり<ruby>得る<rt>える</rt></ruby>」としている（<ruby>同<rt>どう</rt></ruby><ruby>補充<rt>ほじゅう</rt></ruby><ruby>原則<rt>げんそく</rt></ruby>4-3④）。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">コーポレートガバナンス・コードは，コーボレートガバナンスを「会社が，株主をはじめ顧客・従業員・地域社会等の立場を踏まえた上で，透明・公正かつ迅速・果断な意思裁定を行うための仕組みを意味する」（同1頁）とするところ，ここでいう透明・公正（守りのガバナンス）は適法性ガバナンスと，迅速・果断（攻めのガバナンス）は効率性ガバナンスと，それぞれ関係が深い。そして，情報セキュリティリスクを含むリスクを放置していれば，いつかそのリスクが現実化して，企業の存続すらも揺るがしかねない。同コードは「內部控制や先を見越した全社的りスク管理体制の整備は，適切なコンプライアンスの確保とリスクテイクの裏付けとなり得る」としている（同補充原則4-3④）。</div>
+            </div>
+        </article>
+        <article id="card-12" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(12)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    つまり、リスクの<ruby>管理体制<rt>かんりたいせい</rt></ruby>を<ruby>軽<rt>けい</rt></ruby><ruby>備<rt>び</rt></ruby>することは、<ruby>経営者<rt>けいえいしゃ</rt></ruby>によるリスクテイクを<ruby>支え<rt>ささえ</rt></ruby>る、<ruby>会社<rt>かいしゃ</rt></ruby>のガバナンス<ruby>上<rt>うえ</rt></ruby>も<ruby>重要な<rt>じゅうような</rt></ruby>ものなのである15。そして、サイバーセキュリティリスクは、<ruby>企業<rt>きぎょう</rt></ruby>として<ruby>管理<rt>かんり</rt></ruby>すべき<ruby>重要な<rt>じゅうような</rt></ruby>リスクの1つである。このような<ruby>文脈<rt>ぶんみゃく</rt></ruby>で<ruby>頻繁<rt>ひんぱん</rt></ruby>に<ruby>引用<rt>いんよう</rt></ruby>される「サイバーセキュリティ<ruby>経営<rt>けいえい</rt></ruby>ガイドライン」は、セキュリティ<ruby>対策<rt>たいさく</rt></ruby>を<ruby>将来<rt>しょうらい</rt></ruby>の<ruby>事業活動<rt>じぎょうかつどう</rt></ruby>・<ruby>成長<rt>せいちょう</rt></ruby>に<ruby>必要<rt>ひつよう</rt></ruby>な<ruby>費用<rt>ひよう</rt></ruby>の「<ruby>投資<rt>とうし</rt></ruby>」と<ruby>捉え<rt>とらえ</rt></ruby>、サイバーセキュリティリスクを<ruby>組織<rt>そしき</rt></ruby>の<ruby>経営<rt>けいえい</rt></ruby>リスクの<ruby>一環<rt>いっかん</rt></ruby>として<ruby>織り<rt>おり</rt></ruby><ruby>込み<rt>こみ</rt></ruby>、その<ruby>観点<rt>かんてん</rt></ruby>からサイバーセキュリティリスクを<ruby>把握<rt>はあく</rt></ruby>・<ruby>評価<rt>ひょうか</rt></ruby>した<ruby>上で<rt>うえで</rt></ruby>、<ruby>対策<rt>たいさく</rt></ruby>の<ruby>実施<rt>じっし</rt></ruby>を<ruby>通じ<rt>つうじ</rt></ruby>てサイバーセキュリティに<ruby>関す<rt>かんす</rt></ruby>る<ruby>自社<rt>じしゃ</rt></ruby>が<ruby>許容<rt>きょよう</rt></ruby><ruby>可能<rt>かのう</rt></ruby>とする<ruby>水準<rt>すいじゅん</rt></ruby>まで<ruby>低減<rt>ていげん</rt></ruby>することが<ruby>経営者<rt>けいえいしゃ</rt></ruby>としての<ruby>責務<rt>せきむ</rt></ruby>だとする。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">つまり，リスクの管理体制を軽備することは，経営者によるリスクテイクを支える，会社のガバナンス上も重要なものなのである15。そして，網路安全 (Cybersecurity)リスクは，企業として管理すべき重要なリスクの1つである。このような文脈で頻繁に引用される「網路安全 (Cybersecurity)経営ガイドライン」は，セキュリティ対策を将来の事業活動・成長に必要な費用の「投資」と捉え，網路安全 (Cybersecurity)リスクを組織の経営リスクの一環として織り込み，その観点から網路安全 (Cybersecurity)リスクを把握・評価した上で，対策の実施を通じて網路安全 (Cybersecurity)に関する自社が許容可能とする水準まで低減することが経営者としての責務だとする。</div>
+            </div>
+        </article>
+        <article id="card-13" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(13)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    つまり、サイバーセキュリティは<ruby>重要な<rt>じゅうような</rt></ruby><ruby>経営<rt>けいえい</rt></ruby><ruby>課題<rt>かだい</rt></ruby>であり、ガバナンスの<ruby>一環<rt>いっかん</rt></ruby>として<ruby>行わ<rt>おこなわ</rt></ruby>れるリスク<ruby>管理<rt>かんり</rt></ruby>において、<ruby>対処<rt>たいしょ</rt></ruby>されるべき<ruby>重要な<rt>じゅうような</rt></ruby>リスクなのである。2.<ruby>経営者<rt>けいえいしゃ</rt></ruby>の<ruby>義務<rt>ぎむ</rt></ruby>と<ruby>内部<rt>ないぶ</rt></ruby><ruby>統制<rt>とうせい</rt></ruby>システムとしてのセキュリティ<ruby>対策<rt>たいさく</rt></ruby>そして、このように<ruby>情報<rt>じょうほう</rt></ruby>セキュリティ<ruby>対策<rt>たいさく</rt></ruby>はガバナンスとの<ruby>関係<rt>かんけい</rt></ruby>でも<ruby>重要<rt>じゅうよう</rt></ruby>であるところ、<ruby>以下に<rt>いかに</rt></ruby><ruby>述べ<rt>のべ</rt></ruby>るとおり、<ruby>会社<rt>かいしゃ</rt></ruby><ruby>法<rt>ほう</rt></ruby>は、<ruby>経営者<rt>けいえいしゃ</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby>、<ruby>情報<rt>じょうほう</rt></ruby>セキュリティ<ruby>対策<rt>たいさく</rt></ruby>を<ruby>講じ<rt>こうじ</rt></ruby>ることを<ruby>義務<rt>ぎむ</rt></ruby>づけている。（ <ruby>経営者<rt>けいえいしゃ</rt></ruby>の<ruby>負う<rt>おう</rt></ruby><ruby>忠実<rt>ちゅうじつ</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>と<ruby>善管<rt>ぜんかん</rt></ruby><ruby>注意<rt>ちゅうい</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>ここで、<ruby>会社<rt>かいしゃ</rt></ruby><ruby>法<rt>ほう</rt></ruby>の<ruby>建前<rt>たてまえ</rt></ruby>としては、<ruby>少なくとも<rt>すくなくとも</rt></ruby><ruby>上場<rt>じょうじょう</rt></ruby><ruby>大企業<rt>だいきぎょう</rt></ruby>といわれる、<ruby>読者<rt>どくしゃ</rt></ruby>の<ruby>皆様<rt>みなさま</rt></ruby>を<ruby>含む<rt>ふくむ</rt></ruby><ruby>学生<rt>がくせい</rt></ruby>，<ruby>会社員<rt>かいしゃいん</rt></ruby><ruby>等<rt>など</rt></ruby>の<ruby>一般人<rt>いっぱんじん</rt></ruby>がNISA<ruby>等<rt>など</rt></ruby>の<ruby>形<rt>かたち</rt></ruby>で<ruby>株<rt>かぶ</rt></ruby>を<ruby>購入<rt>こうにゅう</rt></ruby>するような<ruby>企業<rt>きぎょう</rt></ruby>を<ruby>前提<rt>ぜんてい</rt></ruby>とすると、<ruby>所有者<rt>しょゆうしゃ</rt></ruby>と<ruby>経営者<rt>けいえいしゃ</rt></ruby>が<ruby>分離<rt>ぶんり</rt></ruby>していることを<ruby>指摘<rt>してき</rt></ruby>したい19。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">つまり，網路安全 (Cybersecurity)は重要な経営課題であり，ガバナンスの一環として行われるリスク管理において，対処されるべき重要なリスクなのである。2.経営者の義務と內部控制システムとしてのセキュリティ対策そして，このように情報セキュリティ対策はガバナンスとの関係でも重要であるところ，以下に述べるとおり，公司法は，経営者に対し，情報セキュリティ対策を講じることを義務づけている。（ 経営者の負う忠実義務と善良管理人注意義務ここで，公司法の建前としては，少なくとも上場大企業といわれる，読者の皆様を含む学生，会社員等の一般人がNISA等の形で株を購入するような企業を前提とすると，所有者と経営者が分離していることを指摘したい19。</div>
+            </div>
+        </article>
+        <article id="card-14" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(14)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    つまり、<ruby>皆様<rt>みなさま</rt></ruby>が<ruby>証券会社<rt>しょうけんがいしゃ</rt></ruby>で<ruby>株<rt>かぶ</rt></ruby>を<ruby>購入<rt>こうにゅう</rt></ruby>すると、その<ruby>会社<rt>かいしゃ</rt></ruby>の<ruby>何万<rt>なんまん</rt></ruby><ruby>分<rt>ふん</rt></ruby>の<ruby>一<rt>いち</rt></ruby>かの「オーナー」になることができる。しかし、<ruby>株主<rt>かぶぬし</rt></ruby>が<ruby>会社<rt>かいしゃ</rt></ruby>を<ruby>経営す<rt>けいえいす</rt></ruby>るのではなく、<ruby>経営者<rt>けいえいしゃ</rt></ruby>（<ruby>取締役<rt>とりしまりやく</rt></ruby>）に<ruby>対し<rt>たいし</rt></ruby>て<ruby>投資<rt>とうし</rt></ruby>した<ruby>資金<rt>しきん</rt></ruby>の<ruby>管理<rt>かんり</rt></ruby>を<ruby>委ね<rt>ゆだね</rt></ruby>ることになる。このような<ruby>資金<rt>しきん</rt></ruby><ruby>管理<rt>かんり</rt></ruby>を<ruby>委ね<rt>ゆだね</rt></ruby>られた<ruby>経営者<rt>けいえいしゃ</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby>、<ruby>会社<rt>かいしゃ</rt></ruby><ruby>法<rt>ほう</rt></ruby>は、<ruby>会社<rt>かいしゃ</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby>て<ruby>忠実<rt>ちゅうじつ</rt></ruby>に<ruby>職務<rt>しょくむ</rt></ruby>を<ruby>行い<rt>おこない</rt></ruby>（<ruby>忠実<rt>ちゅうじつ</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>、<ruby>会社<rt>かいしゃ</rt></ruby>355<ruby>条<rt>じょう</rt></ruby>），<ruby>株主<rt>かぶぬし</rt></ruby>の<ruby>利益<rt>りえき</rt></ruby>のために<ruby>十分<rt>じゅうぶん</rt></ruby>に<ruby>注意<rt>ちゅうい</rt></ruby>を<ruby>尽くし<rt>つくし</rt></ruby>て<ruby>企業<rt>きぎょう</rt></ruby>を<ruby>経営す<rt>けいえいす</rt></ruby>る<ruby>義務<rt>ぎむ</rt></ruby>を<ruby>負わ<rt>おわ</rt></ruby>せている（<ruby>善管<rt>ぜんかん</rt></ruby><ruby>注意<rt>ちゅうい</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>。<ruby>会社<rt>かいしゃ</rt></ruby> 330<ruby>条<rt>じょう</rt></ruby>、<ruby>民<rt>たみ</rt></ruby>644<ruby>条<rt>じょう</rt></ruby>）。（ <ruby>経営者<rt>けいえいしゃ</rt></ruby>の<ruby>負う<rt>おう</rt></ruby><ruby>内部<rt>ないぶ</rt></ruby><ruby>統制<rt>とうせい</rt></ruby>システム<ruby>構築<rt>こうちく</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>このような<ruby>忠実<rt>ちゅうじつ</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby><ruby>及び<rt>および</rt></ruby><ruby>善管<rt>ぜんかん</rt></ruby><ruby>注意<rt>ちゅうい</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>から、<ruby>取締役<rt>とりしまりやく</rt></ruby>は、<ruby>忠実<rt>ちゅうじつ</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>・<ruby>善管<rt>ぜんかん</rt></ruby><ruby>注意<rt>ちゅうい</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>の<ruby>一<rt>いち</rt></ruby><ruby>内容<rt>ないよう</rt></ruby>として、<ruby>会社<rt>かいしゃ</rt></ruby>の<ruby>業務<rt>ぎょうむ</rt></ruby>の<ruby>適正<rt>てきせい</rt></ruby>を<ruby>確保<rt>かくほ</rt></ruby>するために<ruby>必要<rt>ひつよう</rt></ruby>な<ruby>体制<rt>たいせい</rt></ruby>である、<ruby>内部<rt>ないぶ</rt></ruby><ruby>統制<rt>とうせい</rt></ruby>システムを<ruby>構築<rt>こうちく</rt></ruby>する<ruby>義務<rt>ぎむ</rt></ruby>を<ruby>負う<rt>おう</rt></ruby>とされている。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">つまり，皆様が証券会社で株を購入すると，その会社の何万分の一かの「オーナー」になることができる。しかし，株主が会社を経営するのではなく，経営者（董事）に対して投資した資金の管理を委ねることになる。このような資金管理を委ねられた経営者に対し，公司法は，会社に対して忠実に職務を行い（忠実義務，会社355条），株主の利益のために十分に注意を尽くして企業を経営する義務を負わせている（善良管理人注意義務。会社 330条，民644条）。（ 経営者の負う內部控制システム構築義務このような忠実義務及び善良管理人注意義務から，董事は，忠実義務・善良管理人注意義務の一内容として，会社の業務の適正を確保するために必要な体制である，內部控制システムを構築する義務を負うとされている。</div>
+            </div>
+        </article>
+        <article id="card-15" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(15)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>組織<rt>そしき</rt></ruby>の<ruby>規模<rt>きぼ</rt></ruby>が<ruby>小さく<rt>ちーさく</rt></ruby>、いわば<ruby>経営者<rt>けいえいしゃ</rt></ruby>が<ruby>自分<rt>じぶん</rt></ruby>で<ruby>業務<rt>ぎょうむ</rt></ruby>が<ruby>適正<rt>てきせい</rt></ruby>に<ruby>行わ<rt>おこなわ</rt></ruby>れているのかどうかを<ruby>確認<rt>かくにん</rt></ruby>できる<ruby>場合<rt>ばあい</rt></ruby>はともかく、<ruby>大企業<rt>だいきぎょう</rt></ruby>においては、<ruby>経営者<rt>けいえいしゃ</rt></ruby>が<ruby>自分自身<rt>じぶんじしん</rt></ruby>で<ruby>会社<rt>かいしゃ</rt></ruby>の<ruby>業務<rt>ぎょうむ</rt></ruby><ruby>全部<rt>ぜんぶ</rt></ruby>を<ruby>監視<rt>かんし</rt></ruby>するということは<ruby>非現実的<rt>ひげんじつてき</rt></ruby>である。そこで、<ruby>社内<rt>しゃない</rt></ruby>で<ruby>体制<rt>たいせい</rt></ruby>を<ruby>作っ<rt>つくっ</rt></ruby>て、<ruby>業務<rt>ぎょうむ</rt></ruby>の<ruby>適正<rt>てきせい</rt></ruby>を<ruby>確保<rt>かくほ</rt></ruby>する。<ruby>例えば<rt>たとえば</rt></ruby>、<ruby>企業<rt>きぎょう</rt></ruby>には<ruby>法務<rt>ほうむ</rt></ruby><ruby>部門<rt>ぶもん</rt></ruby>が<ruby>置か<rt>おか</rt></ruby>れ、<ruby>法令<rt>ほうれい</rt></ruby><ruby>等<rt>など</rt></ruby>を<ruby>遵守<rt>じゅんしゅ</rt></ruby>できるように<ruby>支援<rt>しえん</rt></ruby>しているが、これはこのような<ruby>内部<rt>ないぶ</rt></ruby><ruby>統制<rt>とうせい</rt></ruby>システムの<ruby>一環<rt>いっかん</rt></ruby>である。（ <ruby>内部<rt>ないぶ</rt></ruby><ruby>統制<rt>とうせい</rt></ruby>システムとサイバーセキュリティそして、このような<ruby>取締役<rt>とりしまりやく</rt></ruby>の<ruby>内部<rt>ないぶ</rt></ruby><ruby>統制<rt>とうせい</rt></ruby>システム<ruby>構築<rt>こうちく</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>には、<ruby>適切<rt>てきせつ</rt></ruby>なサイバーセキュリティ<ruby>対策<rt>たいさく</rt></ruby>を<ruby>講じ<rt>こうじ</rt></ruby>る<ruby>義務<rt>ぎむ</rt></ruby>が<ruby>含ま<rt>ふくま</rt></ruby>れ<ruby>得る<rt>える</rt></ruby>。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">組織の規模が小さく，いわば経営者が自分で業務が適正に行われているのかどうかを確認できる場合はともかく，大企業においては，経営者が自分自身で会社の業務全部を監視するということは非現実的である。そこで，社内で体制を作って，業務の適正を確保する。例えば，企業には法務部門が置かれ，法令等を遵守できるように支援しているが，これはこのような內部控制システムの一環である。（ 內部控制システムと網路安全 (Cybersecurity)そして，このような董事の內部控制システム構築義務には，適切な網路安全 (Cybersecurity)対策を講じる義務が含まれ得る。</div>
+            </div>
+        </article>
+        <article id="card-16" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(16)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>具体的<rt>ぐたいてき</rt></ruby>には、その<ruby>業種<rt>ぎょうしゅ</rt></ruby>や<ruby>規模<rt>きぼ</rt></ruby>、<ruby>業務<rt>ぎょうむ</rt></ruby>の<ruby>実態<rt>じったい</rt></ruby>、<ruby>抱え<rt>かかえ</rt></ruby>るリスクの<ruby>内容<rt>ないよう</rt></ruby>に<ruby>応じ<rt>おうじ</rt></ruby>て<ruby>適切<rt>てきせつ</rt></ruby>なシステム<ruby>設計<rt>せっけい</rt></ruby>を<ruby>行い<rt>おこない</rt></ruby>。<ruby>胎<rt>たい</rt></ruby><ruby>弱<rt>じゃく</rt></ruby><ruby>性<rt>せい</rt></ruby>の<ruby>管理<rt>かんり</rt></ruby>など、<ruby>情報<rt>じょうほう</rt></ruby><ruby>漏洩<rt>ろうえい</rt></ruby>を<ruby>引き起こ<rt>ひきおこ</rt></ruby>す<ruby>危険性<rt>きけんせい</rt></ruby>を<ruby>極小化<rt>きょくしょうか</rt></ruby>すべくシステムの<ruby>運用<rt>うんよう</rt></ruby><ruby>管理<rt>かんり</rt></ruby>の<ruby>徹底<rt>てってい</rt></ruby>を<ruby>図り<rt>はかり</rt></ruby>、<ruby>有事<rt>ゆうじ</rt></ruby>の<ruby>際<rt>きわ</rt></ruby>を<ruby>想定<rt>そうてい</rt></ruby>した<ruby>緊急<rt>きんきゅう</rt></ruby><ruby>対応<rt>たいおう</rt></ruby><ruby>体制<rt>たいせい</rt></ruby>を<ruby>策定<rt>さくてい</rt></ruby>するなどの<ruby>諸<rt>しょ</rt></ruby><ruby>施策<rt>しさく</rt></ruby>を<ruby>講じ<rt>こうじ</rt></ruby>るべきとされる。その<ruby>際<rt>きわ</rt></ruby>は、（3で<ruby>後述<rt>こうじゅつ</rt></ruby>する<ruby>経営<rt>けいえい</rt></ruby><ruby>判断<rt>はんだん</rt></ruby>の<ruby>原則<rt>げんそく</rt></ruby>から、）<ruby>各<rt>かく</rt></ruby><ruby>会社<rt>かいしゃ</rt></ruby>が<ruby>営む<rt>いとなむ</rt></ruby><ruby>事業内容<rt>じぎょうないよう</rt></ruby>や<ruby>規模<rt>きぼ</rt></ruby>，<ruby>経営状態<rt>けいえいじょうたい</rt></ruby><ruby>等<rt>など</rt></ruby>に<ruby>応じ<rt>おうじ</rt></ruby>て、<ruby>取締役<rt>とりしまりやく</rt></ruby>がその<ruby>裁量<rt>さいりょう</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>いて<ruby>講じ<rt>こうじ</rt></ruby>るべき<ruby>対策<rt>たいさく</rt></ruby>を<ruby>判断<rt>はんだん</rt></ruby>することが<ruby>可能<rt>かのう</rt></ruby>である。（「<ruby>被害者<rt>ひがいしゃ</rt></ruby>」が「<ruby>加害者<rt>かがいしゃ</rt></ruby>」に？このように<ruby>経営者<rt>けいえいしゃ</rt></ruby>がサイバーセキュリティ<ruby>対策<rt>たいさく</rt></ruby>を<ruby>義務<rt>ぎむ</rt></ruby>づけられていることの<ruby>意味<rt>いみ</rt></ruby>は、<ruby>経営者<rt>けいえいしゃ</rt></ruby>が<ruby>適切<rt>てきせつ</rt></ruby>なサイバーセキュリティ<ruby>対策<rt>たいさく</rt></ruby>を<ruby>講じ<rt>こうじ</rt></ruby>ないと、<ruby>被害<rt>ひがい</rt></ruby>に<ruby>遭っ<rt>あっ</rt></ruby>たはずの<ruby>会社<rt>かいしゃ</rt></ruby>やその<ruby>経営者<rt>けいえいしゃ</rt></ruby>が、むしろ<ruby>加害者<rt>かがいしゃ</rt></ruby>になるということである。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">具体的には，その業種や規模，業務の実態，抱えるリスクの内容に応じて適切なシステム設計を行い。胎弱性の管理など，情報漏洩を引き起こす危険性を極小化すべくシステムの運用管理の徹底を図り，有事の際を想定した緊急対応体制を策定するなどの諸施策を講じるべきとされる。その際は，（3で後述する経営判断の原則から，）各会社が営む事業内容や規模，経営状態等に応じて，董事がその裁量に基づいて講じるべき対策を判断することが可能である。（「被害者」が「加害者」に？このように経営者が網路安全 (Cybersecurity)対策を義務づけられていることの意味は，経営者が適切な網路安全 (Cybersecurity)対策を講じないと，被害に遭ったはずの会社やその経営者が，むしろ加害者になるということである。</div>
+            </div>
+        </article>
+        <article id="card-17" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(17)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>通<rt>とおり</rt></ruby><ruby>教育<rt>きょういく</rt></ruby><ruby>企業<rt>きぎょう</rt></ruby>における<ruby>大量<rt>たいりょう</rt></ruby>の<ruby>個人情報<rt>こじんじょうほう</rt></ruby><ruby>漏洩<rt>ろうえい</rt></ruby><ruby>事件<rt>じけん</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>るある<ruby>判決<rt>はんけつ</rt></ruby>においては、<ruby>経営者<rt>けいえいしゃ</rt></ruby>（<ruby>取締役<rt>とりしまりやく</rt></ruby>）の<ruby>責任<rt>せきにん</rt></ruby>が<ruby>問題<rt>もんだい</rt></ruby>となった25。<ruby>裁判所<rt>さいばんしょ</rt></ruby>は、「<ruby>会社<rt>かいしゃ</rt></ruby><ruby>法<rt>ほう</rt></ruby>は<ruby>内部<rt>ないぶ</rt></ruby><ruby>統制<rt>とうせい</rt></ruby>システムの<ruby>在り<rt>あり</rt></ruby><ruby>方<rt>ほう</rt></ruby>に<ruby>関し<rt>かんし</rt></ruby>て<ruby>一義的<rt>いちぎてき</rt></ruby>な<ruby>内容<rt>ないよう</rt></ruby>を<ruby>定め<rt>さだめ</rt></ruby>ているものではなく、あるべき<ruby>内部<rt>ないぶ</rt></ruby><ruby>統制<rt>とうせい</rt></ruby>の<ruby>水準<rt>すいじゅん</rt></ruby>は<ruby>実務<rt>じつむ</rt></ruby><ruby>慣行<rt>かんこう</rt></ruby>により<ruby>定ま<rt>さだま</rt></ruby>ると<ruby>解さ<rt>かいさ</rt></ruby>れ、その<ruby>具体的内容<rt>ぐたいてきないよう</rt></ruby>については<ruby>当該<rt>とうがい</rt></ruby><ruby>会社<rt>かいしゃ</rt></ruby>ないし<ruby>企業<rt>きぎょう</rt></ruby>グループの<ruby>事業内容<rt>じぎょうないよう</rt></ruby>や<ruby>規模<rt>きぼ</rt></ruby>，<ruby>経営状態<rt>けいえいじょうたい</rt></ruby><ruby>等<rt>など</rt></ruby>を<ruby>踏ま<rt>ふま</rt></ruby>えつつ<ruby>取締役<rt>とりしまりやく</rt></ruby>がその<ruby>裁量<rt>さいりょう</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>いて<ruby>判断<rt>はんだん</rt></ruby>すべき」として、<ruby>結論<rt>けつろん</rt></ruby>において、<ruby>具体的<rt>ぐたいてき</rt></ruby>な<ruby>状況下<rt>じょうきょうか</rt></ruby>における<ruby>経営者<rt>けいえいしゃ</rt></ruby>の<ruby>義務<rt>ぎむ</rt></ruby><ruby>違反<rt>いはん</rt></ruby>を<ruby>否定<rt>ひてい</rt></ruby>した。しかし、<ruby>具体的<rt>ぐたいてき</rt></ruby><ruby>状況次第<rt>じょうきょうしだい</rt></ruby>では、この<ruby>事案<rt>じあん</rt></ruby>と<ruby>異な<rt>ことな</rt></ruby>り、<ruby>経営者<rt>けいえいしゃ</rt></ruby>の<ruby>個人責任<rt>こじんせきにん</rt></ruby>が<ruby>認め<rt>みとめ</rt></ruby>られてしまう<ruby>可能性<rt>かのうせい</rt></ruby>もある。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">通教育企業における大量の個人情報漏洩事件に関するある判決においては，経営者（董事）の責任が問題となった25。裁判所は，「公司法は內部控制システムの在り方に関して一義的な内容を定めているものではなく，あるべき內部控制の水準は実務慣行により定まると解され，その具体的内容については当該会社ないし企業グループの事業内容や規模，経営状態等を踏まえつつ董事がその裁量に基づいて判断すべき」として，結論において，具体的な状況下における経営者の義務違反を否定した。しかし，具体的状況次第では，この事案と異なり，経営者の個人責任が認められてしまう可能性もある。</div>
+            </div>
+        </article>
+        <article id="card-18" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(18)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    また、<ruby>仮に<rt>かりに</rt></ruby><ruby>個人責任<rt>こじんせきにん</rt></ruby>が<ruby>認め<rt>みとめ</rt></ruby>られないとしても、セキュリティインシデントが<ruby>発生<rt>はっせい</rt></ruby>すると、その<ruby>会社<rt>かいしゃ</rt></ruby>を<ruby>言<rt>げん</rt></ruby>じて<ruby>個人情報<rt>こじんじょうほう</rt></ruby><ruby>等<rt>など</rt></ruby>を<ruby>託し<rt>たくし</rt></ruby>た<ruby>顧客<rt>こきゃく</rt></ruby><ruby>等<rt>など</rt></ruby>の<ruby>利害関係者<rt>りがいかんけいしゃ</rt></ruby>の<ruby>言<rt>げん</rt></ruby><ruby>頼<rt>らい</rt></ruby>を<ruby>損ね<rt>そこね</rt></ruby>、<ruby>会社<rt>かいしゃ</rt></ruby>の<ruby>価値<rt>かち</rt></ruby>を<ruby>毀損<rt>きそん</rt></ruby>してしまう。とりわけ、<ruby>日々<rt>ひび</rt></ruby><ruby>新た<rt>あらた</rt></ruby>な<ruby>脅威<rt>きょうい</rt></ruby>が<ruby>登場<rt>とうじょう</rt></ruby>している<ruby>以上<rt>いじょう</rt></ruby>、ある<ruby>時点で<rt>じてんで</rt></ruby><ruby>合理的<rt>ごうりてき</rt></ruby>なセキュリティ<ruby>対応<rt>たいおう</rt></ruby>を<ruby>実施<rt>じっし</rt></ruby>すれば<ruby>終わり<rt>おわり</rt></ruby>ではなく、<ruby>常に<rt>つねに</rt></ruby>アップデートの<ruby>要否<rt>ようひ</rt></ruby>を<ruby>検討し<rt>けんとうし</rt></ruby>、それを<ruby>踏ま<rt>ふま</rt></ruby>えた<ruby>対応<rt>たいおう</rt></ruby>を<ruby>行う<rt>おこなう</rt></ruby><ruby>必要<rt>ひつよう</rt></ruby>がある。<ruby>例えば<rt>たとえば</rt></ruby>、<ruby>最近<rt>さいきん</rt></ruby>のランサム<ruby>攻撃<rt>こうげき</rt></ruby><ruby>多発<rt>たはつ</rt></ruby>の<ruby>状況<rt>じょうきょう</rt></ruby>を<ruby>踏ま<rt>ふま</rt></ruby>え、<ruby>更に<rt>さらに</rt></ruby>セキュリティ<ruby>対策<rt>たいさく</rt></ruby>を<ruby>強化<rt>きょうか</rt></ruby>することが<ruby>求め<rt>もとめ</rt></ruby>られるかもしれない。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">また，仮に個人責任が認められないとしても，セキュリティインシデントが発生すると，その会社を言じて個人情報等を託した顧客等の利害関係者の言頼を損ね，会社の価値を毀損してしまう。とりわけ，日々新たな脅威が登場している以上，ある時点で合理的なセキュリティ対応を実施すれば終わりではなく，常にアップデートの要否を検討し，それを踏まえた対応を行う必要がある。例えば，最近のランサム攻撃多発の状況を踏まえ，更にセキュリティ対策を強化することが求められるかもしれない。</div>
+            </div>
+        </article>
+        <section id="card-19" class="my-8 rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 shadow-md border border-indigo-900/80 transition-all duration-300">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="text-xl sm:text-2xl font-bold tracking-wide font-serif text-amber-300">3．ランサム<ruby>攻撃<rt>こうげき</rt></ruby>の<ruby>被害<rt>ひがい</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>た<ruby>場合<rt>ばあい</rt></ruby>、<ruby>経営者<rt>けいえいしゃ</rt></ruby>はどう<ruby>対応<rt>たいおう</rt></ruby>すべきか？</h2>
+                <button onclick="playCardText(19)" class="shrink-0 flex items-center space-x-1 bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-amber-400/40 transition-colors select-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    <span>朗讀標題</span>
+                </button>
+            </div>
+            <div class="text-base sm:text-lg font-medium text-indigo-200 font-sans">3．ランサム攻撃の被害を受けた場合，経営者はどう対応すべきか？</div>
+        </section>
+        <article id="card-20" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(20)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    それでは、<ruby>企業<rt>きぎょう</rt></ruby>として<ruby>一定程度<rt>いっていていど</rt></ruby>のセキュリティ<ruby>対策<rt>たいさく</rt></ruby>を<ruby>講じ<rt>こうじ</rt></ruby>ていたのにもかかわらず、<ruby>何らか<rt>なんらか</rt></ruby>の<ruby>方法<rt>ほうほう</rt></ruby>で<ruby>攻撃<rt>こうげき</rt></ruby><ruby>者<rt>もの</rt></ruby>がその<ruby>会社<rt>かいしゃ</rt></ruby>のシステムへの<ruby>侵<rt>しん</rt></ruby><ruby>人<rt>にん</rt></ruby>に<ruby>成功<rt>せいこう</rt></ruby>し、ランサム<ruby>攻撃<rt>こうげき</rt></ruby>を<ruby>仕掛け<rt>しかけ</rt></ruby>ることに<ruby>成功<rt>せいこう</rt></ruby>した<ruby>場合<rt>ばあい</rt></ruby>、<ruby>経営者<rt>けいえいしゃ</rt></ruby>はどのように<ruby>対応<rt>たいおう</rt></ruby>すべきだろうか。<ruby>身代金<rt>みのしろきん</rt></ruby>を<ruby>支払わ<rt>しはらわ</rt></ruby>ないと<ruby>長期<rt>ちょうき</rt></ruby>にわたり<ruby>会社<rt>かいしゃ</rt></ruby><ruby>業務<rt>ぎょうむ</rt></ruby>が<ruby>停滞<rt>ていたい</rt></ruby>する<ruby>可能性<rt>かのうせい</rt></ruby>がある。だからといって<ruby>身代金<rt>みのしろきん</rt></ruby><ruby>支払<rt>しはらい</rt></ruby>は<ruby>犯罪者<rt>はんざいしゃ</rt></ruby>に<ruby>対する<rt>たいする</rt></ruby><ruby>資金提供<rt>しきんていきょう</rt></ruby>であり、また、<ruby>支払っ<rt>しはらっ</rt></ruby>たところで、<ruby>更に<rt>さらに</rt></ruby>「<ruby>追い<rt>おい</rt></ruby><ruby>銭<rt>せん</rt></ruby>」を<ruby>求め<rt>もとめ</rt></ruby>られるかもしれない。その<ruby>意味<rt>いみ</rt></ruby>で、<ruby>支払う<rt>しはらう</rt></ruby>／<ruby>支払わ<rt>しはらわ</rt></ruby>ないのいずれも<ruby>悩ましい<rt>なやましい</rt></ruby>。ここで、<ruby>脅迫<rt>きょうはく</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>たのだから、その<ruby>脅迫<rt>きょうはく</rt></ruby>に<ruby>応じ<rt>おうじ</rt></ruby>て<ruby>身代金<rt>みのしろきん</rt></ruby>を<ruby>支払う<rt>しはらう</rt></ruby>のはしょうがないのではないか、と<ruby>思わ<rt>おもわ</rt></ruby>れる<ruby>読者<rt>どくしゃ</rt></ruby>もいらっしゃるかもしれない。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">それでは，企業として一定程度のセキュリティ対策を講じていたのにもかかわらず，何らかの方法で攻撃者がその会社のシステムへの侵人に成功し，ランサム攻撃を仕掛けることに成功した場合，経営者はどのように対応すべきだろうか。身代金を支払わないと長期にわたり会社業務が停滞する可能性がある。だからといって身代金支払は犯罪者に対する資金提供であり，また，支払ったところで，更に「追い銭」を求められるかもしれない。その意味で，支払う／支払わないのいずれも悩ましい。ここで，脅迫を受けたのだから，その脅迫に応じて身代金を支払うのはしょうがないのではないか，と思われる読者もいらっしゃるかもしれない。</div>
+            </div>
+        </article>
+        <article id="card-21" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(21)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    しかし、<ruby>最高裁<rt>さいこうさい</rt></ruby>は、（サイバー<ruby>攻撃<rt>こうげき</rt></ruby>ではなく「<ruby>乗っ取り<rt>のっとり</rt></ruby><ruby>屋<rt>や</rt></ruby>」による）<ruby>脅迫<rt>きょうはく</rt></ruby>に<ruby>応じ<rt>おうじ</rt></ruby>た<ruby>取締役<rt>とりしまりやく</rt></ruby>について、<ruby>過失<rt>かしつ</rt></ruby>を<ruby>肯定<rt>こうてい</rt></ruby>した。<ruby>取締役<rt>とりしまりやく</rt></ruby>は、<ruby>理不尽<rt>りふじん</rt></ruby>な<ruby>要求<rt>ようきゅう</rt></ruby>に<ruby>応ず<rt>おうず</rt></ruby>るべきではなく、<ruby>要求<rt>ようきゅう</rt></ruby>を<ruby>退け<rt>しりぞけ</rt></ruby>るために<ruby>喝取<rt>かっしゅ</rt></ruby>の<ruby>件<rt>けん</rt></ruby><ruby>等<rt>など</rt></ruby>を<ruby>普<rt>ふ</rt></ruby><ruby>察<rt>さつ</rt></ruby>に<ruby>届け出<rt>とどけで</rt></ruby>るなどの<ruby>適切<rt>てきせつ</rt></ruby>な<ruby>対応<rt>たいおう</rt></ruby>をすることが<ruby>期待<rt>きたい</rt></ruby>できない<ruby>状況<rt>じょうきょう</rt></ruby>にあったということもできないから、<ruby>会社<rt>かいしゃ</rt></ruby><ruby>財産<rt>ざいさん</rt></ruby>から<ruby>利益<rt>りえき</rt></ruby><ruby>提供<rt>ていきょう</rt></ruby>を<ruby>行った<rt>いった</rt></ruby><ruby>取締役<rt>とりしまりやく</rt></ruby>らの<ruby>行為<rt>こうい</rt></ruby>について、<ruby>無理<rt>むり</rt></ruby>からぬところがあったとして<ruby>過失<rt>かしつ</rt></ruby>を<ruby>否定<rt>ひてい</rt></ruby>することはできないとしたのである。では<ruby>結局<rt>けっきょく</rt></ruby>のところ、<ruby>身代金<rt>みのしろきん</rt></ruby>を<ruby>支払う<rt>しはらう</rt></ruby>べきなのだろうか。ここで，<ruby>最高裁<rt>さいこうさい</rt></ruby>は、<ruby>経営者<rt>けいえいしゃ</rt></ruby>（<ruby>取締役<rt>とりしまりやく</rt></ruby>）の<ruby>経営<rt>けいえい</rt></ruby><ruby>判断<rt>はんだん</rt></ruby>について「<ruby>決定<rt>けってい</rt></ruby>の<ruby>過程<rt>かてい</rt></ruby>、<ruby>内容<rt>ないよう</rt></ruby>に<ruby>著しく<rt>いちじるしく</rt></ruby><ruby>不合理<rt>ふごうり</rt></ruby>な<ruby>点<rt>てん</rt></ruby>がない<ruby>限り<rt>かぎり</rt></ruby>、<ruby>取締役<rt>とりしまりやく</rt></ruby>としての<ruby>善管<rt>ぜんかん</rt></ruby><ruby>注意<rt>ちゅうい</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>に<ruby>違反<rt>いはん</rt></ruby>するものではない」とする 。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">しかし，最高裁は，（サイバー攻撃ではなく「乗っ取り屋」による）脅迫に応じた董事について，過失を肯定した。董事は，理不尽な要求に応ずるべきではなく，要求を退けるために喝取の件等を普察に届け出るなどの適切な対応をすることが期待できない状況にあったということもできないから，会社財産から利益提供を行った董事らの行為について，無理からぬところがあったとして過失を否定することはできないとしたのである。では結局のところ，身代金を支払うべきなのだろうか。ここで，最高裁は，経営者（董事）の経営判断について「裁定の過程，内容に著しく不合理な点がない限り，董事としての善良管理人注意義務に違反するものではない」とする 。</div>
+            </div>
+        </article>
+        <article id="card-22" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(22)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    これは<ruby>経営<rt>けいえい</rt></ruby><ruby>判断<rt>はんだん</rt></ruby><ruby>原則<rt>げんそく</rt></ruby>と<ruby>呼ば<rt>よば</rt></ruby>れており、<ruby>経営者<rt>けいえいしゃ</rt></ruby>は<ruby>結果<rt>けっか</rt></ruby><ruby>責任<rt>せきにん</rt></ruby>を<ruby>負う<rt>おう</rt></ruby>のではなく、<ruby>過程<rt>かてい</rt></ruby><ruby>及び<rt>および</rt></ruby><ruby>内容<rt>ないよう</rt></ruby>につき<ruby>著しく<rt>いちじるしく</rt></ruby><ruby>不合理<rt>ふごうり</rt></ruby>な<ruby>点<rt>てん</rt></ruby>がない<ruby>意思決定<rt>いしけってい</rt></ruby>を<ruby>行う<rt>おこなう</rt></ruby>ことで、<ruby>責任<rt>せきにん</rt></ruby>を<ruby>免れ<rt>まぬかれ</rt></ruby>ることができる。そこで、<ruby>経営者<rt>けいえいしゃ</rt></ruby>としては、<ruby>法務<rt>ほうむ</rt></ruby><ruby>担当者<rt>たんとうしゃ</rt></ruby>・IT<ruby>担当者<rt>たんとうしゃ</rt></ruby>、そして<ruby>必要<rt>ひつよう</rt></ruby>に<ruby>応じ<rt>おうじ</rt></ruby>て<ruby>弁護士<rt>べんごし</rt></ruby><ruby>等<rt>など</rt></ruby>の<ruby>専門家<rt>せんもんか</rt></ruby>の<ruby>意見<rt>いけん</rt></ruby>も<ruby>聞き<rt>きき</rt></ruby>、<ruby>取締役会<rt>とりしまりやくかい</rt></ruby>で<ruby>相談<rt>そうだん</rt></ruby>する<ruby>等<rt>など</rt></ruby>の<ruby>合理的<rt>ごうりてき</rt></ruby>な<ruby>手続<rt>てつづき</rt></ruby>を<ruby>踏み<rt>ふみ</rt></ruby>ながら、<ruby>内容<rt>ないよう</rt></ruby>が<ruby>経営<rt>けいえい</rt></ruby><ruby>判断<rt>はんだん</rt></ruby><ruby>原則<rt>げんそく</rt></ruby>によって<ruby>保護<rt>ほご</rt></ruby>される<ruby>範囲<rt>はんい</rt></ruby>にとどまるような<ruby>意思決定<rt>いしけってい</rt></ruby>を<ruby>行って<rt>いって</rt></ruby>いくしかない。<ruby>実務<rt>じつむ</rt></ruby><ruby>上<rt>うえ</rt></ruby>は、<ruby>支払わ<rt>しはらわ</rt></ruby>ないという<ruby>判断<rt>はんだん</rt></ruby>がされることが<ruby>多い<rt>おおい</rt></ruby>と<ruby>思わ<rt>おもわ</rt></ruby>れ、この<ruby>判断<rt>はんだん</rt></ruby>の<ruby>内容<rt>ないよう</rt></ruby>に<ruby>著しく<rt>いちじるしく</rt></ruby><ruby>不合理<rt>ふごうり</rt></ruby>な<ruby>点<rt>てん</rt></ruby>がないと<ruby>判断<rt>はんだん</rt></ruby>される<ruby>可能性<rt>かのうせい</rt></ruby>は<ruby>高い<rt>たかい</rt></ruby>。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">これは経営判断原則と呼ばれており，経営者は結果責任を負うのではなく，過程及び内容につき著しく不合理な点がない意思裁定を行うことで，責任を免れることができる。そこで，経営者としては，法務担当者・IT担当者，そして必要に応じて弁護士等の専門家の意見も聞き，董事会で相談する等の合理的な手続を踏みながら，内容が経営判断原則によって保護される範囲にとどまるような意思裁定を行っていくしかない。実務上は，支払わないという判断がされることが多いと思われ，この判断の内容に著しく不合理な点がないと判断される可能性は高い。</div>
+            </div>
+        </article>
+        <article id="card-23" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(23)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>犯罪<rt>はんざい</rt></ruby><ruby>組織<rt>そしき</rt></ruby>の<ruby>資金源<rt>しきんげん</rt></ruby>となり、<ruby>支払い<rt>しはらい</rt></ruby>を<ruby>行った<rt>いった</rt></ruby>からといってデータが<ruby>戻る<rt>もどる</rt></ruby>とは<ruby>限ら<rt>かぎら</rt></ruby>ない<ruby>等<rt>など</rt></ruby>という<ruby>理由<rt>りゆう</rt></ruby>で<ruby>支払い<rt>しはらい</rt></ruby>を<ruby>拒む<rt>こばむ</rt></ruby>というのは、<ruby>少なくとも<rt>すくなくとも</rt></ruby><ruby>一般的<rt>いっぱんてき</rt></ruby>な<ruby>事情<rt>じじょう</rt></ruby>の<ruby>下に<rt>したに</rt></ruby>おいて、<ruby>著しく<rt>いちじるしく</rt></ruby><ruby>不合理<rt>ふごうり</rt></ruby>とまではいえない<ruby>判断<rt>はんだん</rt></ruby>である 。<ruby>但し<rt>ただし</rt></ruby>、<ruby>例えば<rt>たとえば</rt></ruby><ruby>病院<rt>びょういん</rt></ruby>のシステムがロックされ、<ruby>人命<rt>じんめい</rt></ruby>が<ruby>懸か<rt>かか</rt></ruby>っている<ruby>等<rt>など</rt></ruby>、<ruby>例外的<rt>れいがいてき</rt></ruby>な<ruby>場合<rt>ばあい</rt></ruby>には<ruby>支払う<rt>しはらう</rt></ruby><ruby>方向<rt>ほうこう</rt></ruby>で<ruby>検討<rt>けんとう</rt></ruby>をせざるを<ruby>得な<rt>えな</rt></ruby>い<ruby>場合<rt>ばあい</rt></ruby>もあり<ruby>得る<rt>える</rt></ruby>。もっとも、<ruby>身代金<rt>みのしろきん</rt></ruby>は<ruby>支払っ<rt>しはらっ</rt></ruby>たもののデータは<ruby>戻ら<rt>もどら</rt></ruby>なかった<ruby>等<rt>など</rt></ruby>といった<ruby>場合<rt>ばあい</rt></ruby>、<ruby>不合理<rt>ふごうり</rt></ruby>な<ruby>意思決定<rt>いしけってい</rt></ruby>を<ruby>行い<rt>おこない</rt></ruby>、<ruby>貴重<rt>きちょう</rt></ruby>な<ruby>会社<rt>かいしゃ</rt></ruby>の<ruby>資金<rt>しきん</rt></ruby>を<ruby>攻撃<rt>こうげき</rt></ruby><ruby>者<rt>もの</rt></ruby>に<ruby>提供<rt>ていきょう</rt></ruby>したとして、<ruby>取締役<rt>とりしまりやく</rt></ruby>の<ruby>善管<rt>ぜんかん</rt></ruby><ruby>注意<rt>ちゅうい</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>が<ruby>問わ<rt>とわ</rt></ruby>れる<ruby>可能性<rt>かのうせい</rt></ruby>は<ruby>十分<rt>じゅうぶん</rt></ruby>にある。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">犯罪組織の資金源となり，支払いを行ったからといってデータが戻るとは限らない等という理由で支払いを拒むというのは，少なくとも一般的な事情の下において，著しく不合理とまではいえない判断である 。但し，例えば病院のシステムがロックされ，人命が懸かっている等，例外的な場合には支払う方向で検討をせざるを得ない場合もあり得る。もっとも，身代金は支払ったもののデータは戻らなかった等といった場合，不合理な意思裁定を行い，貴重な会社の資金を攻撃者に提供したとして，董事の善良管理人注意義務が問われる可能性は十分にある。</div>
+            </div>
+        </article>
+        <article id="card-24" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(24)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>加え<rt>くわえ</rt></ruby>て、<ruby>攻撃<rt>こうげき</rt></ruby><ruby>者<rt>もの</rt></ruby>グループに<ruby>対する<rt>たいする</rt></ruby><ruby>送金<rt>そうきん</rt></ruby>が<ruby>違法<rt>いほう</rt></ruby>となることもある。<ruby>少なくとも<rt>すくなくとも</rt></ruby><ruby>送金<rt>そうきん</rt></ruby>の<ruby>適法<rt>てきほう</rt></ruby><ruby>性<rt>せい</rt></ruby>や<ruby>他の<rt>ほかの</rt></ruby><ruby>復旧<rt>ふっきゅう</rt></ruby><ruby>手段<rt>しゅだん</rt></ruby><ruby>等<rt>など</rt></ruby>の<ruby>代替手段<rt>だいたいしゅだん</rt></ruby>を<ruby>十分<rt>じゅうぶん</rt></ruby>に<ruby>検討し<rt>けんとうし</rt></ruby>，<ruby>専門家<rt>せんもんか</rt></ruby>の<ruby>意見<rt>いけん</rt></ruby>を<ruby>聞い<rt>きい</rt></ruby>た<ruby>上で<rt>うえで</rt></ruby><ruby>判断<rt>はんだん</rt></ruby>すべきであるが、<ruby>具体的<rt>ぐたいてき</rt></ruby><ruby>状況<rt>じょうきょう</rt></ruby>によっては、<ruby>支払い<rt>しはらい</rt></ruby>が<ruby>著しく<rt>いちじるしく</rt></ruby><ruby>不合理<rt>ふごうり</rt></ruby>な<ruby>意思決定<rt>いしけってい</rt></ruby>とされる<ruby>可能性<rt>かのうせい</rt></ruby>もあることには<ruby>十分<rt>じゅうぶん</rt></ruby>に<ruby>留意<rt>りゅうい</rt></ruby>すべきである。<ruby>小括<rt>しょうかつ</rt></ruby><ruby>本稿<rt>ほんこう</rt></ruby>を<ruby>読んで<rt>よんで</rt></ruby>、<ruby>経営者<rt>けいえいしゃ</rt></ruby>はなかなか<ruby>大変<rt>たいへん</rt></ruby>だな、と<ruby>思わ<rt>おもわ</rt></ruby>れたかもしれない。<ruby>確かに<rt>たしかに</rt></ruby>、<ruby>日々<rt>ひび</rt></ruby>、サイバーセキュリティを<ruby>含む<rt>ふくむ</rt></ruby>がこれに<ruby>限ら<rt>かぎら</rt></ruby>ない<ruby>新しい<rt>あたらしい</rt></ruby><ruby>脅威<rt>きょうい</rt></ruby>が<ruby>登場<rt>とうじょう</rt></ruby>し、<ruby>会社<rt>かいしゃ</rt></ruby>を<ruby>襲っ<rt>おそっ</rt></ruby>てくる。その<ruby>中<rt>なか</rt></ruby>で，<ruby>企業経営者<rt>きぎょうけいえいしゃ</rt></ruby>は、<ruby>必要<rt>ひつよう</rt></ruby>なリスク<ruby>管理<rt>かんり</rt></ruby><ruby>策<rt>さく</rt></ruby>を<ruby>講じ<rt>こうじ</rt></ruby>、<ruby>新た<rt>あらた</rt></ruby>な<ruby>脅威<rt>きょうい</rt></ruby>に<ruby>対応<rt>たいおう</rt></ruby>してアップデートを<ruby>継続<rt>けいぞく</rt></ruby>しなければならない。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">加えて，攻撃者グループに対する送金が違法となることもある。少なくとも送金の適法性や他の復旧手段等の代替手段を十分に検討し，専門家の意見を聞いた上で判断すべきであるが，具体的状況によっては，支払いが著しく不合理な意思裁定とされる可能性もあることには十分に留意すべきである。小括本稿を読んで，経営者はなかなか大変だな，と思われたかもしれない。確かに，日々，網路安全 (Cybersecurity)を含むがこれに限らない新しい脅威が登場し，会社を襲ってくる。その中で，企業経営者は，必要なリスク管理策を講じ，新たな脅威に対応してアップデートを継続しなければならない。</div>
+            </div>
+        </article>
+        <article id="card-25" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(25)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    このような<ruby>対応<rt>たいおう</rt></ruby>が<ruby>大変<rt>たいへん</rt></ruby>であることは<ruby>間違い<rt>まちがい</rt></ruby>ないだろう。しかし、その<ruby>努力<rt>どりょく</rt></ruby>を<ruby>怠れ<rt>おこたれ</rt></ruby>ば、<ruby>大規模<rt>だいきぼ</rt></ruby>な<ruby>攻撃<rt>こうげき</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>て<ruby>事業<rt>じぎょう</rt></ruby>が<ruby>立ち<rt>たち</rt></ruby><ruby>行か<rt>いか</rt></ruby>なくなり、<ruby>場合<rt>ばあい</rt></ruby>によっては<ruby>会社<rt>かいしゃ</rt></ruby>が<ruby>倒産<rt>とうさん</rt></ruby>するような<ruby>事態<rt>じたい</rt></ruby>が<ruby>生じ<rt>しょうじ</rt></ruby>てもおかしくない。もちろん、<ruby>被害<rt>ひがい</rt></ruby>に<ruby>遭っ<rt>あっ</rt></ruby>た<ruby>場合<rt>ばあい</rt></ruby>でも、<ruby>会社<rt>かいしゃ</rt></ruby><ruby>法<rt>ほう</rt></ruby>は、<ruby>経営者<rt>けいえいしゃ</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby>て<ruby>結果<rt>けっか</rt></ruby><ruby>責任<rt>せきにん</rt></ruby>を<ruby>求め<rt>もとめ</rt></ruby>るものではなく、<ruby>一定<rt>いってい</rt></ruby>の<ruby>裁量<rt>さいりょう</rt></ruby>を<ruby>経営者<rt>けいえいしゃ</rt></ruby>に<ruby>認め<rt>みとめ</rt></ruby>る<ruby>前提<rt>ぜんてい</rt></ruby>の<ruby>下<rt>した</rt></ruby>で、その<ruby>範囲<rt>はんい</rt></ruby>における<ruby>対応<rt>たいおう</rt></ruby>がなされなかった<ruby>場合<rt>ばあい</rt></ruby>にのみ<ruby>責任<rt>せきにん</rt></ruby>が<ruby>発生<rt>はっせい</rt></ruby>する。また、<ruby>経営者<rt>けいえいしゃ</rt></ruby>も<ruby>自分<rt>じぶん</rt></ruby>（<ruby>達<rt>とおる</rt></ruby>）だけで<ruby>判断<rt>はんだん</rt></ruby>するのではなく、<ruby>法務<rt>ほうむ</rt></ruby><ruby>部門<rt>ぶもん</rt></ruby>や<ruby>弁護士<rt>べんごし</rt></ruby><ruby>等<rt>など</rt></ruby>の<ruby>助力<rt>じょりょく</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>ながら<ruby>判断<rt>はんだん</rt></ruby>していく。<ruby>会社<rt>かいしゃ</rt></ruby><ruby>法<rt>ほう</rt></ruby>はそのような<ruby>規律<rt>きりつ</rt></ruby>づけを<ruby>通じ<rt>つうじ</rt></ruby>て、<ruby>株主<rt>かぶぬし</rt></ruby>、<ruby>労働者<rt>ろうどうしゃ</rt></ruby>、<ruby>取引先<rt>とりひきさき</rt></ruby><ruby>等<rt>など</rt></ruby>の<ruby>利害関係者<rt>りがいかんけいしゃ</rt></ruby>の<ruby>利益<rt>りえき</rt></ruby>を<ruby>守ろ<rt>まもろ</rt></ruby>うとしている。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">このような対応が大変であることは間違いないだろう。しかし，その努力を怠れば，大規模な攻撃を受けて事業が立ち行かなくなり，場合によっては会社が倒産するような事態が生じてもおかしくない。もちろん，被害に遭った場合でも，公司法は，経営者に対して結果責任を求めるものではなく，一定の裁量を経営者に認める前提の下で，その範囲における対応がなされなかった場合にのみ責任が発生する。また，経営者も自分（達）だけで判断するのではなく，法務部門や弁護士等の助力を受けながら判断していく。公司法はそのような規律づけを通じて，株主，労働者，交易先等の利害関係者の利益を守ろうとしている。</div>
+            </div>
+        </article>
+        <article id="card-26" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(26)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    このような<ruby>多数<rt>たすう</rt></ruby>の<ruby>利害関係者<rt>りがいかんけいしゃ</rt></ruby>の<ruby>利害<rt>りがい</rt></ruby><ruby>調整<rt>ちょうせい</rt></ruby>のダイナミズムとしての<ruby>会社<rt>かいしゃ</rt></ruby>のガバナンスを<ruby>規律<rt>きりつ</rt></ruby>する<ruby>会社<rt>かいしゃ</rt></ruby><ruby>法<rt>ほう</rt></ruby>の<ruby>面白さ<rt>おもしろさ</rt></ruby>を<ruby>本稿<rt>ほんこう</rt></ruby>によって<ruby>少し<rt>すこし</rt></ruby>でも<ruby>感じ<rt>かんじ</rt></ruby>ていただければ<ruby>幸い<rt>さいわい</rt></ruby>である。<ruby>現在<rt>げんざい</rt></ruby>、コーポレートガバナンス・コードの<ruby>改訂<rt>かいてい</rt></ruby>が<ruby>検討さ<rt>けんとうさ</rt></ruby>れており、<ruby>会社<rt>かいしゃ</rt></ruby><ruby>法改正<rt>ほうかいせい</rt></ruby>に<ruby>向け<rt>むけ</rt></ruby>た<ruby>検討<rt>けんとう</rt></ruby>も<ruby>進ん<rt>すすん</rt></ruby>でいる。また、AI<ruby>等<rt>など</rt></ruby>の<ruby>最新技術<rt>さいしんぎじゅつ</rt></ruby>よるカバナンス<ruby>高度化<rt>こうどか</rt></ruby>も<ruby>期待さ<rt>きたいさ</rt></ruby>れる<ruby>反面<rt>はんめん</rt></ruby>、AIによるセキュリティリスクその<ruby>他の<rt>ほかの</rt></ruby>ガバナンスに<ruby>関係<rt>かんけい</rt></ruby>する<ruby>新た<rt>あらた</rt></ruby>なリスクももたらされている。<ruby>会社<rt>かいしゃ</rt></ruby><ruby>法<rt>ほう</rt></ruby>を<ruby>学ぶ<rt>まなぶ</rt></ruby><ruby>上で<rt>うえで</rt></ruby>は、このような<ruby>最新<rt>さいしん</rt></ruby>の<ruby>状況<rt>じょうきょう</rt></ruby>にも<ruby>注視<rt>ちゅうし</rt></ruby>すべきである。（まつお・たかゆき） <ruby>血<rt>ち</rt></ruby>
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">このような多数の利害関係者の利害調整のダイナミズムとしての会社のガバナンスを規律する公司法の面白さを本稿によって少しでも感じていただければ幸いである。現在，コーポレートガバナンス・コードの改訂が検討されており，公司法改正に向けた検討も進んでいる。また，AI等の最新技術よるカバナンス高度化も期待される反面，AIによるセキュリティリスクその他のガバナンスに関係する新たなリスクももたらされている。公司法を学ぶ上では，このような最新の状況にも注視すべきである。（まつお・たかゆき） 血</div>
+            </div>
+        </article>
+                </main>
+
+                <!-- Footer -->
+                <footer class="bg-slate-900 border-t border-slate-800 py-6 px-6 rounded-xl text-center text-xs text-slate-400">
+                    <p>07サイバーセキュリティと会社法 — 左右對照朗讀與翻譯版</p>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Audio Control Bar -->
+    <div class="fixed bottom-4 right-4 sm:right-8 w-11/12 max-w-xl bg-slate-900/95 backdrop-blur text-white px-5 py-3.5 rounded-2xl shadow-2xl border border-slate-700/80 flex items-center justify-between z-50">
+        <div class="flex items-center space-x-3">
+            <button id="btn-play-all" onclick="togglePlayAll()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold p-2.5 rounded-xl transition-colors shadow-md flex items-center justify-center">
+                <svg id="icon-play" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <svg id="icon-pause" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </button>
+            <button onclick="stopSpeech()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold p-2.5 rounded-xl border border-slate-700 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"></path></svg>
+            </button>
+            <div class="text-xs sm:text-sm">
+                <div id="tts-status" class="font-medium text-slate-200">準備朗讀</div>
+                <div id="tts-detail" class="text-slate-400 text-xs truncate max-w-[150px] sm:max-w-[200px]">點擊按鈕開啟日文語音朗讀</div>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-2">
+            <label class="text-xs text-slate-400 select-none hidden sm:inline">語速</label>
+            <select id="select-rate" onchange="changeRate()" class="bg-slate-800 text-xs text-slate-200 border border-slate-700 rounded-lg px-2 py-1.5 focus:outline-none focus:border-indigo-500">
+                <option value="0.75">0.75x</option>
+                <option value="1.0" selected>1.0x (標準)</option>
+                <option value="1.25">1.25x</option>
+                <option value="1.5">1.5x</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Speech Synthesis & PDF Zoom JavaScript -->
+    <script>
+        let synth = window.speechSynthesis;
+        let currentUtterance = null;
+        let playQueue = [];
+        let currentCardIndex = -1;
+        let isPlayingAll = false;
+        let speechRate = 1.0;
+        let japaneseVoice = null;
+        let currentPdfZoom = 1.0;
+        let pdfBaseSrc = '07サイバーセキュリティと会社法.pdf';
+
+        function setPdfZoom(scaleFactor) {
+            currentPdfZoom = scaleFactor;
+            applyPdfZoom();
+        }
+
+        function zoomPdf(ratio) {
+            currentPdfZoom = Math.max(0.5, Math.min(3.0, currentPdfZoom * ratio));
+            applyPdfZoom();
+        }
+
+        function resetPdfZoom() {
+            currentPdfZoom = 1.0;
+            applyPdfZoom();
+        }
+
+        function applyPdfZoom() {
+            const zoomPercent = Math.round(currentPdfZoom * 100);
+            document.getElementById('pdf-zoom-val').textContent = zoomPercent + '%';
+            const iframe = document.getElementById('pdf-frame');
+            
+            // Apply PDF Open Parameters
+            iframe.src = pdfBaseSrc + '#zoom=' + zoomPercent + '&view=FitH';
+            
+            // Apply CSS Scaling for smooth visual enhancement
+            iframe.style.transform = 'scale(' + currentPdfZoom + ')';
+            iframe.style.width = (100 / currentPdfZoom) + '%';
+            iframe.style.height = (100 / currentPdfZoom) + '%';
+        }
+
+        function togglePdfPanel() {
+            const pdfPanel = document.getElementById('pdf-panel');
+            const contentPanel = document.getElementById('content-panel');
+            if (pdfPanel.classList.contains('hidden')) {
+                pdfPanel.classList.remove('hidden');
+                contentPanel.className = 'w-full lg:w-1/2 h-1/2 lg:h-full bg-slate-950 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 pb-32 transition-all duration-300';
+            } else {
+                pdfPanel.classList.add('hidden');
+                contentPanel.className = 'w-full lg:w-full h-full bg-slate-950 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 pb-32 transition-all duration-300';
+            }
+        }
+
+        function loadVoices() {
+            let voices = synth.getVoices();
+            japaneseVoice = voices.find(v => v.lang === 'ja-JP' || v.lang.startsWith('ja')) || null;
+        }
+
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = loadVoices;
+        }
+        loadVoices();
+
+        function getCleanText(cardId) {
+            const cardEl = document.getElementById('card-' + cardId);
+            if (!cardEl) return '';
+            
+            let targetEl = cardEl.querySelector('.jp-text-content') || cardEl.querySelector('h2') || cardEl;
+            const clone = targetEl.cloneNode(true);
+            
+            const rts = clone.querySelectorAll('rt');
+            rts.forEach(rt => rt.remove());
+            
+            let text = clone.textContent || '';
+            text = text.replace(/\(\d+\)/g, '').replace(/朗讀本段|朗讀標題/g, '').trim();
+            return text;
+        }
+
+        function highlightCard(index) {
+            document.querySelectorAll('.playing-card').forEach(el => el.classList.remove('playing-card'));
+            if (index >= 0) {
+                const el = document.getElementById('card-' + index);
+                if (el) {
+                    el.classList.add('playing-card');
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        }
+
+        function updateUIState(playing) {
+            const iconPlay = document.getElementById('icon-play');
+            const iconPause = document.getElementById('icon-pause');
+            const statusEl = document.getElementById('tts-status');
+            
+            if (playing) {
+                iconPlay.classList.add('hidden');
+                iconPause.classList.remove('hidden');
+                statusEl.textContent = '朗讀中...';
+            } else {
+                iconPlay.classList.remove('hidden');
+                iconPause.classList.add('hidden');
+                statusEl.textContent = '已暫停 / 準備就緒';
+            }
+        }
+
+        function playCardText(index) {
+            stopSpeech();
+            isPlayingAll = false;
+            currentCardIndex = index;
+            const text = getCleanText(index);
+            if (!text) return;
+            
+            speakText(text, index, () => {
+                highlightCard(-1);
+                updateUIState(false);
+                document.getElementById('tts-detail').textContent = '朗讀完成';
+            });
+        }
+
+        function speakText(text, cardIndex, onEndCallback) {
+            if (synth.speaking) synth.cancel();
+            
+            highlightCard(cardIndex);
+            updateUIState(true);
+            document.getElementById('tts-detail').textContent = text.substring(0, 30) + '...';
+            
+            currentUtterance = new SpeechSynthesisUtterance(text);
+            currentUtterance.lang = 'ja-JP';
+            if (japaneseVoice) currentUtterance.voice = japaneseVoice;
+            currentUtterance.rate = speechRate;
+            
+            currentUtterance.onend = function() {
+                if (onEndCallback) onEndCallback();
+            };
+            
+            currentUtterance.onerror = function(e) {
+                console.error('Speech synthesis error:', e);
+                highlightCard(-1);
+                updateUIState(false);
+            };
+            
+            synth.speak(currentUtterance);
+        }
+
+        function togglePlayAll() {
+            if (synth.speaking && isPlayingAll) {
+                if (synth.paused) {
+                    synth.resume();
+                    updateUIState(true);
+                } else {
+                    synth.pause();
+                    updateUIState(false);
+                }
+                return;
+            }
+            
+            stopSpeech();
+            isPlayingAll = true;
+            let totalCards = document.querySelectorAll('[id^="card-"]').length;
+            let queue = [];
+            for (let i = 0; i < totalCards; i++) {
+                queue.push(i);
+            }
+            
+            playNextInQueue(queue);
+        }
+
+        function playNextInQueue(queue) {
+            if (!isPlayingAll || queue.length === 0) {
+                isPlayingAll = false;
+                highlightCard(-1);
+                updateUIState(false);
+                document.getElementById('tts-detail').textContent = '全文朗讀完畢';
+                return;
+            }
+            
+            let nextIndex = queue.shift();
+            currentCardIndex = nextIndex;
+            const text = getCleanText(nextIndex);
+            
+            if (!text) {
+                playNextInQueue(queue);
+                return;
+            }
+            
+            speakText(text, nextIndex, () => {
+                if (isPlayingAll) playNextInQueue(queue);
+            });
+        }
+
+        function stopSpeech() {
+            isPlayingAll = false;
+            if (synth.speaking || synth.paused) {
+                synth.cancel();
+            }
+            highlightCard(-1);
+            updateUIState(false);
+            document.getElementById('tts-detail').textContent = '已停止朗讀';
+        }
+
+        function changeRate() {
+            const select = document.getElementById('select-rate');
+            speechRate = parseFloat(select.value);
+            if (synth.speaking && currentCardIndex >= 0) {
+                let wasPlayingAll = isPlayingAll;
+                let cardToResume = currentCardIndex;
+                stopSpeech();
+                if (wasPlayingAll) {
+                    isPlayingAll = true;
+                    let totalCards = document.querySelectorAll('[id^="card-"]').length;
+                    let queue = [];
+                    for (let i = cardToResume; i < totalCards; i++) queue.push(i);
+                    playNextInQueue(queue);
+                } else {
+                    playCardText(cardToResume);
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

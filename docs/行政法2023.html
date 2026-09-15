@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>行政法2023 - 左右對照朗讀與翻譯版</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #0f172a;
+            color: #1e293b;
+        }
+
+        .font-serif {
+            font-family: 'Noto Serif JP', "MS Mincho", serif;
+        }
+
+        .font-sans {
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+
+        .jp-col {
+            font-size: 1.05rem;
+            line-height: 3.1;
+            letter-spacing: 0.02em;
+            word-break: break-word;
+            color: #0f172a;
+        }
+
+        ruby {
+            ruby-position: over;
+            display: inline-ruby;
+        }
+
+        rt {
+            font-size: 0.52em;
+            color: #475569;
+            letter-spacing: 0.01em;
+            font-weight: normal;
+            line-height: 1.0;
+            user-select: none;
+        }
+
+        u {
+            text-decoration: none;
+            border-bottom: 2px solid #ef4444;
+            padding-bottom: 2px;
+        }
+
+        .zh-col {
+            font-size: 1.0rem;
+            line-height: 1.75;
+        }
+
+        .playing-card {
+            box-shadow: 0 0 0 3px #6366f1, 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+            background-color: #f5f3ff !important;
+        }
+    </style>
+</head>
+
+<body class="h-screen overflow-hidden flex flex-col bg-slate-950">
+    <!-- Top Fixed Header -->
+    <header class="h-14 bg-slate-950 text-white px-4 sm:px-6 border-b border-slate-800 shrink-0 flex items-center justify-between shadow-md z-40">
+        <div class="flex items-center space-x-3 truncate">
+            <a href="index.html" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 hover:text-white px-3 py-1.5 rounded-lg text-xs font-semibold border border-slate-700 transition-colors flex items-center space-x-1 shrink-0 select-none">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                <span>總覽</span>
+            </a>
+            <h1 class="text-sm sm:text-base font-bold truncate font-serif text-slate-100">
+                行政法2023
+            </h1>
+        </div>
+        <div class="flex items-center space-x-2 shrink-0">
+            <button onclick="togglePdfPanel()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors flex items-center space-x-1 select-none">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                <span id="toggle-pdf-text">隱藏/顯示 原文PDF</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Split View Container (Height = 100vh - 3.5rem) -->
+    <div class="flex-1 flex flex-col lg:flex-row w-full overflow-hidden h-[calc(100vh-3.5rem)]">
+        <!-- Left Panel: Fixed Original PDF Viewer with Zoom Controls -->
+        <div id="pdf-panel" class="w-full lg:w-1/2 h-1/2 lg:h-full bg-slate-900 border-r border-slate-800 flex flex-col shrink-0">
+            <!-- PDF Zoom & Control Bar -->
+            <div class="bg-slate-950 px-3 py-2 border-b border-slate-800 flex items-center justify-between text-xs shrink-0 select-none">
+                <span class="text-slate-400 font-semibold flex items-center">
+                    <svg class="w-3.5 h-3.5 mr-1 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    PDF 縮放控制
+                </span>
+                <div class="flex items-center space-x-1.5">
+                    <button onclick="zoomPdf(0.9)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-2 py-0.5 rounded border border-slate-700 transition-colors" title="縮小">-</button>
+                    <span id="pdf-zoom-val" class="font-mono text-indigo-300 w-12 text-center">100%</span>
+                    <button onclick="zoomPdf(1.1)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-2 py-0.5 rounded border border-slate-700 transition-colors" title="放大">+</button>
+                    <button onclick="setPdfZoom(1.25)" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 px-2 py-0.5 rounded border border-slate-700 transition-colors">1.25x</button>
+                    <button onclick="setPdfZoom(1.5)" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 px-2 py-0.5 rounded border border-slate-700 transition-colors">1.5x</button>
+                    <button onclick="setPdfZoom(2.0)" class="bg-slate-800 hover:bg-slate-700 text-amber-300 px-2 py-0.5 rounded border border-slate-700 transition-colors">2.0x</button>
+                    <button onclick="resetPdfZoom()" class="bg-slate-800 hover:bg-slate-700 text-slate-400 px-2 py-0.5 rounded border border-slate-700 transition-colors">重置</button>
+                </div>
+            </div>
+            <!-- PDF Iframe Container -->
+            <div id="pdf-container" class="flex-1 w-full h-full overflow-auto bg-slate-900 p-2 relative">
+                <iframe id="pdf-frame" src="行政法2023.pdf" class="w-full h-full rounded-xl bg-white shadow-inner border border-slate-700 transition-transform origin-top-left"></iframe>
+            </div>
+        </div>
+
+        <!-- Right Panel: Independently Scrolling Translated Content & Audio Reader -->
+        <div id="content-panel" class="w-full lg:w-1/2 h-1/2 lg:h-full bg-slate-950 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 pb-32 transition-all duration-300">
+            <div class="max-w-3xl mx-auto space-y-4">
+                <!-- Banner Card -->
+                <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 rounded-2xl shadow-xl border border-indigo-900">
+                    <span class="inline-block bg-indigo-500/20 text-indigo-300 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider mb-2 border border-indigo-400/30">
+                        法學日文左右對照朗讀版
+                    </span>
+                    <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-white mb-2 font-serif">
+                        行政法2023
+                    </h2>
+                    <p class="text-indigo-200 text-sm sm:text-base font-medium mb-3">
+                        ——行政法2023 法學論文對照解析 <span class="text-indigo-300/80 text-xs font-normal">（行政法2023 法律專題解析）</span>
+                    </p>
+                    <div class="text-xs text-slate-300 pt-3 border-t border-indigo-900/80">
+                        <span class="font-semibold text-indigo-300">作者：</span>日本法學研究會 / Legal Research Group
+                    </div>
+                </div>
+
+                <!-- Main Paragraphs -->
+                <main class="space-y-4">
+
+        <section id="card-0" class="my-8 rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 shadow-md border border-indigo-900/80 transition-all duration-300">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="text-xl sm:text-2xl font-bold tracking-wide font-serif text-amber-300">SPECIAL FEATURE<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>法<rt>ほう</rt></ruby>「<ruby>適正<rt>てきせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>」<ruby>東京大学<rt>とうきょうだいがく</rt></ruby><ruby>教授<rt>きょうじゅ</rt></ruby><ruby>北島<rt>きたじま</rt></ruby><ruby>周作<rt>しゅうさく</rt></ruby>KITAJIMA Shusaku▶<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>活動<rt>かつどう</rt></ruby>と<ruby>適正<rt>てきせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>1. <ruby>憲法<rt>けんぽう</rt></ruby>と<ruby>適正<rt>てきせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>憲法<rt>けんぽう</rt></ruby> 31<ruby>条<rt>じょう</rt></ruby>は「<ruby>何人<rt>なんにん</rt></ruby>も、<ruby>法律<rt>ほうりつ</rt></ruby>の<ruby>定め<rt>さだめ</rt></ruby>る<ruby>手続<rt>てつづき</rt></ruby>によらなければ、その<ruby>生命<rt>せいめい</rt></ruby><ruby>若しくは<rt>もしくは</rt></ruby><ruby>自由<rt>じゆう</rt></ruby>を<ruby>奪<rt>だつ</rt></ruby>はれ、<ruby>又は<rt>または</rt></ruby>その<ruby>他の<rt>ほかの</rt></ruby><ruby>刑罰<rt>けいばつ</rt></ruby>を<ruby>科せ<rt>かせ</rt></ruby>られない」と<ruby>規定<rt>きてい</rt></ruby>している。</h2>
+                <button onclick="playCardText(0)" class="shrink-0 flex items-center space-x-1 bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-amber-400/40 transition-colors select-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    <span>朗讀標題</span>
+                </button>
+            </div>
+            <div class="text-base sm:text-lg font-medium text-indigo-200 font-sans">SPECIAL FEATURE行政法「正當法律程序」東京大学教授北島周作KITAJIMA Shusaku▶行政活動と正當法律程序1. 憲法と正當法律程序憲法 31条は「何人も，法律の定める手続によらなければ，その生命若しくは自由を奪はれ，又はその他の刑罰を科せられない」と規定している。</div>
+        </section>
+        <article id="card-1" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(1)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    この<ruby>規定<rt>きてい</rt></ruby>について、<ruby>著名<rt>ちょめい</rt></ruby>な<ruby>憲法<rt>けんぽう</rt></ruby>の<ruby>教科書<rt>きょうかしょ</rt></ruby>はり，<ruby>手続<rt>てつづき</rt></ruby>が<ruby>法律<rt>ほうりつ</rt></ruby>で<ruby>定め<rt>さだめ</rt></ruby>られることを<ruby>要求<rt>ようきゅう</rt></ruby>するにとどまらず、①<ruby>法律<rt>ほうりつ</rt></ruby>で<ruby>定め<rt>さだめ</rt></ruby>られた<ruby>手続<rt>てつづき</rt></ruby>が<ruby>適正<rt>てきせい</rt></ruby>でなければならないこと、②<ruby>実体<rt>じったい</rt></ruby>もまた<ruby>法律<rt>ほうりつ</rt></ruby>で<ruby>定め<rt>さだめ</rt></ruby>られなければならないこと、③<ruby>法律<rt>ほうりつ</rt></ruby>で<ruby>定め<rt>さだめ</rt></ruby>られた<ruby>実体<rt>じったい</rt></ruby><ruby>的<rt>てき</rt></ruby><ruby>規定<rt>きてい</rt></ruby>も<ruby>適正<rt>てきせい</rt></ruby>でなければならないことを<ruby>意味<rt>いみ</rt></ruby>するとしている。<ruby>注意<rt>ちゅうい</rt></ruby>してもらいたいのは①と③の<ruby>区別<rt>くべつ</rt></ruby>である。③は、ある<ruby>行為<rt>こうい</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby>て<ruby>刑罰<rt>けいばつ</rt></ruby>を<ruby>科す<rt>かす</rt></ruby>ためには<ruby>法律<rt>ほうりつ</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>であるところ（②），その<ruby>内容<rt>ないよう</rt></ruby>が<ruby>適正<rt>てきせい</rt></ruby>でなくてはならないということを<ruby>示し<rt>しめし</rt></ruby>ている。これに<ruby>対し<rt>たいし</rt></ruby>て①は、そうした<ruby>刑罰<rt>けいばつ</rt></ruby>を<ruby>科す<rt>かす</rt></ruby>ためには、<ruby>法律<rt>ほうりつ</rt></ruby>が<ruby>定め<rt>さだめ</rt></ruby>る<ruby>適正<rt>てきせい</rt></ruby>な<ruby>内容<rt>ないよう</rt></ruby>の<ruby>手続<rt>てつづき</rt></ruby>によらなければならないとするものである。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">この規定について，著名な憲法の教科書はり，手続が法律で定められることを要求するにとどまらず，①法律で定められた手続が適正でなければならないこと，②実体もまた法律で定められなければならないこと，③法律で定められた実体的規定も適正でなければならないことを意味するとしている。注意してもらいたいのは①と③の区別である。③は，ある行為に対して刑罰を科すためには法律が必要であるところ（②），その内容が適正でなくてはならないということを示している。これに対して①は，そうした刑罰を科すためには，法律が定める適正な内容の手続によらなければならないとするものである。</div>
+            </div>
+        </article>
+        <article id="card-2" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(2)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>前者<rt>ぜんしゃ</rt></ruby>の<ruby>適性<rt>てきせい</rt></ruby>を<ruby>実体<rt>じったい</rt></ruby><ruby>的<rt>てき</rt></ruby><ruby>適<rt>てき</rt></ruby><ruby>止<rt>し</rt></ruby><ruby>性<rt>せい</rt></ruby>というのに<ruby>対し<rt>たいし</rt></ruby>て、<ruby>後者<rt>こうしゃ</rt></ruby>の<ruby>適正<rt>てきせい</rt></ruby><ruby>性<rt>せい</rt></ruby>を<ruby>手続的<rt>てつづきてき</rt></ruby><ruby>適正<rt>てきせい</rt></ruby><ruby>性<rt>せい</rt></ruby>などという。<ruby>適正<rt>てきせい</rt></ruby>な<ruby>手続<rt>てつづき</rt></ruby>の<ruby>具体的<rt>ぐたいてき</rt></ruby>な<ruby>内容<rt>ないよう</rt></ruby>は、<ruby>憲法<rt>けんぽう</rt></ruby>33<ruby>条<rt>じょう</rt></ruby>から39<ruby>条<rt>じょう</rt></ruby>でも<ruby>定め<rt>さだめ</rt></ruby>られている（<ruby>例えば<rt>たとえば</rt></ruby>、33<ruby>条<rt>じょう</rt></ruby>は<ruby>令状<rt>れいじょう</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>を<ruby>定め<rt>さだめ</rt></ruby>ている）が、31<ruby>条<rt>じょう</rt></ruby>が<ruby>保障<rt>ほしょう</rt></ruby>している<ruby>適正<rt>てきせい</rt></ruby>な<ruby>手続<rt>てつづき</rt></ruby>の<ruby>内容<rt>ないよう</rt></ruby>として、<ruby>告知<rt>こくち</rt></ruby>・<ruby>聴聞<rt>ちょうもん</rt></ruby>の<ruby>手続<rt>てつづき</rt></ruby>があるとされている。<ruby>告知<rt>こくち</rt></ruby>とは、<ruby>相手方<rt>あいてかた</rt></ruby>に<ruby>事前<rt>じぜん</rt></ruby>にこれから<ruby>行う<rt>おこなう</rt></ruby>ことの<ruby>内容<rt>ないよう</rt></ruby>を<ruby>伝え<rt>つたえ</rt></ruby>ることであり、<ruby>聴聞<rt>ちょうもん</rt></ruby>とは、<ruby>告知<rt>こくち</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>た<ruby>相手方<rt>あいてかた</rt></ruby>の<ruby>言い分<rt>いいぶん</rt></ruby>を<ruby>聞き<rt>きき</rt></ruby><ruby>取り<rt>とり</rt></ruby>、<ruby>弁解<rt>べんかい</rt></ruby>と<ruby>防<rt>ぼう</rt></ruby>の<ruby>機会<rt>きかい</rt></ruby>を<ruby>与え<rt>あたえ</rt></ruby>ることである。<ruby>以上<rt>いじょう</rt></ruby>は、<ruby>刑事<rt>けいじ</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>話<rt>はなし</rt></ruby>であるが、<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>活動<rt>かつどう</rt></ruby>をする<ruby>際に<rt>さいに</rt></ruby>も<ruby>適正<rt>てきせい</rt></ruby>な<ruby>手続<rt>てつづき</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>であると<ruby>一服<rt>いっぷく</rt></ruby>に<ruby>考え<rt>かんがえ</rt></ruby>られている。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">前者の適性を実体的適止性というのに対して，後者の適正性を手続的適正性などという。適正な手続の具体的な内容は，憲法33条から39条でも定められている（例えば，33条は令狀主義を定めている）が，31条が保障している適正な手続の内容として，告知・聴聞の手続があるとされている。告知とは，相手方に事前にこれから行うことの内容を伝えることであり，聴聞とは，告知を受けた相手方の言い分を聞き取り，弁解と防の機会を与えることである。以上は，刑事手続に関する話であるが，行政活動をする際にも適正な手続が必要であると一服に考えられている。</div>
+            </div>
+        </article>
+        <article id="card-3" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(3)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>確かに<rt>たしかに</rt></ruby>、<ruby>憲法<rt>けんぽう</rt></ruby> 31<ruby>条<rt>じょう</rt></ruby>は<ruby>刑事<rt>けいじ</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>規定<rt>きてい</rt></ruby>であり、<ruby>憲法<rt>けんぽう</rt></ruby>には<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>明文<rt>めいぶん</rt></ruby>の<ruby>規定<rt>きてい</rt></ruby>はない。しかし、<ruby>最大判<rt>さいだいはん</rt></ruby><ruby>平成<rt>へいせい</rt></ruby>4・7・1<ruby>民集<rt>みんしゅう</rt></ruby>46<ruby>巻<rt>かん</rt></ruby>5<ruby>号<rt>ごう</rt></ruby>437<ruby>頁<rt>ぺーじ</rt></ruby>は、「<ruby>憲法<rt>けんぽう</rt></ruby>31<ruby>条<rt>じょう</rt></ruby>の<ruby>定め<rt>さだめ</rt></ruby>る<ruby>法定<rt>ほうてい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>の<ruby>保障<rt>ほしょう</rt></ruby>は、<ruby>直接<rt>ちょくせつ</rt></ruby>には<ruby>刑事<rt>けいじ</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>るものであるが、<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>については、それが<ruby>刑事<rt>けいじ</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>ではないとの<ruby>理由<rt>りゆう</rt></ruby>のみで、そのすべてが<ruby>当然<rt>とうぜん</rt></ruby>に<ruby>同条<rt>どうじょう</rt></ruby>による<ruby>保障<rt>ほしょう</rt></ruby>の<ruby>枠外<rt>わくがい</rt></ruby>にあると<ruby>判断<rt>はんだん</rt></ruby>することは<ruby>相当<rt>そうとう</rt></ruby>ではない」として、<ruby>憲法<rt>けんぽう</rt></ruby> 31<ruby>条<rt>じょう</rt></ruby>の<ruby>保障<rt>ほしょう</rt></ruby>が<ruby>及ぶ<rt>およぶ</rt></ruby><ruby>余地<rt>よち</rt></ruby>があることを<ruby>認め<rt>みとめ</rt></ruby>ている。また、<ruby>学説<rt>がくせつ</rt></ruby>においても、その<ruby>根拠<rt>こんきょ</rt></ruby>をなにに<ruby>求め<rt>もとめ</rt></ruby>るかについては<ruby>見解<rt>けんかい</rt></ruby>が<ruby>分か<rt>わか</rt></ruby>れている（<ruby>憲<rt>のり</rt></ruby>13<ruby>条<rt>じょう</rt></ruby>、<ruby>手続的<rt>てつづきてき</rt></ruby><ruby>法治国<rt>ほうちこく</rt></ruby><ruby>原理<rt>げんり</rt></ruby>など）が，<ruby>適正<rt>てきせい</rt></ruby>な<ruby>手続<rt>てつづき</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>であること<ruby>自体<rt>じたい</rt></ruby>に<ruby>反対<rt>はんたい</rt></ruby>する<ruby>見解<rt>けんかい</rt></ruby>は<ruby>見ら<rt>みら</rt></ruby>れないところである。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">確かに，憲法 31条は刑事手続に関する規定であり，憲法には行政手続に関する明文の規定はない。しかし，最大判平成4・7・1民集46巻5号437頁は，「憲法31条の定める法定手続の保障は，直接には刑事手続に関するものであるが，行政手続については，それが刑事手続ではないとの理由のみで，そのすべてが当然に同条による保障の枠外にあると判断することは相当ではない」として，憲法 31条の保障が及ぶ余地があることを認めている。また，学説においても，その根拠をなにに求めるかについては見解が分かれている（憲13条，手続的法治国原理など）が，適正な手続が必要であること自体に反対する見解は見られないところである。</div>
+            </div>
+        </article>
+        <article id="card-4" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(4)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    もっとも、より<ruby>具体的<rt>ぐたいてき</rt></ruby>に、いかなる<ruby>場合<rt>ばあい</rt></ruby>に、いかなる<ruby>手続<rt>てつづき</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>であるかということになると、<ruby>話<rt>はなし</rt></ruby>は<ruby>難しく<rt>むずかしく</rt></ruby>なる。ある<ruby>憲法学者<rt>けんぽうがくしゃ</rt></ruby>は、<ruby>憲法<rt>けんぽう</rt></ruby>31<ruby>条<rt>じょう</rt></ruby>の<ruby>要求<rt>ようきゅう</rt></ruby>が「<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>」にも<ruby>適用<rt>てきよう</rt></ruby>されるべきといわれながら、その<ruby>適用<rt>てきよう</rt></ruby>されるべき「<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>」というのが<ruby>具体的<rt>ぐたいてき</rt></ruby>にいかなる<ruby>手続<rt>てつづき</rt></ruby>を<ruby>指す<rt>さす</rt></ruby>のか<ruby>明らか<rt>あきらか</rt></ruby>ではなかったと<ruby>指摘<rt>してき</rt></ruby>している。また、<ruby>先<rt>さき</rt></ruby>ほどの<ruby>最高裁判決<rt>さいこうさいはんけつ</rt></ruby>は<ruby>次の<rt>つぎの</rt></ruby>ように<ruby>述べ<rt>のべ</rt></ruby>ている。「<ruby>同条<rt>どうじょう</rt></ruby>による<ruby>保障<rt>ほしょう</rt></ruby>が<ruby>及ぶ<rt>およぶ</rt></ruby>と<ruby>解す<rt>かいす</rt></ruby>べき<ruby>場合<rt>ばあい</rt></ruby>であっても、<ruby>一般に<rt>いっぱんに</rt></ruby>、<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>は、<ruby>刑事<rt>けいじ</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>とその<ruby>性質<rt>せいしつ</rt></ruby>においておのずから<ruby>差異<rt>さい</rt></ruby>があり、また、<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>目的<rt>もくてき</rt></ruby>に<ruby>応じ<rt>おうじ</rt></ruby>て<ruby>多種多様<rt>たしゅたよう</rt></ruby>であるから、<ruby>行政処分<rt>ぎょうせいしょぶん</rt></ruby>の<ruby>相手方<rt>あいてかた</rt></ruby>に<ruby>事前<rt>じぜん</rt></ruby>の<ruby>告知<rt>こくち</rt></ruby>、<ruby>弁解<rt>べんかい</rt></ruby>、<ruby>防<rt>ぼう</rt></ruby>の<ruby>機会<rt>きかい</rt></ruby>を<ruby>与え<rt>あたえ</rt></ruby>るかどうかは、<ruby>行政処分<rt>ぎょうせいしょぶん</rt></ruby>により<ruby>制限<rt>せいげん</rt></ruby>を<ruby>受ける<rt>うける</rt></ruby><ruby>権利<rt>けんり</rt></ruby><ruby>利益<rt>りえき</rt></ruby>の<ruby>内容<rt>ないよう</rt></ruby>、<ruby>性質<rt>せいしつ</rt></ruby>、<ruby>制限<rt>せいげん</rt></ruby>の<ruby>程度<rt>ていど</rt></ruby>、<ruby>行政処分<rt>ぎょうせいしょぶん</rt></ruby>により<ruby>達成<rt>たっせい</rt></ruby>しようとする<ruby>公益<rt>こうえき</rt></ruby>の<ruby>内容<rt>ないよう</rt></ruby>、<ruby>程度<rt>ていど</rt></ruby>、<ruby>緊急性<rt>きんきゅうせい</rt></ruby><ruby>等<rt>など</rt></ruby>を<ruby>総合<rt>そうごう</rt></ruby><ruby>較<rt>かく</rt></ruby><ruby>量<rt>りょう</rt></ruby>して<ruby>決定<rt>けってい</rt></ruby>されるべきものであって、<ruby>常に<rt>つねに</rt></ruby><ruby>必ず<rt>かならず</rt></ruby>そのような<ruby>機会<rt>きかい</rt></ruby>を<ruby>与え<rt>あたえ</rt></ruby>ることを<ruby>必要<rt>ひつよう</rt></ruby>とするものではないと<ruby>解す<rt>かいす</rt></ruby>るのが<ruby>相当<rt>そうとう</rt></ruby>である」。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">もっとも，より具体的に，いかなる場合に，いかなる手続が必要であるかということになると，話は難しくなる。ある憲法学者は，憲法31条の要求が「行政手続」にも適用されるべきといわれながら，その適用されるべき「行政手続」というのが具体的にいかなる手続を指すのか明らかではなかったと指摘している。また，先ほどの最高裁判決は次のように述べている。「同条による保障が及ぶと解すべき場合であっても，一般に，行政手続は，刑事手続とその性質においておのずから差異があり，また，行政目的に応じて多種多様であるから，行政処分の相手方に事前の告知，弁解，防の機会を与えるかどうかは，行政処分により制限を受ける権利利益の内容，性質，制限の程度，行政処分により達成しようとする公益の内容，程度，緊急性等を総合較量して裁定されるべきものであって，常に必ずそのような機会を与えることを必要とするものではないと解するのが相当である」。</div>
+            </div>
+        </article>
+        <article id="card-5" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(5)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    このように、<ruby>告知<rt>こくち</rt></ruby>・<ruby>聴聞<rt>ちょうもん</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>という<ruby>手続<rt>てつづき</rt></ruby>をとっても，<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>活動<rt>かつどう</rt></ruby>の<ruby>多様性<rt>たようせい</rt></ruby>から、いかなる<ruby>場合<rt>ばあい</rt></ruby>にも<ruby>要求<rt>ようきゅう</rt></ruby>されるものではなく、<ruby>個別具体的<rt>こべつぐたいてき</rt></ruby>に<ruby>判断<rt>はんだん</rt></ruby>されることを<ruby>要す<rt>ようす</rt></ruby>るものと<ruby>考え<rt>かんがえ</rt></ruby>られる。そのため、ある<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>活動<rt>かつどう</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby>て<ruby>特定<rt>とくてい</rt></ruby>の<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>の<ruby>履行<rt>りこう</rt></ruby>を<ruby>安定的<rt>あんていてき</rt></ruby>に<ruby>求め<rt>もとめ</rt></ruby>るためには、<ruby>具体的<rt>ぐたいてき</rt></ruby>な<ruby>立法<rt>りっぽう</rt></ruby><ruby>等<rt>など</rt></ruby>の<ruby>措置<rt>そち</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>であったといえよう。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">このように，告知・聴聞手続という手続をとっても，行政活動の多様性から，いかなる場合にも要求されるものではなく，個別具体的に判断されることを要するものと考えられる。そのため，ある行政活動に対して特定の行政手続の履行を安定的に求めるためには，具体的な立法等の措置が必要であったといえよう。</div>
+            </div>
+        </article>
+        <section id="card-6" class="my-8 rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 shadow-md border border-indigo-900/80 transition-all duration-300">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="text-xl sm:text-2xl font-bold tracking-wide font-serif text-amber-300">2．<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>の<ruby>法制化<rt>ほうせいか</rt></ruby>ここで、<ruby>具体的<rt>ぐたいてき</rt></ruby>な<ruby>法的根拠<rt>ほうてきこんきょ</rt></ruby>に<ruby>目<rt>め</rt></ruby>を<ruby>向け<rt>むけ</rt></ruby>てみよう。</h2>
+                <button onclick="playCardText(6)" class="shrink-0 flex items-center space-x-1 bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-amber-400/40 transition-colors select-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    <span>朗讀標題</span>
+                </button>
+            </div>
+            <div class="text-base sm:text-lg font-medium text-indigo-200 font-sans">2．行政手続の法制化ここで，具体的な法的根拠に目を向けてみよう。</div>
+        </section>
+        <article id="card-7" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(7)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>日本<rt>にっぽん</rt></ruby>において、<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>一般法<rt>いっぱんほう</rt></ruby>である<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>法<rt>ほう</rt></ruby>が<ruby>制定<rt>せいてい</rt></ruby>されたのは 1993<ruby>年<rt>ねん</rt></ruby>である。<ruby>諸外国<rt>しょがいこく</rt></ruby>に<ruby>目<rt>め</rt></ruby>を<ruby>向け<rt>むけ</rt></ruby>ると4，1925<ruby>年<rt>ねん</rt></ruby>のオーストリアにおける<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>諸法<rt>しょほう</rt></ruby>と<ruby>呼ば<rt>よば</rt></ruby>れる<ruby>一般<rt>いっぱん</rt></ruby><ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>法<rt>ほう</rt></ruby><ruby>等か<rt>ひとしか</rt></ruby>らなる<ruby>法律<rt>ほうりつ</rt></ruby><ruby>群が<rt>むらが</rt></ruby><ruby>世界<rt>せかい</rt></ruby>で<ruby>初めて<rt>はじめて</rt></ruby>の<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>法<rt>ほう</rt></ruby>とされている。<ruby>日本<rt>にっぽん</rt></ruby>でよく<ruby>比較法<rt>ひかくほう</rt></ruby>の<ruby>対象国<rt>たいしょうこく</rt></ruby>として<ruby>参照<rt>さんしょう</rt></ruby>される<ruby>国々<rt>くにぐに</rt></ruby>では、アメリカでは1946<ruby>年<rt>ねん</rt></ruby>に、<ruby>旧西<rt>きゅうにし</rt></ruby>ドイツでは1976<ruby>年<rt>ねん</rt></ruby>に<ruby>連邦<rt>れんぽう</rt></ruby>レベルの<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>法<rt>ほう</rt></ruby>が<ruby>制定<rt>せいてい</rt></ruby>されている。フランスでは<ruby>統一的<rt>とういつてき</rt></ruby>な<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>法<rt>ほう</rt></ruby>は<ruby>制定<rt>せいてい</rt></ruby>されていないが、1979<ruby>年<rt>ねん</rt></ruby>の<ruby>理由<rt>りゆう</rt></ruby><ruby>附記<rt>ふき</rt></ruby><ruby>法<rt>ほう</rt></ruby><ruby>等<rt>など</rt></ruby>により<ruby>手続<rt>てつづき</rt></ruby>が<ruby>整備<rt>せいび</rt></ruby>されている。これらの<ruby>国々<rt>くにぐに</rt></ruby>と<ruby>比べ<rt>くらべ</rt></ruby>ると、<ruby>日本<rt>にっぽん</rt></ruby>の<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>法制<rt>ほうせい</rt></ruby><ruby>定<rt>てい</rt></ruby>はかなり<ruby>遅れ<rt>おくれ</rt></ruby>たといえる。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">日本において，行政手続に関する一般法である行政手続法が制定されたのは 1993年である。諸外国に目を向けると4，1925年のオーストリアにおける行政手続諸法と呼ばれる一般行政手続法等からなる法律群が世界で初めての行政手続法とされている。日本でよく比較法の対象国として参照される国々では，アメリカでは1946年に，旧西ドイツでは1976年に連邦レベルの行政手続法が制定されている。フランスでは統一的な行政手続法は制定されていないが，1979年の理由附記法等により手続が整備されている。これらの国々と比べると，日本の行政手続法制定はかなり遅れたといえる。</div>
+            </div>
+        </article>
+        <article id="card-8" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(8)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>法<rt>ほう</rt></ruby>の<ruby>制定<rt>せいてい</rt></ruby>までは、<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>一般法<rt>いっぱんほう</rt></ruby>は<ruby>存在<rt>そんざい</rt></ruby>せず、<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>の<ruby>履行<rt>りこう</rt></ruby>は、もっぱら<ruby>個別<rt>こべつ</rt></ruby><ruby>法<rt>ほう</rt></ruby>に<ruby>定め<rt>さだめ</rt></ruby>られた<ruby>手続<rt>てつづき</rt></ruby><ruby>規定<rt>きてい</rt></ruby>に<ruby>依拠<rt>いきょ</rt></ruby>していた。この<ruby>時期<rt>じき</rt></ruby>、<ruby>個別<rt>こべつ</rt></ruby><ruby>法<rt>ほう</rt></ruby>において<ruby>定め<rt>さだめ</rt></ruby>られた<ruby>手続<rt>てつづき</rt></ruby><ruby>規定<rt>きてい</rt></ruby>の<ruby>柔軟な<rt>じゅうなんな</rt></ruby><ruby>解釈<rt>かいしゃく</rt></ruby>を<ruby>通じ<rt>つうじ</rt></ruby>て、<ruby>条文<rt>じょうぶん</rt></ruby>で<ruby>明示<rt>めいじ</rt></ruby>されていない<ruby>内容<rt>ないよう</rt></ruby>を<ruby>適正<rt>てきせい</rt></ruby>な<ruby>手続<rt>てつづき</rt></ruby>として<ruby>求め<rt>もとめ</rt></ruby>る<ruby>裁判<rt>さいばん</rt></ruby><ruby>例<rt>れい</rt></ruby>が<ruby>登場<rt>とうじょう</rt></ruby>し、<ruby>注目<rt>ちゅうもく</rt></ruby>を<ruby>集め<rt>あつめ</rt></ruby>たがら、<ruby>個別<rt>こべつ</rt></ruby><ruby>法<rt>ほう</rt></ruby>に<ruby>手続<rt>てつづき</rt></ruby><ruby>規定<rt>きてい</rt></ruby>が<ruby>置か<rt>おか</rt></ruby>れていないことが<ruby>多く<rt>おおく</rt></ruby>、また、<ruby>憲法<rt>けんぽう</rt></ruby><ruby>等か<rt>ひとしか</rt></ruby>ら<ruby>直接<rt>ちょくせつ</rt></ruby>、<ruby>一定<rt>いってい</rt></ruby>の<ruby>手続<rt>てつづき</rt></ruby>を<ruby>履行<rt>りこう</rt></ruby>する<ruby>義務<rt>ぎむ</rt></ruby>を<ruby>導き出す<rt>みちびきだす</rt></ruby>ことが<ruby>難しい<rt>むずかしい</rt></ruby><ruby>状況<rt>じょうきょう</rt></ruby>のもとで、<ruby>一般法<rt>いっぱんほう</rt></ruby>の<ruby>制定<rt>せいてい</rt></ruby>が<ruby>長く<rt>ながく</rt></ruby><ruby>待ち<rt>まち</rt></ruby><ruby>望ま<rt>のぞま</rt></ruby>れていたところであった。もっとも、1993<ruby>年<rt>ねん</rt></ruby>まで<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>法制<rt>ほうせい</rt></ruby><ruby>定<rt>てい</rt></ruby>の<ruby>動き<rt>うごき</rt></ruby>が<ruby>全く<rt>まったく</rt></ruby>なかったわけではなく、<ruby>複数回<rt>ふくすうかい</rt></ruby>の<ruby>試み<rt>こころみ</rt></ruby>がなされていた。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">行政手続法の制定までは，行政手続に関する一般法は存在せず，行政手続の履行は，もっぱら個別法に定められた手続規定に依拠していた。この時期，個別法において定められた手続規定の柔軟な解釈を通じて，条文で明示されていない内容を適正な手続として求める裁判例が登場し，注目を集めたがら，個別法に手続規定が置かれていないことが多く，また，憲法等から直接，一定の手続を履行する義務を導き出すことが難しい状況のもとで，一般法の制定が長く待ち望まれていたところであった。もっとも，1993年まで行政手続法制定の動きが全くなかったわけではなく，複数回の試みがなされていた。</div>
+            </div>
+        </article>
+        <article id="card-9" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(9)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>具体的<rt>ぐたいてき</rt></ruby>にいうと、1952<ruby>年<rt>ねん</rt></ruby>に<ruby>国会<rt>こっかい</rt></ruby>に<ruby>提出<rt>ていしゅつ</rt></ruby>された<ruby>国家<rt>こっか</rt></ruby><ruby>行政<rt>ぎょうせい</rt></ruby><ruby>運営<rt>うんえい</rt></ruby><ruby>法案<rt>ほうあん</rt></ruby>、 1953<ruby>年<rt>ねん</rt></ruby>に<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>審議会<rt>しんぎかい</rt></ruby><ruby>運営部<rt>うんえいぶ</rt></ruby><ruby>会<rt>かい</rt></ruby>が<ruby>取り<rt>とり</rt></ruby>まとめた<ruby>国家<rt>こっか</rt></ruby><ruby>行政<rt>ぎょうせい</rt></ruby><ruby>運営<rt>うんえい</rt></ruby><ruby>法案<rt>ほうあん</rt></ruby><ruby>要綱<rt>ようこう</rt></ruby>（<ruby>試案<rt>しあん</rt></ruby>）には、<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>規定<rt>きてい</rt></ruby>が<ruby>含ま<rt>ふくま</rt></ruby>れていた。1964<ruby>年<rt>ねん</rt></ruby>には、<ruby>第一次<rt>だいいちじ</rt></ruby><ruby>臨時<rt>りんじ</rt></ruby><ruby>行政<rt>ぎょうせい</rt></ruby><ruby>調査会<rt>ちょうさかい</rt></ruby>が、「<ruby>行政<rt>ぎょうせい</rt></ruby>の<ruby>公正<rt>こうせい</rt></ruby><ruby>確保<rt>かくほ</rt></ruby>のための<ruby>手続<rt>てつづき</rt></ruby>の<ruby>改革<rt>かいかく</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>意見<rt>いけん</rt></ruby>」を<ruby>出し<rt>だし</rt></ruby>、「<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>法<rt>ほう</rt></ruby><ruby>草案<rt>そうあん</rt></ruby>」を<ruby>示し<rt>しめし</rt></ruby>ている。1983<ruby>年<rt>ねん</rt></ruby>には、<ruby>当時<rt>とうじ</rt></ruby>の<ruby>行政管理庁<rt>ぎょうせいかんりちょう</rt></ruby>において<ruby>一般的<rt>いっぱんてき</rt></ruby><ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>法<rt>ほう</rt></ruby>の<ruby>整備<rt>せいび</rt></ruby>について<ruby>検討<rt>けんとう</rt></ruby>をしていた<ruby>第一次<rt>だいいちじ</rt></ruby><ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>法研<rt>ほうけん</rt></ruby><ruby>究<rt>きゅう</rt></ruby><ruby>会<rt>かい</rt></ruby>が，「<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>法研<rt>ほうけん</rt></ruby><ruby>究<rt>きゅう</rt></ruby><ruby>会報<rt>かいほう</rt></ruby><ruby>告<rt>こく</rt></ruby>」を「<ruby>法律案<rt>ほうりつあん</rt></ruby><ruby>要綱<rt>ようこう</rt></ruby>」という<ruby>形<rt>かたち</rt></ruby>でまとめているの。これらの<ruby>試み<rt>こころみ</rt></ruby>が<ruby>最終的<rt>さいしゅうてき</rt></ruby>な<ruby>法律<rt>ほうりつ</rt></ruby>とならなかった<ruby>理由<rt>りゆう</rt></ruby>としては、<ruby>国民<rt>こくみん</rt></ruby>，<ruby>事業者<rt>じぎょうしゃ</rt></ruby>（<ruby>経済界<rt>けいざいかい</rt></ruby>），マスコミともに<ruby>関心<rt>かんしん</rt></ruby>がなく、<ruby>研究者<rt>けんきゅうしゃ</rt></ruby><ruby>以外<rt>いがい</rt></ruby>に<ruby>立法<rt>りっぽう</rt></ruby>を<ruby>推進<rt>すいしん</rt></ruby>する<ruby>勢力<rt>せいりょく</rt></ruby>が<ruby>存在<rt>そんざい</rt></ruby>しなかったことが<ruby>指摘<rt>してき</rt></ruby>されている。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">具体的にいうと，1952年に国会に提出された国家行政運営法案， 1953年に行政審議会運営部会が取りまとめた国家行政運営法案要綱（試案）には，行政手続に関する規定が含まれていた。1964年には，第一次臨時行政調査会が，「行政の公正確保のための手続の改革に関する意見」を出し，「行政手続法草案」を示している。1983年には，当時の行政管理庁において一般的行政手続法の整備について検討をしていた第一次行政手続法研究会が，「行政手続法研究会報告」を「法律案要綱」という形でまとめているの。これらの試みが最終的な法律とならなかった理由としては，国民，事業者（経済界），マスコミともに関心がなく，研究者以外に立法を推進する勢力が存在しなかったことが指摘されている。</div>
+            </div>
+        </article>
+        <article id="card-10" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(10)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    しかし、<ruby>当時<rt>とうじ</rt></ruby>の<ruby>総務<rt>そうむ</rt></ruby><ruby>庁<rt>ちょう</rt></ruby>の<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>管理<rt>かんり</rt></ruby><ruby>局<rt>きょく</rt></ruby>に<ruby>置か<rt>おか</rt></ruby>れた<ruby>第二次<rt>だいにじ</rt></ruby><ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>法研<rt>ほうけん</rt></ruby><ruby>究<rt>きゅう</rt></ruby><ruby>会<rt>かい</rt></ruby>の<ruby>中間報告<rt>ちゅうかんほうこく</rt></ruby>の<ruby>後<rt>のち</rt></ruby>は、1991<ruby>年<rt>ねん</rt></ruby>の<ruby>第三<rt>だいさん</rt></ruby><ruby>次<rt>つぎ</rt></ruby><ruby>臨時<rt>りんじ</rt></ruby><ruby>行政改革<rt>ぎょうせいかいかく</rt></ruby><ruby>推進<rt>すいしん</rt></ruby><ruby>審議会<rt>しんぎかい</rt></ruby>の<ruby>公正<rt>こうせい</rt></ruby>・<ruby>透明<rt>とうめい</rt></ruby>な<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>部会<rt>ぶかい</rt></ruby>の<ruby>設置<rt>せっち</rt></ruby>と<ruby>検討<rt>けんとう</rt></ruby>、その<ruby>成果<rt>せいか</rt></ruby>である「<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>法要<rt>ほうよう</rt></ruby><ruby>綱<rt>つな</rt></ruby><ruby>案<rt>あん</rt></ruby>」を<ruby>含む<rt>ふくむ</rt></ruby>「<ruby>公正<rt>こうせい</rt></ruby>・<ruby>透明<rt>とうめい</rt></ruby>な<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>法制<rt>ほうせい</rt></ruby>の<ruby>整備<rt>せいび</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>答申<rt>とうしん</rt></ruby>」。その<ruby>内容<rt>ないよう</rt></ruby>をにした<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>法案<rt>ほうあん</rt></ruby>の<ruby>国会<rt>こっかい</rt></ruby><ruby>提出<rt>ていしゅつ</rt></ruby>，<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>法<rt>ほう</rt></ruby>の<ruby>成立<rt>せいりつ</rt></ruby>へと<ruby>順調<rt>じゅんちょう</rt></ruby>に<ruby>進む<rt>すすむ</rt></ruby>ことになった。これは、<ruby>当時<rt>とうじ</rt></ruby>、<ruby>事業者<rt>じぎょうしゃ</rt></ruby>を<ruby>中心<rt>ちゅうしん</rt></ruby>に、<ruby>許認可<rt>きょにんか</rt></ruby><ruby>等<rt>など</rt></ruby>の<ruby>審査基準<rt>しんさきじゅん</rt></ruby>の<ruby>不透明<rt>ふとうめい</rt></ruby><ruby>性<rt>せい</rt></ruby>や、<ruby>行政指導<rt>ぎょうせいしどう</rt></ruby>の<ruby>恣意性<rt>しいせい</rt></ruby><ruby>等<rt>など</rt></ruby>が<ruby>問題視<rt>もんだいし</rt></ruby>され、<ruby>審査基準<rt>しんさきじゅん</rt></ruby>の<ruby>明確化<rt>めいかくか</rt></ruby>や<ruby>行政指導<rt>ぎょうせいしどう</rt></ruby>のルール<ruby>化<rt>か</rt></ruby>に<ruby>強い<rt>つよい</rt></ruby><ruby>関心<rt>かんしん</rt></ruby>が<ruby>寄せ<rt>よせ</rt></ruby>られていたところ、<ruby>総務<rt>そうむ</rt></ruby><ruby>庁<rt>ちょう</rt></ruby><ruby>行政<rt>ぎょうせい</rt></ruby><ruby>管理<rt>かんり</rt></ruby><ruby>局<rt>きょく</rt></ruby>の<ruby>働き<rt>はたらき</rt></ruby>かけもあり、<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>法<rt>ほう</rt></ruby>の<ruby>内容<rt>ないよう</rt></ruby>がこうした<ruby>問題<rt>もんだい</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby>て<ruby>有効<rt>ゆうこう</rt></ruby>であると<ruby>認識<rt>にんしき</rt></ruby>され、マスコミが<ruby>関心<rt>かんしん</rt></ruby>を<ruby>寄せ<rt>よせ</rt></ruby>るとともに、<ruby>事業者<rt>じぎょうしゃ</rt></ruby>の<ruby>支持<rt>しじ</rt></ruby>を<ruby>受ける<rt>うける</rt></ruby>ことができたためであるとされている”。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">しかし，当時の総務庁の行政管理局に置かれた第二次行政手続法研究会の中間報告の後は，1991年の第三次臨時行政改革推進審議会の公正・透明な行政手続部会の設置と検討，その成果である「行政手続法要綱案」を含む「公正・透明な行政手続法制の整備に関する答申」。その内容をにした行政手続法案の国会提出，行政手続法の成立へと順調に進むことになった。これは，当時，事業者を中心に，許認可等の審査基準の不透明性や，行政指導の恣意性等が問題視され，審査基準の明確化や行政指導のルール化に強い関心が寄せられていたところ，総務庁行政管理局の働きかけもあり，行政手続法の内容がこうした問題に対して有効であると認識され，マスコミが関心を寄せるとともに，事業者の支持を受けることができたためであるとされている”。</div>
+            </div>
+        </article>
+        <article id="card-11" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(11)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    こうして<ruby>制定<rt>せいてい</rt></ruby>された<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>法<rt>ほう</rt></ruby>は、<ruby>伝統的<rt>でんとうてき</rt></ruby>な<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>である<ruby>告知<rt>こくち</rt></ruby>・<ruby>聴聞<rt>ちょうもん</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>等<rt>など</rt></ruby>も<ruby>当然<rt>とうぜん</rt></ruby><ruby>有す<rt>ゆうす</rt></ruby>るが、<ruby>目的<rt>もくてき</rt></ruby><ruby>規定<rt>きてい</rt></ruby>に、<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>運営<rt>うんえい</rt></ruby>における<ruby>公正<rt>こうせい</rt></ruby>の<ruby>確保<rt>かくほ</rt></ruby>と<ruby>透明性<rt>とうめいせい</rt></ruby>の<ruby>向上<rt>こうじょう</rt></ruby>が<ruby>掲げ<rt>かかげ</rt></ruby>られていたり、<ruby>許認可<rt>きょにんか</rt></ruby><ruby>等<rt>など</rt></ruby>の<ruby>申請<rt>しんせい</rt></ruby>に<ruby>対する<rt>たいする</rt></ruby><ruby>処分<rt>しょぶん</rt></ruby>や<ruby>行政指導<rt>ぎょうせいしどう</rt></ruby>について<ruby>充実<rt>じゅうじつ</rt></ruby>した<ruby>規定<rt>きてい</rt></ruby>を<ruby>有す<rt>ゆうす</rt></ruby>るなど、<ruby>立法<rt>りっぽう</rt></ruby>の<ruby>背景<rt>はいけい</rt></ruby>を<ruby>反映<rt>はんえい</rt></ruby>した<ruby>内容<rt>ないよう</rt></ruby>となっている 。↓ <ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>の<ruby>内容<rt>ないよう</rt></ruby>と<ruby>機能<rt>きのう</rt></ruby>1.<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>の<ruby>内容<rt>ないよう</rt></ruby><ruby>適正<rt>てきせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>4<ruby>原則<rt>げんそく</rt></ruby><ruby>次に<rt>つぎに</rt></ruby><ruby>具体的<rt>ぐたいてき</rt></ruby>に<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>の<ruby>内容<rt>ないよう</rt></ruby>を<ruby>見て<rt>みて</rt></ruby>いきたい。<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>活動<rt>かつどう</rt></ruby>をする<ruby>際の<rt>さいの</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>は、<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>活動<rt>かつどう</rt></ruby>の<ruby>行為<rt>こうい</rt></ruby><ruby>形式<rt>けいしき</rt></ruby>（<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>立法<rt>りっぽう</rt></ruby>，<ruby>行政指導<rt>ぎょうせいしどう</rt></ruby>、<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>行為<rt>こうい</rt></ruby>など）、その<ruby>効果<rt>こうか</rt></ruby>（<ruby>人民<rt>じんみん</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby>て<ruby>利益<rt>りえき</rt></ruby>を<ruby>与え<rt>あたえ</rt></ruby>るものか、<ruby>不利益<rt>ふりえき</rt></ruby>を<ruby>与え<rt>あたえ</rt></ruby>るものかなど）ごとに、<ruby>様々な<rt>さまざまな</rt></ruby>ものがある。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">こうして制定された行政手続法は，伝統的な行政手続である告知・聴聞手続等も当然有するが，目的規定に，行政運営における公正の確保と透明性の向上が掲げられていたり，許認可等の申請に対する処分や行政指導について充実した規定を有するなど，立法の背景を反映した内容となっている 。↓ 行政手続の内容と機能1.行政手続の内容正當法律程序4原則次に具体的に行政手続の内容を見ていきたい。行政活動をする際の手続は，行政活動の行為形式（行政立法，行政指導，行政行為など），その効果（人民に対して利益を与えるものか，不利益を与えるものかなど）ごとに，様々なものがある。</div>
+            </div>
+        </article>
+        <article id="card-12" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(12)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>法<rt>ほう</rt></ruby>は<ruby>様々な<rt>さまざまな</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>を<ruby>定め<rt>さだめ</rt></ruby>ているが、それは<ruby>一部<rt>いちぶ</rt></ruby>でしかなく、<ruby>個別<rt>こべつ</rt></ruby>の<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>関係<rt>かんけい</rt></ruby><ruby>法律<rt>ほうりつ</rt></ruby>で<ruby>定め<rt>さだめ</rt></ruby>られている<ruby>手続<rt>てつづき</rt></ruby>もある。また、<ruby>外国<rt>がいこく</rt></ruby>における<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>法<rt>ほう</rt></ruby>に<ruby>相当<rt>そうとう</rt></ruby>する<ruby>法律<rt>ほうりつ</rt></ruby>が<ruby>定め<rt>さだめ</rt></ruby>る<ruby>手続<rt>てつづき</rt></ruby>の<ruby>内容<rt>ないよう</rt></ruby>も<ruby>様々<rt>さまざま</rt></ruby>である。そうした<ruby>中<rt>なか</rt></ruby>、<ruby>国際的<rt>こくさいてき</rt></ruby>に<ruby>見て<rt>みて</rt></ruby>、かなり<ruby>共通<rt>きょうつう</rt></ruby>して<ruby>用い<rt>もちい</rt></ruby>られていると<ruby>見ら<rt>みら</rt></ruby>れる4つの<ruby>手続<rt>てつづき</rt></ruby>があることが<ruby>指摘<rt>してき</rt></ruby>されている（「<ruby>適正<rt>てきせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>4<ruby>原則<rt>げんそく</rt></ruby>」などと<ruby>呼ば<rt>よば</rt></ruby>れる）”。その4つとは、Iで<ruby>紹介<rt>しょうかい</rt></ruby>した<ruby>告知<rt>こくち</rt></ruby>・<ruby>聴聞<rt>ちょうもん</rt></ruby>のほか、<ruby>文書<rt>ぶんしょ</rt></ruby><ruby>閲覧<rt>えつらん</rt></ruby>，<ruby>理由<rt>りゆう</rt></ruby><ruby>附記<rt>ふき</rt></ruby>、<ruby>処分<rt>しょぶん</rt></ruby><ruby>基準<rt>きじゅん</rt></ruby>の<ruby>設定<rt>せってい</rt></ruby>・<ruby>公表<rt>こうひょう</rt></ruby>である。これらの<ruby>手続<rt>てつづき</rt></ruby>は、<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>法<rt>ほう</rt></ruby>においても、<ruby>一定<rt>いってい</rt></ruby>の<ruby>行為<rt>こうい</rt></ruby>をする<ruby>際に<rt>さいに</rt></ruby><ruby>要求<rt>ようきゅう</rt></ruby>されているところである。この4つの<ruby>手続<rt>てつづき</rt></ruby>は<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>の<ruby>全て<rt>すべて</rt></ruby>ではないが、<ruby>中核<rt>ちゅうかく</rt></ruby><ruby>的な<rt>てきな</rt></ruby>ものといえる。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">行政手続法は様々な手続を定めているが，それは一部でしかなく，個別の行政関係法律で定められている手続もある。また，外国における行政手続法に相当する法律が定める手続の内容も様々である。そうした中，国際的に見て，かなり共通して用いられていると見られる4つの手続があることが指摘されている（「正當法律程序4原則」などと呼ばれる）”。その4つとは，Iで紹介した告知・聴聞のほか，文書閲覧，理由附記，処分基準の設定・公表である。これらの手続は，行政手続法においても，一定の行為をする際に要求されているところである。この4つの手続は行政手続の全てではないが，中核的なものといえる。</div>
+            </div>
+        </article>
+        <article id="card-13" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(13)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    そこで、<ruby>以下<rt>いか</rt></ruby>、1つの<ruby>裁判<rt>さいばん</rt></ruby><ruby>例<rt>れい</rt></ruby>を<ruby>素材<rt>そざい</rt></ruby>に、<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>法<rt>ほう</rt></ruby>の<ruby>定め<rt>さだめ</rt></ruby>るこれらの<ruby>手続<rt>てつづき</rt></ruby>の<ruby>具体的<rt>ぐたいてき</rt></ruby>な<ruby>内容<rt>ないよう</rt></ruby>、<ruby>機能<rt>きのう</rt></ruby>を<ruby>紹介<rt>しょうかい</rt></ruby>しよう。2.<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>の<ruby>内容<rt>ないよう</rt></ruby><ruby>一<rt>いち</rt></ruby><ruby>具体的<rt>ぐたいてき</rt></ruby>な<ruby>事案<rt>じあん</rt></ruby>に<ruby>即し<rt>そくし</rt></ruby>てまず、<ruby>素材<rt>そざい</rt></ruby>となる<ruby>裁判<rt>さいばん</rt></ruby><ruby>例の<rt>れいの</rt></ruby><ruby>事案<rt>じあん</rt></ruby>を<ruby>紹介<rt>しょうかい</rt></ruby>する。パチンコ<ruby>店<rt>みせ</rt></ruby>を<ruby>営業<rt>えいぎょう</rt></ruby>するためには<ruby>風俗営業法<rt>ふうぞくえいぎょうほう</rt></ruby><ruby>上<rt>うえ</rt></ruby>、<ruby>都道府県<rt>とどうふけん</rt></ruby><ruby>公安委員会<rt>こうあんいいんかい</rt></ruby>の<ruby>風俗<rt>ふうぞく</rt></ruby><ruby>営業<rt>えいぎょう</rt></ruby>の<ruby>許可<rt>きょか</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>であるが（2<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>4<ruby>号<rt>ごう</rt></ruby>・3<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>），その<ruby>許可<rt>きょか</rt></ruby>は、<ruby>出入国<rt>しゅつにゅうこく</rt></ruby><ruby>管理法<rt>かんりほう</rt></ruby> 73<ruby>条<rt>じょう</rt></ruby>の2<ruby>第<rt>だい</rt></ruby>1<ruby>項<rt>こう</rt></ruby>の<ruby>罪<rt>つみ</rt></ruby>を<ruby>犯し<rt>おかし</rt></ruby>て1<ruby>年<rt>ねん</rt></ruby><ruby>未満<rt>みまん</rt></ruby>の<ruby>懲役<rt>ちょうえき</rt></ruby><ruby>若しくは<rt>もしくは</rt></ruby><ruby>罰金<rt>ばっきん</rt></ruby>の<ruby>刑<rt>けい</rt></ruby>に<ruby>処せ<rt>しょせ</rt></ruby>られ、その<ruby>執行<rt>しっこう</rt></ruby>を<ruby>終わり<rt>おわり</rt></ruby>、<ruby>又は<rt>または</rt></ruby><ruby>執行<rt>しっこう</rt></ruby>を<ruby>受ける<rt>うける</rt></ruby>ことがなくなった<ruby>日<rt>にち</rt></ruby>から<ruby>起算<rt>きさん</rt></ruby>して5<ruby>年<rt>ねん</rt></ruby>を<ruby>経過<rt>けいか</rt></ruby>しない<ruby>者<rt>もの</rt></ruby>は<ruby>得ら<rt>えら</rt></ruby>れないことになっている（4<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>2<ruby>号<rt>ごう</rt></ruby>ル）。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">そこで，以下，1つの裁判例を素材に，行政手続法の定めるこれらの手続の具体的な内容，機能を紹介しよう。2.行政手続の内容一具体的な事案に即してまず，素材となる裁判例の事案を紹介する。パチンコ店を営業するためには風俗営業法上，都道府県公安委員会の風俗営業の許可が必要であるが（2条1項4号・3条1項），その許可は，出入国管理法 73条の2第1項の罪を犯して1年未満の懲役若しくは罰金の刑に処せられ，その執行を終わり，又は執行を受けることがなくなった日から起算して5年を経過しない者は得られないことになっている（4条1項2号ル）。</div>
+            </div>
+        </article>
+        <article id="card-14" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(14)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    そして、<ruby>許可<rt>きょか</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>た<ruby>者<rt>もの</rt></ruby>について、この<ruby>欠格<rt>けっかく</rt></ruby><ruby>要件<rt>ようけん</rt></ruby>に<ruby>該当<rt>がいとう</rt></ruby>する<ruby>事実<rt>じじつ</rt></ruby>が<ruby>判明<rt>はんめい</rt></ruby>した<ruby>場合<rt>ばあい</rt></ruby>は、<ruby>公安委員会<rt>こうあんいいんかい</rt></ruby>は「その<ruby>許可<rt>きょか</rt></ruby>を<ruby>取り<rt>とり</rt></ruby>すことができる」とされている（8<ruby>条<rt>じょう</rt></ruby>2<ruby>号<rt>ごう</rt></ruby>）。<ruby>本件<rt>ほんけん</rt></ruby>は、<ruby>許可<rt>きょか</rt></ruby>を<ruby>得て<rt>えて</rt></ruby>パチンコ<ruby>店<rt>みせ</rt></ruby>を<ruby>営業<rt>えいぎょう</rt></ruby>していた<ruby>法人<rt>ほうじん</rt></ruby>Aが、<ruby>不法<rt>ふほう</rt></ruby><ruby>残留<rt>ざんりゅう</rt></ruby><ruby>外国人<rt>がいこくじん</rt></ruby>を<ruby>従業員<rt>じゅうぎょういん</rt></ruby>として<ruby>働か<rt>はたらか</rt></ruby>せていたとして、<ruby>出入国<rt>しゅつにゅうこく</rt></ruby><ruby>管理法<rt>かんりほう</rt></ruby><ruby>違反<rt>いはん</rt></ruby>で<ruby>起訴<rt>きそ</rt></ruby>され、<ruby>裁判<rt>さいばん</rt></ruby>で<ruby>罰金刑<rt>ばっきんけい</rt></ruby>が<ruby>確定し<rt>かくていし</rt></ruby>た<ruby>後<rt>のち</rt></ruby>、<ruby>県<rt>けん</rt></ruby>の<ruby>公安委員会<rt>こうあんいいんかい</rt></ruby>が<ruby>営業<rt>えいぎょう</rt></ruby>の<ruby>許可<rt>きょか</rt></ruby>を<ruby>取り消し<rt>とりけし</rt></ruby>たものである。この<ruby>事案<rt>じあん</rt></ruby>において、<ruby>公安委員会<rt>こうあんいいんかい</rt></ruby>が、Aの<ruby>営業<rt>えいぎょう</rt></ruby>の<ruby>許可<rt>きょか</rt></ruby>を<ruby>取り消す<rt>とりけす</rt></ruby><ruby>際に<rt>さいに</rt></ruby>、<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>法<rt>ほう</rt></ruby><ruby>上<rt>うえ</rt></ruby>いかなる<ruby>手続<rt>てつづき</rt></ruby>をとらなければならないかを<ruby>見て<rt>みて</rt></ruby>みよう。<ruby>本件<rt>ほんけん</rt></ruby>の<ruby>営業許可<rt>えいぎょうきょか</rt></ruby>の<ruby>取消し<rt>とりけし</rt></ruby>は、<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>法<rt>ほう</rt></ruby><ruby>上<rt>うえ</rt></ruby>、「<ruby>不利益<rt>ふりえき</rt></ruby><ruby>処分<rt>しょぶん</rt></ruby>」というものに<ruby>該当<rt>がいとう</rt></ruby>し，<ruby>関係<rt>かんけい</rt></ruby>する<ruby>手続<rt>てつづき</rt></ruby>が<ruby>定め<rt>さだめ</rt></ruby>られている。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">そして，許可を受けた者について，この欠格要件に該当する事実が判明した場合は，公安委員会は「その許可を取りすことができる」とされている（8条2号）。本件は，許可を得てパチンコ店を営業していた法人Aが，不法残留外国人を従業員として働かせていたとして，出入国管理法違反で起訴され，裁判で罰金刑が確定した後，県の公安委員会が営業の許可を取り消したものである。この事案において，公安委員会が，Aの営業の許可を取り消す際に，行政手続法上いかなる手続をとらなければならないかを見てみよう。本件の営業許可の取消しは，行政手続法上，「不利益処分」というものに該当し，関係する手続が定められている。</div>
+            </div>
+        </article>
+        <article id="card-15" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(15)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    まず、<ruby>罰金刑<rt>ばっきんけい</rt></ruby>に<ruby>処せ<rt>しょせ</rt></ruby>られたことが<ruby>判明<rt>はんめい</rt></ruby>した<ruby>場合<rt>ばあい</rt></ruby>に<ruby>許可<rt>きょか</rt></ruby>の<ruby>取消し<rt>とりけし</rt></ruby>ができること<ruby>自体<rt>じたい</rt></ruby>は、<ruby>風俗営業法<rt>ふうぞくえいぎょうほう</rt></ruby>が<ruby>定め<rt>さだめ</rt></ruby>ているが、それを<ruby>実際に<rt>じっさいに</rt></ruby>するかどうか<ruby>判断<rt>はんだん</rt></ruby>するための<ruby>具体的<rt>ぐたいてき</rt></ruby><ruby>基準<rt>きじゅん</rt></ruby>は<ruby>明らか<rt>あきらか</rt></ruby>ではない。この<ruby>点<rt>てん</rt></ruby>，<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>法<rt>ほう</rt></ruby>は、<ruby>不利益<rt>ふりえき</rt></ruby><ruby>処分<rt>しょぶん</rt></ruby>をするかどうか<ruby>又は<rt>または</rt></ruby>どのような<ruby>不利益<rt>ふりえき</rt></ruby><ruby>処分<rt>しょぶん</rt></ruby>とするかについてその<ruby>法令<rt>ほうれい</rt></ruby>の<ruby>定め<rt>さだめ</rt></ruby>に<ruby>従って<rt>したがって</rt></ruby><ruby>判断<rt>はんだん</rt></ruby>するために<ruby>必要<rt>ひつよう</rt></ruby>とされる<ruby>基準<rt>きじゅん</rt></ruby>を「<ruby>処分<rt>しょぶん</rt></ruby><ruby>基準<rt>きじゅん</rt></ruby>」と<ruby>定義<rt>ていぎ</rt></ruby>し（2<ruby>条<rt>じょう</rt></ruby>8<ruby>号<rt>ごう</rt></ruby>ハ）、<ruby>不利益<rt>ふりえき</rt></ruby><ruby>処分<rt>しょぶん</rt></ruby>の<ruby>性質<rt>せいしつ</rt></ruby>に<ruby>照ら<rt>てら</rt></ruby>してできるだけ<ruby>具体的<rt>ぐたいてき</rt></ruby>に<ruby>定め<rt>さだめ</rt></ruby>、<ruby>公<rt>こう</rt></ruby>にしておくよう<ruby>努め<rt>つとめ</rt></ruby>なければならないとしている（12<ruby>条<rt>じょう</rt></ruby>）。これは、<ruby>前記<rt>ぜんき</rt></ruby>「<ruby>処分<rt>しょぶん</rt></ruby><ruby>基準<rt>きじゅん</rt></ruby>の<ruby>設定<rt>せってい</rt></ruby>・<ruby>公表<rt>こうひょう</rt></ruby>」を<ruby>法制化<rt>ほうせいか</rt></ruby>したものである。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">まず，罰金刑に処せられたことが判明した場合に許可の取消しができること自体は，風俗営業法が定めているが，それを実際にするかどうか判断するための具体的基準は明らかではない。この点，行政手続法は，不利益処分をするかどうか又はどのような不利益処分とするかについてその法令の定めに従って判断するために必要とされる基準を「処分基準」と定義し（2条8号ハ），不利益処分の性質に照らしてできるだけ具体的に定め，公にしておくよう努めなければならないとしている（12条）。これは，前記「処分基準の設定・公表」を法制化したものである。</div>
+            </div>
+        </article>
+        <article id="card-16" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(16)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    なお、この<ruby>事案<rt>じあん</rt></ruby>は2004<ruby>年<rt>ねん</rt></ruby>のものだが、2005<ruby>年<rt>ねん</rt></ruby><ruby>改正後<rt>かいせいご</rt></ruby>の<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>法<rt>ほう</rt></ruby>においては、「<ruby>処分<rt>しょぶん</rt></ruby><ruby>基準<rt>きじゅん</rt></ruby>」は、「<ruby>命令<rt>めいれい</rt></ruby><ruby>等<rt>など</rt></ruby>」というものに<ruby>該当<rt>がいとう</rt></ruby>し（2<ruby>条<rt>じょう</rt></ruby>8<ruby>号<rt>ごう</rt></ruby>），それを<ruby>定め<rt>さだめ</rt></ruby>るときには、<ruby>原則<rt>げんそく</rt></ruby>として、「<ruby>意見<rt>いけん</rt></ruby><ruby>公募<rt>こうぼ</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>」（<ruby>命令<rt>めいれい</rt></ruby><ruby>等<rt>など</rt></ruby>の<ruby>案<rt>あん</rt></ruby>を<ruby>公示<rt>こうじ</rt></ruby>し、それに<ruby>対する<rt>たいする</rt></ruby><ruby>意見<rt>いけん</rt></ruby>を<ruby>募っ<rt>つのっ</rt></ruby>た<ruby>上で<rt>うえで</rt></ruby>、<ruby>提出<rt>ていしゅつ</rt></ruby>された<ruby>意見<rt>いけん</rt></ruby>を<ruby>十分<rt>じゅうぶん</rt></ruby><ruby>考慮し<rt>こうりょし</rt></ruby>て<ruby>定め<rt>さだめ</rt></ruby>る<ruby>手続<rt>てつづき</rt></ruby>）をとらなくてはならないとされている（39<ruby>条<rt>じょう</rt></ruby>・42<ruby>条<rt>じょう</rt></ruby>）。<ruby>次に<rt>つぎに</rt></ruby>、<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>法<rt>ほう</rt></ruby>によれば、<ruby>許可<rt>きょか</rt></ruby>を<ruby>取り消す<rt>とりけす</rt></ruby><ruby>場合<rt>ばあい</rt></ruby>には、「<ruby>聴聞<rt>ちょうもん</rt></ruby>」の<ruby>手続<rt>てつづき</rt></ruby>をとらなくてはならない（13<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>1<ruby>号<rt>ごう</rt></ruby>イ）。これは、<ruby>前記<rt>ぜんき</rt></ruby>「<ruby>告知<rt>こくち</rt></ruby>・<ruby>聴聞<rt>ちょうもん</rt></ruby>」<ruby>手続<rt>てつづき</rt></ruby>を<ruby>法制化<rt>ほうせいか</rt></ruby>したもので、<ruby>具体的<rt>ぐたいてき</rt></ruby>には、<ruby>公安委員会<rt>こうあんいいんかい</rt></ruby>は、Aに<ruby>対し<rt>たいし</rt></ruby>て、<ruby>予定<rt>よてい</rt></ruby>される<ruby>不利益<rt>ふりえき</rt></ruby><ruby>処分<rt>しょぶん</rt></ruby>の<ruby>内容<rt>ないよう</rt></ruby>、<ruby>原因<rt>げんいん</rt></ruby>となる<ruby>事実<rt>じじつ</rt></ruby><ruby>等<rt>など</rt></ruby>を<ruby>通知<rt>つうち</rt></ruby>し（15<ruby>条<rt>じょう</rt></ruby>），<ruby>指名<rt>しめい</rt></ruby>する<ruby>職員<rt>しょくいん</rt></ruby><ruby>等<rt>など</rt></ruby>に<ruby>主宰者<rt>しゅさいしゃ</rt></ruby>としてAの<ruby>意見<rt>いけん</rt></ruby>の<ruby>聞き<rt>きき</rt></ruby><ruby>取り<rt>とり</rt></ruby>などをさせて（19<ruby>条<rt>じょう</rt></ruby>・20<ruby>条<rt>じょう</rt></ruby>）、<ruby>聴聞<rt>ちょうもん</rt></ruby><ruby>調書<rt>ちょうしょ</rt></ruby>と<ruby>報告書<rt>ほうこくしょ</rt></ruby>を<ruby>作成<rt>さくせい</rt></ruby>させ（24<ruby>条<rt>じょう</rt></ruby>）、それらを<ruby>十分<rt>じゅうぶん</rt></ruby>に<ruby>参酌<rt>さんしゃく</rt></ruby>して、<ruby>許可<rt>きょか</rt></ruby>の<ruby>取消し<rt>とりけし</rt></ruby>をするか<ruby>決定<rt>けってい</rt></ruby>することになっている（26<ruby>条<rt>じょう</rt></ruby>）。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">なお，この事案は2004年のものだが，2005年改正後の行政手続法においては，「処分基準」は，「命令等」というものに該当し（2条8号），それを定めるときには，原則として，「意見公募手続」（命令等の案を公示し，それに対する意見を募った上で，提出された意見を十分考慮して定める手続）をとらなくてはならないとされている（39条・42条）。次に，行政手続法によれば，許可を取り消す場合には，「聴聞」の手続をとらなくてはならない（13条1項1号イ）。これは，前記「告知・聴聞」手続を法制化したもので，具体的には，公安委員会は，Aに対して，予定される不利益処分の内容，原因となる事実等を通知し（15条），指名する職員等に主宰者としてAの意見の聞き取りなどをさせて（19条・20条），聴聞調書と報告書を作成させ（24条），それらを十分に参酌して，許可の取消しをするか裁定することになっている（26条）。</div>
+            </div>
+        </article>
+        <article id="card-17" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(17)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    なお、この<ruby>聴聞<rt>ちょうもん</rt></ruby>の<ruby>手続<rt>てつづき</rt></ruby>において、Aは、<ruby>公安委員会<rt>こうあんいいんかい</rt></ruby>が<ruby>本件<rt>ほんけん</rt></ruby><ruby>事案<rt>じあん</rt></ruby>についてした<ruby>調査<rt>ちょうさ</rt></ruby>の<ruby>結果<rt>けっか</rt></ruby>に<ruby>係る<rt>かかる</rt></ruby><ruby>調書<rt>ちょうしょ</rt></ruby>その<ruby>他の<rt>ほかの</rt></ruby><ruby>予定<rt>よてい</rt></ruby>されている<ruby>許可<rt>きょか</rt></ruby>の<ruby>取消し<rt>とりけし</rt></ruby>の<ruby>原因<rt>げんいん</rt></ruby>となる<ruby>事実<rt>じじつ</rt></ruby>を<ruby>証す<rt>しょうす</rt></ruby>る<ruby>資料<rt>しりょう</rt></ruby>の<ruby>閲覧<rt>えつらん</rt></ruby>を<ruby>求め<rt>もとめ</rt></ruby>ることができる（18<ruby>条<rt>じょう</rt></ruby>）。この「<ruby>文書<rt>ぶんしょ</rt></ruby><ruby>等<rt>など</rt></ruby>の<ruby>閲覧<rt>えつらん</rt></ruby>」の<ruby>手続<rt>てつづき</rt></ruby>は、<ruby>前記<rt>ぜんき</rt></ruby>「<ruby>文書<rt>ぶんしょ</rt></ruby><ruby>閲覧<rt>えつらん</rt></ruby>」<ruby>手続<rt>てつづき</rt></ruby>を<ruby>法制化<rt>ほうせいか</rt></ruby>したものである。そして、<ruby>最後<rt>さいご</rt></ruby>に、<ruby>実際に<rt>じっさいに</rt></ruby><ruby>許可<rt>きょか</rt></ruby>の<ruby>取消し<rt>とりけし</rt></ruby>をするときには、Aに<ruby>対し<rt>たいし</rt></ruby>て、<ruby>同時に<rt>どうじに</rt></ruby>、その<ruby>理由<rt>りゆう</rt></ruby>を<ruby>示さ<rt>しめさ</rt></ruby>なくてはならない （14<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>）。「<ruby>理由<rt>りゆう</rt></ruby><ruby>提示<rt>ていじ</rt></ruby>」<ruby>手続<rt>てつづき</rt></ruby>と<ruby>呼ば<rt>よば</rt></ruby>れるもので、<ruby>前記<rt>ぜんき</rt></ruby>「<ruby>理由<rt>りゆう</rt></ruby><ruby>附記<rt>ふき</rt></ruby>」<ruby>手続<rt>てつづき</rt></ruby>を<ruby>法制化<rt>ほうせいか</rt></ruby>したものである。3.<ruby>各<rt>かく</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>の<ruby>機能さ<rt>きのうさ</rt></ruby>て、<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>法<rt>ほう</rt></ruby>によれば、<ruby>以上<rt>いじょう</rt></ruby>のような<ruby>手続<rt>てつづき</rt></ruby>を<ruby>行わ<rt>おこなわ</rt></ruby>なければならない。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">なお，この聴聞の手続において，Aは，公安委員会が本件事案についてした調査の結果に係る調書その他の予定されている許可の取消しの原因となる事実を証する資料の閲覧を求めることができる（18条）。この「文書等の閲覧」の手続は，前記「文書閲覧」手続を法制化したものである。そして，最後に，実際に許可の取消しをするときには，Aに対して，同時に，その理由を示さなくてはならない （14条1項）。「理由提示」手続と呼ばれるもので，前記「理由附記」手続を法制化したものである。3.各手続の機能さて，行政手続法によれば，以上のような手続を行わなければならない。</div>
+            </div>
+        </article>
+        <article id="card-18" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(18)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    これはとても<ruby>面倒<rt>めんどう</rt></ruby>なことであるが、<ruby>求め<rt>もとめ</rt></ruby>られる<ruby>各<rt>かく</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>はいかなる<ruby>機能<rt>きのう</rt></ruby>を<ruby>有す<rt>ゆうす</rt></ruby>るのだろうか。まず、「<ruby>処分<rt>しょぶん</rt></ruby><ruby>基準<rt>きじゅん</rt></ruby>」であるが、<ruby>先<rt>さき</rt></ruby>ほど<ruby>述べ<rt>のべ</rt></ruby>たように、<ruby>条文<rt>じょうぶん</rt></ruby><ruby>上<rt>うえ</rt></ruby>、<ruby>許可<rt>きょか</rt></ruby>の<ruby>取消し<rt>とりけし</rt></ruby>は<ruby>義務<rt>ぎむ</rt></ruby>ではなく、<ruby>公安委員会<rt>こうあんいいんかい</rt></ruby>は、<ruby>許可<rt>きょか</rt></ruby>を<ruby>取り消さ<rt>とりけさ</rt></ruby>ないこともできる。しかし、<ruby>法律上<rt>ほうりつじょう</rt></ruby>、いかなる<ruby>場合<rt>ばあい</rt></ruby>に<ruby>許可<rt>きょか</rt></ruby>を<ruby>取り消さ<rt>とりけさ</rt></ruby>ないのかは<ruby>明らか<rt>あきらか</rt></ruby>ではない。そのため、もし、<ruby>案件<rt>あんけん</rt></ruby>ごとに、その<ruby>都度<rt>つど</rt></ruby>、<ruby>取り消す<rt>とりけす</rt></ruby>か<ruby>取り消さ<rt>とりけさ</rt></ruby>ないかを<ruby>判断<rt>はんだん</rt></ruby>するとすれば、<ruby>同様<rt>どうよう</rt></ruby>の<ruby>事案<rt>じあん</rt></ruby>で<ruby>以前<rt>いぜん</rt></ruby>は<ruby>取り消し<rt>とりけし</rt></ruby>ていたのに、<ruby>今度<rt>こんど</rt></ruby>は<ruby>取り消さ<rt>とりけさ</rt></ruby>ないといったことが<ruby>生じ<rt>しょうじ</rt></ruby>，<ruby>法令<rt>ほうれい</rt></ruby>の<ruby>適用<rt>てきよう</rt></ruby>の<ruby>公平性<rt>こうへいせい</rt></ruby>、<ruby>一貫性<rt>いっかんせい</rt></ruby>の<ruby>点<rt>てん</rt></ruby>で<ruby>問題<rt>もんだい</rt></ruby>が<ruby>生じ<rt>しょうじ</rt></ruby>る<ruby>可能性<rt>かのうせい</rt></ruby>がある。この<ruby>点<rt>てん</rt></ruby>、<ruby>取り消す<rt>とりけす</rt></ruby>か<ruby>取り消さ<rt>とりけさ</rt></ruby>ないかを<ruby>判断<rt>はんだん</rt></ruby>するために<ruby>依拠<rt>いきょ</rt></ruby>する<ruby>処分<rt>しょぶん</rt></ruby><ruby>基準<rt>きじゅん</rt></ruby>を<ruby>定め<rt>さだめ</rt></ruby>ておき、それに<ruby>沿って<rt>そって</rt></ruby><ruby>判断<rt>はんだん</rt></ruby>するようにすれば、そうした<ruby>問題<rt>もんだい</rt></ruby>が<ruby>生じ<rt>しょうじ</rt></ruby>ることをある<ruby>程度<rt>ていど</rt></ruby><ruby>防ぐ<rt>ふせぐ</rt></ruby>ことができるだろう。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">これはとても面倒なことであるが，求められる各手続はいかなる機能を有するのだろうか。まず，「処分基準」であるが，先ほど述べたように，条文上，許可の取消しは義務ではなく，公安委員会は，許可を取り消さないこともできる。しかし，法律上，いかなる場合に許可を取り消さないのかは明らかではない。そのため，もし，案件ごとに，その都度，取り消すか取り消さないかを判断するとすれば，同様の事案で以前は取り消していたのに，今度は取り消さないといったことが生じ，法令の適用の公平性，一貫性の点で問題が生じる可能性がある。この点，取り消すか取り消さないかを判断するために依拠する処分基準を定めておき，それに沿って判断するようにすれば，そうした問題が生じることをある程度防ぐことができるだろう。</div>
+            </div>
+        </article>
+        <article id="card-19" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(19)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    そして、その<ruby>処分<rt>しょぶん</rt></ruby><ruby>基準<rt>きじゅん</rt></ruby>が<ruby>公<rt>こう</rt></ruby>にされれば、Aは、<ruby>聴聞<rt>ちょうもん</rt></ruby>で<ruby>意見<rt>いけん</rt></ruby>を<ruby>述べ<rt>のべ</rt></ruby>る<ruby>際<rt>きわ</rt></ruby><ruby>等<rt>など</rt></ruby>に、その<ruby>内容<rt>ないよう</rt></ruby>に<ruby>即し<rt>そくし</rt></ruby>た<ruby>主張<rt>しゅちょう</rt></ruby>をすることができる。さらに、それがウェブサイト<ruby>等<rt>など</rt></ruby>でより<ruby>一般的<rt>いっぱんてき</rt></ruby>に<ruby>公表<rt>こうひょう</rt></ruby>されれば、<ruby>広く<rt>ひろく</rt></ruby><ruby>公衆<rt>こうしゅう</rt></ruby>にその<ruby>内容<rt>ないよう</rt></ruby>が<ruby>知ら<rt>しら</rt></ruby>れることになり、その<ruby>監視<rt>かんし</rt></ruby>の<ruby>目に<rt>めに</rt></ruby>さらされることになる。そのため、<ruby>処分<rt>しょぶん</rt></ruby><ruby>基準<rt>きじゅん</rt></ruby>の<ruby>内容<rt>ないよう</rt></ruby>が<ruby>法令<rt>ほうれい</rt></ruby>に<ruby>照ら<rt>てら</rt></ruby>して<ruby>違法<rt>いほう</rt></ruby>、<ruby>不適切<rt>ふてきせつ</rt></ruby>なものとならないよう、その<ruby>内容<rt>ないよう</rt></ruby>を<ruby>慎重<rt>しんちょう</rt></ruby>に<ruby>検討し<rt>けんとうし</rt></ruby>た<ruby>上で<rt>うえで</rt></ruby><ruby>定め<rt>さだめ</rt></ruby>ることや、<ruby>違法<rt>いほう</rt></ruby>、<ruby>不適切<rt>ふてきせつ</rt></ruby>な<ruby>場合<rt>ばあい</rt></ruby>は<ruby>公衆<rt>こうしゅう</rt></ruby>の<ruby>意見<rt>いけん</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>て<ruby>是正<rt>ぜせい</rt></ruby>することも<ruby>期待<rt>きたい</rt></ruby>できる。また、<ruby>前述<rt>ぜんじゅつ</rt></ruby>のように、2005<ruby>年<rt>ねん</rt></ruby><ruby>改正<rt>かいせい</rt></ruby><ruby>以来<rt>いらい</rt></ruby>、この<ruby>処分<rt>しょぶん</rt></ruby><ruby>基準<rt>きじゅん</rt></ruby>は、<ruby>原則<rt>げんそく</rt></ruby>として<ruby>意見<rt>いけん</rt></ruby><ruby>公募<rt>こうぼ</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>を<ruby>経て<rt>へて</rt></ruby><ruby>定め<rt>さだめ</rt></ruby>られるようになっている。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">そして，その処分基準が公にされれば，Aは，聴聞で意見を述べる際等に，その内容に即した主張をすることができる。さらに，それがウェブサイト等でより一般的に公表されれば，広く公衆にその内容が知られることになり，その監視の目にさらされることになる。そのため，処分基準の内容が法令に照らして違法，不適切なものとならないよう，その内容を慎重に検討した上で定めることや，違法，不適切な場合は公衆の意見を受けて是正することも期待できる。また，前述のように，2005年改正以来，この処分基準は，原則として意見公募手続を経て定められるようになっている。</div>
+            </div>
+        </article>
+        <article id="card-20" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(20)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    そのため、<ruby>現在<rt>げんざい</rt></ruby>では、<ruby>処分<rt>しょぶん</rt></ruby><ruby>基準<rt>きじゅん</rt></ruby>は、<ruby>他の<rt>ほかの</rt></ruby><ruby>命令<rt>めいれい</rt></ruby><ruby>等<rt>など</rt></ruby>と<ruby>同じ<rt>おなじ</rt></ruby>く、<ruby>法定<rt>ほうてい</rt></ruby>の<ruby>手続<rt>てつづき</rt></ruby>により、<ruby>慎重<rt>しんちょう</rt></ruby>に<ruby>制定<rt>せいてい</rt></ruby>され、また<ruby>提出<rt>ていしゅつ</rt></ruby>された<ruby>公衆<rt>こうしゅう</rt></ruby>の<ruby>意見<rt>いけん</rt></ruby>の<ruby>考慮<rt>こうりょ</rt></ruby>が<ruby>義務付け<rt>ぎむづけ</rt></ruby>られることにより、<ruby>内容<rt>ないよう</rt></ruby>に<ruby>民意<rt>みんい</rt></ruby>が<ruby>反映<rt>はんえい</rt></ruby>される<ruby>仕組み<rt>しくみ</rt></ruby>になっている。<ruby>次に<rt>つぎに</rt></ruby>、「<ruby>聴聞<rt>ちょうもん</rt></ruby>」であるが、<ruby>相手方<rt>あいてかた</rt></ruby>であるAの<ruby>言い分<rt>いいぶん</rt></ruby>を<ruby>聞く<rt>きく</rt></ruby>ことにより、<ruby>公安委員会<rt>こうあんいいんかい</rt></ruby>が<ruby>事実誤認<rt>じじつごにん</rt></ruby>により<ruby>許可<rt>きょか</rt></ruby>を<ruby>取り消す<rt>とりけす</rt></ruby>ことを<ruby>防い<rt>ふせい</rt></ruby>だり、そこで<ruby>得た<rt>えた</rt></ruby><ruby>新た<rt>あらた</rt></ruby>な<ruby>情報<rt>じょうほう</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>いて<ruby>許可<rt>きょか</rt></ruby>の<ruby>取消し<rt>とりけし</rt></ruby>を<ruby>再考<rt>さいこう</rt></ruby>することが<ruby>期待<rt>きたい</rt></ruby>できる。なお、<ruby>聴聞<rt>ちょうもん</rt></ruby>を<ruby>実効的<rt>じっこうてき</rt></ruby>なものとするためには、<ruby>公安委員会<rt>こうあんいいんかい</rt></ruby>が<ruby>依拠<rt>いきょ</rt></ruby>している<ruby>資料<rt>しりょう</rt></ruby>をAが<ruby>閲覧<rt>えつらん</rt></ruby>できるようにすることが<ruby>有益<rt>ゆうえき</rt></ruby>である。なぜなら、どのような<ruby>内容<rt>ないよう</rt></ruby>の<ruby>資料<rt>しりょう</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>いて<ruby>許可<rt>きょか</rt></ruby>の<ruby>取消し<rt>とりけし</rt></ruby>をしようとしているか<ruby>分か<rt>わか</rt></ruby>らないと<ruby>有効<rt>ゆうこう</rt></ruby>な<ruby>意見<rt>いけん</rt></ruby>を<ruby>述べ<rt>のべ</rt></ruby>ることが<ruby>難しい<rt>むずかしい</rt></ruby>からである。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">そのため，現在では，処分基準は，他の命令等と同じく，法定の手続により，慎重に制定され，また提出された公衆の意見の考慮が義務付けられることにより，内容に民意が反映される仕組みになっている。次に，「聴聞」であるが，相手方であるAの言い分を聞くことにより，公安委員会が事実誤認により許可を取り消すことを防いだり，そこで得た新たな情報に基づいて許可の取消しを再考することが期待できる。なお，聴聞を実効的なものとするためには，公安委員会が依拠している資料をAが閲覧できるようにすることが有益である。なぜなら，どのような内容の資料に基づいて許可の取消しをしようとしているか分からないと有効な意見を述べることが難しいからである。</div>
+            </div>
+        </article>
+        <article id="card-21" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(21)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>仮に<rt>かりに</rt></ruby><ruby>資料<rt>しりょう</rt></ruby>の<ruby>内容<rt>ないよう</rt></ruby>が<ruby>間違っ<rt>まちがっ</rt></ruby>ていたなら、それを<ruby>指摘<rt>してき</rt></ruby>することができるのであり、「<ruby>文書<rt>ぶんしょ</rt></ruby><ruby>等<rt>など</rt></ruby>の<ruby>閲覧<rt>えつらん</rt></ruby>」の<ruby>手続<rt>てつづき</rt></ruby>はこのように<ruby>聴聞<rt>ちょうもん</rt></ruby>を<ruby>実効的<rt>じっこうてき</rt></ruby>なものとする<ruby>役割<rt>やくわり</rt></ruby>を<ruby>果た<rt>はた</rt></ruby>す。<ruby>最後<rt>さいご</rt></ruby>に「<ruby>理由<rt>りゆう</rt></ruby><ruby>提示<rt>ていじ</rt></ruby>」である。この<ruby>手続<rt>てつづき</rt></ruby>には，<ruby>判断<rt>はんだん</rt></ruby>の<ruby>慎重<rt>しんちょう</rt></ruby>と<ruby>公正<rt>こうせい</rt></ruby><ruby>妥当<rt>だとう</rt></ruby>を<ruby>担保<rt>たんぽ</rt></ruby>してその<ruby>恣意<rt>しい</rt></ruby>を<ruby>抑制<rt>よくせい</rt></ruby>するという<ruby>機能<rt>きのう</rt></ruby>。<ruby>理由<rt>りゆう</rt></ruby>を<ruby>相手方<rt>あいてかた</rt></ruby>に<ruby>知らせ<rt>しらせ</rt></ruby>て<ruby>不服<rt>ふふく</rt></ruby>の<ruby>申立て<rt>もうしたて</rt></ruby>に<ruby>便宜<rt>べんぎ</rt></ruby>を<ruby>与え<rt>あたえ</rt></ruby>るという<ruby>機能<rt>きのう</rt></ruby>がある。すなわち、<ruby>公安委員会<rt>こうあんいいんかい</rt></ruby>は、<ruby>許可<rt>きょか</rt></ruby>の<ruby>取消し<rt>とりけし</rt></ruby>を<ruby>行う<rt>おこなう</rt></ruby><ruby>際に<rt>さいに</rt></ruby>、<ruby>聴聞<rt>ちょうもん</rt></ruby>を<ruby>経て<rt>へて</rt></ruby><ruby>認定<rt>にんてい</rt></ruby>した<ruby>事実<rt>じじつ</rt></ruby>を<ruby>法令<rt>ほうれい</rt></ruby><ruby>等<rt>など</rt></ruby>に<ruby>当て<rt>あて</rt></ruby>はめて、<ruby>許可<rt>きょか</rt></ruby>の<ruby>取消し<rt>とりけし</rt></ruby>を<ruby>決定<rt>けってい</rt></ruby>する。ここで、<ruby>理由<rt>りゆう</rt></ruby>を<ruby>示さ<rt>しめさ</rt></ruby>ないといけないとすると、いい<ruby>加減<rt>かげん</rt></ruby>な<ruby>事実認定<rt>じじつにんてい</rt></ruby>や<ruby>法令<rt>ほうれい</rt></ruby><ruby>等<rt>など</rt></ruby>への<ruby>当て<rt>あて</rt></ruby>はめをするわけにはいかず、<ruby>慎重<rt>しんちょう</rt></ruby>に<ruby>判断<rt>はんだん</rt></ruby>せざるを<ruby>得な<rt>えな</rt></ruby>くなる。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">仮に資料の内容が間違っていたなら，それを指摘することができるのであり，「文書等の閲覧」の手続はこのように聴聞を実効的なものとする役割を果たす。最後に「理由提示」である。この手続には，判断の慎重と公正妥当を担保してその恣意を抑制するという機能。理由を相手方に知らせて不服の申立てに便宜を与えるという機能がある。すなわち，公安委員会は，許可の取消しを行う際に，聴聞を経て認定した事実を法令等に当てはめて，許可の取消しを裁定する。ここで，理由を示さないといけないとすると，いい加減な事実認定や法令等への当てはめをするわけにはいかず，慎重に判断せざるを得なくなる。</div>
+            </div>
+        </article>
+        <article id="card-22" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(22)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    また、そこで<ruby>示さ<rt>しめさ</rt></ruby>れた<ruby>理由<rt>りゆう</rt></ruby>は、<ruby>公安委員会<rt>こうあんいいんかい</rt></ruby>の<ruby>最終的<rt>さいしゅうてき</rt></ruby>な<ruby>判断<rt>はんだん</rt></ruby>であるから、<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>不服<rt>ふふく</rt></ruby><ruby>審査<rt>しんさ</rt></ruby><ruby>法<rt>ほう</rt></ruby>や<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>事件<rt>じけん</rt></ruby><ruby>訴訟<rt>そしょう</rt></ruby><ruby>法<rt>ほう</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>き<ruby>争訟<rt>そうしょう</rt></ruby>を<ruby>提起<rt>ていき</rt></ruby>して<ruby>争う<rt>あらそう</rt></ruby>かどうか<ruby>判断<rt>はんだん</rt></ruby>するための<ruby>手掛か<rt>てがか</rt></ruby>りともなる。4.<ruby>本件<rt>ほんけん</rt></ruby><ruby>事案<rt>じあん</rt></ruby>における<ruby>手続<rt>てつづき</rt></ruby>の<ruby>履行<rt>りこう</rt></ruby><ruby>内容<rt>ないよう</rt></ruby>さて、<ruby>本件<rt>ほんけん</rt></ruby><ruby>事案<rt>じあん</rt></ruby>では<ruby>実際に<rt>じっさいに</rt></ruby>どのようなことがなされたのだろうか。この<ruby>事案<rt>じあん</rt></ruby>において、<ruby>条文<rt>じょうぶん</rt></ruby><ruby>上<rt>うえ</rt></ruby>は、<ruby>許可<rt>きょか</rt></ruby>の<ruby>取消し<rt>とりけし</rt></ruby>をする<ruby>場合<rt>ばあい</rt></ruby>、<ruby>取消し<rt>とりけし</rt></ruby>をしない<ruby>場合<rt>ばあい</rt></ruby>の<ruby>判断基準<rt>はんだんきじゅん</rt></ruby>が<ruby>不明確<rt>ふめいかく</rt></ruby>であったところ、<ruby>公安委員会<rt>こうあんいいんかい</rt></ruby>は、<ruby>処分<rt>しょぶん</rt></ruby><ruby>基準<rt>きじゅん</rt></ruby>を<ruby>定め<rt>さだめ</rt></ruby>、<ruby>処分<rt>しょぶん</rt></ruby>の<ruby>取消し<rt>とりけし</rt></ruby>を<ruby>原則<rt>げんそく</rt></ruby>としつつ、<ruby>欠格<rt>けっかく</rt></ruby><ruby>要件<rt>ようけん</rt></ruby>に<ruby>該当<rt>がいとう</rt></ruby>するに<ruby>至っ<rt>いたっ</rt></ruby>た<ruby>場合<rt>ばあい</rt></ruby>でも、<ruby>速やか<rt>すみやか</rt></ruby>に<ruby>是正<rt>ぜせい</rt></ruby>、<ruby>回復<rt>かいふく</rt></ruby><ruby>等す<rt>ひとす</rt></ruby>ることができ、かつ、<ruby>現に<rt>げんに</rt></ruby><ruby>是正<rt>ぜせい</rt></ruby>、<ruby>回復<rt>かいふく</rt></ruby>しようとしている<ruby>場合等<rt>ばあいなど</rt></ruby>で<ruby>悪意<rt>あくい</rt></ruby>がない<ruby>又は<rt>または</rt></ruby>ごく<ruby>軽微<rt>けいび</rt></ruby>な<ruby>場合<rt>ばあい</rt></ruby>をその<ruby>例外<rt>れいがい</rt></ruby>としていた（<ruby>法人<rt>ほうじん</rt></ruby>の<ruby>役員<rt>やくいん</rt></ruby>が<ruby>欠格<rt>けっかく</rt></ruby><ruby>要件<rt>ようけん</rt></ruby>に<ruby>該当<rt>がいとう</rt></ruby>するに<ruby>至っ<rt>いたっ</rt></ruby>たが、<ruby>事実<rt>じじつ</rt></ruby><ruby>判明<rt>はんめい</rt></ruby><ruby>後<rt>のち</rt></ruby>，<ruby>法人<rt>ほうじん</rt></ruby>が<ruby>速やか<rt>すみやか</rt></ruby>にその<ruby>者<rt>もの</rt></ruby>の<ruby>解任<rt>かいにん</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>をすすめているようなときがその<ruby>例<rt>れい</rt></ruby>として<ruby>示さ<rt>しめさ</rt></ruby>れている）。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">また，そこで示された理由は，公安委員会の最終的な判断であるから，行政不服審査法や行政事件訴訟法に基づき争訟を提起して争うかどうか判断するための手掛かりともなる。4.本件事案における手続の履行内容さて，本件事案では実際にどのようなことがなされたのだろうか。この事案において，条文上は，許可の取消しをする場合，取消しをしない場合の判断基準が不明確であったところ，公安委員会は，処分基準を定め，処分の取消しを原則としつつ，欠格要件に該当するに至った場合でも，速やかに是正，回復等することができ，かつ，現に是正，回復しようとしている場合等で悪意がない又はごく軽微な場合をその例外としていた（法人の役員が欠格要件に該当するに至ったが，事実判明後，法人が速やかにその者の解任手続をすすめているようなときがその例として示されている）。</div>
+            </div>
+        </article>
+        <article id="card-23" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(23)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    この<ruby>処分<rt>しょぶん</rt></ruby><ruby>基準<rt>きじゅん</rt></ruby>は、<ruby>特定<rt>とくてい</rt></ruby>の<ruby>場合<rt>ばあい</rt></ruby>を<ruby>念頭<rt>ねんとう</rt></ruby>においたもので、その<ruby>射程<rt>しゃてい</rt></ruby>は<ruby>広く<rt>ひろく</rt></ruby>ないが、それでも<ruby>公安委員会<rt>こうあんいいんかい</rt></ruby>による<ruby>公平<rt>こうへい</rt></ruby>で<ruby>一貫<rt>いっかん</rt></ruby>した<ruby>許可<rt>きょか</rt></ruby>の<ruby>取消し<rt>とりけし</rt></ruby>、<ruby>不<rt>ふ</rt></ruby><ruby>取消し<rt>とりけし</rt></ruby>の<ruby>実現<rt>じつげん</rt></ruby>にある<ruby>程度<rt>ていど</rt></ruby><ruby>資す<rt>しす</rt></ruby>るものであったと<ruby>考え<rt>かんがえ</rt></ruby>られる。そして、その<ruby>内容<rt>ないよう</rt></ruby>は<ruby>公<rt>こう</rt></ruby>にされていたので、（<ruby>本件<rt>ほんけん</rt></ruby>は<ruby>例外<rt>れいがい</rt></ruby>に<ruby>該当<rt>がいとう</rt></ruby>する<ruby>事案<rt>じあん</rt></ruby>ではなかったようであるが）<ruby>仮に<rt>かりに</rt></ruby>ここで<ruby>定め<rt>さだめ</rt></ruby>られた<ruby>例外<rt>れいがい</rt></ruby>に<ruby>該当<rt>がいとう</rt></ruby>する<ruby>場合<rt>ばあい</rt></ruby>であったならば、それを<ruby>主張<rt>しゅちょう</rt></ruby>することも<ruby>可能<rt>かのう</rt></ruby>であっただろう。<ruby>次に<rt>つぎに</rt></ruby>、<ruby>聴聞<rt>ちょうもん</rt></ruby>では、<ruby>公安委員会<rt>こうあんいいんかい</rt></ruby>は<ruby>定め<rt>さだめ</rt></ruby>られた<ruby>手続<rt>てつづき</rt></ruby>に<ruby>沿って<rt>そって</rt></ruby><ruby>聴聞<rt>ちょうもん</rt></ruby>を<ruby>実施<rt>じっし</rt></ruby>し、Aは、<ruby>出入国<rt>しゅつにゅうこく</rt></ruby><ruby>管理法<rt>かんりほう</rt></ruby><ruby>違反<rt>いはん</rt></ruby>の<ruby>事実関係<rt>じじつかんけい</rt></ruby>は<ruby>認め<rt>みとめ</rt></ruby>た<ruby>上で<rt>うえで</rt></ruby>、<ruby>十分<rt>じゅうぶん</rt></ruby>に<ruby>反省<rt>はんせい</rt></ruby>していること、<ruby>営業許可<rt>えいぎょうきょか</rt></ruby>の<ruby>取消し<rt>とりけし</rt></ruby>となれば33<ruby>人<rt>にん</rt></ruby>の<ruby>従業員<rt>じゅうぎょういん</rt></ruby>が<ruby>路頭<rt>ろとう</rt></ruby>に<ruby>迷う<rt>まよう</rt></ruby>ことになることなどを<ruby>述べ<rt>のべ</rt></ruby>ている。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">この処分基準は，特定の場合を念頭においたもので，その射程は広くないが，それでも公安委員会による公平で一貫した許可の取消し，不取消しの実現にある程度資するものであったと考えられる。そして，その内容は公にされていたので，（本件は例外に該当する事案ではなかったようであるが）仮にここで定められた例外に該当する場合であったならば，それを主張することも可能であっただろう。次に，聴聞では，公安委員会は定められた手続に沿って聴聞を実施し，Aは，出入国管理法違反の事実関係は認めた上で，十分に反省していること，営業許可の取消しとなれば33人の従業員が路頭に迷うことになることなどを述べている。</div>
+            </div>
+        </article>
+        <article id="card-24" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(24)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    ここで、<ruby>公安委員会<rt>こうあんいいんかい</rt></ruby>は、Aに<ruby>直接<rt>ちょくせつ</rt></ruby><ruby>事実関係<rt>じじつかんけい</rt></ruby>を<ruby>確認し<rt>かくにんし</rt></ruby>ているが、それに<ruby>加え<rt>くわえ</rt></ruby>てAの<ruby>事情<rt>じじょう</rt></ruby>も<ruby>聴取<rt>ちょうしゅ</rt></ruby>している。これらは<ruby>処分<rt>しょぶん</rt></ruby><ruby>基準<rt>きじゅん</rt></ruby>には<ruby>含ま<rt>ふくま</rt></ruby>れない<ruby>事情<rt>じじょう</rt></ruby>であるが、<ruby>取消し<rt>とりけし</rt></ruby>、<ruby>不<rt>ふ</rt></ruby><ruby>取消し<rt>とりけし</rt></ruby>の<ruby>裁量<rt>さいりょう</rt></ruby><ruby>判断<rt>はんだん</rt></ruby>をする<ruby>上で<rt>うえで</rt></ruby>、<ruby>法令<rt>ほうれい</rt></ruby><ruby>上<rt>うえ</rt></ruby>、これらの<ruby>事情<rt>じじょう</rt></ruby>を<ruby>考慮す<rt>こうりょす</rt></ruby>ることが<ruby>否定<rt>ひてい</rt></ruby>されていないならば、<ruby>公安委員会<rt>こうあんいいんかい</rt></ruby>は、これらの<ruby>事情<rt>じじょう</rt></ruby>を<ruby>考慮し<rt>こうりょし</rt></ruby>て、<ruby>許可<rt>きょか</rt></ruby>を<ruby>取り消さ<rt>とりけさ</rt></ruby>ないこともできると<ruby>考え<rt>かんがえ</rt></ruby>られる。そうすると、<ruby>聴聞<rt>ちょうもん</rt></ruby>は、<ruby>事実関係<rt>じじつかんけい</rt></ruby>を<ruby>確認す<rt>かくにんす</rt></ruby>るだけでなく、そうしたAの<ruby>事情<rt>じじょう</rt></ruby>を<ruby>聴取<rt>ちょうしゅ</rt></ruby>する<ruby>手続<rt>てつづき</rt></ruby>としても<ruby>有効<rt>ゆうこう</rt></ruby>に<ruby>機能し<rt>きのうし</rt></ruby>ていたといえよう。<ruby>最後<rt>さいご</rt></ruby>に、<ruby>理由<rt>りゆう</rt></ruby><ruby>提示<rt>ていじ</rt></ruby>であるが、<ruby>本件<rt>ほんけん</rt></ruby>では、<ruby>行政処分<rt>ぎょうせいしょぶん</rt></ruby>の<ruby>区分<rt>くぶん</rt></ruby>が「<ruby>営業許可<rt>えいぎょうきょか</rt></ruby>の<ruby>取消し<rt>とりけし</rt></ruby>」であること、<ruby>取消し<rt>とりけし</rt></ruby>の<ruby>日<rt>にち</rt></ruby>が「<ruby>平成<rt>へいせい</rt></ruby>16<ruby>年<rt>ねん</rt></ruby>3<ruby>月<rt>がつ</rt></ruby>16<ruby>日<rt>にち</rt></ruby>」であること、<ruby>根拠<rt>こんきょ</rt></ruby>となる<ruby>法令<rt>ほうれい</rt></ruby>の<ruby>条項<rt>じょうこう</rt></ruby>が「<ruby>風俗営業法<rt>ふうぞくえいぎょうほう</rt></ruby>8<ruby>条<rt>じょう</rt></ruby>2<ruby>号<rt>ごう</rt></ruby>」であることが<ruby>通知<rt>つうち</rt></ruby>において<ruby>示さ<rt>しめさ</rt></ruby>れた。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">ここで，公安委員会は，Aに直接事実関係を確認しているが，それに加えてAの事情も聴取している。これらは処分基準には含まれない事情であるが，取消し，不取消しの裁量判断をする上で，法令上，これらの事情を考慮することが否定されていないならば，公安委員会は，これらの事情を考慮して，許可を取り消さないこともできると考えられる。そうすると，聴聞は，事実関係を確認するだけでなく，そうしたAの事情を聴取する手続としても有効に機能していたといえよう。最後に，理由提示であるが，本件では，行政処分の区分が「営業許可の取消し」であること，取消しの日が「平成16年3月16日」であること，根拠となる法令の条項が「風俗営業法8条2号」であることが通知において示された。</div>
+            </div>
+        </article>
+        <article id="card-25" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(25)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    ここで、<ruby>公安委員会<rt>こうあんいいんかい</rt></ruby>は、<ruby>形<rt>かたち</rt></ruby>の<ruby>上で<rt>うえで</rt></ruby>は<ruby>理由<rt>りゆう</rt></ruby><ruby>提示<rt>ていじ</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>を<ruby>履行<rt>りこう</rt></ruby>しているようにも<ruby>見え<rt>みえ</rt></ruby>るが、この<ruby>内容<rt>ないよう</rt></ruby>で<ruby>先<rt>さき</rt></ruby>ほどの<ruby>理由<rt>りゆう</rt></ruby><ruby>提示<rt>ていじ</rt></ruby>に<ruby>期待さ<rt>きたいさ</rt></ruby>れる<ruby>機能<rt>きのう</rt></ruby>を<ruby>十分<rt>じゅうぶん</rt></ruby>に<ruby>果た<rt>はた</rt></ruby>せているといえるだろうか。<ruby>風俗営業法<rt>ふうぞくえいぎょうほう</rt></ruby>8<ruby>条<rt>じょう</rt></ruby>2<ruby>号<rt>ごう</rt></ruby>は「<ruby>第<rt>だい</rt></ruby>4<ruby>条<rt>じょう</rt></ruby><ruby>第<rt>だい</rt></ruby>1<ruby>項<rt>こう</rt></ruby><ruby>各号<rt>かくごう</rt></ruby>に<ruby>掲げ<rt>かかげ</rt></ruby>る<ruby>者<rt>もの</rt></ruby>のいずれかに<ruby>該当<rt>がいとう</rt></ruby>していること」というもので、4<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby><ruby>各号<rt>かくごう</rt></ruby>を<ruby>見て<rt>みて</rt></ruby>みると「ル」に「<ruby>出入国<rt>しゅつにゅうこく</rt></ruby><ruby>管理<rt>かんり</rt></ruby><ruby>及び<rt>および</rt></ruby><ruby>難民<rt>なんみん</rt></ruby><ruby>認定<rt>にんてい</rt></ruby><ruby>法<rt>ほう</rt></ruby>・・・・・・・<ruby>第<rt>だい</rt></ruby>73<ruby>条<rt>じょう</rt></ruby>の2<ruby>第<rt>だい</rt></ruby>1<ruby>項<rt>こう</rt></ruby>の<ruby>罪<rt>つみ</rt></ruby>」とあるから、この<ruby>内容<rt>ないよう</rt></ruby>から、A<ruby>自身<rt>じしん</rt></ruby>は、<ruby>出入国<rt>しゅつにゅうこく</rt></ruby><ruby>管理法<rt>かんりほう</rt></ruby><ruby>違反<rt>いはん</rt></ruby>の<ruby>有罪判決<rt>ゆうざいはんけつ</rt></ruby>により<ruby>許可<rt>きょか</rt></ruby>が<ruby>取り消さ<rt>とりけさ</rt></ruby>れたということをおそらく<ruby>知る<rt>しる</rt></ruby>ことができるだろう。しかし、<ruby>理由<rt>りゆう</rt></ruby><ruby>提示<rt>ていじ</rt></ruby>の<ruby>機能<rt>きのう</rt></ruby>に<ruby>着目<rt>ちゃくもく</rt></ruby>して<ruby>形成<rt>けいせい</rt></ruby>された<ruby>理由<rt>りゆう</rt></ruby><ruby>提示<rt>ていじ</rt></ruby>の<ruby>程度<rt>ていど</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>判例<rt>はんれい</rt></ruby><ruby>法理<rt>ほうり</rt></ruby>に<ruby>照ら<rt>てら</rt></ruby>すと、この<ruby>内容<rt>ないよう</rt></ruby>では<ruby>不十分<rt>ふじゅうぶん</rt></ruby>と<ruby>判断<rt>はんだん</rt></ruby>される<ruby>可能性<rt>かのうせい</rt></ruby>が<ruby>高い<rt>たかい</rt></ruby>。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">ここで，公安委員会は，形の上では理由提示手続を履行しているようにも見えるが，この内容で先ほどの理由提示に期待される機能を十分に果たせているといえるだろうか。風俗営業法8条2号は「第4条第1項各号に掲げる者のいずれかに該当していること」というもので，4条1項各号を見てみると「ル」に「出入国管理及び難民認定法・・・・・・・第73条の2第1項の罪」とあるから，この内容から，A自身は，出入国管理法違反の有罪判決により許可が取り消されたということをおそらく知ることができるだろう。しかし，理由提示の機能に着目して形成された理由提示の程度に関する判例法理に照らすと，この内容では不十分と判断される可能性が高い。</div>
+            </div>
+        </article>
+        <article id="card-26" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(26)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    すなわち、<ruby>判例<rt>はんれい</rt></ruby><ruby>法理<rt>ほうり</rt></ruby>では「いかなる<ruby>事実関係<rt>じじつかんけい</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>きいかなる<ruby>法規<rt>ほうき</rt></ruby>を<ruby>適用<rt>てきよう</rt></ruby>して」<ruby>当該<rt>とうがい</rt></ruby><ruby>処分<rt>しょぶん</rt></ruby>がなされたのか、<ruby>理由<rt>りゆう</rt></ruby>が<ruby>示さ<rt>しめさ</rt></ruby>れた<ruby>書面<rt>しょめん</rt></ruby>の「<ruby>記載<rt>きさい</rt></ruby><ruby>自体<rt>じたい</rt></ruby>から<ruby>了知<rt>りょうち</rt></ruby>しうるものでなければなら」ないことが<ruby>要求<rt>ようきゅう</rt></ruby>されている。これは、<ruby>書面<rt>しょめん</rt></ruby>に<ruby>記載さ<rt>きさいさ</rt></ruby>れていない<ruby>情報<rt>じょうほう</rt></ruby>は<ruby>相手方<rt>あいてかた</rt></ruby>が<ruby>事実上<rt>じじつじょう</rt></ruby><ruby>知って<rt>しって</rt></ruby>いてもカウントしないというものである。なぜ、このようなことが<ruby>要求<rt>ようきゅう</rt></ruby>されるかというと、<ruby>判断<rt>はんだん</rt></ruby>の<ruby>慎重<rt>しんちょう</rt></ruby>と<ruby>公正<rt>こうせい</rt></ruby><ruby>妥当<rt>だとう</rt></ruby>を<ruby>担保<rt>たんぽ</rt></ruby>してその<ruby>恣意<rt>しい</rt></ruby>を<ruby>抑制<rt>よくせい</rt></ruby>するという<ruby>理由<rt>りゆう</rt></ruby><ruby>提示<rt>ていじ</rt></ruby>の<ruby>機能<rt>きのう</rt></ruby>からすれば、<ruby>公安委員会<rt>こうあんいいんかい</rt></ruby>は<ruby>事実関係<rt>じじつかんけい</rt></ruby>と<ruby>適用法<rt>てきようほう</rt></ruby><ruby>規<rt>き</rt></ruby>に<ruby>誤り<rt>あやまり</rt></ruby>がないか<ruby>慎重<rt>しんちょう</rt></ruby>に<ruby>確認し<rt>かくにんし</rt></ruby>ながら<ruby>理由<rt>りゆう</rt></ruby>を<ruby>記載し<rt>きさいし</rt></ruby>ていくことが<ruby>求め<rt>もとめ</rt></ruby>られるためである。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">すなわち，判例法理では「いかなる事実関係に基づきいかなる法規を適用して」当該処分がなされたのか，理由が示された書面の「記載自体から了知しうるものでなければなら」ないことが要求されている。これは，書面に記載されていない情報は相手方が事実上知っていてもカウントしないというものである。なぜ，このようなことが要求されるかというと，判断の慎重と公正妥当を担保してその恣意を抑制するという理由提示の機能からすれば，公安委員会は事実関係と適用法規に誤りがないか慎重に確認しながら理由を記載していくことが求められるためである。</div>
+            </div>
+        </article>
+        <article id="card-27" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(27)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>本件<rt>ほんけん</rt></ruby>において、<ruby>裁判所<rt>さいばんしょ</rt></ruby>は、この<ruby>判例<rt>はんれい</rt></ruby><ruby>法理<rt>ほうり</rt></ruby>に<ruby>従い<rt>したがい</rt></ruby>、<ruby>記載<rt>きさい</rt></ruby><ruby>自体<rt>じたい</rt></ruby>からは、<ruby>風俗営業法<rt>ふうぞくえいぎょうほう</rt></ruby>4<ruby>条<rt>じょう</rt></ruby><ruby>各号<rt>かくごう</rt></ruby>のいずれに<ruby>該当<rt>がいとう</rt></ruby>するか<ruby>不明<rt>ふめい</rt></ruby>である<ruby>上<rt>うえ</rt></ruby>、<ruby>不利益<rt>ふりえき</rt></ruby><ruby>処分<rt>しょぶん</rt></ruby>の<ruby>原因<rt>げんいん</rt></ruby>となる<ruby>事実<rt>じじつ</rt></ruby>の<ruby>記載<rt>きさい</rt></ruby>もないことを<ruby>指摘<rt>してき</rt></ruby>している15。また、<ruby>本件<rt>ほんけん</rt></ruby>では、<ruby>聴聞<rt>ちょうもん</rt></ruby>において、Aから<ruby>前記<rt>ぜんき</rt></ruby>の<ruby>事情<rt>じじょう</rt></ruby>が<ruby>主張<rt>しゅちょう</rt></ruby>され、それを<ruby>受け<rt>うけ</rt></ruby>て<ruby>作成<rt>さくせい</rt></ruby>された<ruby>聴聞<rt>ちょうもん</rt></ruby><ruby>報告書<rt>ほうこくしょ</rt></ruby>では、<ruby>理由<rt>りゆう</rt></ruby>として、<ruby>当事者<rt>とうじしゃ</rt></ruby>は<ruby>事実<rt>じじつ</rt></ruby>を<ruby>認め<rt>みとめ</rt></ruby>て<ruby>寛大<rt>かんだい</rt></ruby>な<ruby>処分<rt>しょぶん</rt></ruby>を<ruby>要求<rt>ようきゅう</rt></ruby>しているが、<ruby>相手<rt>あいて</rt></ruby>の<ruby>事情<rt>じじょう</rt></ruby><ruby>等<rt>など</rt></ruby>を<ruby>考慮し<rt>こうりょし</rt></ruby>ても、これから<ruby>許可<rt>きょか</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>ようとする<ruby>者<rt>もの</rt></ruby>が<ruby>欠格事項<rt>けっかくじこう</rt></ruby>に<ruby>該<rt>がい</rt></ruby>する<ruby>場合<rt>ばあい</rt></ruby>には<ruby>許可<rt>きょか</rt></ruby>を<ruby>得る<rt>える</rt></ruby>ことができないこととの<ruby>均衡<rt>きんこう</rt></ruby>から<ruby>取消し<rt>とりけし</rt></ruby>を<ruby>免除<rt>めんじょ</rt></ruby>することができないとされており、Aの<ruby>事情<rt>じじょう</rt></ruby>を<ruby>考慮し<rt>こうりょし</rt></ruby>た<ruby>上で<rt>うえで</rt></ruby><ruby>取消し<rt>とりけし</rt></ruby>の<ruby>判断<rt>はんだん</rt></ruby>に<ruby>至っ<rt>いたっ</rt></ruby>たことが<ruby>示さ<rt>しめさ</rt></ruby>れていた。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">本件において，裁判所は，この判例法理に従い，記載自体からは，風俗営業法4条各号のいずれに該当するか不明である上，不利益処分の原因となる事実の記載もないことを指摘している15。また，本件では，聴聞において，Aから前記の事情が主張され，それを受けて作成された聴聞報告書では，理由として，当事者は事実を認めて寛大な処分を要求しているが，相手の事情等を考慮しても，これから許可を受けようとする者が欠格事項に該する場合には許可を得ることができないこととの均衡から取消しを免除することができないとされており，Aの事情を考慮した上で取消しの判断に至ったことが示されていた。</div>
+            </div>
+        </article>
+        <article id="card-28" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(28)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    そして、<ruby>公安委員会<rt>こうあんいいんかい</rt></ruby>は、<ruby>訴訟<rt>そしょう</rt></ruby>の<ruby>場<rt>ば</rt></ruby>でこれが<ruby>判断<rt>はんだん</rt></ruby>の<ruby>理由<rt>りゆう</rt></ruby>であったと<ruby>主張<rt>しゅちょう</rt></ruby>している。これは<ruby>処分<rt>しょぶん</rt></ruby><ruby>基準<rt>きじゅん</rt></ruby>に<ruby>沿っ<rt>そっ</rt></ruby>た<ruby>判断<rt>はんだん</rt></ruby>でもなく、<ruby>記載さ<rt>きさいさ</rt></ruby>れた<ruby>理由<rt>りゆう</rt></ruby>からはこうした<ruby>内容<rt>ないよう</rt></ruby>を<ruby>到底<rt>とうてい</rt></ruby><ruby>読み取る<rt>よみとる</rt></ruby>ことはできないが、<ruby>聴聞<rt>ちょうもん</rt></ruby>と<ruby>理由<rt>りゆう</rt></ruby><ruby>提示<rt>ていじ</rt></ruby>の<ruby>機能<rt>きのう</rt></ruby>を<ruby>最大限<rt>さいだいげん</rt></ruby><ruby>発揮<rt>はっき</rt></ruby>させるためには、こうした<ruby>内容<rt>ないよう</rt></ruby>をAが<ruby>知る<rt>しる</rt></ruby>ことができる<ruby>形<rt>かたち</rt></ruby>で<ruby>理由<rt>りゆう</rt></ruby>を<ruby>示す<rt>しめす</rt></ruby>ことが<ruby>望ましい<rt>のぞましい</rt></ruby>といえる。この<ruby>点<rt>てん</rt></ruby>、<ruby>裁判所<rt>さいばんしょ</rt></ruby>は、<ruby>聴聞<rt>ちょうもん</rt></ruby>で、<ruby>汲む<rt>くむ</rt></ruby>べき<ruby>事情<rt>じじょう</rt></ruby>があることが<ruby>主張<rt>しゅちょう</rt></ruby>され，それを<ruby>考慮し<rt>こうりょし</rt></ruby>て<ruby>裁量<rt>さいりょう</rt></ruby><ruby>性<rt>せい</rt></ruby><ruby>判断<rt>はんだん</rt></ruby>（つまり、<ruby>許可<rt>きょか</rt></ruby>を<ruby>取り消さ<rt>とりけさ</rt></ruby>ない<ruby>判断<rt>はんだん</rt></ruby>をするかどうか）をするかが<ruby>唯一<rt>ゆいいつ</rt></ruby>の<ruby>争点<rt>そうてん</rt></ruby>となっており、<ruby>処分<rt>しょぶん</rt></ruby>の<ruby>名<rt>めい</rt></ruby>あて<ruby>人<rt>にん</rt></ruby>もその<ruby>点<rt>てん</rt></ruby>の<ruby>判断<rt>はんだん</rt></ruby>について<ruby>強い<rt>つよい</rt></ruby><ruby>関心<rt>かんしん</rt></ruby>を<ruby>有し<rt>ゆうし</rt></ruby>ているにもかかわらず、<ruby>通知<rt>つうち</rt></ruby>にその<ruby>点<rt>てん</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>記載<rt>きさい</rt></ruby>がなかったことを<ruby>理由<rt>りゆう</rt></ruby><ruby>提示<rt>ていじ</rt></ruby>が<ruby>不十分<rt>ふじゅうぶん</rt></ruby>である<ruby>点<rt>てん</rt></ruby>として<ruby>指摘<rt>してき</rt></ruby>している10。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">そして，公安委員会は，訴訟の場でこれが判断の理由であったと主張している。これは処分基準に沿った判断でもなく，記載された理由からはこうした内容を到底読み取ることはできないが，聴聞と理由提示の機能を最大限発揮させるためには，こうした内容をAが知ることができる形で理由を示すことが望ましいといえる。この点，裁判所は，聴聞で，汲むべき事情があることが主張され，それを考慮して裁量性判断（つまり，許可を取り消さない判断をするかどうか）をするかが唯一の争点となっており，処分の名あて人もその点の判断について強い関心を有しているにもかかわらず，通知にその点に関する記載がなかったことを理由提示が不十分である点として指摘している10。</div>
+            </div>
+        </article>
+        <article id="card-29" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(29)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    このように、<ruby>定め<rt>さだめ</rt></ruby>られた<ruby>手続<rt>てつづき</rt></ruby>は、<ruby>単に<rt>たんに</rt></ruby><ruby>形<rt>かたち</rt></ruby>だけ<ruby>履行<rt>りこう</rt></ruby>すればよいというのではなく、その<ruby>機能<rt>きのう</rt></ruby>が<ruby>発揮<rt>はっき</rt></ruby>できる<ruby>形<rt>かたち</rt></ruby>で<ruby>履行<rt>りこう</rt></ruby>されることが<ruby>求め<rt>もとめ</rt></ruby>られていることに<ruby>注意<rt>ちゅうい</rt></ruby>する<ruby>必要<rt>ひつよう</rt></ruby>がある。5.<ruby>手続<rt>てつづき</rt></ruby>の<ruby>瑕疵<rt>かし</rt></ruby>の<ruby>効果<rt>こうか</rt></ruby>なお、<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby><ruby>法<rt>ほう</rt></ruby>をはじめとする<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>法令<rt>ほうれい</rt></ruby>の<ruby>定め<rt>さだめ</rt></ruby>に<ruby>反し<rt>はんし</rt></ruby>て<ruby>手続<rt>てつづき</rt></ruby>を<ruby>全く<rt>まったく</rt></ruby><ruby>履行<rt>りこう</rt></ruby>しなかった<ruby>場合<rt>ばあい</rt></ruby>、あるいは、<ruby>一応<rt>いちおう</rt></ruby><ruby>履行<rt>りこう</rt></ruby>したが<ruby>不十分<rt>ふじゅうぶん</rt></ruby>であると<ruby>判断<rt>はんだん</rt></ruby>された<ruby>場合<rt>ばあい</rt></ruby>，<ruby>法令<rt>ほうれい</rt></ruby><ruby>違反<rt>いはん</rt></ruby>であることは<ruby>間違い<rt>まちがい</rt></ruby>ないが、<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>事件<rt>じけん</rt></ruby><ruby>訴訟<rt>そしょう</rt></ruby><ruby>法<rt>ほう</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>く<ruby>取消<rt>とりけし</rt></ruby><ruby>訴訟<rt>そしょう</rt></ruby>の<ruby>場<rt>ば</rt></ruby>でそう<ruby>判断<rt>はんだん</rt></ruby>された<ruby>場合<rt>ばあい</rt></ruby>に、それが、<ruby>処分<rt>しょぶん</rt></ruby>の<ruby>取消<rt>とりけし</rt></ruby><ruby>事由<rt>じゆう</rt></ruby>となるかという<ruby>問題<rt>もんだい</rt></ruby>がある。この<ruby>問題<rt>もんだい</rt></ruby>は，<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>の<ruby>瑕疵<rt>かし</rt></ruby>の<ruby>効果<rt>こうか</rt></ruby>の<ruby>問題<rt>もんだい</rt></ruby>などと<ruby>呼ば<rt>よば</rt></ruby>れている。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">このように，定められた手続は，単に形だけ履行すればよいというのではなく，その機能が発揮できる形で履行されることが求められていることに注意する必要がある。5.手続の瑕疵の効果なお，行政手続法をはじめとする行政手続に関する法令の定めに反して手続を全く履行しなかった場合，あるいは，一応履行したが不十分であると判断された場合，法令違反であることは間違いないが，行政事件訴訟法に基づく取消訴訟の場でそう判断された場合に，それが，処分の取消事由となるかという問題がある。この問題は，行政手続の瑕疵の効果の問題などと呼ばれている。</div>
+            </div>
+        </article>
+        <article id="card-30" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(30)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    なぜ、<ruby>問題<rt>もんだい</rt></ruby>となるかというと、<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>違反<rt>いはん</rt></ruby>の<ruby>場合<rt>ばあい</rt></ruby>には、それを<ruby>理由<rt>りゆう</rt></ruby>に<ruby>裁判所<rt>さいばんしょ</rt></ruby>が<ruby>判決<rt>はんけつ</rt></ruby>で<ruby>処分<rt>しょぶん</rt></ruby>を<ruby>取り消し<rt>とりけし</rt></ruby>、<ruby>行政庁<rt>ぎょうせいちょう</rt></ruby>に<ruby>適法<rt>てきほう</rt></ruby>な<ruby>手続<rt>てつづき</rt></ruby>で<ruby>処分<rt>しょぶん</rt></ruby>のやり<ruby>直し<rt>なおし</rt></ruby>をさせても、<ruby>実体<rt>じったい</rt></ruby><ruby>的に<rt>てきに</rt></ruby>は<ruby>適法<rt>てきほう</rt></ruby>で、<ruby>再度<rt>さいど</rt></ruby><ruby>同じ<rt>おなじ</rt></ruby><ruby>処分<rt>しょぶん</rt></ruby>がされるだけで<ruby>結果<rt>けっか</rt></ruby>が<ruby>変わ<rt>かわ</rt></ruby>らない<ruby>場合<rt>ばあい</rt></ruby>があるからである。そうした<ruby>場合<rt>ばあい</rt></ruby>，<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>が<ruby>正しい<rt>ただしい</rt></ruby><ruby>結果<rt>けっか</rt></ruby>を<ruby>導き出す<rt>みちびきだす</rt></ruby>ための<ruby>手段<rt>しゅだん</rt></ruby>であると<ruby>見る<rt>みる</rt></ruby><ruby>場合<rt>ばあい</rt></ruby>、あえて<ruby>処分<rt>しょぶん</rt></ruby>をやり<ruby>直さ<rt>なおさ</rt></ruby>せる<ruby>意味<rt>いみ</rt></ruby>はない。<ruby>他方<rt>たほう</rt></ruby>で、<ruby>適法<rt>てきほう</rt></ruby>な<ruby>手続<rt>てつづき</rt></ruby>を<ruby>経て<rt>へて</rt></ruby>はじめて<ruby>適法<rt>てきほう</rt></ruby>な<ruby>処分<rt>しょぶん</rt></ruby>となると<ruby>考え<rt>かんがえ</rt></ruby>る<ruby>場合<rt>ばあい</rt></ruby>、<ruby>同じ<rt>おなじ</rt></ruby><ruby>結果<rt>けっか</rt></ruby>となっても<ruby>処分<rt>しょぶん</rt></ruby>のやり<ruby>直し<rt>なおし</rt></ruby>をさせるべきだということになる。<ruby>最高裁<rt>さいこうさい</rt></ruby>は、<ruby>手続<rt>てつづき</rt></ruby>の<ruby>瑕疵<rt>かし</rt></ruby>の<ruby>結果<rt>けっか</rt></ruby>への<ruby>影響<rt>えいきょう</rt></ruby>を<ruby>考慮し<rt>こうりょし</rt></ruby>ていると<ruby>見ら<rt>みら</rt></ruby>れるが17，<ruby>手続<rt>てつづき</rt></ruby>の<ruby>中<rt>なか</rt></ruby>でも<ruby>理由<rt>りゆう</rt></ruby><ruby>提示<rt>ていじ</rt></ruby>については、<ruby>結果<rt>けっか</rt></ruby>への<ruby>影響<rt>えいきょう</rt></ruby>を<ruby>考慮す<rt>こうりょす</rt></ruby>ることなく<ruby>取消<rt>とりけし</rt></ruby><ruby>事由<rt>じゆう</rt></ruby>としており、<ruby>扱い<rt>あつかい</rt></ruby>が<ruby>異なる<rt>ことなる</rt></ruby>。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">なぜ，問題となるかというと，行政手続に関する違反の場合には，それを理由に裁判所が判決で処分を取り消し，行政庁に適法な手続で処分のやり直しをさせても，実体的には適法で，再度同じ処分がされるだけで結果が変わらない場合があるからである。そうした場合，行政手続が正しい結果を導き出すための手段であると見る場合，あえて処分をやり直させる意味はない。他方で，適法な手続を経てはじめて適法な処分となると考える場合，同じ結果となっても処分のやり直しをさせるべきだということになる。最高裁は，手続の瑕疵の結果への影響を考慮していると見られるが17，手続の中でも理由提示については，結果への影響を考慮することなく取消事由としており，扱いが異なる。</div>
+            </div>
+        </article>
+        <article id="card-31" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(31)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    そのため、<ruby>理由<rt>りゆう</rt></ruby><ruby>提示<rt>ていじ</rt></ruby>が<ruby>不十分<rt>ふじゅうぶん</rt></ruby>とされた<ruby>本件<rt>ほんけん</rt></ruby>でも、<ruby>裁判所<rt>さいばんしょ</rt></ruby>は、<ruby>営業許可<rt>えいぎょうきょか</rt></ruby>の<ruby>取消し<rt>とりけし</rt></ruby>を<ruby>判決<rt>はんけつ</rt></ruby>で<ruby>取り消し<rt>とりけし</rt></ruby>ている。<ruby>学説<rt>がくせつ</rt></ruby>でも<ruby>活発<rt>かっぱつ</rt></ruby>に<ruby>論じ<rt>ろんじ</rt></ruby>られているが，<ruby>手続<rt>てつづき</rt></ruby>の<ruby>本質<rt>ほんしつ</rt></ruby>にも<ruby>関わ<rt>かかわ</rt></ruby>る<ruby>問題<rt>もんだい</rt></ruby>でもあるので、<ruby>読者<rt>どくしゃ</rt></ruby>の<ruby>皆さん<rt>みなさん</rt></ruby>にも<ruby>是非<rt>ぜひ</rt></ruby><ruby>考え<rt>かんがえ</rt></ruby>ていただきたい。（きたじま・しゅうさく） <ruby>血<rt>ち</rt></ruby>
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">そのため，理由提示が不十分とされた本件でも，裁判所は，営業許可の取消しを判決で取り消している。学説でも活発に論じられているが，手続の本質にも関わる問題でもあるので，読者の皆さんにも是非考えていただきたい。（きたじま・しゅうさく） 血</div>
+            </div>
+        </article>
+                </main>
+
+                <!-- Footer -->
+                <footer class="bg-slate-900 border-t border-slate-800 py-6 px-6 rounded-xl text-center text-xs text-slate-400">
+                    <p>行政法2023 — 左右對照朗讀與翻譯版</p>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Audio Control Bar -->
+    <div class="fixed bottom-4 right-4 sm:right-8 w-11/12 max-w-xl bg-slate-900/95 backdrop-blur text-white px-5 py-3.5 rounded-2xl shadow-2xl border border-slate-700/80 flex items-center justify-between z-50">
+        <div class="flex items-center space-x-3">
+            <button id="btn-play-all" onclick="togglePlayAll()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold p-2.5 rounded-xl transition-colors shadow-md flex items-center justify-center">
+                <svg id="icon-play" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <svg id="icon-pause" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </button>
+            <button onclick="stopSpeech()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold p-2.5 rounded-xl border border-slate-700 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"></path></svg>
+            </button>
+            <div class="text-xs sm:text-sm">
+                <div id="tts-status" class="font-medium text-slate-200">準備朗讀</div>
+                <div id="tts-detail" class="text-slate-400 text-xs truncate max-w-[150px] sm:max-w-[200px]">點擊按鈕開啟日文語音朗讀</div>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-2">
+            <label class="text-xs text-slate-400 select-none hidden sm:inline">語速</label>
+            <select id="select-rate" onchange="changeRate()" class="bg-slate-800 text-xs text-slate-200 border border-slate-700 rounded-lg px-2 py-1.5 focus:outline-none focus:border-indigo-500">
+                <option value="0.75">0.75x</option>
+                <option value="1.0" selected>1.0x (標準)</option>
+                <option value="1.25">1.25x</option>
+                <option value="1.5">1.5x</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Speech Synthesis & PDF Zoom JavaScript -->
+    <script>
+        let synth = window.speechSynthesis;
+        let currentUtterance = null;
+        let playQueue = [];
+        let currentCardIndex = -1;
+        let isPlayingAll = false;
+        let speechRate = 1.0;
+        let japaneseVoice = null;
+        let currentPdfZoom = 1.0;
+        let pdfBaseSrc = '行政法2023.pdf';
+
+        function setPdfZoom(scaleFactor) {
+            currentPdfZoom = scaleFactor;
+            applyPdfZoom();
+        }
+
+        function zoomPdf(ratio) {
+            currentPdfZoom = Math.max(0.5, Math.min(3.0, currentPdfZoom * ratio));
+            applyPdfZoom();
+        }
+
+        function resetPdfZoom() {
+            currentPdfZoom = 1.0;
+            applyPdfZoom();
+        }
+
+        function applyPdfZoom() {
+            const zoomPercent = Math.round(currentPdfZoom * 100);
+            document.getElementById('pdf-zoom-val').textContent = zoomPercent + '%';
+            const iframe = document.getElementById('pdf-frame');
+            
+            // Apply PDF Open Parameters
+            iframe.src = pdfBaseSrc + '#zoom=' + zoomPercent + '&view=FitH';
+            
+            // Apply CSS Scaling for smooth visual enhancement
+            iframe.style.transform = 'scale(' + currentPdfZoom + ')';
+            iframe.style.width = (100 / currentPdfZoom) + '%';
+            iframe.style.height = (100 / currentPdfZoom) + '%';
+        }
+
+        function togglePdfPanel() {
+            const pdfPanel = document.getElementById('pdf-panel');
+            const contentPanel = document.getElementById('content-panel');
+            if (pdfPanel.classList.contains('hidden')) {
+                pdfPanel.classList.remove('hidden');
+                contentPanel.className = 'w-full lg:w-1/2 h-1/2 lg:h-full bg-slate-950 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 pb-32 transition-all duration-300';
+            } else {
+                pdfPanel.classList.add('hidden');
+                contentPanel.className = 'w-full lg:w-full h-full bg-slate-950 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 pb-32 transition-all duration-300';
+            }
+        }
+
+        function loadVoices() {
+            let voices = synth.getVoices();
+            japaneseVoice = voices.find(v => v.lang === 'ja-JP' || v.lang.startsWith('ja')) || null;
+        }
+
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = loadVoices;
+        }
+        loadVoices();
+
+        function getCleanText(cardId) {
+            const cardEl = document.getElementById('card-' + cardId);
+            if (!cardEl) return '';
+            
+            let targetEl = cardEl.querySelector('.jp-text-content') || cardEl.querySelector('h2') || cardEl;
+            const clone = targetEl.cloneNode(true);
+            
+            const rts = clone.querySelectorAll('rt');
+            rts.forEach(rt => rt.remove());
+            
+            let text = clone.textContent || '';
+            text = text.replace(/\(\d+\)/g, '').replace(/朗讀本段|朗讀標題/g, '').trim();
+            return text;
+        }
+
+        function highlightCard(index) {
+            document.querySelectorAll('.playing-card').forEach(el => el.classList.remove('playing-card'));
+            if (index >= 0) {
+                const el = document.getElementById('card-' + index);
+                if (el) {
+                    el.classList.add('playing-card');
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        }
+
+        function updateUIState(playing) {
+            const iconPlay = document.getElementById('icon-play');
+            const iconPause = document.getElementById('icon-pause');
+            const statusEl = document.getElementById('tts-status');
+            
+            if (playing) {
+                iconPlay.classList.add('hidden');
+                iconPause.classList.remove('hidden');
+                statusEl.textContent = '朗讀中...';
+            } else {
+                iconPlay.classList.remove('hidden');
+                iconPause.classList.add('hidden');
+                statusEl.textContent = '已暫停 / 準備就緒';
+            }
+        }
+
+        function playCardText(index) {
+            stopSpeech();
+            isPlayingAll = false;
+            currentCardIndex = index;
+            const text = getCleanText(index);
+            if (!text) return;
+            
+            speakText(text, index, () => {
+                highlightCard(-1);
+                updateUIState(false);
+                document.getElementById('tts-detail').textContent = '朗讀完成';
+            });
+        }
+
+        function speakText(text, cardIndex, onEndCallback) {
+            if (synth.speaking) synth.cancel();
+            
+            highlightCard(cardIndex);
+            updateUIState(true);
+            document.getElementById('tts-detail').textContent = text.substring(0, 30) + '...';
+            
+            currentUtterance = new SpeechSynthesisUtterance(text);
+            currentUtterance.lang = 'ja-JP';
+            if (japaneseVoice) currentUtterance.voice = japaneseVoice;
+            currentUtterance.rate = speechRate;
+            
+            currentUtterance.onend = function() {
+                if (onEndCallback) onEndCallback();
+            };
+            
+            currentUtterance.onerror = function(e) {
+                console.error('Speech synthesis error:', e);
+                highlightCard(-1);
+                updateUIState(false);
+            };
+            
+            synth.speak(currentUtterance);
+        }
+
+        function togglePlayAll() {
+            if (synth.speaking && isPlayingAll) {
+                if (synth.paused) {
+                    synth.resume();
+                    updateUIState(true);
+                } else {
+                    synth.pause();
+                    updateUIState(false);
+                }
+                return;
+            }
+            
+            stopSpeech();
+            isPlayingAll = true;
+            let totalCards = document.querySelectorAll('[id^="card-"]').length;
+            let queue = [];
+            for (let i = 0; i < totalCards; i++) {
+                queue.push(i);
+            }
+            
+            playNextInQueue(queue);
+        }
+
+        function playNextInQueue(queue) {
+            if (!isPlayingAll || queue.length === 0) {
+                isPlayingAll = false;
+                highlightCard(-1);
+                updateUIState(false);
+                document.getElementById('tts-detail').textContent = '全文朗讀完畢';
+                return;
+            }
+            
+            let nextIndex = queue.shift();
+            currentCardIndex = nextIndex;
+            const text = getCleanText(nextIndex);
+            
+            if (!text) {
+                playNextInQueue(queue);
+                return;
+            }
+            
+            speakText(text, nextIndex, () => {
+                if (isPlayingAll) playNextInQueue(queue);
+            });
+        }
+
+        function stopSpeech() {
+            isPlayingAll = false;
+            if (synth.speaking || synth.paused) {
+                synth.cancel();
+            }
+            highlightCard(-1);
+            updateUIState(false);
+            document.getElementById('tts-detail').textContent = '已停止朗讀';
+        }
+
+        function changeRate() {
+            const select = document.getElementById('select-rate');
+            speechRate = parseFloat(select.value);
+            if (synth.speaking && currentCardIndex >= 0) {
+                let wasPlayingAll = isPlayingAll;
+                let cardToResume = currentCardIndex;
+                stopSpeech();
+                if (wasPlayingAll) {
+                    isPlayingAll = true;
+                    let totalCards = document.querySelectorAll('[id^="card-"]').length;
+                    let queue = [];
+                    for (let i = cardToResume; i < totalCards; i++) queue.push(i);
+                    playNextInQueue(queue);
+                } else {
+                    playCardText(cardToResume);
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

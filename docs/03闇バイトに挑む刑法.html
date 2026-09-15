@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03闇バイトに挑む刑法 - 左右對照朗讀與翻譯版</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #0f172a;
+            color: #1e293b;
+        }
+
+        .font-serif {
+            font-family: 'Noto Serif JP', "MS Mincho", serif;
+        }
+
+        .font-sans {
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+
+        .jp-col {
+            font-size: 1.05rem;
+            line-height: 3.1;
+            letter-spacing: 0.02em;
+            word-break: break-word;
+            color: #0f172a;
+        }
+
+        ruby {
+            ruby-position: over;
+            display: inline-ruby;
+        }
+
+        rt {
+            font-size: 0.52em;
+            color: #475569;
+            letter-spacing: 0.01em;
+            font-weight: normal;
+            line-height: 1.0;
+            user-select: none;
+        }
+
+        u {
+            text-decoration: none;
+            border-bottom: 2px solid #ef4444;
+            padding-bottom: 2px;
+        }
+
+        .zh-col {
+            font-size: 1.0rem;
+            line-height: 1.75;
+        }
+
+        .playing-card {
+            box-shadow: 0 0 0 3px #6366f1, 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+            background-color: #f5f3ff !important;
+        }
+    </style>
+</head>
+
+<body class="h-screen overflow-hidden flex flex-col bg-slate-950">
+    <!-- Top Fixed Header -->
+    <header class="h-14 bg-slate-950 text-white px-4 sm:px-6 border-b border-slate-800 shrink-0 flex items-center justify-between shadow-md z-40">
+        <div class="flex items-center space-x-3 truncate">
+            <a href="index.html" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 hover:text-white px-3 py-1.5 rounded-lg text-xs font-semibold border border-slate-700 transition-colors flex items-center space-x-1 shrink-0 select-none">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                <span>總覽</span>
+            </a>
+            <h1 class="text-sm sm:text-base font-bold truncate font-serif text-slate-100">
+                03闇バイトに挑む刑法
+            </h1>
+        </div>
+        <div class="flex items-center space-x-2 shrink-0">
+            <button onclick="togglePdfPanel()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors flex items-center space-x-1 select-none">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                <span id="toggle-pdf-text">隱藏/顯示 原文PDF</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Split View Container (Height = 100vh - 3.5rem) -->
+    <div class="flex-1 flex flex-col lg:flex-row w-full overflow-hidden h-[calc(100vh-3.5rem)]">
+        <!-- Left Panel: Fixed Original PDF Viewer with Zoom Controls -->
+        <div id="pdf-panel" class="w-full lg:w-1/2 h-1/2 lg:h-full bg-slate-900 border-r border-slate-800 flex flex-col shrink-0">
+            <!-- PDF Zoom & Control Bar -->
+            <div class="bg-slate-950 px-3 py-2 border-b border-slate-800 flex items-center justify-between text-xs shrink-0 select-none">
+                <span class="text-slate-400 font-semibold flex items-center">
+                    <svg class="w-3.5 h-3.5 mr-1 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    PDF 縮放控制
+                </span>
+                <div class="flex items-center space-x-1.5">
+                    <button onclick="zoomPdf(0.9)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-2 py-0.5 rounded border border-slate-700 transition-colors" title="縮小">-</button>
+                    <span id="pdf-zoom-val" class="font-mono text-indigo-300 w-12 text-center">100%</span>
+                    <button onclick="zoomPdf(1.1)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-2 py-0.5 rounded border border-slate-700 transition-colors" title="放大">+</button>
+                    <button onclick="setPdfZoom(1.25)" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 px-2 py-0.5 rounded border border-slate-700 transition-colors">1.25x</button>
+                    <button onclick="setPdfZoom(1.5)" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 px-2 py-0.5 rounded border border-slate-700 transition-colors">1.5x</button>
+                    <button onclick="setPdfZoom(2.0)" class="bg-slate-800 hover:bg-slate-700 text-amber-300 px-2 py-0.5 rounded border border-slate-700 transition-colors">2.0x</button>
+                    <button onclick="resetPdfZoom()" class="bg-slate-800 hover:bg-slate-700 text-slate-400 px-2 py-0.5 rounded border border-slate-700 transition-colors">重置</button>
+                </div>
+            </div>
+            <!-- PDF Iframe Container -->
+            <div id="pdf-container" class="flex-1 w-full h-full overflow-auto bg-slate-900 p-2 relative">
+                <iframe id="pdf-frame" src="03闇バイトに挑む刑法.pdf" class="w-full h-full rounded-xl bg-white shadow-inner border border-slate-700 transition-transform origin-top-left"></iframe>
+            </div>
+        </div>
+
+        <!-- Right Panel: Independently Scrolling Translated Content & Audio Reader -->
+        <div id="content-panel" class="w-full lg:w-1/2 h-1/2 lg:h-full bg-slate-950 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 pb-32 transition-all duration-300">
+            <div class="max-w-3xl mx-auto space-y-4">
+                <!-- Banner Card -->
+                <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 rounded-2xl shadow-xl border border-indigo-900">
+                    <span class="inline-block bg-indigo-500/20 text-indigo-300 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider mb-2 border border-indigo-400/30">
+                        法學日文左右對照朗讀版
+                    </span>
+                    <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-white mb-2 font-serif">
+                        03闇バイトに挑む刑法
+                    </h2>
+                    <p class="text-indigo-200 text-sm sm:text-base font-medium mb-3">
+                        ——03闇バイトに挑む刑法 法學論文對照解析 <span class="text-indigo-300/80 text-xs font-normal">（03闇バイトに挑む刑法 法律專題解析）</span>
+                    </p>
+                    <div class="text-xs text-slate-300 pt-3 border-t border-indigo-900/80">
+                        <span class="font-semibold text-indigo-300">作者：</span>日本法學研究會 / Legal Research Group
+                    </div>
+                </div>
+
+                <!-- Main Paragraphs -->
+                <main class="space-y-4">
+
+        <article id="card-0" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(0)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    SPECIAL FEATURE「<ruby>闇<rt>やみ</rt></ruby>バイト」に<ruby>挑む<rt>いどむ</rt></ruby><ruby>刑法<rt>けいほう</rt></ruby><ruby>入門<rt>にゅうもん</rt></ruby><ruby>同志社大学<rt>どうししゃだいがく</rt></ruby><ruby>教授<rt>きょうじゅ</rt></ruby><ruby>川崎<rt>かわさき</rt></ruby><ruby>友<rt>とも</rt></ruby><ruby>日<rt>にち</rt></ruby>KAWASAKI Tomomi・<ruby>闇<rt>やみ</rt></ruby>バイトの<ruby>深み<rt>ふかみ</rt></ruby><ruby>最近<rt>さいきん</rt></ruby>、ネットやテレビのニュースで<ruby>頻繁<rt>ひんぱん</rt></ruby>に<ruby>目に<rt>めに</rt></ruby>する「<ruby>闇<rt>やみ</rt></ruby>バイト」というワード。SNSやインターネット<ruby>掲示板<rt>けいじばん</rt></ruby>などを<ruby>使って<rt>つかって</rt></ruby>、<ruby>具体的<rt>ぐたいてき</rt></ruby>な<ruby>内容<rt>ないよう</rt></ruby>を<ruby>示さ<rt>しめさ</rt></ruby>ずに、<ruby>短時間<rt>たんじかん</rt></ruby>で<ruby>高収入<rt>こうしゅうにゅう</rt></ruby>が<ruby>得ら<rt>えら</rt></ruby>れるなど<ruby>甘い<rt>あまい</rt></ruby><ruby>言葉<rt>ことば</rt></ruby>で<ruby>募集<rt>ぼしゅう</rt></ruby>されている「アルバイト」のことで、<ruby>応募者<rt>おうぼしゃ</rt></ruby>は、<ruby>詐欺<rt>さぎ</rt></ruby>でだまし<ruby>取っ<rt>とっ</rt></ruby>た<ruby>財産<rt>ざいさん</rt></ruby>を<ruby>被害者<rt>ひがいしゃ</rt></ruby>から<ruby>受け取っ<rt>うけとっ</rt></ruby>たり、<ruby>強盗<rt>ごうとう</rt></ruby>を<ruby>実行<rt>じっこう</rt></ruby>したりするなど、<ruby>犯罪集団<rt>はんざいしゅうだん</rt></ruby>の<ruby>手先<rt>てさき</rt></ruby>として<ruby>利用<rt>りよう</rt></ruby>される。<ruby>普<rt>ふ</rt></ruby><ruby>察<rt>さつ</rt></ruby><ruby>庁<rt>ちょう</rt></ruby>は、<ruby>闇<rt>やみ</rt></ruby>バイトに<ruby>関わ<rt>かかわ</rt></ruby>らないよう<ruby>啓発<rt>けいはつ</rt></ruby><ruby>活動<rt>かつどう</rt></ruby>に<ruby>力<rt>ちから</rt></ruby>を<ruby>入れ<rt>いれ</rt></ruby>ているい。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">SPECIAL FEATURE「闇バイト」に挑む刑法入門同志社大学教授川崎友日KAWASAKI Tomomi・闇バイトの深み最近，ネットやテレビのニュースで頻繁に目にする「闇バイト」というワード。SNSやインターネット掲示板などを使って，具体的な内容を示さずに，短時間で高収入が得られるなど甘い言葉で募集されている「アルバイト」のことで，応募者は，詐欺でだまし取った財産を被害者から受け取ったり，強盗を実行したりするなど，犯罪集団の手先として利用される。普察庁は，闇バイトに関わらないよう啓発活動に力を入れているい。</div>
+            </div>
+        </article>
+        <article id="card-1" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(1)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    しかし、<ruby>引き<rt>ひき</rt></ruby><ruby>込む<rt>こむ</rt></ruby><ruby>方<rt>ほう</rt></ruby>も<ruby>狡猾<rt>こうかつ</rt></ruby>さを<ruby>増し<rt>まし</rt></ruby>ており、10<ruby>代<rt>だい</rt></ruby>の<ruby>若者<rt>わかもの</rt></ruby>を<ruby>含む<rt>ふくむ</rt></ruby><ruby>多く<rt>おおく</rt></ruby>の<ruby>人<rt>にん</rt></ruby>たちが、「<ruby>割<rt>わり</rt></ruby>の<ruby>良い<rt>よい</rt></ruby>バイトと<ruby>思って<rt>おもって</rt></ruby><ruby>応募<rt>おうぼ</rt></ruby>したら、<ruby>犯罪<rt>はんざい</rt></ruby>に<ruby>加担<rt>かたん</rt></ruby>させられてしまい、<ruby>辞め<rt>やめ</rt></ruby>ようにも、<ruby>採用<rt>さいよう</rt></ruby>の<ruby>際に<rt>さいに</rt></ruby><ruby>提示<rt>ていじ</rt></ruby>した<ruby>免許証<rt>めんきょしょう</rt></ruby>などで、<ruby>住所<rt>じゅうしょ</rt></ruby>などの<ruby>個人情報<rt>こじんじょうほう</rt></ruby>を<ruby>知ら<rt>しら</rt></ruby>れてしまっており、<ruby>報復<rt>ほうふく</rt></ruby>が<ruby>怖く<rt>こわく</rt></ruby>て<ruby>抜け出せ<rt>ぬけだせ</rt></ruby>ないし、<ruby>誰<rt>だれ</rt></ruby>にも<ruby>相談<rt>そうだん</rt></ruby>できない」といった<ruby>深み<rt>ふかみ</rt></ruby>にはまって、<ruby>抜け出せ<rt>ぬけだせ</rt></ruby>なくなっている。<ruby>最初<rt>さいしょ</rt></ruby>は<ruby>割<rt>わり</rt></ruby>の<ruby>良い<rt>よい</rt></ruby><ruby>話<rt>はなし</rt></ruby>のようでも、その<ruby>実<rt>み</rt></ruby>，<ruby>犯罪<rt>はんざい</rt></ruby>で、しかも<ruby>検挙<rt>けんきょ</rt></ruby>されるリスクの<ruby>高い<rt>たかい</rt></ruby><ruby>役割<rt>やくわり</rt></ruby>を<ruby>担わ<rt>になわ</rt></ruby>され、<ruby>実際に<rt>じっさいに</rt></ruby><ruby>検挙<rt>けんきょ</rt></ruby>されても、<ruby>利益<rt>りえき</rt></ruby>を<ruby>吸い<rt>すい</rt></ruby><ruby>上げ<rt>あげ</rt></ruby>ている<ruby>中核<rt>ちゅうかく</rt></ruby><ruby>部分<rt>ぶぶん</rt></ruby>の<ruby>者<rt>もの</rt></ruby>の<ruby>顔<rt>かお</rt></ruby>も<ruby>名前<rt>なまえ</rt></ruby>も<ruby>知ら<rt>しら</rt></ruby>ないまま、「トカゲのしっぽ<ruby>切り<rt>きり</rt></ruby>」で<ruby>見捨て<rt>みすて</rt></ruby>られる。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">しかし，引き込む方も狡猾さを増しており，10代の若者を含む多くの人たちが，「割の良いバイトと思って応募したら，犯罪に加担させられてしまい，辞めようにも，採用の際に提示した免許証などで，住所などの個人情報を知られてしまっており，報復が怖くて抜け出せないし，誰にも相談できない」といった深みにはまって，抜け出せなくなっている。最初は割の良い話のようでも，その実，犯罪で，しかも検挙されるリスクの高い役割を担わされ，実際に検挙されても，利益を吸い上げている中核部分の者の顔も名前も知らないまま，「トカゲのしっぽ切り」で見捨てられる。</div>
+            </div>
+        </article>
+        <article id="card-2" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(2)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    それが<ruby>闇<rt>やみ</rt></ruby>バイトの<ruby>真実<rt>しんじつ</rt></ruby>なのである。<ruby>近時<rt>きんじ</rt></ruby>の<ruby>刑事<rt>けいじ</rt></ruby><ruby>裁判<rt>さいばん</rt></ruby>では、<ruby>次々<rt>つぎつぎ</rt></ruby>と<ruby>起訴<rt>きそ</rt></ruby>されてくる「<ruby>闇<rt>やみ</rt></ruby>バイト」の<ruby>応募者<rt>おうぼしゃ</rt></ruby>たちの<ruby>罪責<rt>ざいせき</rt></ruby>が<ruby>検討さ<rt>けんとうさ</rt></ruby>れている。そんな<ruby>中<rt>なか</rt></ruby>で、<ruby>蓄積<rt>ちくせき</rt></ruby>されているさまざまな<ruby>論点<rt>ろんてん</rt></ruby>についての<ruby>新た<rt>あらた</rt></ruby>な<ruby>判例<rt>はんれい</rt></ruby>からは、「<ruby>悪気<rt>わるぎ</rt></ruby>はなかった」では<ruby>済ま<rt>すま</rt></ruby>されない、<ruby>甘く<rt>あまく</rt></ruby>ない<ruby>現実<rt>げんじつ</rt></ruby>が<ruby>浮か<rt>うか</rt></ruby>び<ruby>上が<rt>あが</rt></ruby>ってくる。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">それが闇バイトの真実なのである。近時の刑事裁判では，次々と起訴されてくる「闇バイト」の応募者たちの罪責が検討されている。そんな中で，蓄積されているさまざまな論点についての新たな判例からは，「悪気はなかった」では済まされない，甘くない現実が浮かび上がってくる。</div>
+            </div>
+        </article>
+        <section id="card-3" class="my-8 rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 shadow-md border border-indigo-900/80 transition-all duration-300">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="text-xl sm:text-2xl font-bold tracking-wide font-serif text-amber-300">▶ <ruby>特殊<rt>とくしゅ</rt></ruby><ruby>詐欺<rt>さぎ</rt></ruby>の<ruby>闇<rt>やみ</rt></ruby>1<ruby>特殊<rt>とくしゅ</rt></ruby><ruby>詐欺<rt>さぎ</rt></ruby>とは？</h2>
+                <button onclick="playCardText(3)" class="shrink-0 flex items-center space-x-1 bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-amber-400/40 transition-colors select-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    <span>朗讀標題</span>
+                </button>
+            </div>
+            <div class="text-base sm:text-lg font-medium text-indigo-200 font-sans">▶ 特殊詐欺の闇1特殊詐欺とは？</div>
+        </section>
+        <article id="card-4" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(4)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    （ <ruby>多様<rt>たよう</rt></ruby>な<ruby>特殊<rt>とくしゅ</rt></ruby><ruby>詐欺<rt>さぎ</rt></ruby><ruby>闇<rt>やみ</rt></ruby>バイトの<ruby>代表例<rt>だいひょうれい</rt></ruby>の1つが、<ruby>特殊<rt>とくしゅ</rt></ruby><ruby>詐欺<rt>さぎ</rt></ruby>である。<ruby>特殊<rt>とくしゅ</rt></ruby><ruby>詐欺<rt>さぎ</rt></ruby>とは、「<ruby>被害者<rt>ひがいしゃ</rt></ruby>に<ruby>電話<rt>でんわ</rt></ruby>をかけるなどして<ruby>対面<rt>たいめん</rt></ruby>することなく<ruby>言<rt>げん</rt></ruby><ruby>頼<rt>らい</rt></ruby>させ、<ruby>指定し<rt>していし</rt></ruby>た<ruby>預貯金<rt>よちょきん</rt></ruby><ruby>口座<rt>こうざ</rt></ruby>への<ruby>振込み<rt>ふりこみ</rt></ruby>その<ruby>他の<rt>ほかの</rt></ruby><ruby>方法<rt>ほうほう</rt></ruby>により、<ruby>不特定多数<rt>ふとくていたすう</rt></ruby>の<ruby>者<rt>もの</rt></ruby>から<ruby>現金<rt>げんきん</rt></ruby><ruby>等<rt>など</rt></ruby>をだまし<ruby>取る<rt>とる</rt></ruby>」<ruby>犯罪<rt>はんざい</rt></ruby>の<ruby>総称<rt>そうしょう</rt></ruby>で、<ruby>刑法上<rt>けいほうじょう</rt></ruby>の<ruby>罪名<rt>ざいめい</rt></ruby>でいえば、<ruby>詐欺<rt>さぎ</rt></ruby>のほか、<ruby>恐喝<rt>きょうかつ</rt></ruby>や<ruby>窃盗<rt>せっとう</rt></ruby>などに<ruby>該当<rt>がいとう</rt></ruby>する<ruby>行為<rt>こうい</rt></ruby>も<ruby>含ま<rt>ふくま</rt></ruby>れる？。<ruby>特殊<rt>とくしゅ</rt></ruby><ruby>詐欺<rt>さぎ</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>闇<rt>やみ</rt></ruby>バイトで<ruby>担わ<rt>になわ</rt></ruby>されるのは、<ruby>主に<rt>おもに</rt></ruby><ruby>後述<rt>こうじゅつ</rt></ruby>する「<ruby>受け<rt>うけ</rt></ruby><ruby>子<rt>こ</rt></ruby>」や「<ruby>出し<rt>だし</rt></ruby><ruby>子<rt>こ</rt></ruby>」と<ruby>呼ば<rt>よば</rt></ruby>れる<ruby>役割<rt>やくわり</rt></ruby>である。（ オレオレ<ruby>詐欺<rt>さぎ</rt></ruby><ruby>特殊<rt>とくしゅ</rt></ruby><ruby>詐欺<rt>さぎ</rt></ruby>の<ruby>典型<rt>てんけい</rt></ruby>として「オレオレ<ruby>詐欺<rt>さぎ</rt></ruby>」がある。「オレオレ<ruby>詐欺<rt>さぎ</rt></ruby>」とは、<ruby>親族<rt>しんぞく</rt></ruby>、<ruby>普<rt>ふ</rt></ruby><ruby>察官<rt>さつかん</rt></ruby>、<ruby>弁護士<rt>べんごし</rt></ruby><ruby>等<rt>など</rt></ruby>を<ruby>装い<rt>よそおい</rt></ruby>，<ruby>親族<rt>しんぞく</rt></ruby>が<ruby>起こ<rt>おこ</rt></ruby>した<ruby>事件<rt>じけん</rt></ruby>・<ruby>事故<rt>じこ</rt></ruby>に<ruby>対する<rt>たいする</rt></ruby><ruby>示談<rt>じだん</rt></ruby><ruby>金<rt>きん</rt></ruby><ruby>等<rt>など</rt></ruby>を<ruby>名目<rt>めいもく</rt></ruby>に<ruby>金銭<rt>きんせん</rt></ruby><ruby>等<rt>など</rt></ruby>をだまし<ruby>取る<rt>とる</rt></ruby>（<ruby>脅し<rt>おどし</rt></ruby><ruby>取る<rt>とる</rt></ruby>）<ruby>行為<rt>こうい</rt></ruby>をいう。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">（ 多様な特殊詐欺闇バイトの代表例の1つが，特殊詐欺である。特殊詐欺とは，「被害者に電話をかけるなどして対面することなく言頼させ，指定した預貯金口座への振込みその他の方法により，不特定多数の者から現金等をだまし取る」犯罪の総称で，刑法上の罪名でいえば，詐欺のほか，恐喝や窃盗などに該当する行為も含まれる？。特殊詐欺に関する闇バイトで担わされるのは，主に後述する「受け子」や「出し子」と呼ばれる役割である。（ オレオレ詐欺特殊詐欺の典型として「オレオレ詐欺」がある。「オレオレ詐欺」とは，親族，普察官，弁護士等を装い，親族が起こした事件・事故に対する示談金等を名目に金銭等をだまし取る（脅し取る）行為をいう。</div>
+            </div>
+        </article>
+        <article id="card-5" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(5)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    そして、こうした<ruby>犯罪<rt>はんざい</rt></ruby>スキームの<ruby>中<rt>なか</rt></ruby>で、<ruby>最後<rt>さいご</rt></ruby>に<ruby>被害者<rt>ひがいしゃ</rt></ruby>のところ～<ruby>現金<rt>げんきん</rt></ruby>を<ruby>受け取り<rt>うけとり</rt></ruby>に<ruby>行く<rt>いく</rt></ruby>のが、「<ruby>受け<rt>うけ</rt></ruby><ruby>子<rt>こ</rt></ruby>」と<ruby>呼ば<rt>よば</rt></ruby>れる<ruby>役割<rt>やくわり</rt></ruby>であり、<ruby>被害者<rt>ひがいしゃ</rt></ruby>と<ruby>接触す<rt>せっしょくす</rt></ruby>ることから、<ruby>検挙<rt>けんきょ</rt></ruby>されるリスクが<ruby>高く<rt>たかく</rt></ruby>、<ruby>闇<rt>やみ</rt></ruby>バイトで<ruby>集め<rt>あつめ</rt></ruby>られた<ruby>者<rt>もの</rt></ruby>たちが<ruby>利用<rt>りよう</rt></ruby>されてきた。オレオレ<ruby>詐欺<rt>さぎ</rt></ruby>は、<ruby>人<rt>にん</rt></ruby>を<ruby>欺<rt>ぎ</rt></ruby>いて<ruby>財物<rt>ざいぶつ</rt></ruby>を<ruby>交付<rt>こうふ</rt></ruby>させていることから、<ruby>詐欺罪<rt>さぎざい</rt></ruby>（<ruby>刑<rt>けい</rt></ruby>246<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>）の<ruby>成否<rt>せいひ</rt></ruby>が<ruby>問題<rt>もんだい</rt></ruby>となる。<ruby>詐欺罪<rt>さぎざい</rt></ruby>の<ruby>構成要件<rt>こうせいようけん</rt></ruby>は、①<ruby>行為者<rt>こういしゃ</rt></ruby>が<ruby>欺く<rt>あざむく</rt></ruby><ruby>行為<rt>こうい</rt></ruby>を<ruby>行い<rt>おこない</rt></ruby>，②<ruby>相手方<rt>あいてかた</rt></ruby>が<ruby>錯誤<rt>さくご</rt></ruby>に<ruby>陥り<rt>おちいり</rt></ruby>、③<ruby>相手方<rt>あいてかた</rt></ruby>が<ruby>財物<rt>ざいぶつ</rt></ruby>を<ruby>交付<rt>こうふ</rt></ruby>した<ruby>場合<rt>ばあい</rt></ruby>（しかも、①が②の，②が③の<ruby>原因<rt>げんいん</rt></ruby>である<ruby>場合<rt>ばあい</rt></ruby>）に<ruby>成立<rt>せいりつ</rt></ruby>する（もちろん、<ruby>主観<rt>しゅかん</rt></ruby><ruby>面<rt>めん</rt></ruby>として<ruby>詐欺罪<rt>さぎざい</rt></ruby>の<ruby>故意<rt>こい</rt></ruby>・<ruby>不法<rt>ふほう</rt></ruby><ruby>領<rt>りょう</rt></ruby><ruby>得の<rt>えの</rt></ruby><ruby>意思<rt>いし</rt></ruby>、さらに<ruby>共同<rt>きょうどう</rt></ruby><ruby>正犯<rt>せいはん</rt></ruby>では、<ruby>共同<rt>きょうどう</rt></ruby><ruby>実行<rt>じっこう</rt></ruby>の<ruby>意思<rt>いし</rt></ruby>も<ruby>必要<rt>ひつよう</rt></ruby>である）。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">そして，こうした犯罪スキームの中で，最後に被害者のところ～現金を受け取りに行くのが，「受け子」と呼ばれる役割であり，被害者と接触することから，検挙されるリスクが高く，闇バイトで集められた者たちが利用されてきた。オレオレ詐欺は，人を欺いて財物を交付させていることから，詐欺罪（刑246条1項）の成否が問題となる。詐欺罪の構成要件は，①行為者が欺く行為を行い，②相手方が錯誤に陥り，③相手方が財物を交付した場合（しかも，①が②の，②が③の原因である場合）に成立する（もちろん，主観面として詐欺罪の故意・不法領得の意思，さらに共同正犯では，共同実行の意思も必要である）。</div>
+            </div>
+        </article>
+        <section id="card-6" class="my-8 rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 shadow-md border border-indigo-900/80 transition-all duration-300">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="text-xl sm:text-2xl font-bold tracking-wide font-serif text-amber-300">2．<ruby>受け<rt>うけ</rt></ruby><ruby>子<rt>こ</rt></ruby>の<ruby>刑事<rt>けいじ</rt></ruby><ruby>責任ー<rt>せきにんー</rt></ruby><ruby>基礎編<rt>きそへん</rt></ruby>ただし、こうした「オレオレ<ruby>詐欺<rt>さぎ</rt></ruby>」のスキームは、<ruby>分業<rt>ぶんぎょう</rt></ruby><ruby>制<rt>せい</rt></ruby>で<ruby>行わ<rt>おこなわ</rt></ruby>れるため、<ruby>受け<rt>うけ</rt></ruby><ruby>子<rt>こ</rt></ruby>は、<ruby>電話<rt>でんわ</rt></ruby>を<ruby>架け<rt>かけ</rt></ruby>る<ruby>役<rt>やく</rt></ruby>（<ruby>架け<rt>かけ</rt></ruby><ruby>子<rt>こ</rt></ruby>）が<ruby>相手<rt>あいて</rt></ruby>をだますことに<ruby>成功<rt>せいこう</rt></ruby>した<ruby>後<rt>のち</rt></ruby>、<ruby>相手<rt>あいて</rt></ruby><ruby>宅<rt>たく</rt></ruby>に<ruby>行って<rt>いって</rt></ruby><ruby>現金<rt>げんきん</rt></ruby>を<ruby>受け取っ<rt>うけとっ</rt></ruby>てくるように<ruby>命じ<rt>めいじ</rt></ruby>られるケースも<ruby>少なく<rt>すくなく</rt></ruby>ない。</h2>
+                <button onclick="playCardText(6)" class="shrink-0 flex items-center space-x-1 bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-amber-400/40 transition-colors select-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    <span>朗讀標題</span>
+                </button>
+            </div>
+            <div class="text-base sm:text-lg font-medium text-indigo-200 font-sans">2．受け子の刑事責任ー基礎編ただし，こうした「オレオレ詐欺」のスキームは，分業制で行われるため，受け子は，電話を架ける役（架け子）が相手をだますことに成功した後，相手宅に行って現金を受け取ってくるように命じられるケースも少なくない。</div>
+        </section>
+        <article id="card-7" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(7)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    こうしたケースでは、①<ruby>詐欺罪<rt>さぎざい</rt></ruby>の<ruby>実行<rt>じっこう</rt></ruby><ruby>行為<rt>こうい</rt></ruby>の<ruby>途中<rt>とちゅう</rt></ruby>から<ruby>犯行<rt>はんこう</rt></ruby>に<ruby>加わ<rt>くわわ</rt></ruby>ることになる<ruby>受け<rt>うけ</rt></ruby><ruby>子<rt>こ</rt></ruby>に、<ruby>共同<rt>きょうどう</rt></ruby><ruby>正犯<rt>せいはん</rt></ruby>として<ruby>犯行<rt>はんこう</rt></ruby><ruby>全体<rt>ぜんたい</rt></ruby>（<ruby>自分<rt>じぶん</rt></ruby>が<ruby>参加<rt>さんか</rt></ruby>する<ruby>前<rt>まえ</rt></ruby>に<ruby>行わ<rt>おこなわ</rt></ruby>れた<ruby>欺く<rt>あざむく</rt></ruby><ruby>行為<rt>こうい</rt></ruby>の<ruby>部分<rt>ぶぶん</rt></ruby>も<ruby>含む<rt>ふくむ</rt></ruby>）について<ruby>刑事<rt>けいじ</rt></ruby><ruby>責任<rt>せきにん</rt></ruby>を<ruby>問え<rt>とえ</rt></ruby>るのか，②<ruby>犯行<rt>はんこう</rt></ruby>の<ruby>詳細<rt>しょうさい</rt></ruby>を<ruby>知ら<rt>しら</rt></ruby>ない<ruby>受け<rt>うけ</rt></ruby><ruby>子<rt>こ</rt></ruby>に、<ruby>故意<rt>こい</rt></ruby>を<ruby>認定<rt>にんてい</rt></ruby>できるのかといった<ruby>点<rt>てん</rt></ruby>が<ruby>問題<rt>もんだい</rt></ruby>となる。（ <ruby>承継<rt>しょうけい</rt></ruby><ruby>的<rt>てき</rt></ruby><ruby>共同<rt>きょうどう</rt></ruby><ruby>正犯<rt>せいはん</rt></ruby>このうち①<ruby>承継<rt>しょうけい</rt></ruby><ruby>的<rt>てき</rt></ruby><ruby>共同<rt>きょうどう</rt></ruby><ruby>正犯<rt>せいはん</rt></ruby>と<ruby>呼ば<rt>よば</rt></ruby>れる<ruby>問題<rt>もんだい</rt></ruby>について、<ruby>判例<rt>はんれい</rt></ruby>は、<ruby>他者<rt>たしゃ</rt></ruby>による<ruby>行の<rt>おこの</rt></ruby><ruby>後に<rt>のちに</rt></ruby>、<ruby>連絡<rt>れんらく</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>て<ruby>現場<rt>げんば</rt></ruby>に<ruby>赴い<rt>おもむい</rt></ruby>た<ruby>被告人<rt>ひこくにん</rt></ruby>が、<ruby>同一<rt>どういつ</rt></ruby>の<ruby>被害者<rt>ひがいしゃ</rt></ruby>への<ruby>暴行<rt>ぼうこう</rt></ruby>に、<ruby>共謀<rt>きょうぼう</rt></ruby>の<ruby>上<rt>うえ</rt></ruby><ruby>加わ<rt>くわわ</rt></ruby>ったという<ruby>傷害罪<rt>しょうがいざい</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>事案<rt>じあん</rt></ruby>において、<ruby>被告人<rt>ひこくにん</rt></ruby>の<ruby>暴行<rt>ぼうこう</rt></ruby>と<ruby>因果関係<rt>いんがかんけい</rt></ruby>のない<ruby>共謀<rt>きょうぼう</rt></ruby><ruby>加担<rt>かたん</rt></ruby><ruby>前<rt>まえ</rt></ruby>の<ruby>行為<rt>こうい</rt></ruby>について<ruby>共同<rt>きょうどう</rt></ruby><ruby>正犯<rt>せいはん</rt></ruby>の<ruby>成立<rt>せいりつ</rt></ruby>を<ruby>否定<rt>ひてい</rt></ruby>したのに<ruby>対し<rt>たいし</rt></ruby>て，<ruby>上記<rt>じょうき</rt></ruby>のような<ruby>特殊<rt>とくしゅ</rt></ruby><ruby>詐欺<rt>さぎ</rt></ruby>のケースについては、<ruby>共同<rt>きょうどう</rt></ruby><ruby>正犯<rt>せいはん</rt></ruby>の<ruby>成立<rt>せいりつ</rt></ruby>する<ruby>余地<rt>よち</rt></ruby>を<ruby>認め<rt>みとめ</rt></ruby>ているの。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">こうしたケースでは，①詐欺罪の実行行為の途中から犯行に加わることになる受け子に，共同正犯として犯行全体（自分が参加する前に行われた欺く行為の部分も含む）について刑事責任を問えるのか，②犯行の詳細を知らない受け子に，故意を認定できるのかといった点が問題となる。（ 相續的共同正犯このうち①相續的共同正犯と呼ばれる問題について，判例は，他者による行の後に，連絡を受けて現場に赴いた被告が，同一の被害者への暴行に，共謀の上加わったという傷害罪に関する事案において，被告の暴行と因果関係のない共謀加担前の行為について共同正犯の成立を否定したのに対して，上記のような特殊詐欺のケースについては，共同正犯の成立する余地を認めているの。</div>
+            </div>
+        </article>
+        <article id="card-8" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(8)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    そうした<ruby>結論<rt>けつろん</rt></ruby>の<ruby>実質的<rt>じっしつてき</rt></ruby>な<ruby>根拠<rt>こんきょ</rt></ruby>は<ruby>明確<rt>めいかく</rt></ruby>ではないが、<ruby>学説<rt>がくせつ</rt></ruby><ruby>上<rt>うえ</rt></ruby>は、<ruby>欺く<rt>あざむく</rt></ruby><ruby>行為<rt>こうい</rt></ruby>と<ruby>交付<rt>こうふ</rt></ruby>された<ruby>財物<rt>ざいぶつ</rt></ruby>の<ruby>受領<rt>じゅりょう</rt></ruby><ruby>行為<rt>こうい</rt></ruby>の<ruby>密接<rt>みっせつ</rt></ruby>な<ruby>一体<rt>いったい</rt></ruby><ruby>性<rt>せい</rt></ruby>を<ruby>最<rt>さい</rt></ruby> <ruby>最決<rt>さいけつ</rt></ruby><ruby>平成<rt>へいせい</rt></ruby> 29・12・11<ruby>刑集<rt>けいしゅう</rt></ruby>71<ruby>巻<rt>かん</rt></ruby>10<ruby>号<rt>ごう</rt></ruby>535<ruby>頁<rt>ぺーじ</rt></ruby>。<ruby>最判<rt>さいはん</rt></ruby><ruby>平成<rt>へいせい</rt></ruby>30・12・11<ruby>刑集<rt>けいしゅう</rt></ruby>72<ruby>巻<rt>かん</rt></ruby>6<ruby>号<rt>ごう</rt></ruby>672<ruby>頁<rt>ぺーじ</rt></ruby>、<ruby>最判<rt>さいはん</rt></ruby><ruby>高裁<rt>こうさい</rt></ruby>が<ruby>重視<rt>じゅうし</rt></ruby>している<ruby>点<rt>てん</rt></ruby>に<ruby>着目<rt>ちゃくもく</rt></ruby>する<ruby>理解<rt>りかい</rt></ruby>が<ruby>示さ<rt>しめさ</rt></ruby>れている”。そうした<ruby>理解<rt>りかい</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby>ては、<ruby>結局<rt>けっきょく</rt></ruby>のところ、<ruby>関与<rt>かんよ</rt></ruby><ruby>以前<rt>いぜん</rt></ruby>の<ruby>行為<rt>こうい</rt></ruby>についてまで<ruby>責任<rt>せきにん</rt></ruby>を<ruby>認め<rt>みとめ</rt></ruby>ることにつながり、<ruby>一体<rt>いったい</rt></ruby><ruby>性<rt>せい</rt></ruby>の<ruby>基準<rt>きじゅん</rt></ruby>も<ruby>不明確<rt>ふめいかく</rt></ruby>であるとの<ruby>批判<rt>ひはん</rt></ruby>が<ruby>加え<rt>くわえ</rt></ruby>られているものの，<ruby>承継<rt>しょうけい</rt></ruby><ruby>的<rt>てき</rt></ruby><ruby>共同<rt>きょうどう</rt></ruby><ruby>正犯<rt>せいはん</rt></ruby>の<ruby>成立<rt>せいりつ</rt></ruby>に<ruby>否定的<rt>ひていてき</rt></ruby>な<ruby>見解<rt>けんかい</rt></ruby>は<ruby>少数<rt>しょうすう</rt></ruby>にとどまっているり。（<ruby>故意<rt>こい</rt></ruby>また、②<ruby>故意<rt>こい</rt></ruby>については、<ruby>確かに<rt>たしかに</rt></ruby>それが<ruby>犯罪<rt>はんざい</rt></ruby>ではなく、<ruby>単なる<rt>たんなる</rt></ruby><ruby>適法<rt>てきほう</rt></ruby>な（あるいは、<ruby>少々<rt>しょうしょう</rt></ruby>いかがわしい） アルバイトとして<ruby>受け<rt>うけ</rt></ruby><ruby>子役<rt>こやく</rt></ruby>を<ruby>引き受け<rt>ひきうけ</rt></ruby>ていた<ruby>場合<rt>ばあい</rt></ruby>に、<ruby>刑事<rt>けいじ</rt></ruby><ruby>責任<rt>せきにん</rt></ruby>を<ruby>問う<rt>とう</rt></ruby>ことは、<ruby>責任<rt>せきにん</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>（<ruby>故意<rt>こい</rt></ruby><ruby>責任<rt>せきにん</rt></ruby>の<ruby>原則<rt>げんそく</rt></ruby>）に<ruby>反す<rt>はんす</rt></ruby>ることになり、<ruby>許さ<rt>ゆるさ</rt></ruby>れない。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">そうした結論の実質的な根拠は明確ではないが，学説上は，欺く行為と交付された財物の受領行為の密接な一体性を最 最決平成 29・12・11刑集71巻10号535頁。最判平成30・12・11刑集72巻6号672頁，最判高裁が重視している点に着目する理解が示されている”。そうした理解に対しては，結局のところ，関与以前の行為についてまで責任を認めることにつながり，一体性の基準も不明確であるとの批判が加えられているものの，相續的共同正犯の成立に否定的な見解は少数にとどまっているり。（故意また，②故意については，確かにそれが犯罪ではなく，単なる適法な（あるいは，少々いかがわしい） アルバイトとして受け子役を引き受けていた場合に，刑事責任を問うことは，責任主義（故意責任の原則）に反することになり，許されない。</div>
+            </div>
+        </article>
+        <article id="card-9" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(9)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    しかし<ruby>判例<rt>はんれい</rt></ruby>は、<ruby>従来<rt>じゅうらい</rt></ruby>から<ruby>一定<rt>いってい</rt></ruby>の<ruby>犯罪<rt>はんざい</rt></ruby><ruby>構成要件<rt>こうせいようけん</rt></ruby>に<ruby>該当<rt>がいとう</rt></ruby>する<ruby>行為<rt>こうい</rt></ruby>であることを<ruby>未<rt>ひつじ</rt></ruby><ruby>的に<rt>てきに</rt></ruby>でも<ruby>認識<rt>にんしき</rt></ruby>していれば、<ruby>故意<rt>こい</rt></ruby>を<ruby>認め<rt>みとめ</rt></ruby>てきた。そうした<ruby>判例<rt>はんれい</rt></ruby>の<ruby>流れ<rt>ながれ</rt></ruby>に<ruby>従え<rt>したがえ</rt></ruby>ば、<ruby>漠然<rt>ばくぜん</rt></ruby>とでも、「<ruby>最近<rt>さいきん</rt></ruby>、<ruby>話題<rt>わだい</rt></ruby>になっているオレオレ<ruby>詐欺<rt>さぎ</rt></ruby>の<ruby>受け<rt>うけ</rt></ruby><ruby>子<rt>こ</rt></ruby>かも」といった<ruby>可能性<rt>かのうせい</rt></ruby>を<ruby>認識<rt>にんしき</rt></ruby>していれば、<ruby>故意<rt>こい</rt></ruby>は<ruby>認め<rt>みとめ</rt></ruby>られ<ruby>得る<rt>える</rt></ruby>。そのために<ruby>判例<rt>はんれい</rt></ruby>が<ruby>要求<rt>ようきゅう</rt></ruby>しているのは、<ruby>不確定<rt>ふかくてい</rt></ruby><ruby>的な<rt>てきな</rt></ruby><ruby>認識<rt>にんしき</rt></ruby>と<ruby>結果<rt>けっか</rt></ruby><ruby>発生<rt>はっせい</rt></ruby>の<ruby>可能性<rt>かのうせい</rt></ruby>の<ruby>認容<rt>にんよう</rt></ruby>であると<ruby>解さ<rt>かいさ</rt></ruby>れているが、<ruby>学説<rt>がくせつ</rt></ruby><ruby>上<rt>うえ</rt></ruby>は、<ruby>未必<rt>みひつ</rt></ruby>の<ruby>故意<rt>こい</rt></ruby>の<ruby>限界<rt>げんかい</rt></ruby>を<ruby>行為者<rt>こういしゃ</rt></ruby><ruby>個人<rt>こじん</rt></ruby>の<ruby>意思<rt>いし</rt></ruby>に<ruby>依存<rt>いぞん</rt></ruby>させる<ruby>結果<rt>けっか</rt></ruby>，<ruby>判断基準<rt>はんだんきじゅん</rt></ruby>の<ruby>客観性<rt>きゃっかんせい</rt></ruby>が<ruby>担保<rt>たんぽ</rt></ruby>できない<ruby>点<rt>てん</rt></ruby>などに<ruby>批判<rt>ひはん</rt></ruby>が<ruby>加え<rt>くわえ</rt></ruby>られている。しかし、そうした<ruby>判例<rt>はんれい</rt></ruby>に<ruby>批判的<rt>ひはんてき</rt></ruby>な<ruby>立場<rt>たちば</rt></ruby>も、その<ruby>結論<rt>けつろん</rt></ruby>を<ruby>真っ向<rt>まっこう</rt></ruby>から<ruby>否定<rt>ひてい</rt></ruby>しているわけではない。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">しかし判例は，従来から一定の犯罪構成要件に該当する行為であることを未的にでも認識していれば，故意を認めてきた。そうした判例の流れに従えば，漠然とでも，「最近，話題になっているオレオレ詐欺の受け子かも」といった可能性を認識していれば，故意は認められ得る。そのために判例が要求しているのは，不確定的な認識と結果発生の可能性の認容であると解されているが，学説上は，未必の故意の限界を行為者個人の意思に依存させる結果，判断基準の客観性が担保できない点などに批判が加えられている。しかし，そうした判例に批判的な立場も，その結論を真っ向から否定しているわけではない。</div>
+            </div>
+        </article>
+        <article id="card-10" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(10)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    「<ruby>特殊<rt>とくしゅ</rt></ruby><ruby>詐欺<rt>さぎ</rt></ruby>の『<ruby>受け<rt>うけ</rt></ruby><ruby>子<rt>こ</rt></ruby>』の<ruby>罪責<rt>ざいせき</rt></ruby>について」<ruby>研修<rt>けんしゅう</rt></ruby> 827<ruby>号<rt>ごう</rt></ruby>〔2017<ruby>年<rt>ねん</rt></ruby>）7<ruby>頁<rt>ぺーじ</rt></ruby>）。これに<ruby>対し<rt>たいし</rt></ruby>て、<ruby>指示<rt>しじ</rt></ruby><ruby>役に<rt>やくに</rt></ruby><ruby>届け<rt>とどけ</rt></ruby>るまで<ruby>犯罪<rt>はんざい</rt></ruby><ruby>一応<rt>いちおう</rt></ruby><ruby>用<rt>よう</rt></ruby><ruby>編<rt>へん</rt></ruby>3.<ruby>受け<rt>うけ</rt></ruby><ruby>子<rt>こ</rt></ruby>の<ruby>刑事<rt>けいじ</rt></ruby><ruby>責任<rt>せきにん</rt></ruby>（ <ruby>実行<rt>じっこう</rt></ruby>の<ruby>着手<rt>ちゃくしゅ</rt></ruby><ruby>前述<rt>ぜんじゅつ</rt></ruby>した「オレオレ<ruby>詐欺<rt>さぎ</rt></ruby>」の<ruby>典型例<rt>てんけいれい</rt></ruby>とは<ruby>違っ<rt>ちがっ</rt></ruby>て、<ruby>電話<rt>でんわ</rt></ruby>では、これから<ruby>響<rt>きょう</rt></ruby><ruby>察官<rt>さつかん</rt></ruby>や<ruby>銀行員<rt>ぎんこういん</rt></ruby>が<ruby>相手方<rt>あいてかた</rt></ruby><ruby>宅<rt>たく</rt></ruby>を<ruby>訪ね<rt>たずね</rt></ruby>ると<ruby>言<rt>げん</rt></ruby>じ<ruby>込ま<rt>こま</rt></ruby>せるところまでを<ruby>行い<rt>おこない</rt></ruby>，<ruby>具体的<rt>ぐたいてき</rt></ruby>な「①<ruby>欺く<rt>あざむく</rt></ruby><ruby>行為<rt>こうい</rt></ruby>→②<ruby>相手方<rt>あいてかた</rt></ruby>の<ruby>錯誤<rt>さくご</rt></ruby>→③<ruby>錯誤<rt>さくご</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>く<ruby>交付<rt>こうふ</rt></ruby>」という<ruby>詐欺罪<rt>さぎざい</rt></ruby>の<ruby>実行<rt>じっこう</rt></ruby><ruby>行為<rt>こうい</rt></ruby>は、<ruby>受け<rt>うけ</rt></ruby><ruby>子<rt>こ</rt></ruby>が、<ruby>相手方<rt>あいてかた</rt></ruby><ruby>宅<rt>たく</rt></ruby>へ<ruby>訪問<rt>ほうもん</rt></ruby>した<ruby>後に<rt>のちに</rt></ruby>、<ruby>直接<rt>ちょくせつ</rt></ruby><ruby>対峙<rt>たいじ</rt></ruby>してから<ruby>実行<rt>じっこう</rt></ruby>しようとしていたところ、<ruby>被害者<rt>ひがいしゃ</rt></ruby><ruby>宅<rt>たく</rt></ruby>を<ruby>訪問<rt>ほうもん</rt></ruby>する<ruby>前<rt>まえ</rt></ruby>に、<ruby>不審<rt>ふしん</rt></ruby>に<ruby>思った<rt>おもった</rt></ruby><ruby>相手方<rt>あいてかた</rt></ruby>に<ruby>響<rt>きょう</rt></ruby><ruby>察<rt>さつ</rt></ruby>へ<ruby>通報さ<rt>つうほうさ</rt></ruby>れ、<ruby>受け<rt>うけ</rt></ruby><ruby>子<rt>こ</rt></ruby>は<ruby>相手方<rt>あいてかた</rt></ruby><ruby>宅<rt>たく</rt></ruby><ruby>周辺<rt>しゅうへん</rt></ruby>を<ruby>巡回<rt>じゅんかい</rt></ruby>していた<ruby>響<rt>きょう</rt></ruby><ruby>察官<rt>さつかん</rt></ruby>に<ruby>呼び<rt>よび</rt></ruby><ruby>止めら<rt>やめら</rt></ruby>れ、<ruby>逮捕<rt>たいほ</rt></ruby>されたという<ruby>場合<rt>ばあい</rt></ruby>、<ruby>受け<rt>うけ</rt></ruby><ruby>子<rt>こ</rt></ruby>はどのような<ruby>罪責<rt>ざいせき</rt></ruby>を<ruby>負う<rt>おう</rt></ruby>のか。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">「特殊詐欺の『受け子』の罪責について」研修 827号〔2017年）7頁）。これに対して，指示役に届けるまで犯罪一応用編3.受け子の刑事責任（ 著手實行前述した「オレオレ詐欺」の典型例とは違って，電話では，これから響察官や銀行員が相手方宅を訪ねると言じ込ませるところまでを行い，具体的な「①欺く行為→②相手方の錯誤→③錯誤に基づく交付」という詐欺罪の実行行為は，受け子が，相手方宅へ訪問した後に，直接対峙してから実行しようとしていたところ，被害者宅を訪問する前に，不審に思った相手方に響察へ通報され，受け子は相手方宅周辺を巡回していた響察官に呼び止められ，逮捕されたという場合，受け子はどのような罪責を負うのか。</div>
+            </div>
+        </article>
+        <article id="card-11" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(11)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>単純に<rt>たんじゅんに</rt></ruby><ruby>考え<rt>かんがえ</rt></ruby>れば、まだ<ruby>実行<rt>じっこう</rt></ruby>に<ruby>着手<rt>ちゃくしゅ</rt></ruby>しておらず、<ruby>詐欺<rt>さぎ</rt></ruby><ruby>未遂<rt>みすい</rt></ruby><ruby>罪<rt>つみ</rt></ruby>も<ruby>成立<rt>せいりつ</rt></ruby>しないということになりそうである。しかし、<ruby>最高裁<rt>さいこうさい</rt></ruby>は、<ruby>殺人<rt>さつじん</rt></ruby><ruby>未遂<rt>みすい</rt></ruby>の<ruby>成否<rt>せいひ</rt></ruby>が<ruby>問題<rt>もんだい</rt></ruby>となった「クロロホルム<ruby>事件<rt>じけん</rt></ruby>」において、<ruby>犯行<rt>はんこう</rt></ruby><ruby>計画<rt>けいかく</rt></ruby>によっては、<ruby>実行<rt>じっこう</rt></ruby><ruby>行為<rt>こうい</rt></ruby>にとって<ruby>必要<rt>ひつよう</rt></ruby><ruby>不可<rt>ふか</rt></ruby>で、かつその<ruby>段階<rt>だんかい</rt></ruby>まで<ruby>至れ<rt>いたれ</rt></ruby>ば、<ruby>犯罪<rt>はんざい</rt></ruby><ruby>計画<rt>けいかく</rt></ruby>の<ruby>遂行<rt>すいこう</rt></ruby>にとって<ruby>障害<rt>しょうがい</rt></ruby>がなく、<ruby>実行<rt>じっこう</rt></ruby><ruby>行為<rt>こうい</rt></ruby>と<ruby>時間的<rt>じかんてき</rt></ruby><ruby>場所的<rt>ばしょてき</rt></ruby>に<ruby>近接<rt>きんせつ</rt></ruby>している<ruby>準備<rt>じゅんび</rt></ruby><ruby>行為<rt>こうい</rt></ruby>の<ruby>段階<rt>だんかい</rt></ruby>で、<ruby>実行<rt>じっこう</rt></ruby>の<ruby>着手<rt>ちゃくしゅ</rt></ruby>を<ruby>認め<rt>みとめ</rt></ruby>てよいとの<ruby>判断<rt>はんだん</rt></ruby>を<ruby>示し<rt>しめし</rt></ruby>ている。この<ruby>点<rt>てん</rt></ruby>を<ruby>踏ま<rt>ふま</rt></ruby>えれば、<ruby>前述<rt>ぜんじゅつ</rt></ruby>したようなケースについて、<ruby>実行<rt>じっこう</rt></ruby>に<ruby>着手<rt>ちゃくしゅ</rt></ruby>していると<ruby>評価<rt>ひょうか</rt></ruby>して、<ruby>詐欺<rt>さぎ</rt></ruby><ruby>未遂<rt>みすい</rt></ruby><ruby>罪<rt>つみ</rt></ruby>の<ruby>成立<rt>せいりつ</rt></ruby>を<ruby>肯定<rt>こうてい</rt></ruby>する<ruby>可能性<rt>かのうせい</rt></ruby>はある。その<ruby>場合<rt>ばあい</rt></ruby>、<ruby>実行<rt>じっこう</rt></ruby>の<ruby>着手<rt>ちゃくしゅ</rt></ruby>の<ruby>基準<rt>きじゅん</rt></ruby>は<ruby>何<rt>なに</rt></ruby>に<ruby>求め<rt>もとめ</rt></ruby>られるのかが<ruby>問題<rt>もんだい</rt></ruby>になる。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">単純に考えれば，まだ実行に着手しておらず，詐欺未遂罪も成立しないということになりそうである。しかし，最高裁は，殺人未遂の成否が問題となった「クロロホルム事件」において，犯行計画によっては，実行行為にとって必要不可で，かつその段階まで至れば，犯罪計画の遂行にとって障害がなく，実行行為と時間的場所的に近接している準備行為の段階で，著手實行を認めてよいとの判断を示している。この点を踏まえれば，前述したようなケースについて，実行に着手していると評価して，詐欺未遂罪の成立を肯定する可能性はある。その場合，著手實行の基準は何に求められるのかが問題になる。</div>
+            </div>
+        </article>
+        <article id="card-12" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(12)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    かつての<ruby>学説<rt>がくせつ</rt></ruby>では、<ruby>形式的<rt>けいしきてき</rt></ruby>な<ruby>実行<rt>じっこう</rt></ruby><ruby>行為<rt>こうい</rt></ruby>の<ruby>開始<rt>かいし</rt></ruby>を<ruby>基準<rt>きじゅん</rt></ruby>とする<ruby>形式的<rt>けいしきてき</rt></ruby><ruby>客観<rt>きゃっかん</rt></ruby><ruby>説<rt>せつ</rt></ruby>（<ruby>中<rt>なか</rt></ruby>でも、<ruby>形式的<rt>けいしきてき</rt></ruby>な<ruby>実行<rt>じっこう</rt></ruby><ruby>行為<rt>こうい</rt></ruby>の<ruby>密接<rt>みっせつ</rt></ruby>な<ruby>行為<rt>こうい</rt></ruby>の<ruby>開始<rt>かいし</rt></ruby>を<ruby>基準<rt>きじゅん</rt></ruby>とする<ruby>修正<rt>しゅうせい</rt></ruby><ruby>形式的<rt>けいしきてき</rt></ruby><ruby>客観<rt>きゃっかん</rt></ruby><ruby>説<rt>せつ</rt></ruby>）と<ruby>結果<rt>けっか</rt></ruby><ruby>発生<rt>はっせい</rt></ruby>の<ruby>現実的<rt>げんじつてき</rt></ruby><ruby>危険性<rt>きけんせい</rt></ruby>を<ruby>基準<rt>きじゅん</rt></ruby>とする<ruby>実質的<rt>じっしつてき</rt></ruby><ruby>客観<rt>きゃっかん</rt></ruby><ruby>説<rt>せつ</rt></ruby>が<ruby>対立<rt>たいりつ</rt></ruby>していた。もっとも<ruby>形式的<rt>けいしきてき</rt></ruby><ruby>客観<rt>きゃっかん</rt></ruby><ruby>説<rt>せつ</rt></ruby>のように、<ruby>実行<rt>じっこう</rt></ruby><ruby>行為<rt>こうい</rt></ruby>の<ruby>開始時<rt>かいしじ</rt></ruby><ruby>期<rt>き</rt></ruby>を<ruby>基準<rt>きじゅん</rt></ruby>とすると、どの<ruby>行為<rt>こうい</rt></ruby>が<ruby>実行<rt>じっこう</rt></ruby><ruby>行為<rt>こうい</rt></ruby>なのかは<ruby>必ずしも<rt>かならずしも</rt></ruby><ruby>明確<rt>めいかく</rt></ruby>でない（かといって、<ruby>結果<rt>けっか</rt></ruby><ruby>発生<rt>はっせい</rt></ruby>の<ruby>現実的<rt>げんじつてき</rt></ruby><ruby>危険性<rt>きけんせい</rt></ruby>を<ruby>有す<rt>ゆうす</rt></ruby>る<ruby>行為<rt>こうい</rt></ruby>を<ruby>実行<rt>じっこう</rt></ruby><ruby>行為<rt>こうい</rt></ruby>と<ruby>把握<rt>はあく</rt></ruby>する<ruby>見解<rt>けんかい</rt></ruby>は、この<ruby>点<rt>てん</rt></ruby>では<ruby>実質的<rt>じっしつてき</rt></ruby><ruby>客観<rt>きゃっかん</rt></ruby><ruby>説<rt>せつ</rt></ruby>と<ruby>違い<rt>ちがい</rt></ruby>がないことになる） <ruby>一方<rt>いっぽう</rt></ruby>で、<ruby>実質的<rt>じっしつてき</rt></ruby><ruby>客観<rt>きゃっかん</rt></ruby><ruby>説<rt>せつ</rt></ruby>のように、<ruby>結果<rt>けっか</rt></ruby><ruby>発生<rt>はっせい</rt></ruby>の<ruby>現実的<rt>げんじつてき</rt></ruby><ruby>危険性<rt>きけんせい</rt></ruby>を<ruby>基準<rt>きじゅん</rt></ruby>とすると、どれぐらいの<ruby>危険<rt>きけん</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>かという<ruby>程度<rt>ていど</rt></ruby>の<ruby>評価<rt>ひょうか</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>となり、<ruby>実行<rt>じっこう</rt></ruby>の<ruby>着手<rt>ちゃくしゅ</rt></ruby><ruby>時期<rt>じき</rt></ruby>が<ruby>曖<rt>あい</rt></ruby><ruby>味<rt>あじ</rt></ruby>になる。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">かつての学説では，形式的な実行行為の開始を基準とする形式的客観説（中でも，形式的な実行行為の密接な行為の開始を基準とする修正形式的客観説）と結果発生の現実的危険性を基準とする実質的客観説が対立していた。もっとも形式的客観説のように，実行行為の開始時期を基準とすると，どの行為が実行行為なのかは必ずしも明確でない（かといって，結果発生の現実的危険性を有する行為を実行行為と把握する見解は，この点では実質的客観説と違いがないことになる） 一方で，実質的客観説のように，結果発生の現実的危険性を基準とすると，どれぐらいの危険が必要かという程度の評価が必要となり，著手實行時期が曖味になる。</div>
+            </div>
+        </article>
+        <article id="card-13" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(13)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    このため<ruby>近時<rt>きんじ</rt></ruby>では、<ruby>形式的<rt>けいしきてき</rt></ruby>な<ruby>基準<rt>きじゅん</rt></ruby>と<ruby>実質的<rt>じっしつてき</rt></ruby>な<ruby>基準<rt>きじゅん</rt></ruby>を<ruby>相互<rt>そうご</rt></ruby><ruby>補完的<rt>ほかんてき</rt></ruby>に<ruby>理解<rt>りかい</rt></ruby>する<ruby>見解<rt>けんかい</rt></ruby>が<ruby>有力<rt>ゆうりょく</rt></ruby>になっている。これに<ruby>対し<rt>たいし</rt></ruby>て、<ruby>近時<rt>きんじ</rt></ruby>、そうした<ruby>危険性<rt>きけんせい</rt></ruby>を<ruby>基準<rt>きじゅん</rt></ruby>とした<ruby>判断<rt>はんだん</rt></ruby>に<ruby>異<rt>い</rt></ruby>を<ruby>唱え<rt>となえ</rt></ruby>、<ruby>犯行<rt>はんこう</rt></ruby><ruby>計画<rt>けいかく</rt></ruby>を<ruby>基礎<rt>きそ</rt></ruby>として、<ruby>刑法<rt>けいほう</rt></ruby>が<ruby>設定<rt>せってい</rt></ruby>した「<ruby>山場<rt>やまば</rt></ruby>を<ruby>越え<rt>こえ</rt></ruby>た」<ruby>段階<rt>だんかい</rt></ruby>に<ruby>至っ<rt>いたっ</rt></ruby>ているかという<ruby>意味<rt>いみ</rt></ruby>での<ruby>進捗状況<rt>しんちょくじょうきょう</rt></ruby>を<ruby>基準<rt>きじゅん</rt></ruby>とする<ruby>進捗度<rt>しんちょくど</rt></ruby><ruby>説<rt>せつ</rt></ruby>が<ruby>有力<rt>ゆうりょく</rt></ruby><ruby>化し<rt>かし</rt></ruby>ている。ただし、<ruby>進捗度<rt>しんちょくど</rt></ruby><ruby>説<rt>せつ</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby>ては、<ruby>行為者<rt>こういしゃ</rt></ruby>の「<ruby>脳内<rt>のうない</rt></ruby>」に<ruby>焦点<rt>しょうてん</rt></ruby>を<ruby>当て<rt>あて</rt></ruby>、「<ruby>本気<rt>ほんき</rt></ruby><ruby>度<rt>ど</rt></ruby>」という<ruby>観点<rt>かんてん</rt></ruby>から<ruby>未遂<rt>みすい</rt></ruby><ruby>犯<rt>はん</rt></ruby>の<ruby>責任<rt>せきにん</rt></ruby>を<ruby>論じ<rt>ろんじ</rt></ruby>ているといった<ruby>指摘<rt>してき</rt></ruby>や、<ruby>結局<rt>けっきょく</rt></ruby>、<ruby>犯行<rt>はんこう</rt></ruby><ruby>計画<rt>けいかく</rt></ruby>を<ruby>加味<rt>かみ</rt></ruby>して<ruby>結果<rt>けっか</rt></ruby><ruby>発生<rt>はっせい</rt></ruby>の<ruby>危険性<rt>きけんせい</rt></ruby>を<ruby>判断<rt>はんだん</rt></ruby>するのと<ruby>変わ<rt>かわ</rt></ruby>らないといった<ruby>評価<rt>ひょうか</rt></ruby>もある。これらの<ruby>近時<rt>きんじ</rt></ruby>の<ruby>実行<rt>じっこう</rt></ruby>の<ruby>着手<rt>ちゃくしゅ</rt></ruby>をめぐる<ruby>議論<rt>ぎろん</rt></ruby>は、<ruby>判例<rt>はんれい</rt></ruby>との<ruby>整理<rt>せいり</rt></ruby><ruby>論的<rt>ろんてき</rt></ruby>な<ruby>整合性<rt>せいごうせい</rt></ruby>を<ruby>争っ<rt>あらそっ</rt></ruby>ており、<ruby>結論<rt>けつろん</rt></ruby>に<ruby>否定的<rt>ひていてき</rt></ruby>なものは<ruby>少数<rt>しょうすう</rt></ruby>にとどまる21。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">このため近時では，形式的な基準と実質的な基準を相互補完的に理解する見解が有力になっている。これに対して，近時，そうした危険性を基準とした判断に異を唱え，犯行計画を基礎として，刑法が設定した「山場を越えた」段階に至っているかという意味での進捗状況を基準とする進捗度説が有力化している。ただし，進捗度説に対しては，行為者の「脳内」に焦点を当て，「本気度」という観点から未遂犯の責任を論じているといった指摘や，結局，犯行計画を加味して結果発生の危険性を判断するのと変わらないといった評価もある。これらの近時の著手實行をめぐる議論は，判例との整理論的な整合性を争っており，結論に否定的なものは少数にとどまる21。</div>
+            </div>
+        </article>
+        <article id="card-14" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(14)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    （ だまされたふり<ruby>作戦<rt>さくせん</rt></ruby>と<ruby>不能<rt>ふのう</rt></ruby><ruby>犯<rt>はん</rt></ruby>また、オレオレ<ruby>詐欺<rt>さぎ</rt></ruby>の<ruby>社会的<rt>しゃかいてき</rt></ruby>な<ruby>認知度<rt>にんちど</rt></ruby>が<ruby>高ま<rt>たかま</rt></ruby>ると、<ruby>電話<rt>でんわ</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>た<ruby>相手方<rt>あいてかた</rt></ruby>が、<ruby>犯行<rt>はんこう</rt></ruby>に<ruby>気づ<rt>きづ</rt></ruby>いて<ruby>警察<rt>けいさつ</rt></ruby>に<ruby>通報し<rt>つうほうし</rt></ruby>、だまされているふりを<ruby>続け<rt>つづけ</rt></ruby>て<ruby>犯人<rt>はんにん</rt></ruby>の<ruby>逮捕<rt>たいほ</rt></ruby>に<ruby>協力<rt>きょうりょく</rt></ruby>するケースが<ruby>増え<rt>ふえ</rt></ruby>ている。いわゆる「だまされたふり<ruby>作戦<rt>さくせん</rt></ruby>」である。こうした<ruby>作戦<rt>さくせん</rt></ruby>が<ruby>行わ<rt>おこなわ</rt></ruby>れているのに、そうとは<ruby>知らず<rt>しらず</rt></ruby>、<ruby>相手方<rt>あいてかた</rt></ruby><ruby>宅<rt>たく</rt></ruby>に<ruby>現金<rt>げんきん</rt></ruby>を<ruby>受け取り<rt>うけとり</rt></ruby>に<ruby>訪れ<rt>おとずれ</rt></ruby>た<ruby>受け<rt>うけ</rt></ruby><ruby>子<rt>こ</rt></ruby>は、<ruby>詐欺<rt>さぎ</rt></ruby>の<ruby>共同<rt>きょうどう</rt></ruby><ruby>正犯<rt>せいはん</rt></ruby>や<ruby>幇助<rt>ほうじょ</rt></ruby><ruby>犯<rt>はん</rt></ruby>として、<ruby>待ち<rt>まち</rt></ruby><ruby>伏せ<rt>ふせ</rt></ruby>していた<ruby>響<rt>きょう</rt></ruby><ruby>察<rt>さつ</rt></ruby>に<ruby>検挙<rt>けんきょ</rt></ruby>されることになる。では、<ruby>前述<rt>ぜんじゅつ</rt></ruby>したように、<ruby>架け<rt>かけ</rt></ruby><ruby>子<rt>こ</rt></ruby>による<ruby>欺く<rt>あざむく</rt></ruby><ruby>行為<rt>こうい</rt></ruby>（<ruby>電話<rt>でんわ</rt></ruby>）が<ruby>終わ<rt>おわ</rt></ruby>ってから、<ruby>受け<rt>うけ</rt></ruby><ruby>子<rt>こ</rt></ruby>が、<ruby>指示<rt>しじ</rt></ruby><ruby>役<rt>やく</rt></ruby>から<ruby>相手方<rt>あいてかた</rt></ruby><ruby>宅<rt>たく</rt></ruby>に<ruby>現金<rt>げんきん</rt></ruby>の<ruby>受取り<rt>うけとり</rt></ruby>を<ruby>指示<rt>しじ</rt></ruby>された<ruby>場合<rt>ばあい</rt></ruby>はどうなるのだろうか。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">（ だまされたふり作戦と不能犯また，オレオレ詐欺の社会的な認知度が高まると，電話を受けた相手方が，犯行に気づいて警察に通報し，だまされているふりを続けて犯人の逮捕に協力するケースが増えている。いわゆる「だまされたふり作戦」である。こうした作戦が行われているのに，そうとは知らず，相手方宅に現金を受け取りに訪れた受け子は，詐欺の共同正犯や幇助犯として，待ち伏せしていた響察に検挙されることになる。では，前述したように，架け子による欺く行為（電話）が終わってから，受け子が，指示役から相手方宅に現金の受取りを指示された場合はどうなるのだろうか。</div>
+            </div>
+        </article>
+        <article id="card-15" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(15)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    というのも、<ruby>受け<rt>うけ</rt></ruby><ruby>子<rt>こ</rt></ruby>が<ruby>指示<rt>しじ</rt></ruby><ruby>役<rt>やく</rt></ruby>から<ruby>指示<rt>しじ</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>た<ruby>時点で<rt>じてんで</rt></ruby>は、それが<ruby>特殊<rt>とくしゅ</rt></ruby><ruby>詐欺<rt>さぎ</rt></ruby>であることがバレていて、<ruby>客観的<rt>きゃっかんてき</rt></ruby>にみれば<ruby>犯罪<rt>はんざい</rt></ruby>が<ruby>成功<rt>せいこう</rt></ruby>する<ruby>見込み<rt>みこみ</rt></ruby>はなくなっていることから、<ruby>不能<rt>ふのう</rt></ruby><ruby>犯<rt>はん</rt></ruby>と<ruby>評価<rt>ひょうか</rt></ruby>すべきであり、その<ruby>状況<rt>じょうきょう</rt></ruby>になってから<ruby>承継<rt>しょうけい</rt></ruby><ruby>的に<rt>てきに</rt></ruby><ruby>犯罪<rt>はんざい</rt></ruby>に<ruby>加わ<rt>くわわ</rt></ruby>った<ruby>者<rt>もの</rt></ruby>には<ruby>犯罪<rt>はんざい</rt></ruby>は<ruby>成立<rt>せいりつ</rt></ruby>しないともいえそうだからである。<ruby>不能<rt>ふのう</rt></ruby><ruby>犯<rt>はん</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>判例<rt>はんれい</rt></ruby>の<ruby>基準<rt>きじゅん</rt></ruby>は<ruby>必ずしも<rt>かならずしも</rt></ruby><ruby>明らか<rt>あきらか</rt></ruby>ではないが、<ruby>上記<rt>じょうき</rt></ruby>のような<ruby>事案<rt>じあん</rt></ruby>について、<ruby>下級<rt>かきゅう</rt></ruby><ruby>審<rt>しん</rt></ruby>レベルでは、<ruby>具体的<rt>ぐたいてき</rt></ruby><ruby>危険<rt>きけん</rt></ruby><ruby>説<rt>せつ</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>き<ruby>判断<rt>はんだん</rt></ruby>したと<ruby>解さ<rt>かいさ</rt></ruby>れるものがある。しかし、そうした<ruby>裁判<rt>さいばん</rt></ruby><ruby>例の<rt>れいの</rt></ruby>うちの1つの<ruby>上告<rt>じょうこく</rt></ruby><ruby>審<rt>しん</rt></ruby>で、<ruby>最高裁<rt>さいこうさい</rt></ruby>は、<ruby>不能<rt>ふのう</rt></ruby><ruby>犯<rt>はん</rt></ruby>について<ruby>言及<rt>げんきゅう</rt></ruby>することなく、<ruby>被告人<rt>ひこくにん</rt></ruby>の<ruby>上告<rt>じょうこく</rt></ruby>を<ruby>棄却<rt>ききゃく</rt></ruby>して、「だまされたふり<ruby>作戦<rt>さくせん</rt></ruby>」が<ruby>展開<rt>てんかい</rt></ruby>されている<ruby>中<rt>なか</rt></ruby>で、そうとは<ruby>知らず<rt>しらず</rt></ruby>、<ruby>被害者<rt>ひがいしゃ</rt></ruby>から<ruby>模造<rt>もぞう</rt></ruby>の<ruby>現金<rt>げんきん</rt></ruby>を<ruby>受け取ろ<rt>うけとろ</rt></ruby>うとした<ruby>受け<rt>うけ</rt></ruby><ruby>子<rt>こ</rt></ruby>に、<ruby>詐欺<rt>さぎ</rt></ruby><ruby>未遂<rt>みすい</rt></ruby>の<ruby>承継<rt>しょうけい</rt></ruby><ruby>的<rt>てき</rt></ruby><ruby>共同<rt>きょうどう</rt></ruby><ruby>正犯<rt>せいはん</rt></ruby>の<ruby>成立<rt>せいりつ</rt></ruby>を<ruby>認め<rt>みとめ</rt></ruby>た。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">というのも，受け子が指示役から指示を受けた時点では，それが特殊詐欺であることがバレていて，客観的にみれば犯罪が成功する見込みはなくなっていることから，不能犯と評価すべきであり，その状況になってから承継的に犯罪に加わった者には犯罪は成立しないともいえそうだからである。不能犯に関する判例の基準は必ずしも明らかではないが，上記のような事案について，下級審レベルでは，具体的危険説に基づき判断したと解されるものがある。しかし，そうした裁判例のうちの1つの上告審で，最高裁は，不能犯について言及することなく，被告の上告を棄却して，「だまされたふり作戦」が展開されている中で，そうとは知らず，被害者から模造の現金を受け取ろうとした受け子に，詐欺未遂の相續的共同正犯の成立を認めた。</div>
+            </div>
+        </article>
+        <article id="card-16" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(16)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>他方<rt>たほう</rt></ruby>、<ruby>学説<rt>がくせつ</rt></ruby>に<ruby>目<rt>め</rt></ruby>を<ruby>転じ<rt>てんじ</rt></ruby>ると、<ruby>行為<rt>こうい</rt></ruby>の<ruby>時点で<rt>じてんで</rt></ruby>、<ruby>一般人<rt>いっぱんじん</rt></ruby>が<ruby>認識<rt>にんしき</rt></ruby>し<ruby>得た<rt>えた</rt></ruby><ruby>事情<rt>じじょう</rt></ruby>と<ruby>行為者<rt>こういしゃ</rt></ruby>が<ruby>特に<rt>とくに</rt></ruby><ruby>認識<rt>にんしき</rt></ruby>していた<ruby>事情<rt>じじょう</rt></ruby>を<ruby>基礎<rt>きそ</rt></ruby>にして、<ruby>結果<rt>けっか</rt></ruby><ruby>発生<rt>はっせい</rt></ruby>の<ruby>危険性<rt>きけんせい</rt></ruby>が<ruby>認め<rt>みとめ</rt></ruby>られない<ruby>場合<rt>ばあい</rt></ruby>に<ruby>不能<rt>ふのう</rt></ruby><ruby>犯<rt>はん</rt></ruby>とする<ruby>具体的<rt>ぐたいてき</rt></ruby><ruby>危険<rt>きけん</rt></ruby><ruby>説<rt>せつ</rt></ruby>と、<ruby>事後的<rt>じごてき</rt></ruby>・<ruby>客観的<rt>きゃっかんてき</rt></ruby>にいかなる<ruby>事情<rt>じじょう</rt></ruby>の<ruby>変更<rt>へんこう</rt></ruby>があれば<ruby>結果<rt>けっか</rt></ruby>が<ruby>発生<rt>はっせい</rt></ruby>し<ruby>得た<rt>えた</rt></ruby>か、そして、そうした<ruby>事情<rt>じじょう</rt></ruby><ruby>変更<rt>へんこう</rt></ruby>にどの<ruby>程度<rt>ていど</rt></ruby>の<ruby>蓋然性<rt>がいぜんせい</rt></ruby>が<ruby>認め<rt>みとめ</rt></ruby>られるかを<ruby>検討し<rt>けんとうし</rt></ruby>、それがきわめて<ruby>低い<rt>ひくい</rt></ruby>ときに<ruby>不能<rt>ふのう</rt></ruby><ruby>犯<rt>はん</rt></ruby>とする<ruby>修正<rt>しゅうせい</rt></ruby><ruby>客観的<rt>きゃっかんてき</rt></ruby><ruby>危険<rt>きけん</rt></ruby><ruby>説<rt>せつ</rt></ruby>が<ruby>激しく<rt>はげしく</rt></ruby><ruby>対立<rt>たいりつ</rt></ruby>している。ただし、いずれの<ruby>立場<rt>たちば</rt></ruby>からも，だまされたふり<ruby>作戦<rt>さくせん</rt></ruby>で<ruby>検挙<rt>けんきょ</rt></ruby>された<ruby>者<rt>もの</rt></ruby>に<ruby>不能<rt>ふのう</rt></ruby><ruby>犯<rt>はん</rt></ruby>の<ruby>成立<rt>せいりつ</rt></ruby>を<ruby>認め<rt>みとめ</rt></ruby>る<ruby>声<rt>こえ</rt></ruby>は<ruby>聞こ<rt>きこ</rt></ruby>えてこない。4.そのほかの<ruby>特殊<rt>とくしゅ</rt></ruby><ruby>詐欺<rt>さぎ</rt></ruby>これまでに<ruby>述べ<rt>のべ</rt></ruby>てきた<ruby>受け<rt>うけ</rt></ruby><ruby>子<rt>こ</rt></ruby>の<ruby>問題<rt>もんだい</rt></ruby>は、①<ruby>預貯金<rt>よちょきん</rt></ruby><ruby>詐欺<rt>さぎ</rt></ruby>（<ruby>親族<rt>しんぞく</rt></ruby>，<ruby>誉<rt>よ</rt></ruby><ruby>察官<rt>さつかん</rt></ruby>，<ruby>銀行<rt>ぎんこう</rt></ruby><ruby>協会職員<rt>きょうかいしょくいん</rt></ruby><ruby>等<rt>など</rt></ruby>を<ruby>装い<rt>よそおい</rt></ruby>、「あなたの<ruby>口座<rt>こうざ</rt></ruby>が<ruby>犯罪<rt>はんざい</rt></ruby>に<ruby>利用<rt>りよう</rt></ruby>されており、キャッシュカードの<ruby>交換手<rt>こうかんしゅ</rt></ruby><ruby>続<rt>ぞく</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>である」<ruby>等<rt>など</rt></ruby>の<ruby>名目<rt>めいもく</rt></ruby>で、キャッシュカード、クレジットカード、<ruby>預貯金<rt>よちょきん</rt></ruby><ruby>通帳<rt>つうちょう</rt></ruby><ruby>等<rt>など</rt></ruby>をだまし<ruby>取っ<rt>とっ</rt></ruby>たり、<ruby>脅し<rt>おどし</rt></ruby><ruby>取っ<rt>とっ</rt></ruby>たりする<ruby>行為<rt>こうい</rt></ruby>）において、<ruby>被害者<rt>ひがいしゃ</rt></ruby>に<ruby>交付<rt>こうふ</rt></ruby>させたキャッシュカードなどを<ruby>受け取り<rt>うけとり</rt></ruby>に<ruby>行く<rt>いく</rt></ruby><ruby>場合<rt>ばあい</rt></ruby>にも<ruby>生じ<rt>しょうじ</rt></ruby>る。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">他方，学説に目を転じると，行為の時点で，一般人が認識し得た事情と行為者が特に認識していた事情を基礎にして，結果発生の危険性が認められない場合に不能犯とする具体的危険説と，事後的・客観的にいかなる事情の変更があれば結果が発生し得たか，そして，そうした事情変更にどの程度の蓋然性が認められるかを検討し，それがきわめて低いときに不能犯とする修正客観的危険説が激しく対立している。ただし，いずれの立場からも，だまされたふり作戦で検挙された者に不能犯の成立を認める声は聞こえてこない。4.そのほかの特殊詐欺これまでに述べてきた受け子の問題は，①預貯金詐欺（親族，誉察官，銀行協会職員等を装い，「あなたの口座が犯罪に利用されており，キャッシュカードの交換手続が必要である」等の名目で，キャッシュカード，クレジットカード，預貯金通帳等をだまし取ったり，脅し取ったりする行為）において，被害者に交付させたキャッシュカードなどを受け取りに行く場合にも生じる。</div>
+            </div>
+        </article>
+        <article id="card-17" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(17)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    また，②キャッシュカード<ruby>詐欺<rt>さぎ</rt></ruby><ruby>盗<rt>とう</rt></ruby>（<ruby>皆<rt>みな</rt></ruby><ruby>察官<rt>さつかん</rt></ruby>や<ruby>銀行<rt>ぎんこう</rt></ruby><ruby>協会<rt>きょうかい</rt></ruby>、<ruby>大手<rt>おおて</rt></ruby><ruby>百貨店<rt>ひゃっかてん</rt></ruby><ruby>等<rt>など</rt></ruby>の<ruby>職員<rt>しょくいん</rt></ruby>を<ruby>装っ<rt>よそおっ</rt></ruby>て<ruby>被害者<rt>ひがいしゃ</rt></ruby>に<ruby>電話<rt>でんわ</rt></ruby>をかけ、「キャッシュカードが<ruby>不正<rt>ふせい</rt></ruby>に<ruby>利用<rt>りよう</rt></ruby>されている」<ruby>等<rt>など</rt></ruby>の<ruby>名目<rt>めいもく</rt></ruby>で，キャッシュカード<ruby>等<rt>など</rt></ruby>を<ruby>準備<rt>じゅんび</rt></ruby>させた<ruby>上で<rt>うえで</rt></ruby>、<ruby>隙<rt>げき</rt></ruby>を<ruby>見る<rt>みる</rt></ruby>などし、<ruby>同<rt>どう</rt></ruby>キャッシュカード<ruby>等<rt>など</rt></ruby>を<ruby>窃取<rt>せっしゅ</rt></ruby>する<ruby>行為<rt>こうい</rt></ruby>）では、<ruby>嘘<rt>うそ</rt></ruby>はついているが、<ruby>相手方<rt>あいてかた</rt></ruby>の<ruby>交付<rt>こうふ</rt></ruby>に<ruby>向け<rt>むけ</rt></ruby>られたものでないため，<ruby>詐欺罪<rt>さぎざい</rt></ruby>の<ruby>構成要件<rt>こうせいようけん</rt></ruby>には<ruby>該当<rt>がいとう</rt></ruby>せず、<ruby>窃盗<rt>せっとう</rt></ruby><ruby>罪<rt>つみ</rt></ruby>（<ruby>刑<rt>けい</rt></ruby>235<ruby>条<rt>じょう</rt></ruby>）が<ruby>成立<rt>せいりつ</rt></ruby>する。さらに、③<ruby>還付<rt>かんぷ</rt></ruby><ruby>金<rt>きん</rt></ruby><ruby>詐欺<rt>さぎ</rt></ruby>（<ruby>税金<rt>ぜいきん</rt></ruby><ruby>還付<rt>かんぷ</rt></ruby><ruby>等<rt>など</rt></ruby>に<ruby>必要<rt>ひつよう</rt></ruby>な<ruby>手続<rt>てつづき</rt></ruby>を<ruby>装っ<rt>よそおっ</rt></ruby>て<ruby>被害者<rt>ひがいしゃ</rt></ruby>にATMを<ruby>操作<rt>そうさ</rt></ruby>させ、<ruby>口座<rt>こうざ</rt></ruby><ruby>間<rt>かん</rt></ruby><ruby>送金<rt>そうきん</rt></ruby>により<ruby>財産<rt>ざいさん</rt></ruby><ruby>上の<rt>うえの</rt></ruby><ruby>不法<rt>ふほう</rt></ruby>の<ruby>利益<rt>りえき</rt></ruby>を<ruby>得る<rt>える</rt></ruby><ruby>行為<rt>こうい</rt></ruby>）や④<ruby>架空<rt>かくう</rt></ruby><ruby>料金請求<rt>りょうきんせいきゅう</rt></ruby><ruby>詐欺<rt>さぎ</rt></ruby>（<ruby>未払い<rt>みはらい</rt></ruby>の<ruby>料金<rt>りょうきん</rt></ruby>があるなど<ruby>架空<rt>かくう</rt></ruby>の<ruby>事実<rt>じじつ</rt></ruby>を<ruby>口実<rt>こうじつ</rt></ruby>とし、<ruby>金銭<rt>きんせん</rt></ruby><ruby>等<rt>など</rt></ruby>をだまし<ruby>取っ<rt>とっ</rt></ruby>たり、<ruby>脅し<rt>おどし</rt></ruby><ruby>取っ<rt>とっ</rt></ruby>たりする<ruby>行為<rt>こうい</rt></ruby>）では、<ruby>被害者<rt>ひがいしゃ</rt></ruby>に<ruby>指定し<rt>していし</rt></ruby>た<ruby>口座<rt>こうざ</rt></ruby>に<ruby>振込み<rt>ふりこみ</rt></ruby><ruby>送金<rt>そうきん</rt></ruby>させた<ruby>時点で<rt>じてんで</rt></ruby>、<ruby>電子計算機<rt>でんしけいさんき</rt></ruby><ruby>使用<rt>しよう</rt></ruby><ruby>詐欺罪<rt>さぎざい</rt></ruby>（<ruby>同<rt>どう</rt></ruby> 246<ruby>条<rt>じょう</rt></ruby>のの<ruby>間接<rt>かんせつ</rt></ruby><ruby>正犯<rt>せいはん</rt></ruby>が<ruby>成立<rt>せいりつ</rt></ruby>する。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">また，②キャッシュカード詐欺盗（皆察官や銀行協会，大手百貨店等の職員を装って被害者に電話をかけ，「キャッシュカードが不正に利用されている」等の名目で，キャッシュカード等を準備させた上で，隙を見るなどし，同キャッシュカード等を窃取する行為）では，嘘はついているが，相手方の交付に向けられたものでないため，詐欺罪の構成要件には該当せず，窃盗罪（刑235条）が成立する。さらに，③還付金詐欺（税金還付等に必要な手続を装って被害者にATMを操作させ，口座間送金により財産上の不法の利益を得る行為）や④架空料金請求詐欺（未払いの料金があるなど架空の事実を口実とし，金銭等をだまし取ったり，脅し取ったりする行為）では，被害者に指定した口座に振込み送金させた時点で，電子計算機使用詐欺罪（同 246条のの間接正犯が成立する。</div>
+            </div>
+        </article>
+        <article id="card-18" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(18)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>加え<rt>くわえ</rt></ruby>て、<ruby>闇<rt>やみ</rt></ruby>バイトで<ruby>雇<rt>こ</rt></ruby>われ、<ruby>不正<rt>ふせい</rt></ruby>に<ruby>取得<rt>しゅとく</rt></ruby>したキャッシュカードで<ruby>現金<rt>げんきん</rt></ruby>を<ruby>引き出し<rt>ひきだし</rt></ruby>た<ruby>者<rt>もの</rt></ruby>（<ruby>出し<rt>だし</rt></ruby><ruby>子<rt>こ</rt></ruby>）は、<ruby>当初<rt>とうしょ</rt></ruby>より<ruby>架け<rt>かけ</rt></ruby><ruby>子<rt>こ</rt></ruby>らと<ruby>共謀<rt>きょうぼう</rt></ruby>があれば、<ruby>各<rt>かく</rt></ruby><ruby>犯罪<rt>はんざい</rt></ruby>の<ruby>共謀<rt>きょうぼう</rt></ruby><ruby>共同<rt>きょうどう</rt></ruby><ruby>正犯<rt>せいはん</rt></ruby>が<ruby>成立<rt>せいりつ</rt></ruby>する<ruby>余地<rt>よち</rt></ruby>があるほか、ATMから<ruby>現金<rt>げんきん</rt></ruby>を<ruby>引き出し<rt>ひきだし</rt></ruby>た<ruby>場合<rt>ばあい</rt></ruby>に、<ruby>別途<rt>べっと</rt></ruby>、<ruby>銀行<rt>ぎんこう</rt></ruby>の<ruby>占有<rt>せんゆう</rt></ruby>する<ruby>財産<rt>ざいさん</rt></ruby>に<ruby>対する<rt>たいする</rt></ruby><ruby>窃盗<rt>せっとう</rt></ruby><ruby>罪<rt>つみ</rt></ruby>が、ATMやネットバンキングを<ruby>利用<rt>りよう</rt></ruby>して<ruby>別の<rt>べつの</rt></ruby><ruby>口座<rt>こうざ</rt></ruby>に<ruby>振り替え<rt>ふりかえ</rt></ruby>た<ruby>場合<rt>ばあい</rt></ruby>には、<ruby>同じ<rt>おなじ</rt></ruby>く<ruby>銀行<rt>ぎんこう</rt></ruby>が<ruby>占有<rt>せんゆう</rt></ruby>する<ruby>財産<rt>ざいさん</rt></ruby>に<ruby>対する<rt>たいする</rt></ruby><ruby>電子計算機<rt>でんしけいさんき</rt></ruby><ruby>使用<rt>しよう</rt></ruby><ruby>詐欺罪<rt>さぎざい</rt></ruby>が<ruby>成立<rt>せいりつ</rt></ruby>する。なお、<ruby>被害者<rt>ひがいしゃ</rt></ruby>に<ruby>振り込ま<rt>ふりこま</rt></ruby>せる<ruby>口座<rt>こうざ</rt></ruby>や<ruby>出し<rt>だし</rt></ruby><ruby>子<rt>こ</rt></ruby>による<ruby>振替<rt>ふりかえ</rt></ruby>えの<ruby>送金<rt>そうきん</rt></ruby><ruby>先の<rt>さきの</rt></ruby><ruby>口座<rt>こうざ</rt></ruby>が<ruby>他人<rt>たにん</rt></ruby><ruby>名義<rt>めいぎ</rt></ruby>である<ruby>場合<rt>ばあい</rt></ruby>（ほとんどは、そうであるが），<ruby>組織的<rt>そしきてき</rt></ruby><ruby>犯罪<rt>はんざい</rt></ruby><ruby>処罰<rt>しょばつ</rt></ruby><ruby>法<rt>ほう</rt></ruby>の<ruby>犯罪<rt>はんざい</rt></ruby><ruby>収益<rt>しゅうえき</rt></ruby><ruby>隱匿罪<rt>いんとくざい</rt></ruby>（10<ruby>条<rt>じょう</rt></ruby>）も<ruby>成立<rt>せいりつ</rt></ruby>する<ruby>可能性<rt>かのうせい</rt></ruby>がある。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">加えて，闇バイトで雇われ，不正に取得したキャッシュカードで現金を引き出した者（出し子）は，当初より架け子らと共謀があれば，各犯罪の共謀共同正犯が成立する余地があるほか，ATMから現金を引き出した場合に，別途，銀行の占有する財産に対する窃盗罪が，ATMやネットバンキングを利用して別の口座に振り替えた場合には，同じく銀行が占有する財産に対する電子計算機使用詐欺罪が成立する。なお，被害者に振り込ませる口座や出し子による振替えの送金先の口座が他人名義である場合（ほとんどは，そうであるが），組織的犯罪処罰法の犯罪収益隱匿罪（10条）も成立する可能性がある。</div>
+            </div>
+        </article>
+        <article id="card-19" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(19)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    アポ<ruby>電<rt>でん</rt></ruby><ruby>強盗<rt>ごうとう</rt></ruby>の<ruby>闇<rt>やみ</rt></ruby>1. <ruby>強盗<rt>ごうとう</rt></ruby>の<ruby>闇<rt>やみ</rt></ruby>バイト2024<ruby>年<rt>ねん</rt></ruby>8<ruby>月<rt>がつ</rt></ruby><ruby>以降<rt>いこう</rt></ruby>に、<ruby>首都圏<rt>しゅとけん</rt></ruby>で<ruby>相次<rt>あいつぎ</rt></ruby>いだ<ruby>同一<rt>どういつ</rt></ruby>グループによる<ruby>強盗<rt>ごうとう</rt></ruby><ruby>事件<rt>じけん</rt></ruby>は、<ruby>多く<rt>おおく</rt></ruby>の<ruby>者<rt>もの</rt></ruby>にとって<ruby>記憶<rt>きおく</rt></ruby>に<ruby>新しい<rt>あたらしい</rt></ruby>ところであろう（こうしたタイプの<ruby>強盗<rt>ごうとう</rt></ruby>では、<ruby>予め<rt>あらかじめ</rt></ruby><ruby>被害者<rt>ひがいしゃ</rt></ruby><ruby>宅<rt>たく</rt></ruby>にアンケートを<ruby>装っ<rt>よそおっ</rt></ruby>た<ruby>電話<rt>でんわ</rt></ruby>をかけ、<ruby>資産<rt>しさん</rt></ruby><ruby>状況<rt>じょうきょう</rt></ruby>を<ruby>把握<rt>はあく</rt></ruby>した<ruby>上で<rt>うえで</rt></ruby><ruby>強盗<rt>ごうとう</rt></ruby>に<ruby>及ぶ<rt>およぶ</rt></ruby>ケースが<ruby>多く<rt>おおく</rt></ruby>、「アポ<ruby>電<rt>でん</rt></ruby><ruby>強盗<rt>ごうとう</rt></ruby>」と<ruby>呼ば<rt>よば</rt></ruby>れている）。この<ruby>事件<rt>じけん</rt></ruby>でも、「ホワイト<ruby>案件<rt>あんけん</rt></ruby>」，「<ruby>高収入<rt>こうしゅうにゅう</rt></ruby>」などをうたったSNSのメッセージで<ruby>集め<rt>あつめ</rt></ruby>られた<ruby>実行犯<rt>じっこうはん</rt></ruby>らが、<ruby>指示<rt>しじ</rt></ruby><ruby>役<rt>やく</rt></ruby>からの<ruby>指示<rt>しじ</rt></ruby>に<ruby>従って<rt>したがって</rt></ruby>、<ruby>標的<rt>ひょうてき</rt></ruby>にされた<ruby>家屋<rt>かおく</rt></ruby>に<ruby>押し<rt>おし</rt></ruby><ruby>入り<rt>いり</rt></ruby>、<ruby>被害者<rt>ひがいしゃ</rt></ruby>を<ruby>拘束<rt>こうそく</rt></ruby>した<ruby>上で<rt>うえで</rt></ruby>，<ruby>金品<rt>きんぴん</rt></ruby>を<ruby>奪っ<rt>うばっ</rt></ruby>て<ruby>逃走<rt>とうそう</rt></ruby>する<ruby>犯行<rt>はんこう</rt></ruby>を<ruby>繰り返し<rt>くりかえし</rt></ruby>ていたが（<ruby>被害者<rt>ひがいしゃ</rt></ruby>が<ruby>抵抗<rt>ていこう</rt></ruby>した<ruby>場合<rt>ばあい</rt></ruby>には、<ruby>指示<rt>しじ</rt></ruby>に<ruby>従って<rt>したがって</rt></ruby><ruby>暴行<rt>ぼうこう</rt></ruby>が<ruby>加え<rt>くわえ</rt></ruby>られ、<ruby>被害者<rt>ひがいしゃ</rt></ruby>が<ruby>死亡<rt>しぼう</rt></ruby>する<ruby>事案<rt>じあん</rt></ruby>も<ruby>発生<rt>はっせい</rt></ruby>した），①<ruby>内容<rt>ないよう</rt></ruby>を<ruby>知ら<rt>しら</rt></ruby>ない<ruby>段階<rt>だんかい</rt></ruby>で、<ruby>個人情報<rt>こじんじょうほう</rt></ruby>を<ruby>伝え<rt>つたえ</rt></ruby>てしまっていたため、<ruby>犯罪<rt>はんざい</rt></ruby>に<ruby>加担<rt>かたん</rt></ruby>すると<ruby>知っ<rt>しっ</rt></ruby>た<ruby>後<rt>のち</rt></ruby>も<ruby>抜け<rt>ぬけ</rt></ruby>られなかった<ruby>点<rt>てん</rt></ruby>、②<ruby>犯行<rt>はんこう</rt></ruby><ruby>計画<rt>けいかく</rt></ruby><ruby>自体<rt>じたい</rt></ruby>も<ruby>緻密<rt>ちみつ</rt></ruby>さに<ruby>欠け<rt>かけ</rt></ruby>、<ruby>実行犯<rt>じっこうはん</rt></ruby>の<ruby>検挙<rt>けんきょ</rt></ruby>を<ruby>回避<rt>かいひ</rt></ruby>する<ruby>意図<rt>いと</rt></ruby>が<ruby>希薄<rt>きはく</rt></ruby>だった<ruby>点<rt>てん</rt></ruby>，③このため<ruby>実行<rt>じっこう</rt></ruby><ruby>役<rt>やく</rt></ruby>が<ruby>逮捕<rt>たいほ</rt></ruby>されるケースもあったが、<ruby>実行<rt>じっこう</rt></ruby><ruby>役<rt>やく</rt></ruby>を<ruby>替え<rt>かえ</rt></ruby>て<ruby>犯行<rt>はんこう</rt></ruby>が<ruby>続け<rt>つづけ</rt></ruby>られた<ruby>点<rt>てん</rt></ruby>、④<ruby>指示<rt>しじ</rt></ruby><ruby>役<rt>やく</rt></ruby>は、<ruby>実行<rt>じっこう</rt></ruby><ruby>役<rt>やく</rt></ruby>と<ruby>直接的<rt>ちょくせつてき</rt></ruby>に<ruby>接触す<rt>せっしょくす</rt></ruby>ることはなく、<ruby>携帯<rt>けいたい</rt></ruby>やSNSを<ruby>通じ<rt>つうじ</rt></ruby>て<ruby>遠隔<rt>えんかく</rt></ruby>がら<ruby>指示<rt>しじ</rt></ruby>を<ruby>行って<rt>いって</rt></ruby>いた<ruby>点<rt>てん</rt></ruby>など、「<ruby>闇<rt>やみ</rt></ruby>バイト」に<ruby>共通<rt>きょうつう</rt></ruby>する<ruby>特徴<rt>とくちょう</rt></ruby>を<ruby>有し<rt>ゆうし</rt></ruby>ていた。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">アポ電強盗の闇1. 強盗の闇バイト2024年8月以降に，首都圏で相次いだ同一グループによる強盗事件は，多くの者にとって記憶に新しいところであろう（こうしたタイプの強盗では，予め被害者宅にアンケートを装った電話をかけ，資産状況を把握した上で強盗に及ぶケースが多く，「アポ電強盗」と呼ばれている）。この事件でも，「ホワイト案件」，「高収入」などをうたったSNSのメッセージで集められた実行犯らが，指示役からの指示に従って，標的にされた家屋に押し入り，被害者を拘束した上で，金品を奪って逃走する犯行を繰り返していたが（被害者が抵抗した場合には，指示に従って暴行が加えられ，被害者が死亡する事案も発生した），①内容を知らない段階で，個人情報を伝えてしまっていたため，犯罪に加担すると知った後も抜けられなかった点，②犯行計画自体も緻密さに欠け，実行犯の検挙を回避する意図が希薄だった点，③このため実行役が逮捕されるケースもあったが，実行役を替えて犯行が続けられた点，④指示役は，実行役と直接的に接触することはなく，携帯やSNSを通じて遠隔がら指示を行っていた点など，「闇バイト」に共通する特徴を有していた。</div>
+            </div>
+        </article>
+        <article id="card-20" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(20)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>合計<rt>ごうけい</rt></ruby>18<ruby>件<rt>けん</rt></ruby>で、<ruby>被害者<rt>ひがいしゃ</rt></ruby>が22<ruby>人<rt>にん</rt></ruby>（うち1<ruby>人<rt>にん</rt></ruby>は<ruby>死亡<rt>しぼう</rt></ruby>），<ruby>被害額<rt>ひがいがく</rt></ruby> 2000<ruby>万円<rt>まんえん</rt></ruby>を<ruby>超え<rt>こえ</rt></ruby>るとされるこの<ruby>事件<rt>じけん</rt></ruby>については、<ruby>指示<rt>しじ</rt></ruby><ruby>役<rt>やく</rt></ruby>とされる4<ruby>人<rt>にん</rt></ruby>のほか、<ruby>実行<rt>じっこう</rt></ruby><ruby>役<rt>やく</rt></ruby>ら 38<ruby>人<rt>にん</rt></ruby>、<ruby>被害<rt>ひがい</rt></ruby><ruby>品<rt>ひん</rt></ruby>の<ruby>回収<rt>かいしゅう</rt></ruby><ruby>役<rt>やく</rt></ruby>ら 12<ruby>人<rt>にん</rt></ruby>、<ruby>闇<rt>やみ</rt></ruby>バイトのリクルート<ruby>役<rt>やく</rt></ruby>1<ruby>人<rt>にん</rt></ruby>の<ruby>合計<rt>ごうけい</rt></ruby>55<ruby>人<rt>にん</rt></ruby>が<ruby>検挙<rt>けんきょ</rt></ruby>されており、<ruby>今後<rt>こんご</rt></ruby>、<ruby>事件<rt>じけん</rt></ruby>の<ruby>全容<rt>ぜんよう</rt></ruby><ruby>解明<rt>かいめい</rt></ruby>に<ruby>向け<rt>むけ</rt></ruby>て<ruby>捜査<rt>そうさ</rt></ruby>が<ruby>進め<rt>すすめ</rt></ruby>られるとともに、それぞれの<ruby>刑事<rt>けいじ</rt></ruby><ruby>責任<rt>せきにん</rt></ruby>を<ruby>問う<rt>とう</rt></ruby>ための<ruby>刑事<rt>けいじ</rt></ruby><ruby>裁判<rt>さいばん</rt></ruby>も<ruby>進め<rt>すすめ</rt></ruby>られていくことになる。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">合計18件で，被害者が22人（うち1人は死亡），被害額 2000万円を超えるとされるこの事件については，指示役とされる4人のほか，実行役ら 38人，被害品の回収役ら 12人，闇バイトのリクルート役1人の合計55人が検挙されており，今後，事件の全容解明に向けて偵查が進められるとともに，それぞれの刑事責任を問うための刑事裁判も進められていくことになる。</div>
+            </div>
+        </article>
+        <section id="card-21" class="my-8 rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 shadow-md border border-indigo-900/80 transition-all duration-300">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="text-xl sm:text-2xl font-bold tracking-wide font-serif text-amber-300">2．<ruby>強制<rt>きょうせい</rt></ruby>された<ruby>行為<rt>こうい</rt></ruby>の<ruby>刑事<rt>けいじ</rt></ruby><ruby>責任<rt>せきにん</rt></ruby>こうした<ruby>事案<rt>じあん</rt></ruby>の<ruby>刑事<rt>けいじ</rt></ruby><ruby>裁判<rt>さいばん</rt></ruby>では、<ruby>闇<rt>やみ</rt></ruby>バイトで<ruby>集め<rt>あつめ</rt></ruby>られた<ruby>実行<rt>じっこう</rt></ruby><ruby>役<rt>やく</rt></ruby>が、「<ruby>従わ<rt>したがわ</rt></ruby>ないと、ひどい<ruby>目に<rt>めに</rt></ruby><ruby>遭<rt>そう</rt></ruby>わされた（<ruby>仕方なか<rt>しかたなか</rt></ruby>った）」と<ruby>主張<rt>しゅちょう</rt></ruby>することが<ruby>予想<rt>よそう</rt></ruby>される。</h2>
+                <button onclick="playCardText(21)" class="shrink-0 flex items-center space-x-1 bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-amber-400/40 transition-colors select-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    <span>朗讀標題</span>
+                </button>
+            </div>
+            <div class="text-base sm:text-lg font-medium text-indigo-200 font-sans">2．強制された行為の刑事責任こうした事案の刑事裁判では，闇バイトで集められた実行役が，「従わないと，ひどい目に遭わされた（仕方なかった）」と主張することが予想される。</div>
+        </section>
+        <article id="card-22" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(22)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    このように<ruby>自身<rt>じしん</rt></ruby>や<ruby>家族<rt>かぞく</rt></ruby>の<ruby>身の<rt>みの</rt></ruby><ruby>危険<rt>きけん</rt></ruby>を<ruby>理由<rt>りゆう</rt></ruby>に<ruby>強盗<rt>ごうとう</rt></ruby>の<ruby>実行<rt>じっこう</rt></ruby>を<ruby>強制<rt>きょうせい</rt></ruby>されたのであれば、<ruby>理論上<rt>りろんじょう</rt></ruby>、<ruby>緊急避難<rt>きんきゅうひなん</rt></ruby>や<ruby>他行<rt>たぎょう</rt></ruby><ruby>為<rt>ため</rt></ruby><ruby>可能性<rt>かのうせい</rt></ruby>の<ruby>不存在<rt>ふそんざい</rt></ruby>による<ruby>責任<rt>せきにん</rt></ruby><ruby>阻却<rt>そきゃく</rt></ruby>の<ruby>可能性<rt>かのうせい</rt></ruby>がある。しかし、<ruby>判例<rt>はんれい</rt></ruby>は、そうした<ruby>主張<rt>しゅちょう</rt></ruby>を<ruby>容易に<rt>よういに</rt></ruby>は<ruby>認め<rt>みとめ</rt></ruby>てこなかった。<ruby>警察<rt>けいさつ</rt></ruby>に<ruby>相談<rt>そうだん</rt></ruby>する<ruby>暇<rt>ひま</rt></ruby>がないほどに、<ruby>自己<rt>じこ</rt></ruby>または<ruby>家族<rt>かぞく</rt></ruby>らの<ruby>生命<rt>せいめい</rt></ruby>・<ruby>身体<rt>しんたい</rt></ruby>などに<ruby>差し<rt>さし</rt></ruby><ruby>迫っ<rt>せまっ</rt></ruby>た<ruby>危険<rt>きけん</rt></ruby>が<ruby>認め<rt>みとめ</rt></ruby>られなければ（さらに、<ruby>緊急避難<rt>きんきゅうひなん</rt></ruby>の<ruby>成立<rt>せいりつ</rt></ruby>には、<ruby>法益<rt>ほうえき</rt></ruby>の<ruby>均衡<rt>きんこう</rt></ruby>も<ruby>要求<rt>ようきゅう</rt></ruby>される），<ruby>凶悪<rt>きょうあく</rt></ruby>な<ruby>犯罪<rt>はんざい</rt></ruby>の<ruby>成立<rt>せいりつ</rt></ruby>が<ruby>否定<rt>ひてい</rt></ruby>されることはあり<ruby>得な<rt>えな</rt></ruby>いのである。<ruby>闇<rt>やみ</rt></ruby>バイトの<ruby>量刑<rt>りょうけい</rt></ruby>これまでの<ruby>検討<rt>けんとう</rt></ruby>でも<ruby>明らか<rt>あきらか</rt></ruby>なように、<ruby>闇<rt>やみ</rt></ruby>バイトに<ruby>関わ<rt>かかわ</rt></ruby>るさまざまな<ruby>犯罪<rt>はんざい</rt></ruby>は、<ruby>組織的<rt>そしきてき</rt></ruby>に<ruby>実行<rt>じっこう</rt></ruby>されることが<ruby>多い<rt>おおい</rt></ruby>。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">このように自身や家族の身の危険を理由に強盗の実行を強制されたのであれば，理論上，緊急避難や他行為可能性の不存在による責任阻却の可能性がある。しかし，判例は，そうした主張を容易には認めてこなかった。警察に相談する暇がないほどに，自己または家族らの生命・身体などに差し迫った危険が認められなければ（さらに，緊急避難の成立には，法益の均衡も要求される），凶悪な犯罪の成立が否定されることはあり得ないのである。闇バイトの量刑これまでの検討でも明らかなように，闇バイトに関わるさまざまな犯罪は，組織的に実行されることが多い。</div>
+            </div>
+        </article>
+        <article id="card-23" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(23)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    そうした<ruby>事案<rt>じあん</rt></ruby>では、<ruby>詐欺<rt>さぎ</rt></ruby>、<ruby>恋<rt>こい</rt></ruby><ruby>喝<rt>かつ</rt></ruby>については<ruby>組織的<rt>そしきてき</rt></ruby><ruby>犯罪<rt>はんざい</rt></ruby><ruby>処罰<rt>しょばつ</rt></ruby><ruby>法<rt>ほう</rt></ruby>の<ruby>加重<rt>かじゅう</rt></ruby><ruby>処罰<rt>しょばつ</rt></ruby><ruby>規定<rt>きてい</rt></ruby>（3<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>13<ruby>号<rt>ごう</rt></ruby>・14<ruby>号<rt>ごう</rt></ruby>）が<ruby>適用<rt>てきよう</rt></ruby>され、<ruby>法定刑<rt>ほうていけい</rt></ruby>が1<ruby>年以上<rt>ねんいじょう</rt></ruby>の<ruby>有期<rt>ゆうき</rt></ruby><ruby>拘禁<rt>こうきん</rt></ruby><ruby>刑<rt>けい</rt></ruby>となる<ruby>可能性<rt>かのうせい</rt></ruby>がある。また、<ruby>既述<rt>きじゅつ</rt></ruby>の<ruby>通り<rt>とうり</rt></ruby>、<ruby>闇<rt>やみ</rt></ruby>バイトで<ruby>犯罪<rt>はんざい</rt></ruby>に<ruby>加担<rt>かたん</rt></ruby>した<ruby>者<rt>もの</rt></ruby>の<ruby>役割<rt>やくわり</rt></ruby>は、ほとんどの<ruby>場合<rt>ばあい</rt></ruby>、<ruby>組織的<rt>そしきてき</rt></ruby>な<ruby>犯行<rt>はんこう</rt></ruby>の<ruby>末端<rt>まったん</rt></ruby>であるが、<ruby>実際<rt>じっさい</rt></ruby>の<ruby>裁判<rt>さいばん</rt></ruby><ruby>例<rt>れい</rt></ruby>を<ruby>見て<rt>みて</rt></ruby>みると、そのことは、<ruby>法的<rt>ほうてき</rt></ruby><ruby>非難<rt>ひなん</rt></ruby>の<ruby>軽減<rt>けいげん</rt></ruby>に<ruby>必然的<rt>ひつぜんてき</rt></ruby>にはつながっていない。むしろ、<ruby>未<rt>ひつじ</rt></ruby><ruby>端<rt>はじ</rt></ruby>といえども、<ruby>犯行<rt>はんこう</rt></ruby><ruby>計画<rt>けいかく</rt></ruby>の<ruby>中<rt>なか</rt></ruby>で<ruby>欠か<rt>かか</rt></ruby>せない<ruby>重要な<rt>じゅうような</rt></ruby><ruby>役割<rt>やくわり</rt></ruby>と<ruby>位置<rt>いち</rt></ruby>づけられており、<ruby>量刑<rt>りょうけい</rt></ruby>でも<ruby>厳しい<rt>いかめしい</rt></ruby><ruby>評価<rt>ひょうか</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>ている。<ruby>構成要件<rt>こうせいようけん</rt></ruby><ruby>該当<rt>がいとう</rt></ruby><ruby>性<rt>せい</rt></ruby>，<ruby>違法性<rt>いほうせい</rt></ruby>や<ruby>責任<rt>せきにん</rt></ruby>の<ruby>阻却<rt>そきゃく</rt></ruby><ruby>事由<rt>じゆう</rt></ruby>の<ruby>判断<rt>はんだん</rt></ruby>だけでなく、<ruby>量刑<rt>りょうけい</rt></ruby>についても、<ruby>闇<rt>やみ</rt></ruby>バイトに<ruby>応募<rt>おうぼ</rt></ruby>した<ruby>者<rt>もの</rt></ruby>たちには、<ruby>厳しい<rt>いかめしい</rt></ruby><ruby>刑事<rt>けいじ</rt></ruby><ruby>司法<rt>しほう</rt></ruby>の<ruby>現実<rt>げんじつ</rt></ruby>が<ruby>待ち構え<rt>まちかまえ</rt></ruby>ている。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">そうした事案では，詐欺，恋喝については組織的犯罪処罰法の加重処罰規定（3条1項13号・14号）が適用され，法定刑が1年以上の有期拘禁刑となる可能性がある。また，既述の通り，闇バイトで犯罪に加担した者の役割は，ほとんどの場合，組織的な犯行の末端であるが，実際の裁判例を見てみると，そのことは，法的非難の軽減に必然的にはつながっていない。むしろ，未端といえども，犯行計画の中で欠かせない重要な役割と位置づけられており，量刑でも厳しい評価を受けている。構成要件該当性，違法性や責任の阻却事由の判断だけでなく，量刑についても，闇バイトに応募した者たちには，厳しい刑事司法の現実が待ち構えている。</div>
+            </div>
+        </article>
+        <article id="card-24" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(24)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    （かわさき・ともみ）<ruby>血<rt>ち</rt></ruby>
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">（かわさき・ともみ）血</div>
+            </div>
+        </article>
+                </main>
+
+                <!-- Footer -->
+                <footer class="bg-slate-900 border-t border-slate-800 py-6 px-6 rounded-xl text-center text-xs text-slate-400">
+                    <p>03闇バイトに挑む刑法 — 左右對照朗讀與翻譯版</p>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Audio Control Bar -->
+    <div class="fixed bottom-4 right-4 sm:right-8 w-11/12 max-w-xl bg-slate-900/95 backdrop-blur text-white px-5 py-3.5 rounded-2xl shadow-2xl border border-slate-700/80 flex items-center justify-between z-50">
+        <div class="flex items-center space-x-3">
+            <button id="btn-play-all" onclick="togglePlayAll()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold p-2.5 rounded-xl transition-colors shadow-md flex items-center justify-center">
+                <svg id="icon-play" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <svg id="icon-pause" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </button>
+            <button onclick="stopSpeech()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold p-2.5 rounded-xl border border-slate-700 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"></path></svg>
+            </button>
+            <div class="text-xs sm:text-sm">
+                <div id="tts-status" class="font-medium text-slate-200">準備朗讀</div>
+                <div id="tts-detail" class="text-slate-400 text-xs truncate max-w-[150px] sm:max-w-[200px]">點擊按鈕開啟日文語音朗讀</div>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-2">
+            <label class="text-xs text-slate-400 select-none hidden sm:inline">語速</label>
+            <select id="select-rate" onchange="changeRate()" class="bg-slate-800 text-xs text-slate-200 border border-slate-700 rounded-lg px-2 py-1.5 focus:outline-none focus:border-indigo-500">
+                <option value="0.75">0.75x</option>
+                <option value="1.0" selected>1.0x (標準)</option>
+                <option value="1.25">1.25x</option>
+                <option value="1.5">1.5x</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Speech Synthesis & PDF Zoom JavaScript -->
+    <script>
+        let synth = window.speechSynthesis;
+        let currentUtterance = null;
+        let playQueue = [];
+        let currentCardIndex = -1;
+        let isPlayingAll = false;
+        let speechRate = 1.0;
+        let japaneseVoice = null;
+        let currentPdfZoom = 1.0;
+        let pdfBaseSrc = '03闇バイトに挑む刑法.pdf';
+
+        function setPdfZoom(scaleFactor) {
+            currentPdfZoom = scaleFactor;
+            applyPdfZoom();
+        }
+
+        function zoomPdf(ratio) {
+            currentPdfZoom = Math.max(0.5, Math.min(3.0, currentPdfZoom * ratio));
+            applyPdfZoom();
+        }
+
+        function resetPdfZoom() {
+            currentPdfZoom = 1.0;
+            applyPdfZoom();
+        }
+
+        function applyPdfZoom() {
+            const zoomPercent = Math.round(currentPdfZoom * 100);
+            document.getElementById('pdf-zoom-val').textContent = zoomPercent + '%';
+            const iframe = document.getElementById('pdf-frame');
+            
+            // Apply PDF Open Parameters
+            iframe.src = pdfBaseSrc + '#zoom=' + zoomPercent + '&view=FitH';
+            
+            // Apply CSS Scaling for smooth visual enhancement
+            iframe.style.transform = 'scale(' + currentPdfZoom + ')';
+            iframe.style.width = (100 / currentPdfZoom) + '%';
+            iframe.style.height = (100 / currentPdfZoom) + '%';
+        }
+
+        function togglePdfPanel() {
+            const pdfPanel = document.getElementById('pdf-panel');
+            const contentPanel = document.getElementById('content-panel');
+            if (pdfPanel.classList.contains('hidden')) {
+                pdfPanel.classList.remove('hidden');
+                contentPanel.className = 'w-full lg:w-1/2 h-1/2 lg:h-full bg-slate-950 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 pb-32 transition-all duration-300';
+            } else {
+                pdfPanel.classList.add('hidden');
+                contentPanel.className = 'w-full lg:w-full h-full bg-slate-950 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 pb-32 transition-all duration-300';
+            }
+        }
+
+        function loadVoices() {
+            let voices = synth.getVoices();
+            japaneseVoice = voices.find(v => v.lang === 'ja-JP' || v.lang.startsWith('ja')) || null;
+        }
+
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = loadVoices;
+        }
+        loadVoices();
+
+        function getCleanText(cardId) {
+            const cardEl = document.getElementById('card-' + cardId);
+            if (!cardEl) return '';
+            
+            let targetEl = cardEl.querySelector('.jp-text-content') || cardEl.querySelector('h2') || cardEl;
+            const clone = targetEl.cloneNode(true);
+            
+            const rts = clone.querySelectorAll('rt');
+            rts.forEach(rt => rt.remove());
+            
+            let text = clone.textContent || '';
+            text = text.replace(/\(\d+\)/g, '').replace(/朗讀本段|朗讀標題/g, '').trim();
+            return text;
+        }
+
+        function highlightCard(index) {
+            document.querySelectorAll('.playing-card').forEach(el => el.classList.remove('playing-card'));
+            if (index >= 0) {
+                const el = document.getElementById('card-' + index);
+                if (el) {
+                    el.classList.add('playing-card');
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        }
+
+        function updateUIState(playing) {
+            const iconPlay = document.getElementById('icon-play');
+            const iconPause = document.getElementById('icon-pause');
+            const statusEl = document.getElementById('tts-status');
+            
+            if (playing) {
+                iconPlay.classList.add('hidden');
+                iconPause.classList.remove('hidden');
+                statusEl.textContent = '朗讀中...';
+            } else {
+                iconPlay.classList.remove('hidden');
+                iconPause.classList.add('hidden');
+                statusEl.textContent = '已暫停 / 準備就緒';
+            }
+        }
+
+        function playCardText(index) {
+            stopSpeech();
+            isPlayingAll = false;
+            currentCardIndex = index;
+            const text = getCleanText(index);
+            if (!text) return;
+            
+            speakText(text, index, () => {
+                highlightCard(-1);
+                updateUIState(false);
+                document.getElementById('tts-detail').textContent = '朗讀完成';
+            });
+        }
+
+        function speakText(text, cardIndex, onEndCallback) {
+            if (synth.speaking) synth.cancel();
+            
+            highlightCard(cardIndex);
+            updateUIState(true);
+            document.getElementById('tts-detail').textContent = text.substring(0, 30) + '...';
+            
+            currentUtterance = new SpeechSynthesisUtterance(text);
+            currentUtterance.lang = 'ja-JP';
+            if (japaneseVoice) currentUtterance.voice = japaneseVoice;
+            currentUtterance.rate = speechRate;
+            
+            currentUtterance.onend = function() {
+                if (onEndCallback) onEndCallback();
+            };
+            
+            currentUtterance.onerror = function(e) {
+                console.error('Speech synthesis error:', e);
+                highlightCard(-1);
+                updateUIState(false);
+            };
+            
+            synth.speak(currentUtterance);
+        }
+
+        function togglePlayAll() {
+            if (synth.speaking && isPlayingAll) {
+                if (synth.paused) {
+                    synth.resume();
+                    updateUIState(true);
+                } else {
+                    synth.pause();
+                    updateUIState(false);
+                }
+                return;
+            }
+            
+            stopSpeech();
+            isPlayingAll = true;
+            let totalCards = document.querySelectorAll('[id^="card-"]').length;
+            let queue = [];
+            for (let i = 0; i < totalCards; i++) {
+                queue.push(i);
+            }
+            
+            playNextInQueue(queue);
+        }
+
+        function playNextInQueue(queue) {
+            if (!isPlayingAll || queue.length === 0) {
+                isPlayingAll = false;
+                highlightCard(-1);
+                updateUIState(false);
+                document.getElementById('tts-detail').textContent = '全文朗讀完畢';
+                return;
+            }
+            
+            let nextIndex = queue.shift();
+            currentCardIndex = nextIndex;
+            const text = getCleanText(nextIndex);
+            
+            if (!text) {
+                playNextInQueue(queue);
+                return;
+            }
+            
+            speakText(text, nextIndex, () => {
+                if (isPlayingAll) playNextInQueue(queue);
+            });
+        }
+
+        function stopSpeech() {
+            isPlayingAll = false;
+            if (synth.speaking || synth.paused) {
+                synth.cancel();
+            }
+            highlightCard(-1);
+            updateUIState(false);
+            document.getElementById('tts-detail').textContent = '已停止朗讀';
+        }
+
+        function changeRate() {
+            const select = document.getElementById('select-rate');
+            speechRate = parseFloat(select.value);
+            if (synth.speaking && currentCardIndex >= 0) {
+                let wasPlayingAll = isPlayingAll;
+                let cardToResume = currentCardIndex;
+                stopSpeech();
+                if (wasPlayingAll) {
+                    isPlayingAll = true;
+                    let totalCards = document.querySelectorAll('[id^="card-"]').length;
+                    let queue = [];
+                    for (let i = cardToResume; i < totalCards; i++) queue.push(i);
+                    playNextInQueue(queue);
+                } else {
+                    playCardText(cardToResume);
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>刑事訴訟法2023 - 左右對照朗讀與翻譯版</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #0f172a;
+            color: #1e293b;
+        }
+
+        .font-serif {
+            font-family: 'Noto Serif JP', "MS Mincho", serif;
+        }
+
+        .font-sans {
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+
+        .jp-col {
+            font-size: 1.05rem;
+            line-height: 3.1;
+            letter-spacing: 0.02em;
+            word-break: break-word;
+            color: #0f172a;
+        }
+
+        ruby {
+            ruby-position: over;
+            display: inline-ruby;
+        }
+
+        rt {
+            font-size: 0.52em;
+            color: #475569;
+            letter-spacing: 0.01em;
+            font-weight: normal;
+            line-height: 1.0;
+            user-select: none;
+        }
+
+        u {
+            text-decoration: none;
+            border-bottom: 2px solid #ef4444;
+            padding-bottom: 2px;
+        }
+
+        .zh-col {
+            font-size: 1.0rem;
+            line-height: 1.75;
+        }
+
+        .playing-card {
+            box-shadow: 0 0 0 3px #6366f1, 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+            background-color: #f5f3ff !important;
+        }
+    </style>
+</head>
+
+<body class="h-screen overflow-hidden flex flex-col bg-slate-950">
+    <!-- Top Fixed Header -->
+    <header class="h-14 bg-slate-950 text-white px-4 sm:px-6 border-b border-slate-800 shrink-0 flex items-center justify-between shadow-md z-40">
+        <div class="flex items-center space-x-3 truncate">
+            <a href="index.html" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 hover:text-white px-3 py-1.5 rounded-lg text-xs font-semibold border border-slate-700 transition-colors flex items-center space-x-1 shrink-0 select-none">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                <span>總覽</span>
+            </a>
+            <h1 class="text-sm sm:text-base font-bold truncate font-serif text-slate-100">
+                刑事訴訟法2023
+            </h1>
+        </div>
+        <div class="flex items-center space-x-2 shrink-0">
+            <button onclick="togglePdfPanel()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors flex items-center space-x-1 select-none">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                <span id="toggle-pdf-text">隱藏/顯示 原文PDF</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Split View Container (Height = 100vh - 3.5rem) -->
+    <div class="flex-1 flex flex-col lg:flex-row w-full overflow-hidden h-[calc(100vh-3.5rem)]">
+        <!-- Left Panel: Fixed Original PDF Viewer with Zoom Controls -->
+        <div id="pdf-panel" class="w-full lg:w-1/2 h-1/2 lg:h-full bg-slate-900 border-r border-slate-800 flex flex-col shrink-0">
+            <!-- PDF Zoom & Control Bar -->
+            <div class="bg-slate-950 px-3 py-2 border-b border-slate-800 flex items-center justify-between text-xs shrink-0 select-none">
+                <span class="text-slate-400 font-semibold flex items-center">
+                    <svg class="w-3.5 h-3.5 mr-1 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    PDF 縮放控制
+                </span>
+                <div class="flex items-center space-x-1.5">
+                    <button onclick="zoomPdf(0.9)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-2 py-0.5 rounded border border-slate-700 transition-colors" title="縮小">-</button>
+                    <span id="pdf-zoom-val" class="font-mono text-indigo-300 w-12 text-center">100%</span>
+                    <button onclick="zoomPdf(1.1)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-2 py-0.5 rounded border border-slate-700 transition-colors" title="放大">+</button>
+                    <button onclick="setPdfZoom(1.25)" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 px-2 py-0.5 rounded border border-slate-700 transition-colors">1.25x</button>
+                    <button onclick="setPdfZoom(1.5)" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 px-2 py-0.5 rounded border border-slate-700 transition-colors">1.5x</button>
+                    <button onclick="setPdfZoom(2.0)" class="bg-slate-800 hover:bg-slate-700 text-amber-300 px-2 py-0.5 rounded border border-slate-700 transition-colors">2.0x</button>
+                    <button onclick="resetPdfZoom()" class="bg-slate-800 hover:bg-slate-700 text-slate-400 px-2 py-0.5 rounded border border-slate-700 transition-colors">重置</button>
+                </div>
+            </div>
+            <!-- PDF Iframe Container -->
+            <div id="pdf-container" class="flex-1 w-full h-full overflow-auto bg-slate-900 p-2 relative">
+                <iframe id="pdf-frame" src="刑事訴訟法2023.pdf" class="w-full h-full rounded-xl bg-white shadow-inner border border-slate-700 transition-transform origin-top-left"></iframe>
+            </div>
+        </div>
+
+        <!-- Right Panel: Independently Scrolling Translated Content & Audio Reader -->
+        <div id="content-panel" class="w-full lg:w-1/2 h-1/2 lg:h-full bg-slate-950 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 pb-32 transition-all duration-300">
+            <div class="max-w-3xl mx-auto space-y-4">
+                <!-- Banner Card -->
+                <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 rounded-2xl shadow-xl border border-indigo-900">
+                    <span class="inline-block bg-indigo-500/20 text-indigo-300 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider mb-2 border border-indigo-400/30">
+                        法學日文左右對照朗讀版
+                    </span>
+                    <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-white mb-2 font-serif">
+                        刑事訴訟法2023
+                    </h2>
+                    <p class="text-indigo-200 text-sm sm:text-base font-medium mb-3">
+                        ——刑事訴訟法2023 法學論文對照解析 <span class="text-indigo-300/80 text-xs font-normal">（刑事訴訟法2023 法律專題解析）</span>
+                    </p>
+                    <div class="text-xs text-slate-300 pt-3 border-t border-indigo-900/80">
+                        <span class="font-semibold text-indigo-300">作者：</span>日本法學研究會 / Legal Research Group
+                    </div>
+                </div>
+
+                <!-- Main Paragraphs -->
+                <main class="space-y-4">
+
+        <article id="card-0" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(0)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    SPECIAL FEATURE<ruby>刑事訴訟法<rt>けいじそしょうほう</rt></ruby>「<ruby>皆<rt>みな</rt></ruby><ruby>事<rt>こと</rt></ruby><ruby>者<rt>もの</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>」<ruby>九州大学<rt>きゅうしゅうだいがく</rt></ruby><ruby>教授<rt>きょうじゅ</rt></ruby><ruby>田淵<rt>たぶち</rt></ruby><ruby>浩二<rt>こうじ</rt></ruby>TABUCHI Koji● <ruby>刑事訴訟<rt>けいじそしょう</rt></ruby>の<ruby>基本構造<rt>きほんこうぞう</rt></ruby><ruby>訴訟<rt>そしょう</rt></ruby>において<ruby>各<rt>かく</rt></ruby><ruby>主体<rt>しゅたい</rt></ruby>が<ruby>果た<rt>はた</rt></ruby>すべき<ruby>役割<rt>やくわり</rt></ruby>や<ruby>責任<rt>せきにん</rt></ruby>の<ruby>関係性<rt>かんけいせい</rt></ruby>を<ruby>訴訟<rt>そしょう</rt></ruby><ruby>構造<rt>こうぞう</rt></ruby>という。「<ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>」は<ruby>多義的<rt>たぎてき</rt></ruby>な<ruby>概念<rt>がいねん</rt></ruby>であるが、<ruby>一括す<rt>いっかつす</rt></ruby>れば、<ruby>訴訟<rt>そしょう</rt></ruby><ruby>目的<rt>もくてき</rt></ruby>を<ruby>果た<rt>はた</rt></ruby>すために<ruby>裁判官<rt>さいばんかん</rt></ruby>との<ruby>関係<rt>かんけい</rt></ruby>で<ruby>当事者<rt>とうじしゃ</rt></ruby>の<ruby>役割<rt>やくわり</rt></ruby>を<ruby>重視<rt>じゅうし</rt></ruby>する<ruby>構造<rt>こうぞう</rt></ruby>をさす。これに<ruby>対し<rt>たいし</rt></ruby>、<ruby>当事者<rt>とうじしゃ</rt></ruby>より<ruby>裁判官<rt>さいばんかん</rt></ruby>の<ruby>役割<rt>やくわり</rt></ruby>を<ruby>重視<rt>じゅうし</rt></ruby>する<ruby>構造<rt>こうぞう</rt></ruby>を「<ruby>職権<rt>しょっけん</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>」という。<ruby>両<rt>りょう</rt></ruby><ruby>概念<rt>がいねん</rt></ruby>の<ruby>対置<rt>たいち</rt></ruby>は<ruby>刑事訴訟<rt>けいじそしょう</rt></ruby>の<ruby>問題<rt>もんだい</rt></ruby><ruby>関心<rt>かんしん</rt></ruby>を<ruby>反映<rt>はんえい</rt></ruby>している。<ruby>以下<rt>いか</rt></ruby>では、<ruby>刑訴<rt>けいそ</rt></ruby>においてなぜ<ruby>訴訟<rt>そしょう</rt></ruby><ruby>構造<rt>こうぞう</rt></ruby><ruby>論<rt>ろん</rt></ruby>が<ruby>活発化<rt>かっぱつか</rt></ruby>し、どう<ruby>展開<rt>てんかい</rt></ruby>したかに<ruby>焦点<rt>しょうてん</rt></ruby>を<ruby>当て<rt>あて</rt></ruby>た<ruby>解説<rt>かいせつ</rt></ruby>を<ruby>行う<rt>おこなう</rt></ruby>り。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">SPECIAL FEATURE刑事訴訟法「皆事者主義」九州大学教授田淵浩二TABUCHI Koji● 刑事訴訟の基本構造訴訟において各主体が果たすべき役割や責任の関係性を訴訟構造という。「当事者主義」は多義的な概念であるが，一括すれば，訴訟目的を果たすために裁判官との関係で当事者の役割を重視する構造をさす。これに対し，当事者より裁判官の役割を重視する構造を「職権主義」という。両概念の対置は刑事訴訟の問題関心を反映している。以下では，刑訴においてなぜ訴訟構造論が活発化し，どう展開したかに焦点を当てた解説を行うり。</div>
+            </div>
+        </article>
+        <article id="card-1" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(1)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>と<ruby>職権<rt>しょっけん</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>の<ruby>対置<rt>たいち</rt></ruby>は、<ruby>近代<rt>きんだい</rt></ruby><ruby>刑事訴訟<rt>けいじそしょう</rt></ruby>が「<ruby>礼<rt>れい</rt></ruby><ruby>間<rt>かん</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>」から「<ruby>弾劾<rt>だんがい</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>」へと<ruby>変革<rt>へんかく</rt></ruby>した<ruby>歴史<rt>れきし</rt></ruby>が<ruby>関係<rt>かんけい</rt></ruby>する。ローマ<ruby>法<rt>ほう</rt></ruby>の<ruby>強い<rt>つよい</rt></ruby><ruby>影響下<rt>えいきょうか</rt></ruby>にあったヨーロッパ<ruby>大陸<rt>たいりく</rt></ruby><ruby>諸国<rt>しょこく</rt></ruby>では、<ruby>中世<rt>ちゅうせい</rt></ruby>から<ruby>近世<rt>きんせい</rt></ruby>にかけて、<ruby>裁判所<rt>さいばんしょ</rt></ruby>が<ruby>犯罪<rt>はんざい</rt></ruby>の<ruby>嫌疑<rt>けんぎ</rt></ruby>のある<ruby>者<rt>もの</rt></ruby>を<ruby>呼び出し<rt>よびだし</rt></ruby>、<ruby>非公開<rt>ひこうかい</rt></ruby>の<ruby>場<rt>ば</rt></ruby>で<ruby>礼<rt>れい</rt></ruby><ruby>問<rt>とん</rt></ruby><ruby>官<rt>かん</rt></ruby>が<ruby>自白<rt>じはく</rt></ruby>を<ruby>追求<rt>ついきゅう</rt></ruby>する<ruby>礼<rt>れい</rt></ruby><ruby>問<rt>とん</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>が<ruby>登場<rt>とうじょう</rt></ruby>し<ruby>普及<rt>ふきゅう</rt></ruby>した。<ruby>礼<rt>れい</rt></ruby><ruby>問<rt>とん</rt></ruby><ruby>手段<rt>しゅだん</rt></ruby>として<ruby>一定<rt>いってい</rt></ruby><ruby>条件下<rt>じょうけんか</rt></ruby>で<ruby>拷問<rt>ごうもん</rt></ruby>も<ruby>行わ<rt>おこなわ</rt></ruby>れた。やがて<ruby>人権思想<rt>じんけんしそう</rt></ruby>が<ruby>高揚<rt>こうよう</rt></ruby>し<ruby>拷問<rt>ごうもん</rt></ruby>は<ruby>廃止<rt>はいし</rt></ruby>され、<ruby>自白<rt>じはく</rt></ruby>を<ruby>特別視<rt>とくべつし</rt></ruby>する<ruby>訴訟<rt>そしょう</rt></ruby>の<ruby>維持<rt>いじ</rt></ruby>は<ruby>困難<rt>こんなん</rt></ruby>になった。そこで、<ruby>弾劾<rt>だんがい</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>のイギリスをモデルに、<ruby>審判<rt>しんぱん</rt></ruby><ruby>者<rt>もの</rt></ruby>と<ruby>訴追<rt>そつい</rt></ruby><ruby>者<rt>もの</rt></ruby>の<ruby>役割<rt>やくわり</rt></ruby>を<ruby>分離<rt>ぶんり</rt></ruby>し、<ruby>訴追<rt>そつい</rt></ruby><ruby>者<rt>もの</rt></ruby>に<ruby>被告人<rt>ひこくにん</rt></ruby>の<ruby>刑事<rt>けいじ</rt></ruby><ruby>責任<rt>せきにん</rt></ruby>を<ruby>立証<rt>りっしょう</rt></ruby>させ、<ruby>裁判所<rt>さいばんしょ</rt></ruby>が<ruby>自由<rt>じゆう</rt></ruby>な<ruby>心証<rt>しんしょう</rt></ruby>により<ruby>罪<rt>つみ</rt></ruby>を<ruby>認定<rt>にんてい</rt></ruby>する<ruby>構造<rt>こうぞう</rt></ruby>へと<ruby>変革<rt>へんかく</rt></ruby>する。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">当事者主義と職権主義の対置は，近代刑事訴訟が「礼間主義」から「弾劾主義」へと変革した歴史が関係する。ローマ法の強い影響下にあったヨーロッパ大陸諸国では，中世から近世にかけて，裁判所が犯罪の嫌疑のある者を呼び出し，非公開の場で礼問官が自白を追求する礼問主義が登場し普及した。礼問手段として一定条件下で拷問も行われた。やがて人権思想が高揚し拷問は廃止され，自白を特別視する訴訟の維持は困難になった。そこで，弾劾主義のイギリスをモデルに，審判者と訴追者の役割を分離し，訴追者に被告の刑事責任を立証させ，裁判所が自由な心証により罪を認定する構造へと変革する。</div>
+            </div>
+        </article>
+        <article id="card-2" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(2)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    しかし、<ruby>裁判所<rt>さいばんしょ</rt></ruby>を<ruby>審判<rt>しんぱん</rt></ruby><ruby>者<rt>もの</rt></ruby>としての<ruby>役割<rt>やくわり</rt></ruby>に<ruby>徹底<rt>てってい</rt></ruby>させず、<ruby>実体<rt>じったい</rt></ruby><ruby>的<rt>てき</rt></ruby><ruby>真実<rt>しんじつ</rt></ruby>を<ruby>発見<rt>はっけん</rt></ruby>する<ruby>義務<rt>ぎむ</rt></ruby>を<ruby>課す<rt>かす</rt></ruby>、<ruby>職権<rt>しょっけん</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby><ruby>構造<rt>こうぞう</rt></ruby>が<ruby>残っ<rt>のこっ</rt></ruby>た。これに<ruby>対し<rt>たいし</rt></ruby>、ローマ<ruby>法<rt>ほう</rt></ruby>の<ruby>影響<rt>えいきょう</rt></ruby>をあまり<ruby>受け<rt>うけ</rt></ruby>なかったイギリスは、<ruby>一般<rt>いっぱん</rt></ruby><ruby>事件<rt>じけん</rt></ruby>においては<ruby>弾劾<rt>だんがい</rt></ruby><ruby>形式<rt>けいしき</rt></ruby>の<ruby>陪審<rt>ばいしん</rt></ruby><ruby>裁判<rt>さいばん</rt></ruby>が<ruby>行わ<rt>おこなわ</rt></ruby>れてきた。<ruby>初期<rt>しょき</rt></ruby>の<ruby>陪審員<rt>ばいしんいん</rt></ruby>は<ruby>証人<rt>しょうにん</rt></ruby>も<ruby>兼ね<rt>かね</rt></ruby>ており，<ruby>自ら<rt>みずから</rt></ruby><ruby>有す<rt>ゆうす</rt></ruby>る<ruby>事件<rt>じけん</rt></ruby>の<ruby>知識<rt>ちしき</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>き<ruby>裁判<rt>さいばん</rt></ruby>を<ruby>行って<rt>いって</rt></ruby>いたが、やがて<ruby>審判<rt>しんぱん</rt></ruby><ruby>者<rt>もの</rt></ruby>の<ruby>役割<rt>やくわり</rt></ruby>に<ruby>純化<rt>じゅんか</rt></ruby>される。<ruby>陪審制<rt>ばいしんせい</rt></ruby>の<ruby>下<rt>した</rt></ruby>でも<ruby>長い<rt>ながい</rt></ruby><ruby>間<rt>かん</rt></ruby>、<ruby>被告人<rt>ひこくにん</rt></ruby>の<ruby>弁護人<rt>べんごにん</rt></ruby>を<ruby>付す<rt>ふす</rt></ruby><ruby>権利<rt>けんり</rt></ruby>や<ruby>証人喚問<rt>しょうにんかんもん</rt></ruby><ruby>権<rt>けん</rt></ruby>は<ruby>認め<rt>みとめ</rt></ruby>られていなかったが、<ruby>憲法<rt>けんぽう</rt></ruby>や<ruby>法律<rt>ほうりつ</rt></ruby>で<ruby>被告人<rt>ひこくにん</rt></ruby>の<ruby>防<rt>ぼう</rt></ruby><ruby>権<rt>けん</rt></ruby>を<ruby>保障<rt>ほしょう</rt></ruby>するようになり、<ruby>公判<rt>こうはん</rt></ruby><ruby>延<rt>えん</rt></ruby>における<ruby>当事者間<rt>とうじしゃかん</rt></ruby>の<ruby>攻防<rt>こうぼう</rt></ruby>を<ruby>通じ<rt>つうじ</rt></ruby>て<ruby>勝敗<rt>しょうはい</rt></ruby>を<ruby>決め<rt>きめ</rt></ruby>る、<ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby><ruby>構造<rt>こうぞう</rt></ruby>が<ruby>形成<rt>けいせい</rt></ruby>される。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">しかし，裁判所を審判者としての役割に徹底させず，実体的真実を発見する義務を課す，職権主義構造が残った。これに対し，ローマ法の影響をあまり受けなかったイギリスは，一般事件においては弾劾形式の陪審裁判が行われてきた。初期の陪審員は証人も兼ねており，自ら有する事件の知識に基づき裁判を行っていたが，やがて審判者の役割に純化される。陪審制の下でも長い間，被告の弁護人を付す権利や証人喚問権は認められていなかったが，憲法や法律で被告の防権を保障するようになり，公判延における当事者間の攻防を通じて勝敗を決める，当事者主義構造が形成される。</div>
+            </div>
+        </article>
+        <article id="card-3" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(3)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    このように<ruby>歴史的<rt>れきしてき</rt></ruby>には、<ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>は<ruby>自由主義的<rt>じゆうしゅぎてき</rt></ruby>，<ruby>職権<rt>しょっけん</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>は<ruby>権威主義的<rt>けんいしゅぎてき</rt></ruby><ruby>思想<rt>しそう</rt></ruby>に<ruby>根<rt>ね</rt></ruby><ruby>差し<rt>さし</rt></ruby>た<ruby>訴訟<rt>そしょう</rt></ruby><ruby>構造<rt>こうぞう</rt></ruby>ということができる。<ruby>判決<rt>はんけつ</rt></ruby>の<ruby>正当性<rt>せいとうせい</rt></ruby>にとって<ruby>手続的<rt>てつづきてき</rt></ruby><ruby>公正<rt>こうせい</rt></ruby>をより<ruby>重視<rt>じゅうし</rt></ruby>する<ruby>考え方<rt>かんがえかた</rt></ruby>が<ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>であり、<ruby>実体<rt>じったい</rt></ruby><ruby>的<rt>てき</rt></ruby><ruby>真実<rt>しんじつ</rt></ruby>への<ruby>接近<rt>せっきん</rt></ruby>をより<ruby>重視<rt>じゅうし</rt></ruby>する<ruby>考え方<rt>かんがえかた</rt></ruby>が<ruby>職権<rt>しょっけん</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>であるという<ruby>言い方<rt>いいかた</rt></ruby>もできるだろう。もっとも、<ruby>現在<rt>げんざい</rt></ruby>のヨーロッパは<ruby>欧州<rt>おうしゅう</rt></ruby><ruby>人権<rt>じんけん</rt></ruby><ruby>条約<rt>じょうやく</rt></ruby>を<ruby>介し<rt>かいし</rt></ruby>て、<ruby>国<rt>くに</rt></ruby>の<ruby>訴訟<rt>そしょう</rt></ruby><ruby>構造<rt>こうぞう</rt></ruby>の<ruby>違い<rt>ちがい</rt></ruby>を<ruby>超え<rt>こえ</rt></ruby>て<ruby>公正<rt>こうせい</rt></ruby>な<ruby>手続<rt>てつづき</rt></ruby>による<ruby>裁判<rt>さいばん</rt></ruby>を<ruby>受ける<rt>うける</rt></ruby><ruby>権利<rt>けんり</rt></ruby>の<ruby>標準化<rt>ひょうじゅんか</rt></ruby>が<ruby>進ん<rt>すすん</rt></ruby>でいる。<ruby>日本<rt>にっぽん</rt></ruby>の<ruby>刑事訴訟<rt>けいじそしょう</rt></ruby>の<ruby>構造<rt>こうぞう</rt></ruby><ruby>現行<rt>げんこう</rt></ruby><ruby>訴<rt>そ</rt></ruby>は、<ruby>日本国憲法<rt>にほんこくけんぽう</rt></ruby><ruby>施行<rt>しこう</rt></ruby><ruby>翌年<rt>よくねん</rt></ruby>の1948<ruby>年<rt>ねん</rt></ruby>に、<ruby>新憲法<rt>しんけんぽう</rt></ruby>に<ruby>適合<rt>てきごう</rt></ruby>する<ruby>民主的<rt>みんしゅてき</rt></ruby><ruby>制度<rt>せいど</rt></ruby>に<ruby>改め<rt>あらため</rt></ruby>ること、<ruby>及び<rt>および</rt></ruby><ruby>英米法<rt>えいべいほう</rt></ruby>に<ruby>倣い<rt>ならい</rt></ruby><ruby>訴訟<rt>そしょう</rt></ruby>を<ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby><ruby>化す<rt>かす</rt></ruby>ることを<ruby>目的<rt>もくてき</rt></ruby>に<ruby>制定<rt>せいてい</rt></ruby>された。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">このように歴史的には，当事者主義は自由主義的，職権主義は権威主義的思想に根差した訴訟構造ということができる。判決の正当性にとって手続的公正をより重視する考え方が当事者主義であり，実体的真実への接近をより重視する考え方が職権主義であるという言い方もできるだろう。もっとも，現在のヨーロッパは欧州人権条約を介して，国の訴訟構造の違いを超えて公正な手続による裁判を受ける権利の標準化が進んでいる。日本の刑事訴訟の構造現行訴は，日本国憲法施行翌年の1948年に，新憲法に適合する民主的制度に改めること，及び英米法に倣い訴訟を当事者主義化することを目的に制定された。</div>
+            </div>
+        </article>
+        <article id="card-4" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(4)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>旧法<rt>きゅうほう</rt></ruby><ruby>下<rt>した</rt></ruby>では、<ruby>公判<rt>こうはん</rt></ruby>は<ruby>弾劾<rt>だんがい</rt></ruby><ruby>形式<rt>けいしき</rt></ruby>であったものの、<ruby>起訴<rt>きそ</rt></ruby><ruby>後の<rt>のちの</rt></ruby><ruby>予審<rt>よしん</rt></ruby>において<ruby>礼<rt>れい</rt></ruby><ruby>問<rt>とん</rt></ruby><ruby>的な<rt>てきな</rt></ruby><ruby>審理<rt>しんり</rt></ruby>を<ruby>行い<rt>おこない</rt></ruby>、その<ruby>結果<rt>けっか</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>き<ruby>職権<rt>しょっけん</rt></ruby><ruby>的に<rt>てきに</rt></ruby><ruby>進行<rt>しんこう</rt></ruby>していた。これに<ruby>対し<rt>たいし</rt></ruby>、<ruby>現行法<rt>げんこうほう</rt></ruby>は<ruby>予審<rt>よしん</rt></ruby>を<ruby>廃止<rt>はいし</rt></ruby>し、また<ruby>裁判官<rt>さいばんかん</rt></ruby>は<ruby>予断<rt>よだん</rt></ruby>を<ruby>持た<rt>もた</rt></ruby>ずに<ruby>公判<rt>こうはん</rt></ruby>に<ruby>臨み<rt>のぞみ</rt></ruby>、そこでの<ruby>当事者<rt>とうじしゃ</rt></ruby>の<ruby>主張<rt>しゅちょう</rt></ruby><ruby>立証<rt>りっしょう</rt></ruby>に<ruby>基づ<rt>もとづ</rt></ruby>き<ruby>事実<rt>じじつ</rt></ruby>を<ruby>認定<rt>にんてい</rt></ruby>する、<ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>に<ruby>転換<rt>てんかん</rt></ruby>した。しかし、<ruby>現行法<rt>げんこうほう</rt></ruby>には<ruby>旧法<rt>きゅうほう</rt></ruby>からの<ruby>継続性<rt>けいぞくせい</rt></ruby>を<ruby>意識<rt>いしき</rt></ruby>した<ruby>条文<rt>じょうぶん</rt></ruby>も<ruby>残っ<rt>のこっ</rt></ruby>た（<ruby>例えば<rt>たとえば</rt></ruby>、<ruby>刑訴<rt>けいそ</rt></ruby>298<ruby>条<rt>じょう</rt></ruby>2<ruby>項<rt>こう</rt></ruby>・304<ruby>条<rt>じょう</rt></ruby>・311<ruby>条<rt>じょう</rt></ruby>2<ruby>項<rt>こう</rt></ruby>〔<ruby>以下<rt>いか</rt></ruby><ruby>刑訴<rt>けいそ</rt></ruby><ruby>略<rt>りゃく</rt></ruby>））。<ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>を<ruby>象徴<rt>しょうちょう</rt></ruby>する<ruby>交互<rt>こうご</rt></ruby><ruby>尋問<rt>じんもん</rt></ruby><ruby>制度<rt>せいど</rt></ruby>は<ruby>定め<rt>さだめ</rt></ruby>ず、<ruby>運用<rt>うんよう</rt></ruby>に<ruby>委ね<rt>ゆだね</rt></ruby>た（1957<ruby>年<rt>ねん</rt></ruby><ruby>刑訴<rt>けいそ</rt></ruby><ruby>規則改正<rt>きそくかいせい</rt></ruby>によりルール<ruby>化<rt>か</rt></ruby>）。<ruby>現行法<rt>げんこうほう</rt></ruby>の<ruby>立案<rt>りつあん</rt></ruby>に<ruby>関与<rt>かんよ</rt></ruby>した<ruby>横井<rt>よこい</rt></ruby><ruby>大三<rt>おおみ</rt></ruby>は、<ruby>改正<rt>かいせい</rt></ruby><ruby>法<rt>ほう</rt></ruby>の<ruby>基本<rt>きほん</rt></ruby><ruby>観念<rt>かんねん</rt></ruby>が<ruby>如何な<rt>いかな</rt></ruby>るものかは<ruby>今後<rt>こんご</rt></ruby>の<ruby>議論<rt>ぎろん</rt></ruby><ruby>次第<rt>しだい</rt></ruby>であることを<ruby>留保<rt>りゅうほ</rt></ruby>した<ruby>上で<rt>うえで</rt></ruby>、<ruby>職権<rt>しょっけん</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>と<ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>の<ruby>長所<rt>ちょうしょ</rt></ruby>をとって<ruby>新しい<rt>あたらしい</rt></ruby><ruby>一つ<rt>ひとつ</rt></ruby>の<ruby>刑事<rt>けいじ</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>の<ruby>形態<rt>けいたい</rt></ruby>を<ruby>示す<rt>しめす</rt></ruby>ことへの<ruby>期待<rt>きたい</rt></ruby>も<ruby>含ま<rt>ふくま</rt></ruby>れていたことをほのめかしている。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">旧法下では，公判は弾劾形式であったものの，起訴後の予審において礼問的な審理を行い，その結果に基づき職権的に進行していた。これに対し，現行法は予審を廃止し，また裁判官は予断を持たずに公判に臨み，そこでの当事者の主張立証に基づき事実を認定する，当事者主義に転換した。しかし，現行法には旧法からの継続性を意識した条文も残った（例えば，刑訴298条2項・304条・311条2項〔以下刑訴略））。当事者主義を象徴する交互尋問制度は定めず，運用に委ねた（1957年刑訴規則改正によりルール化）。現行法の立案に関与した横井大三は，改正法の基本観念が如何なるものかは今後の議論次第であることを留保した上で，職権主義と当事者主義の長所をとって新しい一つの刑事手続の形態を示すことへの期待も含まれていたことをほのめかしている。</div>
+            </div>
+        </article>
+        <article id="card-5" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(5)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    また、<ruby>実体<rt>じったい</rt></ruby><ruby>的<rt>てき</rt></ruby><ruby>真実<rt>しんじつ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>を<ruby>原理<rt>げんり</rt></ruby>とする<ruby>刑訴<rt>けいそ</rt></ruby><ruby>理論<rt>りろん</rt></ruby>の<ruby>体系<rt>たいけい</rt></ruby>を<ruby>築い<rt>きづい</rt></ruby>た<ruby>団藤<rt>だんどう</rt></ruby><ruby>重光<rt>しげみつ</rt></ruby>は、<ruby>現行法<rt>げんこうほう</rt></ruby>は<ruby>実体<rt>じったい</rt></ruby><ruby>的<rt>てき</rt></ruby><ruby>真実<rt>しんじつ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>に<ruby>奉仕<rt>ほうし</rt></ruby>する<ruby>手段<rt>しゅだん</rt></ruby>として<ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>を<ruby>取り入れ<rt>とりいれ</rt></ruby>たのであって、その<ruby>背後<rt>はいご</rt></ruby>には<ruby>職権<rt>しょっけん</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>が<ruby>潜ん<rt>ひそん</rt></ruby>でおり、<ruby>補充<rt>ほじゅう</rt></ruby><ruby>的<rt>てき</rt></ruby>であるが<ruby>必要<rt>ひつよう</rt></ruby>なときはそれを<ruby>発動<rt>はつどう</rt></ruby>できるようになっているという、<ruby>技術的<rt>ぎじゅつてき</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>を<ruby>説い<rt>とい</rt></ruby>た3。このように<ruby>現行法<rt>げんこうほう</rt></ruby>は<ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>への<ruby>転換<rt>てんかん</rt></ruby>を<ruby>図っ<rt>はかっ</rt></ruby>たとはいえ、<ruby>制定時<rt>せいていじ</rt></ruby>はまだ<ruby>職権<rt>しょっけん</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>と<ruby>親和<rt>しんわ</rt></ruby><ruby>的な<rt>てきな</rt></ruby><ruby>実体<rt>じったい</rt></ruby><ruby>的<rt>てき</rt></ruby><ruby>真実<rt>しんじつ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>の<ruby>考え方<rt>かんがえかた</rt></ruby>が<ruby>強か<rt>つよか</rt></ruby>った。ところで、<ruby>民事訴訟<rt>みんじそしょう</rt></ruby>においては、<ruby>当事者間<rt>とうじしゃかん</rt></ruby>の「<ruby>和解<rt>わかい</rt></ruby>」<ruby>又は<rt>または</rt></ruby><ruby>原告<rt>げんこく</rt></ruby>による「<ruby>請求<rt>せいきゅう</rt></ruby>の<ruby>放棄<rt>ほうき</rt></ruby>」<ruby>若しくは<rt>もしくは</rt></ruby><ruby>被告<rt>ひこく</rt></ruby>による「<ruby>請求<rt>せいきゅう</rt></ruby>の<ruby>認諾<rt>にんだく</rt></ruby>」を<ruby>調書<rt>ちょうしょ</rt></ruby>に<ruby>記載し<rt>きさいし</rt></ruby>たときは、その<ruby>調書<rt>ちょうしょ</rt></ruby>には<ruby>確定<rt>かくてい</rt></ruby><ruby>判決<rt>はんけつ</rt></ruby>と<ruby>同一<rt>どういつ</rt></ruby>の<ruby>効力<rt>こうりょく</rt></ruby>が<ruby>生じ<rt>しょうじ</rt></ruby>る（<ruby>民訴<rt>みんそ</rt></ruby>267<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>）。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">また，実体的真実主義を原理とする刑訴理論の体系を築いた団藤重光は，現行法は実体的真実主義に奉仕する手段として当事者主義を取り入れたのであって，その背後には職権主義が潜んでおり，補充的であるが必要なときはそれを発動できるようになっているという，技術的当事者主義を説いた3。このように現行法は当事者主義への転換を図ったとはいえ，制定時はまだ職権主義と親和的な実体的真実主義の考え方が強かった。ところで，民事訴訟においては，当事者間の「和解」又は原告による「請求の放棄」若しくは被告による「請求の認諾」を調書に記載したときは，その調書には確定判決と同一の効力が生じる（民訴267条1項）。</div>
+            </div>
+        </article>
+        <article id="card-6" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(6)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>私法<rt>しほう</rt></ruby>の<ruby>基本原則<rt>きほんげんそく</rt></ruby>である「<ruby>私的<rt>してき</rt></ruby><ruby>自治<rt>じち</rt></ruby>の<ruby>原則<rt>げんそく</rt></ruby>」によれば、<ruby>訴訟<rt>そしょう</rt></ruby>による<ruby>解決<rt>かいけつ</rt></ruby>も<ruby>当事者<rt>とうじしゃ</rt></ruby>の<ruby>意思<rt>いし</rt></ruby>を<ruby>尊重<rt>そんちょう</rt></ruby>すべきだからである。この<ruby>意味<rt>いみ</rt></ruby>での<ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>を_（<ruby>当事者<rt>とうじしゃ</rt></ruby>）<ruby>処分<rt>しょぶん</rt></ruby><ruby>権<rt>けん</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>という。これに<ruby>対し<rt>たいし</rt></ruby>、<ruby>刑事<rt>けいじ</rt></ruby><ruby>法<rt>ほう</rt></ruby>に<ruby>私的<rt>してき</rt></ruby><ruby>自治<rt>じち</rt></ruby>の<ruby>原則<rt>げんそく</rt></ruby>は<ruby>妥当<rt>だとう</rt></ruby>しないから、<ruby>刑訴<rt>けいそ</rt></ruby>は<ruby>処分<rt>しょぶん</rt></ruby><ruby>権<rt>けん</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>とは<ruby>無縁<rt>むえん</rt></ruby>に<ruby>思う<rt>おもう</rt></ruby>かもしれない。ところが、<ruby>英米<rt>えいべい</rt></ruby>の<ruby>刑事訴訟<rt>けいじそしょう</rt></ruby>には「アレインメント」（arraignment）という<ruby>制度<rt>せいど</rt></ruby>がある。これは、<ruby>被告人<rt>ひこくにん</rt></ruby>が<ruby>有罪<rt>ゆうざい</rt></ruby><ruby>答弁<rt>とうべん</rt></ruby>（plea of guilty）をすれば<ruby>事実<rt>じじつ</rt></ruby><ruby>審理<rt>しんり</rt></ruby>を<ruby>飛ば<rt>とば</rt></ruby>し<ruby>有罪<rt>ゆうざい</rt></ruby>として、<ruby>量刑<rt>りょうけい</rt></ruby><ruby>審理<rt>しんり</rt></ruby>のみを<ruby>行う<rt>おこなう</rt></ruby><ruby>制度<rt>せいど</rt></ruby>である。<ruby>裁判官<rt>さいばんかん</rt></ruby>は<ruby>根拠<rt>こんきょ</rt></ruby>のない<ruby>有罪<rt>ゆうざい</rt></ruby><ruby>答弁<rt>とうべん</rt></ruby>を<ruby>受理<rt>じゅり</rt></ruby>しないこともできるが、<ruby>被告人<rt>ひこくにん</rt></ruby>に<ruby>一種<rt>いっしゅ</rt></ruby>の<ruby>処分<rt>しょぶん</rt></ruby><ruby>権<rt>けん</rt></ruby>を<ruby>認め<rt>みとめ</rt></ruby>る<ruby>制度<rt>せいど</rt></ruby>といってよい。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">私法の基本原則である「私的自治の原則」によれば，訴訟による解決も当事者の意思を尊重すべきだからである。この意味での当事者主義を_（当事者）処分権主義という。これに対し，刑事法に私的自治の原則は妥当しないから，刑訴は処分権主義とは無縁に思うかもしれない。ところが，英米の刑事訴訟には「アレインメント」（arraignment）という制度がある。これは，被告が有罪答弁（plea of guilty）をすれば事実審理を飛ばし有罪として，量刑審理のみを行う制度である。裁判官は根拠のない有罪答弁を受理しないこともできるが，被告に一種の処分権を認める制度といってよい。</div>
+            </div>
+        </article>
+        <article id="card-7" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(7)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>現行法<rt>げんこうほう</rt></ruby>の<ruby>立案<rt>りつあん</rt></ruby><ruby>過程<rt>かてい</rt></ruby>ではアレインメントの<ruby>導入<rt>どうにゅう</rt></ruby>も<ruby>論点<rt>ろんてん</rt></ruby>となったが<ruby>憲法<rt>けんぽう</rt></ruby> 38<ruby>条<rt>じょう</rt></ruby>3<ruby>項<rt>こう</rt></ruby>（<ruby>自白<rt>じはく</rt></ruby>の<ruby>補強<rt>ほきょう</rt></ruby><ruby>法則<rt>ほうそく</rt></ruby>）との<ruby>関係<rt>かんけい</rt></ruby>で<ruby>見送ら<rt>みおくら</rt></ruby>れたとされる。ところが、<ruby>憲法<rt>けんぽう</rt></ruby> 38<ruby>条<rt>じょう</rt></ruby>3<ruby>項<rt>こう</rt></ruby>のいう<ruby>自白<rt>じはく</rt></ruby>に<ruby>公判<rt>こうはん</rt></ruby><ruby>延<rt>えん</rt></ruby><ruby>自白<rt>じはく</rt></ruby>は<ruby>含ま<rt>ふくま</rt></ruby>れないというのが<ruby>後の<rt>のちの</rt></ruby><ruby>判例<rt>はんれい</rt></ruby>であり5，<ruby>当該<rt>とうがい</rt></ruby><ruby>憲法<rt>けんぽう</rt></ruby><ruby>規定<rt>きてい</rt></ruby>は<ruby>障害<rt>しょうがい</rt></ruby>にならないから、<ruby>実体<rt>じったい</rt></ruby><ruby>的<rt>てき</rt></ruby><ruby>真実<rt>しんじつ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>との<ruby>整合性<rt>せいごうせい</rt></ruby>がアレインメントを<ruby>導入<rt>どうにゅう</rt></ruby>しない<ruby>唯一<rt>ゆいいつ</rt></ruby>の<ruby>理由<rt>りゆう</rt></ruby>たりうる。しかし、<ruby>現在<rt>げんざい</rt></ruby>は<ruby>実体<rt>じったい</rt></ruby><ruby>的<rt>てき</rt></ruby><ruby>真実<rt>しんじつ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>を<ruby>絶対視<rt>ぜったいし</rt></ruby>する<ruby>意見<rt>いけん</rt></ruby>はなく、アレインメント<ruby>導入<rt>どうにゅう</rt></ruby><ruby>論<rt>ろん</rt></ruby>は<ruby>今<rt>いま</rt></ruby>も<ruby>続い<rt>つづい</rt></ruby>ている？。<ruby>正当<rt>せいとう</rt></ruby><ruby>事<rt>こと</rt></ruby><ruby>者<rt>もの</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>の<ruby>理論<rt>りろん</rt></ruby><ruby>化<rt>か</rt></ruby><ruby>訴訟<rt>そしょう</rt></ruby><ruby>構造<rt>こうぞう</rt></ruby>が<ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>であることは、<ruby>必ずしも<rt>かならずしも</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby>の<ruby>訴訟<rt>そしょう</rt></ruby><ruby>上の<rt>うえの</rt></ruby><ruby>権利<rt>けんり</rt></ruby>が<ruby>最大限<rt>さいだいげん</rt></ruby>に<ruby>尊重<rt>そんちょう</rt></ruby>されることを<ruby>約束<rt>やくそく</rt></ruby>しない。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">現行法の立案過程ではアレインメントの導入も論点となったが憲法 38条3項（自白の補強法則）との関係で見送られたとされる。ところが，憲法 38条3項のいう自白に公判延自白は含まれないというのが後の判例であり5，当該憲法規定は障害にならないから，実体的真実主義との整合性がアレインメントを導入しない唯一の理由たりうる。しかし，現在は実体的真実主義を絶対視する意見はなく，アレインメント導入論は今も続いている？。正当事者主義の理論化訴訟構造が当事者主義であることは，必ずしも当事者の訴訟上の権利が最大限に尊重されることを約束しない。</div>
+            </div>
+        </article>
+        <article id="card-8" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(8)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>当事者<rt>とうじしゃ</rt></ruby>に<ruby>認め<rt>みとめ</rt></ruby>られた<ruby>権利<rt>けんり</rt></ruby>であっても、その<ruby>効力<rt>こうりょく</rt></ruby>の<ruby>解釈<rt>かいしゃく</rt></ruby>には<ruby>真実<rt>しんじつ</rt></ruby>の<ruby>解明<rt>かいめい</rt></ruby>や<ruby>手続<rt>てつづき</rt></ruby>コストの<ruby>考慮<rt>こうりょ</rt></ruby>が<ruby>加わ<rt>くわわ</rt></ruby>るからである。これに<ruby>対し<rt>たいし</rt></ruby>、<ruby>当事者<rt>とうじしゃ</rt></ruby>の<ruby>訴訟<rt>そしょう</rt></ruby><ruby>上の<rt>うえの</rt></ruby><ruby>権利<rt>けんり</rt></ruby>を<ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>の<ruby>意義<rt>いぎ</rt></ruby>にとって<ruby>本質的<rt>ほんしつてき</rt></ruby>な<ruby>権利<rt>けんり</rt></ruby>として<ruby>説明<rt>せつめい</rt></ruby>できるならば、その<ruby>効力<rt>こうりょく</rt></ruby>の<ruby>解釈<rt>かいしゃく</rt></ruby>において<ruby>当事者<rt>とうじしゃ</rt></ruby>の<ruby>意思<rt>いし</rt></ruby>を<ruby>最大限<rt>さいだいげん</rt></ruby><ruby>尊重<rt>そんちょう</rt></ruby>させることが<ruby>可能に<rt>かのうに</rt></ruby>なる。この<ruby>意味<rt>いみ</rt></ruby>での「<ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>の<ruby>理論<rt>りろん</rt></ruby><ruby>化<rt>か</rt></ruby>」に<ruby>成功<rt>せいこう</rt></ruby>した<ruby>領域<rt>りょういき</rt></ruby>に、<ruby>審判<rt>しんぱん</rt></ruby><ruby>対象<rt>たいしょう</rt></ruby><ruby>論<rt>ろん</rt></ruby>がある。<ruby>審判<rt>しんぱん</rt></ruby><ruby>対象<rt>たいしょう</rt></ruby>の<ruby>設定<rt>せってい</rt></ruby>も<ruby>含め<rt>ふくめ</rt></ruby>、<ruby>刑事訴訟<rt>けいじそしょう</rt></ruby>における<ruby>主張<rt>しゅちょう</rt></ruby>・<ruby>立証<rt>りっしょう</rt></ruby>は<ruby>当事者<rt>とうじしゃ</rt></ruby>の<ruby>責任<rt>せきにん</rt></ruby>において<ruby>行う<rt>おこなう</rt></ruby>べきとする<ruby>考え方<rt>かんがえかた</rt></ruby>を、<ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>追行<rt>ついこう</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>という。<ruby>現行法<rt>げんこうほう</rt></ruby>は<ruby>英米法<rt>えいべいほう</rt></ruby>に<ruby>倣い<rt>ならい</rt></ruby>、<ruby>起訴状<rt>きそじょう</rt></ruby>に「<ruby>訴因<rt>そいん</rt></ruby>」を<ruby>明示<rt>めいじ</rt></ruby>させる<ruby>制度<rt>せいど</rt></ruby>を<ruby>導入<rt>どうにゅう</rt></ruby>した（256<ruby>条<rt>じょう</rt></ruby>3<ruby>項<rt>こう</rt></ruby>）。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">当事者に認められた権利であっても，その効力の解釈には真実の解明や手続コストの考慮が加わるからである。これに対し，当事者の訴訟上の権利を当事者主義の意義にとって本質的な権利として説明できるならば，その効力の解釈において当事者の意思を最大限尊重させることが可能になる。この意味での「当事者主義の理論化」に成功した領域に，審判対象論がある。審判対象の設定も含め，刑事訴訟における主張・立証は当事者の責任において行うべきとする考え方を，当事者追行主義という。現行法は英米法に倣い，起訴状に「訴因」を明示させる制度を導入した（256条3項）。</div>
+            </div>
+        </article>
+        <article id="card-9" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(9)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>訴因<rt>そいん</rt></ruby><ruby>制度<rt>せいど</rt></ruby>は<ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>追行<rt>ついこう</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>に<ruby>関わ<rt>かかわ</rt></ruby>る<ruby>制度<rt>せいど</rt></ruby>である。<ruby>旧法<rt>きゅうほう</rt></ruby><ruby>下<rt>した</rt></ruby>では、<ruby>刑事訴訟<rt>けいじそしょう</rt></ruby>の<ruby>審判<rt>しんぱん</rt></ruby><ruby>対象<rt>たいしょう</rt></ruby>は<ruby>起訴<rt>きそ</rt></ruby>された<ruby>歴史的<rt>れきしてき</rt></ruby><ruby>社会的<rt>しゃかいてき</rt></ruby><ruby>事実<rt>じじつ</rt></ruby>（<ruby>旧法<rt>きゅうほう</rt></ruby><ruby>時代<rt>じだい</rt></ruby>から「<ruby>公訴<rt>こうそ</rt></ruby><ruby>事実<rt>じじつ</rt></ruby>」と<ruby>呼ば<rt>よば</rt></ruby>れていた）であり、<ruby>裁判所<rt>さいばんしょ</rt></ruby>は<ruby>公訴<rt>こうそ</rt></ruby><ruby>事実<rt>じじつ</rt></ruby>の<ruby>同一性<rt>どういつせい</rt></ruby>がある<ruby>範囲<rt>はんい</rt></ruby>で<ruby>真実<rt>しんじつ</rt></ruby>を<ruby>解明<rt>かいめい</rt></ruby>する<ruby>義務<rt>ぎむ</rt></ruby>を<ruby>負う<rt>おう</rt></ruby>と<ruby>解さ<rt>かいさ</rt></ruby>れていた。そこで、<ruby>実体<rt>じったい</rt></ruby><ruby>的<rt>てき</rt></ruby><ruby>真実<rt>しんじつ</rt></ruby>を<ruby>重視<rt>じゅうし</rt></ruby>する<ruby>立場<rt>たちば</rt></ruby>からは、<ruby>現行<rt>げんこう</rt></ruby><ruby>刑訴<rt>けいそ</rt></ruby>の<ruby>審判<rt>しんぱん</rt></ruby><ruby>対象<rt>たいしょう</rt></ruby>も<ruby>公訴<rt>こうそ</rt></ruby><ruby>事実<rt>じじつ</rt></ruby>とした<ruby>上で<rt>うえで</rt></ruby>、<ruby>訴因<rt>そいん</rt></ruby>は<ruby>罰条<rt>ばつじょう</rt></ruby>と<ruby>合わ<rt>あわ</rt></ruby>せて<ruby>犯罪<rt>はんざい</rt></ruby><ruby>事実<rt>じじつ</rt></ruby>の<ruby>法律<rt>ほうりつ</rt></ruby><ruby>構成<rt>こうせい</rt></ruby>を<ruby>示さ<rt>しめさ</rt></ruby>せ、<ruby>防<rt>ぼう</rt></ruby><ruby>上の<rt>うえの</rt></ruby><ruby>便宜<rt>べんぎ</rt></ruby>を<ruby>図っ<rt>はかっ</rt></ruby>たものに<ruby>過ぎな<rt>すぎな</rt></ruby>いとの<ruby>解釈<rt>かいしゃく</rt></ruby><ruby>論<rt>ろん</rt></ruby>も<ruby>唱え<rt>となえ</rt></ruby>られた。これに<ruby>対し<rt>たいし</rt></ruby>、<ruby>平野<rt>へいや</rt></ruby><ruby>龍一<rt>りゅういち</rt></ruby>は、<ruby>訴訟<rt>そしょう</rt></ruby><ruby>追行<rt>ついこう</rt></ruby><ruby>過程<rt>かてい</rt></ruby>を<ruby>当事者<rt>とうじしゃ</rt></ruby>と<ruby>裁判所<rt>さいばんしょ</rt></ruby>のいずれの<ruby>責任<rt>せきにん</rt></ruby>とするかが<ruby>訴訟<rt>そしょう</rt></ruby><ruby>構造<rt>こうぞう</rt></ruby>を<ruby>性格付<rt>せいかくづけ</rt></ruby>ける<ruby>決定的<rt>けっていてき</rt></ruby><ruby>部分<rt>ぶぶん</rt></ruby>であるとの<ruby>理由<rt>りゆう</rt></ruby>から、「<ruby>審判<rt>しんぱん</rt></ruby><ruby>対象<rt>たいしょう</rt></ruby>は<ruby>検察官<rt>けんさつかん</rt></ruby>の<ruby>設定<rt>せってい</rt></ruby>した<ruby>訴因<rt>そいん</rt></ruby>である」とする<ruby>訴因<rt>そいん</rt></ruby><ruby>説<rt>せつ</rt></ruby>を<ruby>唱え<rt>となえ</rt></ruby>たり。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">訴因制度は当事者追行主義に関わる制度である。旧法下では，刑事訴訟の審判対象は起訴された歴史的社会的事実（旧法時代から「公訴事実」と呼ばれていた）であり，裁判所は公訴事実の同一性がある範囲で真実を解明する義務を負うと解されていた。そこで，実体的真実を重視する立場からは，現行刑訴の審判対象も公訴事実とした上で，訴因は罰条と合わせて犯罪事実の法律構成を示させ，防上の便宜を図ったものに過ぎないとの解釈論も唱えられた。これに対し，平野龍一は，訴訟追行過程を当事者と裁判所のいずれの責任とするかが訴訟構造を性格付ける裁定的部分であるとの理由から，「審判対象は檢察官の設定した訴因である」とする訴因説を唱えたり。</div>
+            </div>
+        </article>
+        <article id="card-10" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(10)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    そして<ruby>判例<rt>はんれい</rt></ruby>も、<ruby>概ね<rt>おおむね</rt></ruby><ruby>訴因<rt>そいん</rt></ruby><ruby>説<rt>せつ</rt></ruby>に<ruby>従い<rt>したがい</rt></ruby><ruby>訴因<rt>そいん</rt></ruby>の<ruby>特定<rt>とくてい</rt></ruby>や<ruby>変更<rt>へんこう</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>論点<rt>ろんてん</rt></ruby>に<ruby>対応<rt>たいおう</rt></ruby>してきた10。<ruby>訴因<rt>そいん</rt></ruby><ruby>説<rt>せつ</rt></ruby>によれば<ruby>裁判所<rt>さいばんしょ</rt></ruby>は<ruby>訴因<rt>そいん</rt></ruby>を<ruby>逸脱<rt>いつだつ</rt></ruby>して<ruby>審判<rt>しんぱん</rt></ruby>する<ruby>権限<rt>けんげん</rt></ruby>を<ruby>持た<rt>もた</rt></ruby>ないが、<ruby>確定<rt>かくてい</rt></ruby><ruby>判決<rt>はんけつ</rt></ruby>の<ruby>効力<rt>こうりょく</rt></ruby>は「<ruby>公訴<rt>こうそ</rt></ruby><ruby>事実<rt>じじつ</rt></ruby>の<ruby>同一性<rt>どういつせい</rt></ruby>」（<ruby>参照<rt>さんしょう</rt></ruby>、312<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>）の<ruby>範囲<rt>はんい</rt></ruby>に<ruby>及ぶ<rt>およぶ</rt></ruby>ことになる。それゆえ、<ruby>検察官<rt>けんさつかん</rt></ruby>が<ruby>犯罪<rt>はんざい</rt></ruby><ruby>事実<rt>じじつ</rt></ruby>の<ruby>一部<rt>いちぶ</rt></ruby><ruby>起訴<rt>きそ</rt></ruby>を<ruby>行う<rt>おこなう</rt></ruby><ruby>場合<rt>ばあい</rt></ruby>、<ruby>訴因<rt>そいん</rt></ruby>に<ruby>含め<rt>ふくめ</rt></ruby>なかった<ruby>犯罪<rt>はんざい</rt></ruby><ruby>事実<rt>じじつ</rt></ruby>については<ruby>民訴<rt>みんそ</rt></ruby>のいう「<ruby>請求<rt>せいきゅう</rt></ruby>の<ruby>放棄<rt>ほうき</rt></ruby>」を<ruby>行う<rt>おこなう</rt></ruby>のと<ruby>等しい<rt>ひとしい</rt></ruby>。この<ruby>限り<rt>かぎり</rt></ruby>では<ruby>訴因<rt>そいん</rt></ruby><ruby>説<rt>せつ</rt></ruby>は<ruby>検察官<rt>けんさつかん</rt></ruby>に<ruby>事件<rt>じけん</rt></ruby>の<ruby>処分<rt>しょぶん</rt></ruby><ruby>権<rt>けん</rt></ruby>を<ruby>認め<rt>みとめ</rt></ruby>る<ruby>見解<rt>けんかい</rt></ruby>でもある！！）。<ruby>職権<rt>しょっけん</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>の<ruby>下<rt>した</rt></ruby>では、<ruby>裁判所<rt>さいばんしょ</rt></ruby>は<ruby>真実<rt>しんじつ</rt></ruby>の<ruby>解明<rt>かいめい</rt></ruby>のために<ruby>必要<rt>ひつよう</rt></ruby>な<ruby>証拠<rt>しょうこ</rt></ruby>を<ruby>職権<rt>しょっけん</rt></ruby>で<ruby>取り調べ<rt>とりしらべ</rt></ruby>る<ruby>義務<rt>ぎむ</rt></ruby>を<ruby>負い<rt>おい</rt></ruby>，<ruby>義務<rt>ぎむ</rt></ruby>を<ruby>怠れ<rt>おこたれ</rt></ruby>ば<ruby>手続<rt>てつづき</rt></ruby>は<ruby>審理<rt>しんり</rt></ruby><ruby>不尽<rt>ふじん</rt></ruby>の<ruby>法令<rt>ほうれい</rt></ruby><ruby>違反<rt>いはん</rt></ruby>となる。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">そして判例も，概ね訴因説に従い訴因の特定や変更に関する論点に対応してきた10。訴因説によれば裁判所は訴因を逸脱して審判する権限を持たないが，確定判決の効力は「公訴事実の同一性」（参照，312条1項）の範囲に及ぶことになる。それゆえ，檢察官が犯罪事実の一部起訴を行う場合，訴因に含めなかった犯罪事実については民訴のいう「請求の放棄」を行うのと等しい。この限りでは訴因説は檢察官に事件の処分権を認める見解でもある！！）。職権主義の下では，裁判所は真実の解明のために必要な証拠を職権で取り調べる義務を負い，義務を怠れば手続は審理不尽の法令違反となる。</div>
+            </div>
+        </article>
+        <article id="card-11" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(11)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    これに<ruby>対し<rt>たいし</rt></ruby>、<ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>追行<rt>ついこう</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>の<ruby>下<rt>した</rt></ruby>では、<ruby>証明<rt>しょうめい</rt></ruby>の<ruby>責任<rt>せきにん</rt></ruby>は<ruby>当事者<rt>とうじしゃ</rt></ruby>が<ruby>負う<rt>おう</rt></ruby>ため、<ruby>職権<rt>しょっけん</rt></ruby>の<ruby>不<rt>ふ</rt></ruby><ruby>行使<rt>こうし</rt></ruby>が<ruby>直ち<rt>ただち</rt></ruby>に<ruby>審理<rt>しんり</rt></ruby><ruby>不尽<rt>ふじん</rt></ruby>とはならない。なお、<ruby>職権<rt>しょっけん</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>のドイツでは<ruby>裁判所<rt>さいばんしょ</rt></ruby>が<ruby>事案<rt>じあん</rt></ruby><ruby>解明<rt>かいめい</rt></ruby><ruby>義務<rt>ぎむ</rt></ruby>を<ruby>負う<rt>おう</rt></ruby>だけでなく、<ruby>裁判官<rt>さいばんかん</rt></ruby>が<ruby>早す<rt>はやす</rt></ruby>ぎる<ruby>有罪<rt>ゆうざい</rt></ruby><ruby>確<rt>かく</rt></ruby>により<ruby>証拠<rt>しょうこ</rt></ruby><ruby>調べ<rt>しらべ</rt></ruby>を<ruby>打ち切る<rt>うちきる</rt></ruby>ことを<ruby>防ぐ<rt>ふせぐ</rt></ruby>ために、<ruby>当事者<rt>とうじしゃ</rt></ruby>の<ruby>証拠<rt>しょうこ</rt></ruby><ruby>調べ<rt>しらべ</rt></ruby><ruby>請求<rt>せいきゅう</rt></ruby>にも<ruby>強い<rt>つよい</rt></ruby><ruby>権利<rt>けんり</rt></ruby><ruby>性<rt>せい</rt></ruby>を<ruby>認め<rt>みとめ</rt></ruby>ている 。この<ruby>点<rt>てん</rt></ruby>、<ruby>日本<rt>にっぽん</rt></ruby>の<ruby>刑訴<rt>けいそ</rt></ruby><ruby>法<rt>ほう</rt></ruby>は<ruby>予断<rt>よだん</rt></ruby><ruby>排除<rt>はいじょ</rt></ruby>の<ruby>原則<rt>げんそく</rt></ruby>を<ruby>採用<rt>さいよう</rt></ruby>しており、<ruby>裁判官<rt>さいばんかん</rt></ruby>は<ruby>予断<rt>よだん</rt></ruby>を<ruby>持た<rt>もた</rt></ruby>ずに<ruby>公判<rt>こうはん</rt></ruby>に<ruby>臨む<rt>のぞむ</rt></ruby>ため、<ruby>当事者<rt>とうじしゃ</rt></ruby>の<ruby>証拠<rt>しょうこ</rt></ruby><ruby>調べ<rt>しらべ</rt></ruby><ruby>請求<rt>せいきゅう</rt></ruby>（298<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>）を<ruby>事実上<rt>じじつじょう</rt></ruby><ruby>尊重<rt>そんちょう</rt></ruby>せざるを<ruby>得な<rt>えな</rt></ruby>い<ruby>構造<rt>こうぞう</rt></ruby>になっている。しかし、<ruby>裁判官<rt>さいばんかん</rt></ruby>が<ruby>事実<rt>じじつ</rt></ruby>を<ruby>認定<rt>にんてい</rt></ruby>する<ruby>以上<rt>いじょう</rt></ruby>、<ruby>早す<rt>はやす</rt></ruby>ぎる<ruby>有罪<rt>ゆうざい</rt></ruby><ruby>確<rt>かく</rt></ruby>により<ruby>証拠<rt>しょうこ</rt></ruby><ruby>調べ<rt>しらべ</rt></ruby>が<ruby>打ち切ら<rt>うちきら</rt></ruby>れる<ruby>危険<rt>きけん</rt></ruby>はある。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">これに対し，当事者追行主義の下では，証明の責任は当事者が負うため，職権の不行使が直ちに審理不尽とはならない。なお，職権主義のドイツでは裁判所が事案解明義務を負うだけでなく，裁判官が早すぎる有罪確により証拠調べを打ち切ることを防ぐために，当事者の証拠調べ請求にも強い権利性を認めている 。この点，日本の刑訴法は予断排除の原則を採用しており，裁判官は予断を持たずに公判に臨むため，当事者の証拠調べ請求（298条1項）を事実上尊重せざるを得ない構造になっている。しかし，裁判官が事実を認定する以上，早すぎる有罪確により証拠調べが打ち切られる危険はある。</div>
+            </div>
+        </article>
+        <article id="card-12" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(12)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    ところが、<ruby>裁判所<rt>さいばんしょ</rt></ruby>が<ruby>当事者<rt>とうじしゃ</rt></ruby>の<ruby>証拠<rt>しょうこ</rt></ruby><ruby>調べ<rt>しらべ</rt></ruby><ruby>請求<rt>せいきゅう</rt></ruby>を<ruby>単に<rt>たんに</rt></ruby>「<ruby>必要性<rt>ひつようせい</rt></ruby>なし」と<ruby>述べ<rt>のべ</rt></ruby>るだけで<ruby>却下<rt>きゃっか</rt></ruby>しても<ruby>適法<rt>てきほう</rt></ruby>とされてきた。これでは、<ruby>当事者<rt>とうじしゃ</rt></ruby>が<ruby>請求<rt>せいきゅう</rt></ruby>した<ruby>証拠<rt>しょうこ</rt></ruby><ruby>調べ<rt>しらべ</rt></ruby>は<ruby>裁判所<rt>さいばんしょ</rt></ruby>の<ruby>裁量<rt>さいりょう</rt></ruby><ruby>次第<rt>しだい</rt></ruby>ということになってしまう 。<ruby>証拠<rt>しょうこ</rt></ruby><ruby>調べ<rt>しらべ</rt></ruby>の<ruby>範囲<rt>はんい</rt></ruby>との<ruby>関係<rt>かんけい</rt></ruby>では<ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>の<ruby>理論<rt>りろん</rt></ruby><ruby>化<rt>か</rt></ruby>は<ruby>不完全<rt>ふかんぜん</rt></ruby>なままである。=<ruby>事<rt>こと</rt></ruby><ruby>者<rt>もの</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby><ruby>論<rt>ろん</rt></ruby>の<ruby>展開<rt>てんかい</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>が<ruby>機能す<rt>きのうす</rt></ruby>るためには、<ruby>両<rt>りょう</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby>が<ruby>対等<rt>たいとう</rt></ruby>に<ruby>攻撃<rt>こうげき</rt></ruby>・<ruby>防<rt>ぼう</rt></ruby>できなければならない。ところが、<ruby>強制<rt>きょうせい</rt></ruby><ruby>捜査<rt>そうさ</rt></ruby>を<ruby>利用<rt>りよう</rt></ruby>できる<ruby>検察官<rt>けんさつかん</rt></ruby>は<ruby>被告人<rt>ひこくにん</rt></ruby>・<ruby>弁護人<rt>べんごにん</rt></ruby>よりも<ruby>証拠収集<rt>しょうこしゅうしゅう</rt></ruby><ruby>能力<rt>のうりょく</rt></ruby>に<ruby>優れ<rt>まされ</rt></ruby>ており、ただ<ruby>形式的<rt>けいしきてき</rt></ruby>に<ruby>被告人<rt>ひこくにん</rt></ruby>に<ruby>防<rt>ぼう</rt></ruby><ruby>機会<rt>きかい</rt></ruby>を<ruby>与え<rt>あたえ</rt></ruby>ても、<ruby>実質的<rt>じっしつてき</rt></ruby>に<ruby>公正<rt>こうせい</rt></ruby>な<ruby>手続<rt>てつづき</rt></ruby>とは<ruby>言え<rt>いえ</rt></ruby>ない。そこで、<ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>には、<ruby>被告人<rt>ひこくにん</rt></ruby>に<ruby>検察官<rt>けんさつかん</rt></ruby>と<ruby>実質的<rt>じっしつてき</rt></ruby>に<ruby>対等<rt>たいとう</rt></ruby>な<ruby>攻撃<rt>こうげき</rt></ruby><ruby>防御<rt>ぼうぎょ</rt></ruby><ruby>手段<rt>しゅだん</rt></ruby>を<ruby>保障<rt>ほしょう</rt></ruby>するべきとの<ruby>意味<rt>いみ</rt></ruby>も<ruby>含ま<rt>ふくま</rt></ruby>れており，とくに<ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>対等<rt>たいとう</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>または<ruby>実質的<rt>じっしつてき</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>と<ruby>呼ば<rt>よば</rt></ruby>れている。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">ところが，裁判所が当事者の証拠調べ請求を単に「必要性なし」と述べるだけで却下しても適法とされてきた。これでは，当事者が請求した証拠調べは裁判所の裁量次第ということになってしまう 。証拠調べの範囲との関係では当事者主義の理論化は不完全なままである。=事者主義論の展開当事者主義が機能するためには，両当事者が対等に攻撃・防できなければならない。ところが，強制偵查を利用できる檢察官は被告・弁護人よりも証拠収集能力に優れており，ただ形式的に被告に防機会を与えても，実質的に公正な手続とは言えない。そこで，当事者主義には，被告に檢察官と実質的に対等な攻撃防御手段を保障するべきとの意味も含まれており，とくに当事者対等主義または実質的当事者主義と呼ばれている。</div>
+            </div>
+        </article>
+        <article id="card-13" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(13)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>刑事訴訟<rt>けいじそしょう</rt></ruby>における<ruby>当事者<rt>とうじしゃ</rt></ruby>の<ruby>対等性<rt>たいとうせい</rt></ruby>は、<ruby>検察官<rt>けんさつかん</rt></ruby>による<ruby>弾劾<rt>だんがい</rt></ruby>に<ruby>対し<rt>たいし</rt></ruby>て<ruby>被告人<rt>ひこくにん</rt></ruby><ruby>側<rt>がわ</rt></ruby>に<ruby>有効<rt>ゆうこう</rt></ruby>な<ruby>防<rt>ぼう</rt></ruby><ruby>権<rt>けん</rt></ruby>を<ruby>保障<rt>ほしょう</rt></ruby>することにより<ruby>達成<rt>たっせい</rt></ruby>できる。とはいえ、<ruby>有効<rt>ゆうこう</rt></ruby>な<ruby>防<rt>ぼう</rt></ruby>のために<ruby>必要<rt>ひつよう</rt></ruby>な<ruby>権利<rt>けんり</rt></ruby>を<ruby>対等性<rt>たいとうせい</rt></ruby>の<ruby>概念<rt>がいねん</rt></ruby>から<ruby>直ち<rt>ただち</rt></ruby>に<ruby>導き出せ<rt>みちびきだせ</rt></ruby>るわけではない。<ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>対等<rt>たいとう</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>のあいまいさが<ruby>表面化<rt>ひょうめんか</rt></ruby>した<ruby>問題<rt>もんだい</rt></ruby>に、<ruby>全面的<rt>ぜんめんてき</rt></ruby><ruby>証拠<rt>しょうこ</rt></ruby><ruby>開示<rt>かいじ</rt></ruby><ruby>制度<rt>せいど</rt></ruby>の<ruby>導入<rt>どうにゅう</rt></ruby>の<ruby>是非<rt>ぜひ</rt></ruby><ruby>論<rt>ろん</rt></ruby>がある。<ruby>旧法<rt>きゅうほう</rt></ruby><ruby>時代<rt>じだい</rt></ruby>は<ruby>事件<rt>じけん</rt></ruby>が<ruby>公判<rt>こうはん</rt></ruby>に<ruby>付さ<rt>ふさ</rt></ruby>れた<ruby>後<rt>のち</rt></ruby>、<ruby>弁護人<rt>べんごにん</rt></ruby>は<ruby>裁判所<rt>さいばんしょ</rt></ruby>で<ruby>捜査<rt>そうさ</rt></ruby><ruby>記録<rt>きろく</rt></ruby>の<ruby>閲覧<rt>えつらん</rt></ruby>・<ruby>謄写<rt>とうしゃ</rt></ruby>を<ruby>行い<rt>おこない</rt></ruby>、<ruby>訴訟<rt>そしょう</rt></ruby><ruby>準備<rt>じゅんび</rt></ruby>を<ruby>行う<rt>おこなう</rt></ruby>ことができた。しかし、<ruby>現行法<rt>げんこうほう</rt></ruby>は<ruby>起訴状<rt>きそじょう</rt></ruby><ruby>一本<rt>いっぽん</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>を<ruby>採用<rt>さいよう</rt></ruby>し、<ruby>起訴状<rt>きそじょう</rt></ruby>に<ruby>捜査<rt>そうさ</rt></ruby><ruby>記録<rt>きろく</rt></ruby>を<ruby>添付<rt>てんぷ</rt></ruby>することを<ruby>禁止<rt>きんし</rt></ruby>したため（256<ruby>条<rt>じょう</rt></ruby>1<ruby>項<rt>こう</rt></ruby>・6<ruby>項<rt>こう</rt></ruby>），<ruby>弁護人<rt>べんごにん</rt></ruby>は<ruby>検察官<rt>けんさつかん</rt></ruby>から<ruby>捜査<rt>そうさ</rt></ruby><ruby>記録<rt>きろく</rt></ruby>の<ruby>閲覧<rt>えつらん</rt></ruby>・<ruby>謄写<rt>とうしゃ</rt></ruby>をさせてもらって<ruby>公判<rt>こうはん</rt></ruby><ruby>準備<rt>じゅんび</rt></ruby>を<ruby>進め<rt>すすめ</rt></ruby>る<ruby>必要<rt>ひつよう</rt></ruby>が<ruby>生じ<rt>しょうじ</rt></ruby>た。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">刑事訴訟における当事者の対等性は，檢察官による弾劾に対して被告側に有効な防権を保障することにより達成できる。とはいえ，有効な防のために必要な権利を対等性の概念から直ちに導き出せるわけではない。当事者対等主義のあいまいさが表面化した問題に，全面的証拠開示制度の導入の是非論がある。旧法時代は事件が公判に付された後，弁護人は裁判所で偵查記録の閲覧・謄写を行い，訴訟準備を行うことができた。しかし，現行法は起訴状一本主義を採用し，起訴状に偵查記録を添付することを禁止したため（256条1項・6項），弁護人は檢察官から偵查記録の閲覧・謄写をさせてもらって公判準備を進める必要が生じた。</div>
+            </div>
+        </article>
+        <article id="card-14" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(14)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    ところが、<ruby>当初<rt>とうしょ</rt></ruby>は<ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby><ruby>化<rt>か</rt></ruby>を<ruby>理由<rt>りゆう</rt></ruby>に<ruby>検察官<rt>けんさつかん</rt></ruby>が<ruby>捜査<rt>そうさ</rt></ruby><ruby>記録<rt>きろく</rt></ruby>の<ruby>任意<rt>にんい</rt></ruby><ruby>開示<rt>かいじ</rt></ruby>を<ruby>拒む<rt>こばむ</rt></ruby>こともあったという。<ruby>現在<rt>げんざい</rt></ruby>は<ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>対等<rt>たいとう</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>の<ruby>理念<rt>りねん</rt></ruby>から、<ruby>個別<rt>こべつ</rt></ruby>の<ruby>根拠<rt>こんきょ</rt></ruby><ruby>規定<rt>きてい</rt></ruby>がなくても、<ruby>検察官<rt>けんさつかん</rt></ruby>が<ruby>証拠<rt>しょうこ</rt></ruby><ruby>開示<rt>かいじ</rt></ruby>を<ruby>義務付け<rt>ぎむづけ</rt></ruby>られる<ruby>場合<rt>ばあい</rt></ruby>があることは<ruby>肯定<rt>こうてい</rt></ruby>されている17。しかし、<ruby>全面的<rt>ぜんめんてき</rt></ruby><ruby>証拠<rt>しょうこ</rt></ruby><ruby>開示<rt>かいじ</rt></ruby>については<ruby>消極<rt>しょうきょく</rt></ruby><ruby>論<rt>ろん</rt></ruby>がなお<ruby>有力<rt>ゆうりょく</rt></ruby>である。<ruby>被告人<rt>ひこくにん</rt></ruby><ruby>側<rt>がわ</rt></ruby>が<ruby>真実<rt>しんじつ</rt></ruby>からではなく、<ruby>検察官<rt>けんさつかん</rt></ruby>の<ruby>手の<rt>ての</rt></ruby><ruby>内<rt>ない</rt></ruby>を<ruby>知っ<rt>しっ</rt></ruby>た<ruby>上で<rt>うえで</rt></ruby><ruby>捜査<rt>そうさ</rt></ruby>の<ruby>弱い<rt>よわい</rt></ruby><ruby>部分<rt>ぶぶん</rt></ruby>を<ruby>突く<rt>つく</rt></ruby><ruby>主張<rt>しゅちょう</rt></ruby>を<ruby>組み立てる<rt>くみたてる</rt></ruby>ことになりかねないというわけである。そして<ruby>現行法<rt>げんこうほう</rt></ruby>も、<ruby>検察官<rt>けんさつかん</rt></ruby><ruby>請求<rt>せいきゅう</rt></ruby><ruby>証拠<rt>しょうこ</rt></ruby>の<ruby>証明<rt>しょうめい</rt></ruby><ruby>力<rt>ちから</rt></ruby><ruby>評価<rt>ひょうか</rt></ruby>に<ruby>直接<rt>ちょくせつ</rt></ruby><ruby>関連し<rt>かんれんし</rt></ruby>ない<ruby>証拠<rt>しょうこ</rt></ruby>については、<ruby>被告人<rt>ひこくにん</rt></ruby>の<ruby>主張<rt>しゅちょう</rt></ruby>を<ruby>待っ<rt>まっ</rt></ruby>てから、それに<ruby>関連す<rt>かんれんす</rt></ruby>る<ruby>範囲<rt>はんい</rt></ruby>で<ruby>開示<rt>かいじ</rt></ruby>する<ruby>方式<rt>ほうしき</rt></ruby>を<ruby>採用<rt>さいよう</rt></ruby>している（316<ruby>条<rt>じょう</rt></ruby>の。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">ところが，当初は当事者主義化を理由に檢察官が偵查記録の任意開示を拒むこともあったという。現在は当事者対等主義の理念から，個別の根拠規定がなくても，檢察官が証拠開示を義務付けられる場合があることは肯定されている17。しかし，全面的証拠開示については消極論がなお有力である。被告側が真実からではなく，檢察官の手の内を知った上で偵查の弱い部分を突く主張を組み立てることになりかねないというわけである。そして現行法も，檢察官請求証拠の証明力評価に直接関連しない証拠については，被告の主張を待ってから，それに関連する範囲で開示する方式を採用している（316条の。</div>
+            </div>
+        </article>
+        <article id="card-15" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(15)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>は<ruby>職権<rt>しょっけん</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>の<ruby>対抗<rt>たいこう</rt></ruby><ruby>原理<rt>げんり</rt></ruby>であって、<ruby>刑事訴訟<rt>けいじそしょう</rt></ruby>を<ruby>職権<rt>しょっけん</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>に<ruby>導く<rt>みちびく</rt></ruby><ruby>実体<rt>じったい</rt></ruby><ruby>的<rt>てき</rt></ruby><ruby>真実<rt>しんじつ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>の<ruby>直接<rt>ちょくせつ</rt></ruby>の<ruby>対抗<rt>たいこう</rt></ruby><ruby>原理<rt>げんり</rt></ruby>ではない。<ruby>技術的<rt>ぎじゅつてき</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby><ruby>論<rt>ろん</rt></ruby>が<ruby>成り立つ<rt>なりたつ</rt></ruby>のはそれ<ruby>故<rt>ゆえ</rt></ruby>である。そこで、<ruby>実質的<rt>じっしつてき</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby><ruby>論<rt>ろん</rt></ruby>は、<ruby>実体<rt>じったい</rt></ruby><ruby>的<rt>てき</rt></ruby><ruby>真実<rt>しんじつ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>の<ruby>対抗<rt>たいこう</rt></ruby><ruby>原理<rt>げんり</rt></ruby>として<ruby>憲法<rt>けんぽう</rt></ruby>31<ruby>条<rt>じょう</rt></ruby>の<ruby>適正<rt>てきせい</rt></ruby><ruby>手続<rt>てつづき</rt></ruby>の<ruby>保障<rt>ほしょう</rt></ruby>を<ruby>据え<rt>すえ</rt></ruby>るデュー・プロセス<ruby>論<rt>ろん</rt></ruby>へと<ruby>展開<rt>てんかい</rt></ruby>していった。<ruby>日本<rt>にっぽん</rt></ruby>におけるデュー・プロセス<ruby>論<rt>ろん</rt></ruby>の<ruby>第一人者<rt>だいいちにんしゃ</rt></ruby>となった<ruby>田宮<rt>たみや</rt></ruby><ruby>裕<rt>ひろし</rt></ruby>は、<ruby>憲法<rt>けんぽう</rt></ruby><ruby>的<rt>てき</rt></ruby><ruby>刑事訴訟<rt>けいじそしょう</rt></ruby>，<ruby>司法<rt>しほう</rt></ruby>の<ruby>法<rt>ほう</rt></ruby><ruby>形成<rt>けいせい</rt></ruby><ruby>機能<rt>きのう</rt></ruby>，<ruby>実質的<rt>じっしつてき</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>の<ruby>三つ<rt>みっつ</rt></ruby>が<ruby>三位一体<rt>さんみいったい</rt></ruby><ruby>的に<rt>てきに</rt></ruby><ruby>重なり合っ<rt>かさなりあっ</rt></ruby>たものを、デュー・プロセス<ruby>論<rt>ろん</rt></ruby>と<ruby>名付けた<rt>なづけた</rt></ruby>と<ruby>説明し<rt>せつめいし</rt></ruby>ている19。すなわち、<ruby>憲法<rt>けんぽう</rt></ruby>から<ruby>出発<rt>しゅっぱつ</rt></ruby>し、<ruby>裁判所<rt>さいばんしょ</rt></ruby>が<ruby>積極的に<rt>せっきょくてきに</rt></ruby>、<ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>の<ruby>実質<rt>じっしつ</rt></ruby><ruby>化<rt>か</rt></ruby>に<ruby>向け<rt>むけ</rt></ruby>た<ruby>刑訴<rt>けいそ</rt></ruby><ruby>法解釈<rt>ほうかいしゃく</rt></ruby>を<ruby>展開<rt>てんかい</rt></ruby>すべきとの<ruby>考え方<rt>かんがえかた</rt></ruby>が、デュー・プロセス<ruby>論<rt>ろん</rt></ruby>である。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">当事者主義は職権主義の対抗原理であって，刑事訴訟を職権主義に導く実体的真実主義の直接の対抗原理ではない。技術的当事者主義論が成り立つのはそれ故である。そこで，実質的当事者主義論は，実体的真実主義の対抗原理として憲法31条の正當法律程序の保障を据えるデュー・プロセス論へと展開していった。日本におけるデュー・プロセス論の第一人者となった田宮裕は，憲法的刑事訴訟，司法の法形成機能，実質的当事者主義の三つが三位一体的に重なり合ったものを，デュー・プロセス論と名付けたと説明している19。すなわち，憲法から出発し，裁判所が積極的に，当事者主義の実質化に向けた刑訴法解釈を展開すべきとの考え方が，デュー・プロセス論である。</div>
+            </div>
+        </article>
+        <article id="card-16" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(16)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    アメリカ<ruby>連邦<rt>れんぽう</rt></ruby><ruby>最高裁<rt>さいこうさい</rt></ruby>はとりわけウォーレン・コートの 1960<ruby>年代<rt>ねんだい</rt></ruby>に、<ruby>違法<rt>いほう</rt></ruby><ruby>収集<rt>しゅうしゅう</rt></ruby><ruby>証拠<rt>しょうこ</rt></ruby>の<ruby>排除<rt>はいじょ</rt></ruby>、<ruby>弁護人<rt>べんごにん</rt></ruby>の<ruby>援助<rt>えんじょ</rt></ruby>を<ruby>受ける<rt>うける</rt></ruby><ruby>権利<rt>けんり</rt></ruby>，<ruby>自己<rt>じこ</rt></ruby><ruby>負罪<rt>ふざい</rt></ruby><ruby>拒否<rt>きょひ</rt></ruby><ruby>特権<rt>とっけん</rt></ruby>、<ruby>少年<rt>しょうねん</rt></ruby><ruby>審判<rt>しんぱん</rt></ruby>における<ruby>公正<rt>こうせい</rt></ruby>な<ruby>手続<rt>てつづき</rt></ruby>の<ruby>保障<rt>ほしょう</rt></ruby><ruby>等<rt>など</rt></ruby>に<ruby>関す<rt>かんす</rt></ruby>る<ruby>憲法<rt>けんぽう</rt></ruby><ruby>判例<rt>はんれい</rt></ruby>を<ruby>次々<rt>つぎつぎ</rt></ruby>と<ruby>生ん<rt>うん</rt></ruby>だ。<ruby>日本<rt>にっぽん</rt></ruby>でもデュー・プロセス<ruby>論<rt>ろん</rt></ruby>を<ruby>採用<rt>さいよう</rt></ruby>する<ruby>判例<rt>はんれい</rt></ruby>はいくつか<ruby>現れ<rt>あらわれ</rt></ruby>たが、どちらかというと<ruby>立法<rt>りっぽう</rt></ruby><ruby>問題<rt>もんだい</rt></ruby>との<ruby>判断<rt>はんだん</rt></ruby>にとどめることが<ruby>多い<rt>おおい</rt></ruby>。デュー・プロセス<ruby>論<rt>ろん</rt></ruby>は<ruby>実質的<rt>じっしつてき</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>をある<ruby>程度<rt>ていど</rt></ruby><ruby>前進<rt>ぜんしん</rt></ruby>させたが、<ruby>同時に<rt>どうじに</rt></ruby>、<ruby>司法<rt>しほう</rt></ruby>による<ruby>法<rt>ほう</rt></ruby><ruby>形成<rt>けいせい</rt></ruby>に<ruby>期待す<rt>きたいす</rt></ruby>ることの<ruby>限界<rt>げんかい</rt></ruby>も<ruby>明らか<rt>あきらか</rt></ruby>にした。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">アメリカ連邦最高裁はとりわけウォーレン・コートの 1960年代に，違法収集証拠の排除，弁護人の援助を受ける権利，拒絕自我證罪特權，少年審判における公正な手続の保障等に関する憲法判例を次々と生んだ。日本でもデュー・プロセス論を採用する判例はいくつか現れたが，どちらかというと立法問題との判断にとどめることが多い。デュー・プロセス論は実質的当事者主義をある程度前進させたが，同時に，司法による法形成に期待することの限界も明らかにした。</div>
+            </div>
+        </article>
+        <section id="card-17" class="my-8 rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 shadow-md border border-indigo-900/80 transition-all duration-300">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="text-xl sm:text-2xl font-bold tracking-wide font-serif text-amber-300">▶ <ruby>事<rt>こと</rt></ruby><ruby>者<rt>もの</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>と<ruby>捜査<rt>そうさ</rt></ruby><ruby>構造<rt>こうぞう</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>の<ruby>実質<rt>じっしつ</rt></ruby><ruby>化<rt>か</rt></ruby>にとって<ruby>捜査<rt>そうさ</rt></ruby>の<ruby>構造<rt>こうぞう</rt></ruby>も<ruby>重要な<rt>じゅうような</rt></ruby><ruby>意味<rt>いみ</rt></ruby>を<ruby>持つ<rt>もつ</rt></ruby>。</h2>
+                <button onclick="playCardText(17)" class="shrink-0 flex items-center space-x-1 bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-amber-400/40 transition-colors select-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    <span>朗讀標題</span>
+                </button>
+            </div>
+            <div class="text-base sm:text-lg font-medium text-indigo-200 font-sans">▶ 事者主義と偵查構造当事者主義の実質化にとって偵查の構造も重要な意味を持つ。</div>
+        </section>
+        <article id="card-18" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(18)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    かりに<ruby>捜査<rt>そうさ</rt></ruby>が<ruby>礼<rt>れい</rt></ruby><ruby>間<rt>かん</rt></ruby><ruby>的に<rt>てきに</rt></ruby><ruby>行わ<rt>おこなわ</rt></ruby>れ，かつ<ruby>捜査<rt>そうさ</rt></ruby>の<ruby>結果<rt>けっか</rt></ruby>が<ruby>公判<rt>こうはん</rt></ruby>に<ruby>強い<rt>つよい</rt></ruby><ruby>影響<rt>えいきょう</rt></ruby>を<ruby>及ぼ<rt>およぼ</rt></ruby>す<ruby>構造<rt>こうぞう</rt></ruby>になっていれば、<ruby>公判<rt>こうはん</rt></ruby>を<ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby><ruby>化し<rt>かし</rt></ruby>ても<ruby>訴訟<rt>そしょう</rt></ruby><ruby>全体<rt>ぜんたい</rt></ruby>は<ruby>半<rt>はん</rt></ruby><ruby>礼<rt>れい</rt></ruby><ruby>問<rt>とん</rt></ruby><ruby>的<rt>てき</rt></ruby>である。<ruby>現行法<rt>げんこうほう</rt></ruby>はアメリカに<ruby>倣っ<rt>ならっ</rt></ruby>て、<ruby>捜査<rt>そうさ</rt></ruby><ruby>機関<rt>きかん</rt></ruby>に<ruby>強制<rt>きょうせい</rt></ruby><ruby>捜査権<rt>そうさけん</rt></ruby><ruby>限<rt>げん</rt></ruby>を<ruby>付与<rt>ふよ</rt></ruby>した<ruby>上で<rt>うえで</rt></ruby>，<ruby>裁判官<rt>さいばんかん</rt></ruby>が<ruby>状<rt>じょう</rt></ruby><ruby>審査<rt>しんさ</rt></ruby>や<ruby>証拠<rt>しょうこ</rt></ruby><ruby>排除<rt>はいじょ</rt></ruby><ruby>法則<rt>ほうそく</rt></ruby>を<ruby>通じ<rt>つうじ</rt></ruby>て<ruby>人権侵害<rt>じんけんしんがい</rt></ruby><ruby>的な<rt>てきな</rt></ruby><ruby>捜査<rt>そうさ</rt></ruby>が<ruby>行わ<rt>おこなわ</rt></ruby>れないよう<ruby>規律<rt>きりつ</rt></ruby>する<ruby>方式<rt>ほうしき</rt></ruby>を<ruby>採用<rt>さいよう</rt></ruby>している。また、<ruby>伝聞<rt>でんぶん</rt></ruby><ruby>法則<rt>ほうそく</rt></ruby>（320<ruby>条<rt>じょう</rt></ruby>）を<ruby>採用<rt>さいよう</rt></ruby>し、<ruby>捜査<rt>そうさ</rt></ruby><ruby>機関<rt>きかん</rt></ruby>の<ruby>作成<rt>さくせい</rt></ruby>した<ruby>供述調書<rt>きょうじゅつちょうしょ</rt></ruby>がそのまま<ruby>証拠<rt>しょうこ</rt></ruby>とならないようにしている。しかしながら、それにもかかわらず<ruby>日米間<rt>にちべいかん</rt></ruby>の<ruby>捜査<rt>そうさ</rt></ruby>の<ruby>態様<rt>たいよう</rt></ruby>はかなり<ruby>異なる<rt>ことなる</rt></ruby>。<ruby>日本<rt>にっぽん</rt></ruby>の<ruby>検察官<rt>けんさつかん</rt></ruby>は、<ruby>公判<rt>こうはん</rt></ruby>における<ruby>有罪<rt>ゆうざい</rt></ruby><ruby>立証<rt>りっしょう</rt></ruby>の<ruby>確実性<rt>かくじつせい</rt></ruby>まで<ruby>見通し<rt>みとおし</rt></ruby>た<ruby>上で<rt>うえで</rt></ruby>、<ruby>起訴<rt>きそ</rt></ruby>・<ruby>不起訴<rt>ふきそ</rt></ruby>の<ruby>決定<rt>けってい</rt></ruby>を<ruby>行って<rt>いって</rt></ruby>いるとされる。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">かりに偵查が礼間的に行われ，かつ偵查の結果が公判に強い影響を及ぼす構造になっていれば，公判を当事者主義化しても訴訟全体は半礼問的である。現行法はアメリカに倣って，偵查機関に強制偵查権限を付与した上で，裁判官が状審査や証拠排除法則を通じて人権侵害的な偵查が行われないよう規律する方式を採用している。また，伝聞法則（320条）を採用し，偵查機関の作成した供述調書がそのまま証拠とならないようにしている。しかしながら，それにもかかわらず日米間の偵查の態様はかなり異なる。日本の檢察官は，公判における有罪立証の確実性まで見通した上で，起訴・不起訴の裁定を行っているとされる。</div>
+            </div>
+        </article>
+        <article id="card-19" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(19)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    そのために、<ruby>捜査<rt>そうさ</rt></ruby><ruby>段階<rt>だんかい</rt></ruby>において<ruby>被疑者<rt>ひぎしゃ</rt></ruby>を<ruby>取り調べ<rt>とりしらべ</rt></ruby>、<ruby>供述<rt>きょうじゅつ</rt></ruby>を<ruby>得る<rt>える</rt></ruby>ことが<ruby>重視<rt>じゅうし</rt></ruby>されてきた。これに<ruby>対し<rt>たいし</rt></ruby>、アメリカでは<ruby>有罪<rt>ゆうざい</rt></ruby><ruby>立証<rt>りっしょう</rt></ruby>を<ruby>可能に<rt>かのうに</rt></ruby>する<ruby>証拠<rt>しょうこ</rt></ruby>を<ruby>集め<rt>あつめ</rt></ruby>ることが<ruby>捜査<rt>そうさ</rt></ruby>の<ruby>日<rt>にち</rt></ruby><ruby>的<rt>てき</rt></ruby>であり、<ruby>自白<rt>じはく</rt></ruby><ruby>獲得<rt>かくとく</rt></ruby>に<ruby>関心<rt>かんしん</rt></ruby>はあっても、<ruby>被疑者<rt>ひぎしゃ</rt></ruby>の<ruby>取調べ<rt>とりしらべ</rt></ruby>は<ruby>日本<rt>にっぽん</rt></ruby>ほど<ruby>重視<rt>じゅうし</rt></ruby>されていない。こうした<ruby>日米<rt>にちべい</rt></ruby>の<ruby>捜査<rt>そうさ</rt></ruby>の<ruby>考え方<rt>かんがえかた</rt></ruby>の<ruby>違い<rt>ちがい</rt></ruby>は、「<ruby>糺問<rt>きゅうもん</rt></ruby><ruby>的<rt>てき</rt></ruby><ruby>捜査<rt>そうさ</rt></ruby><ruby>観<rt>かん</rt></ruby>」と「<ruby>弾劾<rt>だんがい</rt></ruby><ruby>的<rt>てき</rt></ruby><ruby>捜査<rt>そうさ</rt></ruby><ruby>観<rt>かん</rt></ruby>」と<ruby>名付け<rt>なづけ</rt></ruby>られた。<ruby>日本<rt>にっぽん</rt></ruby>が<ruby>礼<rt>れい</rt></ruby><ruby>間<rt>かん</rt></ruby><ruby>的<rt>てき</rt></ruby><ruby>捜査<rt>そうさ</rt></ruby><ruby>観<rt>かん</rt></ruby>から<ruby>出発<rt>しゅっぱつ</rt></ruby>している<ruby>理由<rt>りゆう</rt></ruby>は、<ruby>戦前<rt>せんぜん</rt></ruby>の<ruby>予審<rt>よしん</rt></ruby>と<ruby>関係<rt>かんけい</rt></ruby>する。<ruby>本来<rt>ほんらい</rt></ruby>，<ruby>予審<rt>よしん</rt></ruby><ruby>制度<rt>せいど</rt></ruby>の<ruby>下<rt>した</rt></ruby>では<ruby>強制<rt>きょうせい</rt></ruby><ruby>捜査<rt>そうさ</rt></ruby>は<ruby>予審<rt>よしん</rt></ruby>が<ruby>担い<rt>にない</rt></ruby>、<ruby>任意<rt>にんい</rt></ruby><ruby>捜査<rt>そうさ</rt></ruby>により<ruby>起訴<rt>きそ</rt></ruby>に<ruby>足り<rt>たり</rt></ruby>る<ruby>証拠<rt>しょうこ</rt></ruby>を<ruby>集め<rt>あつめ</rt></ruby>ることが<ruby>起訴<rt>きそ</rt></ruby><ruby>前<rt>まえ</rt></ruby><ruby>捜査<rt>そうさ</rt></ruby>の<ruby>役割<rt>やくわり</rt></ruby>となる。ところが、<ruby>日本<rt>にっぽん</rt></ruby>では<ruby>旧法<rt>きゅうほう</rt></ruby><ruby>時代<rt>じだい</rt></ruby>から<ruby>起訴<rt>きそ</rt></ruby><ruby>便宜<rt>べんぎ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>の<ruby>下<rt>した</rt></ruby>での<ruby>公訴<rt>こうそ</rt></ruby><ruby>権<rt>けん</rt></ruby>の<ruby>運用<rt>うんよう</rt></ruby>のために、<ruby>予審<rt>よしん</rt></ruby>とは<ruby>別に<rt>べつに</rt></ruby><ruby>起訴<rt>きそ</rt></ruby><ruby>前<rt>まえ</rt></ruby><ruby>捜査<rt>そうさ</rt></ruby>が<ruby>重視<rt>じゅうし</rt></ruby>されていた。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">そのために，偵查段階において犯罪嫌疑人を取り調べ，供述を得ることが重視されてきた。これに対し，アメリカでは有罪立証を可能にする証拠を集めることが偵查の日的であり，自白獲得に関心はあっても，犯罪嫌疑人の取調べは日本ほど重視されていない。こうした日米の偵查の考え方の違いは，「糺問的偵查観」と「弾劾的偵查観」と名付けられた。日本が礼間的偵查観から出発している理由は，戦前の予審と関係する。本来，予審制度の下では強制偵查は予審が担い，任意偵查により起訴に足りる証拠を集めることが起訴前偵查の役割となる。ところが，日本では旧法時代から起訴便宜主義の下での公訴権の運用のために，予審とは別に起訴前偵查が重視されていた。</div>
+            </div>
+        </article>
+        <article id="card-20" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(20)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    また、<ruby>響<rt>きょう</rt></ruby><ruby>察<rt>さつ</rt></ruby>は<ruby>強制<rt>きょうせい</rt></ruby><ruby>捜査権<rt>そうさけん</rt></ruby><ruby>限<rt>げん</rt></ruby>を<ruby>持た<rt>もた</rt></ruby>なかったことから，<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>検<rt>けん</rt></ruby><ruby>東<rt>ひがし</rt></ruby>や<ruby>違<rt>い</rt></ruby><ruby>營<rt>えい</rt></ruby><ruby>罪<rt>つみ</rt></ruby><ruby>即<rt>そく</rt></ruby><ruby>処分<rt>しょぶん</rt></ruby>を<ruby>濫用<rt>らんよう</rt></ruby>して<ruby>被疑者<rt>ひぎしゃ</rt></ruby>を<ruby>拘束<rt>こうそく</rt></ruby>し、<ruby>裁判官<rt>さいばんかん</rt></ruby>の<ruby>統制<rt>とうせい</rt></ruby>が<ruby>及ば<rt>およば</rt></ruby>ないところで<ruby>自白<rt>じはく</rt></ruby>が<ruby>追求<rt>ついきゅう</rt></ruby>された 。<ruby>現行法<rt>げんこうほう</rt></ruby>が<ruby>予審<rt>よしん</rt></ruby>を<ruby>廃止<rt>はいし</rt></ruby>したのは、<ruby>検察官<rt>けんさつかん</rt></ruby>と<ruby>予審<rt>よしん</rt></ruby><ruby>判事<rt>はんじ</rt></ruby>による<ruby>二重<rt>にじゅう</rt></ruby><ruby>捜査<rt>そうさ</rt></ruby>の<ruby>非効率<rt>ひこうりつ</rt></ruby>や<ruby>行政<rt>ぎょうせい</rt></ruby><ruby>響<rt>きょう</rt></ruby><ruby>察<rt>さつ</rt></ruby><ruby>権限<rt>けんげん</rt></ruby>の<ruby>濫用<rt>らんよう</rt></ruby>による<ruby>人権侵害<rt>じんけんしんがい</rt></ruby><ruby>事例<rt>じれい</rt></ruby>をなくすためであり、<ruby>私<rt>わたし</rt></ruby><ruby>問<rt>とん</rt></ruby><ruby>的<rt>てき</rt></ruby><ruby>捜査<rt>そうさ</rt></ruby>を<ruby>改め<rt>あらため</rt></ruby>ようという<ruby>理由<rt>りゆう</rt></ruby>からではなかった。<ruby>起訴<rt>きそ</rt></ruby><ruby>独占<rt>どくせん</rt></ruby>・<ruby>起訴<rt>きそ</rt></ruby><ruby>便宜<rt>べんぎ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>（247<ruby>条<rt>じょう</rt></ruby>・248<ruby>条<rt>じょう</rt></ruby>）の<ruby>下<rt>した</rt></ruby>での<ruby>公訴<rt>こうそ</rt></ruby><ruby>権<rt>けん</rt></ruby><ruby>運用<rt>うんよう</rt></ruby>に<ruby>予審<rt>よしん</rt></ruby>の<ruby>廃止<rt>はいし</rt></ruby>による<ruby>事件<rt>じけん</rt></ruby><ruby>選別<rt>せんべつ</rt></ruby><ruby>機能<rt>きのう</rt></ruby>の<ruby>一元化<rt>いちげんか</rt></ruby>が<ruby>加わ<rt>くわわ</rt></ruby>り。<ruby>現在<rt>げんざい</rt></ruby>の<ruby>検察官<rt>けんさつかん</rt></ruby>は<ruby>訴追<rt>そつい</rt></ruby><ruby>官<rt>かん</rt></ruby>としての<ruby>重い<rt>おもい</rt></ruby><ruby>責任<rt>せきにん</rt></ruby>と<ruby>権限<rt>けんげん</rt></ruby>を<ruby>有し<rt>ゆうし</rt></ruby>ている。<ruby>旧法<rt>きゅうほう</rt></ruby><ruby>時代<rt>じだい</rt></ruby>に<ruby>胚胎<rt>はいたい</rt></ruby>した、<ruby>検察官<rt>けんさつかん</rt></ruby>が<ruby>強力<rt>きょうりょく</rt></ruby>な<ruby>訴追<rt>そつい</rt></ruby><ruby>権限<rt>けんげん</rt></ruby>を<ruby>有す<rt>ゆうす</rt></ruby>る<ruby>意味<rt>いみ</rt></ruby>での<ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>は、<ruby>疑似<rt>ぎじ</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>とも<ruby>呼ば<rt>よば</rt></ruby>れている。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">また，響察は強制偵查権限を持たなかったことから，行政検東や違營罪即処分を濫用して犯罪嫌疑人を拘束し，裁判官の統制が及ばないところで自白が追求された 。現行法が予審を廃止したのは，檢察官と予審判事による二重偵查の非効率や行政響察権限の濫用による人権侵害事例をなくすためであり，私問的偵查を改めようという理由からではなかった。起訴独占・起訴便宜主義（247条・248条）の下での公訴権運用に予審の廃止による事件選別機能の一元化が加わり。現在の檢察官は訴追官としての重い責任と権限を有している。旧法時代に胚胎した，檢察官が強力な訴追権限を有する意味での当事者主義は，疑似当事者主義とも呼ばれている。</div>
+            </div>
+        </article>
+        <article id="card-21" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(21)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    デュー・プロセス<ruby>論<rt>ろん</rt></ruby>は、<ruby>疑似<rt>ぎじ</rt></ruby><ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>を<ruby>規律<rt>きりつ</rt></ruby>する<ruby>方向<rt>ほうこう</rt></ruby>ではほとんど<ruby>成功<rt>せいこう</rt></ruby>していない25。・<ruby>北<rt>きた</rt></ruby><ruby>事<rt>こと</rt></ruby><ruby>者<rt>もの</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>と<ruby>制度<rt>せいど</rt></ruby><ruby>改革<rt>かいかく</rt></ruby><ruby>論<rt>ろん</rt></ruby>デュー・プロセス<ruby>論<rt>ろん</rt></ruby>は、アメリカの<ruby>判例<rt>はんれい</rt></ruby>を<ruby>参考<rt>さんこう</rt></ruby>にしつつ<ruby>展開<rt>てんかい</rt></ruby>されてきた。しかし、<ruby>日米<rt>にちべい</rt></ruby>の<ruby>刑事<rt>けいじ</rt></ruby><ruby>司法制度<rt>しほうせいど</rt></ruby>はかなり<ruby>異質<rt>いしつ</rt></ruby>な<ruby>面<rt>めん</rt></ruby>もあり、<ruby>法<rt>ほう</rt></ruby>の<ruby>共通<rt>きょうつう</rt></ruby><ruby>面<rt>めん</rt></ruby>のみを<ruby>捉え<rt>とらえ</rt></ruby>て<ruby>同じ<rt>おなじ</rt></ruby><ruby>結論<rt>けつろん</rt></ruby>を<ruby>引き出せ<rt>ひきだせ</rt></ruby>るわけではない。そこで、アメリカとは<ruby>異な<rt>ことな</rt></ruby>り、<ruby>犯罪<rt>はんざい</rt></ruby>の<ruby>細部<rt>さいぶ</rt></ruby>にまで<ruby>拘っ<rt>かかわっ</rt></ruby>た<ruby>捜査<rt>そうさ</rt></ruby>や<ruby>審理<rt>しんり</rt></ruby>が<ruby>行わ<rt>おこなわ</rt></ruby>れる「<ruby>精密<rt>せいみつ</rt></ruby><ruby>司法<rt>しほう</rt></ruby>」が<ruby>日本<rt>にっぽん</rt></ruby>の<ruby>特色<rt>とくしょく</rt></ruby>であることを<ruby>踏ま<rt>ふま</rt></ruby>えた<ruby>上で<rt>うえで</rt></ruby>、<ruby>何を<rt>なにを</rt></ruby>どう<ruby>是正<rt>ぜせい</rt></ruby>すればよいかを<ruby>議論<rt>ぎろん</rt></ruby>することの<ruby>必要性<rt>ひつようせい</rt></ruby>が<ruby>説か<rt>とか</rt></ruby>れるようになった。また、アメリカでは<ruby>通言<rt>つうげん</rt></ruby><ruby>傍受<rt>ぼうじゅ</rt></ruby>やおとり<ruby>捜査<rt>そうさ</rt></ruby>が<ruby>活用<rt>かつよう</rt></ruby>されており、<ruby>日本<rt>にっぽん</rt></ruby>でも<ruby>組織<rt>そしき</rt></ruby><ruby>犯罪<rt>はんざい</rt></ruby><ruby>対策<rt>たいさく</rt></ruby>のためにポスト・モダン<ruby>的<rt>てき</rt></ruby><ruby>捜査<rt>そうさ</rt></ruby><ruby>手法<rt>しゅほう</rt></ruby>を<ruby>導入<rt>どうにゅう</rt></ruby>した<ruby>上で<rt>うえで</rt></ruby>、「<ruby>全体的<rt>ぜんたいてき</rt></ruby>バランスの<ruby>回復<rt>かいふく</rt></ruby>」あるいは「<ruby>逆説的<rt>ぎゃくせつてき</rt></ruby><ruby>調和<rt>ちょうわ</rt></ruby>」の<ruby>中<rt>なか</rt></ruby>で<ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>の<ruby>強化<rt>きょうか</rt></ruby>を<ruby>果た<rt>はた</rt></ruby>すべきことが<ruby>説か<rt>とか</rt></ruby>れるようになった。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">デュー・プロセス論は，疑似当事者主義を規律する方向ではほとんど成功していない25。・北事者主義と制度改革論デュー・プロセス論は，アメリカの判例を参考にしつつ展開されてきた。しかし，日米の刑事司法制度はかなり異質な面もあり，法の共通面のみを捉えて同じ結論を引き出せるわけではない。そこで，アメリカとは異なり，犯罪の細部にまで拘った偵查や審理が行われる「精密司法」が日本の特色であることを踏まえた上で，何をどう是正すればよいかを議論することの必要性が説かれるようになった。また，アメリカでは通言傍受やおとり偵查が活用されており，日本でも組織犯罪対策のためにポスト・モダン的偵查手法を導入した上で，「全体的バランスの回復」あるいは「逆説的調和」の中で当事者主義の強化を果たすべきことが説かれるようになった。</div>
+            </div>
+        </article>
+        <article id="card-22" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(22)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>他方<rt>たほう</rt></ruby>、<ruby>弁護士<rt>べんごし</rt></ruby>がデュー・プロセスの<ruby>担い手<rt>にないて</rt></ruby>たるべきとの<ruby>意識<rt>いしき</rt></ruby>が<ruby>高ま<rt>たかま</rt></ruby>り、1990<ruby>年代<rt>ねんだい</rt></ruby>に<ruby>入り<rt>いり</rt></ruby>、<ruby>日弁連<rt>にちべんれん</rt></ruby>を<ruby>中心<rt>ちゅうしん</rt></ruby>に<ruby>刑事<rt>けいじ</rt></ruby><ruby>弁護<rt>べんご</rt></ruby><ruby>体制<rt>たいせい</rt></ruby>の<ruby>強化<rt>きょうか</rt></ruby>を<ruby>目指し<rt>めざし</rt></ruby>た<ruby>取組み<rt>とりくみ</rt></ruby>が<ruby>始まり<rt>はじまり</rt></ruby>、<ruby>一定<rt>いってい</rt></ruby>の<ruby>進展<rt>しんてん</rt></ruby>があった2り。こうした<ruby>環境<rt>かんきょう</rt></ruby>の<ruby>変化<rt>へんか</rt></ruby>の<ruby>中<rt>なか</rt></ruby>、たまたま<ruby>前世<rt>ぜんせ</rt></ruby><ruby>紀<rt>き</rt></ruby><ruby>末<rt>まつ</rt></ruby>から<ruby>司法制度<rt>しほうせいど</rt></ruby><ruby>改革<rt>かいかく</rt></ruby>が<ruby>政治<rt>せいじ</rt></ruby><ruby>課題<rt>かだい</rt></ruby>となったことを<ruby>機に<rt>きに</rt></ruby>、<ruby>精密<rt>せいみつ</rt></ruby><ruby>司法<rt>しほう</rt></ruby>の<ruby>因習<rt>いんしゅう</rt></ruby>から<ruby>抜け出す<rt>ぬけだす</rt></ruby>ための<ruby>改革<rt>かいかく</rt></ruby>が<ruby>動き<rt>うごき</rt></ruby><ruby>出す<rt>だす</rt></ruby>（「<ruby>精密<rt>せいみつ</rt></ruby><ruby>司法<rt>しほう</rt></ruby>から<ruby>核心<rt>かくしん</rt></ruby><ruby>司法<rt>しほう</rt></ruby>へ」<ruby>禁<rt>きん</rt></ruby><ruby>不正利用<rt>ふせいりよう</rt></ruby>という<ruby>標語<rt>ひょうご</rt></ruby>が<ruby>使用さ<rt>しようさ</rt></ruby>れた。その<ruby>結果<rt>けっか</rt></ruby>、2004<ruby>年<rt>ねん</rt></ruby>と2016<ruby>年<rt>ねん</rt></ruby>の<ruby>法改正<rt>ほうかいせい</rt></ruby>により、<ruby>被疑者<rt>ひぎしゃ</rt></ruby>の<ruby>国選<rt>こくせん</rt></ruby><ruby>弁護<rt>べんご</rt></ruby><ruby>制度<rt>せいど</rt></ruby>，<ruby>公判<rt>こうはん</rt></ruby><ruby>前<rt>まえ</rt></ruby><ruby>整理<rt>せいり</rt></ruby><ruby>手<rt>て</rt></ruby><ruby>統<rt>とう</rt></ruby>，<ruby>裁判<rt>さいばん</rt></ruby><ruby>員<rt>いん</rt></ruby><ruby>制度<rt>せいど</rt></ruby>，<ruby>即決<rt>そっけつ</rt></ruby><ruby>裁判手続<rt>さいばんてつづき</rt></ruby>、<ruby>取調べ<rt>とりしらべ</rt></ruby>の<ruby>録音<rt>ろくおん</rt></ruby>・<ruby>録画<rt>ろくが</rt></ruby>、<ruby>協議<rt>きょうぎ</rt></ruby>・<ruby>合意<rt>ごうい</rt></ruby><ruby>制度<rt>せいど</rt></ruby>、<ruby>刑事<rt>けいじ</rt></ruby><ruby>免責<rt>めんせき</rt></ruby><ruby>等<rt>など</rt></ruby>の<ruby>新制度<rt>しんせいど</rt></ruby>が<ruby>導入<rt>どうにゅう</rt></ruby>された。
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">他方，弁護士がデュー・プロセスの担い手たるべきとの意識が高まり，1990年代に入り，日弁連を中心に刑事弁護体制の強化を目指した取組みが始まり，一定の進展があった2り。こうした環境の変化の中，たまたま前世紀末から司法制度改革が政治課題となったことを機に，精密司法の因習から抜け出すための改革が動き出す（「精密司法から核心司法へ」禁不正利用という標語が使用された。その結果，2004年と2016年の法改正により，犯罪嫌疑人の国選弁護制度，公判前整理手統，裁判員制度，即決裁判手続，取調べの録音・録画，協議・合意制度，刑事免責等の新制度が導入された。</div>
+            </div>
+        </article>
+        <article id="card-23" class="card-item bg-white rounded-xl shadow-sm border border-slate-200/80 p-5 sm:p-6 my-4 hover:shadow-md transition-all duration-300">
+            <!-- Japanese Original Text (Top) -->
+            <div class="jp-col font-serif tracking-normal pb-4 border-b border-slate-100 relative group">
+                <div class="flex justify-end mb-2">
+                    <button onclick="playCardText(23)" class="flex items-center space-x-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-md border border-indigo-200/60 transition-colors select-none">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        <span>朗讀本段</span>
+                    </button>
+                </div>
+                <div class="jp-text-content">
+                    <ruby>現在<rt>げんざい</rt></ruby>は、<ruby>刑事<rt>けいじ</rt></ruby><ruby>裁判<rt>さいばん</rt></ruby>における<ruby>取調べ<rt>とりしらべ</rt></ruby><ruby>調書<rt>ちょうしょ</rt></ruby>の<ruby>比重<rt>ひじゅう</rt></ruby>が<ruby>低下<rt>ていか</rt></ruby>し、<ruby>公判<rt>こうはん</rt></ruby><ruby>審理<rt>しんり</rt></ruby>は<ruby>以前<rt>いぜん</rt></ruby>より<ruby>活性化<rt>かっせいか</rt></ruby>したと<ruby>言わ<rt>いわ</rt></ruby>れている。しかし、<ruby>全て<rt>すべて</rt></ruby>の<ruby>取調べ<rt>とりしらべ</rt></ruby>の<ruby>録音<rt>ろくおん</rt></ruby>・<ruby>録画<rt>ろくが</rt></ruby>の<ruby>原則<rt>げんそく</rt></ruby><ruby>化<rt>か</rt></ruby>，<ruby>逮捕<rt>たいほ</rt></ruby><ruby>時<rt>とき</rt></ruby>からの<ruby>国選<rt>こくせん</rt></ruby><ruby>弁護<rt>べんご</rt></ruby><ruby>制度<rt>せいど</rt></ruby>、<ruby>取調べ<rt>とりしらべ</rt></ruby>の<ruby>弁護人<rt>べんごにん</rt></ruby><ruby>立会<rt>たちあい</rt></ruby><ruby>権<rt>けん</rt></ruby>などの<ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>の<ruby>実質<rt>じっしつ</rt></ruby><ruby>化<rt>か</rt></ruby>に<ruby>向け<rt>むけ</rt></ruby>た<ruby>課題<rt>かだい</rt></ruby>はまだ<ruby>残っ<rt>のこっ</rt></ruby>ている。なおしばらく、<ruby>当事者<rt>とうじしゃ</rt></ruby><ruby>主義<rt>しゅぎ</rt></ruby>の<ruby>実質<rt>じっしつ</rt></ruby><ruby>化<rt>か</rt></ruby>が<ruby>改革<rt>かいかく</rt></ruby>の<ruby>道標<rt>どうひょう</rt></ruby>となることは<ruby>間違い<rt>まちがい</rt></ruby>なかろう。（たぶち・こうじ）<ruby>血<rt>ち</rt></ruby>
+                </div>
+            </div>
+            <!-- Traditional Chinese Translation (Bottom) -->
+            <div class="zh-col font-sans tracking-normal pt-4 flex items-start space-x-3">
+                <span class="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded mt-0.5 shrink-0 select-none border border-indigo-200/60">
+                    譯文
+                </span>
+                <div class="text-slate-700 font-normal">現在は，刑事裁判における取調べ調書の比重が低下し，公判審理は以前より活性化したと言われている。しかし，全ての取調べの録音・録画の原則化，逮捕時からの国選弁護制度，取調べの弁護人立会権などの当事者主義の実質化に向けた課題はまだ残っている。なおしばらく，当事者主義の実質化が改革の道標となることは間違いなかろう。（たぶち・こうじ）血</div>
+            </div>
+        </article>
+                </main>
+
+                <!-- Footer -->
+                <footer class="bg-slate-900 border-t border-slate-800 py-6 px-6 rounded-xl text-center text-xs text-slate-400">
+                    <p>刑事訴訟法2023 — 左右對照朗讀與翻譯版</p>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Audio Control Bar -->
+    <div class="fixed bottom-4 right-4 sm:right-8 w-11/12 max-w-xl bg-slate-900/95 backdrop-blur text-white px-5 py-3.5 rounded-2xl shadow-2xl border border-slate-700/80 flex items-center justify-between z-50">
+        <div class="flex items-center space-x-3">
+            <button id="btn-play-all" onclick="togglePlayAll()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold p-2.5 rounded-xl transition-colors shadow-md flex items-center justify-center">
+                <svg id="icon-play" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <svg id="icon-pause" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </button>
+            <button onclick="stopSpeech()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold p-2.5 rounded-xl border border-slate-700 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"></path></svg>
+            </button>
+            <div class="text-xs sm:text-sm">
+                <div id="tts-status" class="font-medium text-slate-200">準備朗讀</div>
+                <div id="tts-detail" class="text-slate-400 text-xs truncate max-w-[150px] sm:max-w-[200px]">點擊按鈕開啟日文語音朗讀</div>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-2">
+            <label class="text-xs text-slate-400 select-none hidden sm:inline">語速</label>
+            <select id="select-rate" onchange="changeRate()" class="bg-slate-800 text-xs text-slate-200 border border-slate-700 rounded-lg px-2 py-1.5 focus:outline-none focus:border-indigo-500">
+                <option value="0.75">0.75x</option>
+                <option value="1.0" selected>1.0x (標準)</option>
+                <option value="1.25">1.25x</option>
+                <option value="1.5">1.5x</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Speech Synthesis & PDF Zoom JavaScript -->
+    <script>
+        let synth = window.speechSynthesis;
+        let currentUtterance = null;
+        let playQueue = [];
+        let currentCardIndex = -1;
+        let isPlayingAll = false;
+        let speechRate = 1.0;
+        let japaneseVoice = null;
+        let currentPdfZoom = 1.0;
+        let pdfBaseSrc = '刑事訴訟法2023.pdf';
+
+        function setPdfZoom(scaleFactor) {
+            currentPdfZoom = scaleFactor;
+            applyPdfZoom();
+        }
+
+        function zoomPdf(ratio) {
+            currentPdfZoom = Math.max(0.5, Math.min(3.0, currentPdfZoom * ratio));
+            applyPdfZoom();
+        }
+
+        function resetPdfZoom() {
+            currentPdfZoom = 1.0;
+            applyPdfZoom();
+        }
+
+        function applyPdfZoom() {
+            const zoomPercent = Math.round(currentPdfZoom * 100);
+            document.getElementById('pdf-zoom-val').textContent = zoomPercent + '%';
+            const iframe = document.getElementById('pdf-frame');
+            
+            // Apply PDF Open Parameters
+            iframe.src = pdfBaseSrc + '#zoom=' + zoomPercent + '&view=FitH';
+            
+            // Apply CSS Scaling for smooth visual enhancement
+            iframe.style.transform = 'scale(' + currentPdfZoom + ')';
+            iframe.style.width = (100 / currentPdfZoom) + '%';
+            iframe.style.height = (100 / currentPdfZoom) + '%';
+        }
+
+        function togglePdfPanel() {
+            const pdfPanel = document.getElementById('pdf-panel');
+            const contentPanel = document.getElementById('content-panel');
+            if (pdfPanel.classList.contains('hidden')) {
+                pdfPanel.classList.remove('hidden');
+                contentPanel.className = 'w-full lg:w-1/2 h-1/2 lg:h-full bg-slate-950 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 pb-32 transition-all duration-300';
+            } else {
+                pdfPanel.classList.add('hidden');
+                contentPanel.className = 'w-full lg:w-full h-full bg-slate-950 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 pb-32 transition-all duration-300';
+            }
+        }
+
+        function loadVoices() {
+            let voices = synth.getVoices();
+            japaneseVoice = voices.find(v => v.lang === 'ja-JP' || v.lang.startsWith('ja')) || null;
+        }
+
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = loadVoices;
+        }
+        loadVoices();
+
+        function getCleanText(cardId) {
+            const cardEl = document.getElementById('card-' + cardId);
+            if (!cardEl) return '';
+            
+            let targetEl = cardEl.querySelector('.jp-text-content') || cardEl.querySelector('h2') || cardEl;
+            const clone = targetEl.cloneNode(true);
+            
+            const rts = clone.querySelectorAll('rt');
+            rts.forEach(rt => rt.remove());
+            
+            let text = clone.textContent || '';
+            text = text.replace(/\(\d+\)/g, '').replace(/朗讀本段|朗讀標題/g, '').trim();
+            return text;
+        }
+
+        function highlightCard(index) {
+            document.querySelectorAll('.playing-card').forEach(el => el.classList.remove('playing-card'));
+            if (index >= 0) {
+                const el = document.getElementById('card-' + index);
+                if (el) {
+                    el.classList.add('playing-card');
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        }
+
+        function updateUIState(playing) {
+            const iconPlay = document.getElementById('icon-play');
+            const iconPause = document.getElementById('icon-pause');
+            const statusEl = document.getElementById('tts-status');
+            
+            if (playing) {
+                iconPlay.classList.add('hidden');
+                iconPause.classList.remove('hidden');
+                statusEl.textContent = '朗讀中...';
+            } else {
+                iconPlay.classList.remove('hidden');
+                iconPause.classList.add('hidden');
+                statusEl.textContent = '已暫停 / 準備就緒';
+            }
+        }
+
+        function playCardText(index) {
+            stopSpeech();
+            isPlayingAll = false;
+            currentCardIndex = index;
+            const text = getCleanText(index);
+            if (!text) return;
+            
+            speakText(text, index, () => {
+                highlightCard(-1);
+                updateUIState(false);
+                document.getElementById('tts-detail').textContent = '朗讀完成';
+            });
+        }
+
+        function speakText(text, cardIndex, onEndCallback) {
+            if (synth.speaking) synth.cancel();
+            
+            highlightCard(cardIndex);
+            updateUIState(true);
+            document.getElementById('tts-detail').textContent = text.substring(0, 30) + '...';
+            
+            currentUtterance = new SpeechSynthesisUtterance(text);
+            currentUtterance.lang = 'ja-JP';
+            if (japaneseVoice) currentUtterance.voice = japaneseVoice;
+            currentUtterance.rate = speechRate;
+            
+            currentUtterance.onend = function() {
+                if (onEndCallback) onEndCallback();
+            };
+            
+            currentUtterance.onerror = function(e) {
+                console.error('Speech synthesis error:', e);
+                highlightCard(-1);
+                updateUIState(false);
+            };
+            
+            synth.speak(currentUtterance);
+        }
+
+        function togglePlayAll() {
+            if (synth.speaking && isPlayingAll) {
+                if (synth.paused) {
+                    synth.resume();
+                    updateUIState(true);
+                } else {
+                    synth.pause();
+                    updateUIState(false);
+                }
+                return;
+            }
+            
+            stopSpeech();
+            isPlayingAll = true;
+            let totalCards = document.querySelectorAll('[id^="card-"]').length;
+            let queue = [];
+            for (let i = 0; i < totalCards; i++) {
+                queue.push(i);
+            }
+            
+            playNextInQueue(queue);
+        }
+
+        function playNextInQueue(queue) {
+            if (!isPlayingAll || queue.length === 0) {
+                isPlayingAll = false;
+                highlightCard(-1);
+                updateUIState(false);
+                document.getElementById('tts-detail').textContent = '全文朗讀完畢';
+                return;
+            }
+            
+            let nextIndex = queue.shift();
+            currentCardIndex = nextIndex;
+            const text = getCleanText(nextIndex);
+            
+            if (!text) {
+                playNextInQueue(queue);
+                return;
+            }
+            
+            speakText(text, nextIndex, () => {
+                if (isPlayingAll) playNextInQueue(queue);
+            });
+        }
+
+        function stopSpeech() {
+            isPlayingAll = false;
+            if (synth.speaking || synth.paused) {
+                synth.cancel();
+            }
+            highlightCard(-1);
+            updateUIState(false);
+            document.getElementById('tts-detail').textContent = '已停止朗讀';
+        }
+
+        function changeRate() {
+            const select = document.getElementById('select-rate');
+            speechRate = parseFloat(select.value);
+            if (synth.speaking && currentCardIndex >= 0) {
+                let wasPlayingAll = isPlayingAll;
+                let cardToResume = currentCardIndex;
+                stopSpeech();
+                if (wasPlayingAll) {
+                    isPlayingAll = true;
+                    let totalCards = document.querySelectorAll('[id^="card-"]').length;
+                    let queue = [];
+                    for (let i = cardToResume; i < totalCards; i++) queue.push(i);
+                    playNextInQueue(queue);
+                } else {
+                    playCardText(cardToResume);
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
